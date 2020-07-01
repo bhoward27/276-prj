@@ -21,7 +21,6 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Score.NUM_HIGH_SCORES;
 import static ca.cmpt276.prj.model.ScoreManager.PREFS;
 
 public class HighScoresActivity extends AppCompatActivity {
@@ -37,35 +36,34 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
-		getSavedData();
-		setupButtons();
 
-		// DEBUG:
-		// scoreManager.addHighScore("William", 60);
-		debugLogCat();
+		getSavedData();
+		// DEBUG
+		// manager.addHighScore("William", 60);
+
+		setupButtons();
+		registerClickCallback();
 		populateListView();
+
 	}
 
 	private void setupButtons() {
 		Button btnClearHighScores = findViewById(R.id.btnClearHighScores);
 		btnClearHighScores.setOnClickListener(view -> {
 			manager.resetToDefaults();
-			debugLogCat();
+			populateListView();
 		});
-	}
-
-	private void debugLogCat() {
-		for (int i = 0; i < NUM_HIGH_SCORES; i++){
-			Log.d("#### ", "High score " + (i+1) + " is " +
-					manager.getFormattedHighScoreTime(i) + " " +
-					manager.getHighScoreName(i) + " " +
-					manager.getHighScoreDate(i));
-		}
 	}
 
 	private void getSavedData() {
 		sharedPrefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
 		manager = ScoreManager.getInstance(sharedPrefs);
+	}
+
+	// helper function for clicking on the list to not crash
+	private void registerClickCallback() {
+		ListView list = findViewById(R.id.lstvwScores);
+		list.setOnItemClickListener((parent, viewClicked, position, id) -> { });
 	}
 
 	private void populateListView() {
@@ -88,13 +86,9 @@ public class HighScoresActivity extends AppCompatActivity {
 			if (itemView == null) {
 				itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
 			}
-			// Get the current Score to work on
-			Score currentScore = manager.getScoreByIndex(position);
 
 			TextView ScoreText = (TextView) itemView.findViewById((R.id.txtPlaceholderScore));
-			ScoreText.setText("" + manager.getFormattedHighScoreTime(position) + " " +
-					manager.getHighScoreName(position) + " " +
-					manager.getHighScoreDate(position));
+			ScoreText.setText(manager.getScoreByIndex(position).getFormattedScore());
 			return itemView;
 		}
 	}
