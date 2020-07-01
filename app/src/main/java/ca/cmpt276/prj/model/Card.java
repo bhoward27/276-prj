@@ -26,36 +26,56 @@ public class Card {
                 || middleImage.equals(bottomImage));
     }
 
-    //  May want to make another method which tests for UNIQUE matching (i.e., one and ONLY one match).
-    //  hasMatch simply tells you if it has AT LEAST one match.
     public boolean hasMatch(Card c) {
-        return topImage.equals(c.getTopImage()) || topImage.equals(c.getMiddleImage())
-                || topImage.equals(c.getBottomImage())
+        CardImage thisImages[] = { topImage, middleImage, bottomImage };
+        CardImage cImages[] = { c.getTopImage(), c.getMiddleImage(), c.getBottomImage() };
+        for (CardImage x : thisImages) {
+            for (CardImage y : cImages) {
+                if (x.equals(y)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-                || middleImage.equals(c.getTopImage()) || middleImage.equals(c.getMiddleImage())
-                || middleImage.equals(c.getBottomImage())
+    public boolean hasExactlyOneMatch(Card c) {
+        CardImage thisImages[] = { topImage, middleImage, bottomImage };
+        CardImage cImages[] = { c.getTopImage(), c.getMiddleImage(), c.getBottomImage() };
 
-                || bottomImage.equals(c.getTopImage()) || bottomImage.equals(c.getMiddleImage())
-                || bottomImage.equals(c.getBottomImage());
+        boolean foundMatch = false;
+        for (CardImage x : thisImages) {
+            if (!foundMatch) {
+                int numMatches = 0;
+                for (CardImage y : cImages) {
+                    if (x.equals(y)) {
+                        foundMatch = true;
+                        if (++numMatches > 1) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else {
+                for (CardImage y : cImages) {
+                    if (x.equals(y)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return foundMatch;
     }
 
     private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
                                       CardImage middleImage, CardImage bottomImage) {
-        if (isInPredatorSet(topImage)) {
-            if (isLandscapeImageSet) {
-                return false;
-            }
-            else {
-                return isInPredatorSet(middleImage) && isInPredatorSet(bottomImage);
-            }
+        if (isLandscapeImageSet) {
+            return !isInPredatorSet(topImage) && !isInPredatorSet(middleImage) &&
+                    !isInPredatorSet(bottomImage);
         }
         else {
-            if (!isLandscapeImageSet) {
-                return false;
-            }
-            else {
-                return !isInPredatorSet(middleImage) && !isInPredatorSet(bottomImage);
-            }
+            return isInPredatorSet(topImage) && isInPredatorSet(middleImage) &&
+                    isInPredatorSet(bottomImage);
         }
     }
 
