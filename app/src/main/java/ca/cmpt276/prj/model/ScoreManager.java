@@ -140,7 +140,7 @@ public class ScoreManager {
 		return scores;
 	}
 
-	// maybe useful for the GameActivity to display current high score
+	// may be useful for the GameActivity to display current high score
 	public int getHighScoreTime(int key) {
 		return scores.get(key).getTime();
 	}
