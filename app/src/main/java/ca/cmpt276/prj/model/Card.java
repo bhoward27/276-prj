@@ -1,16 +1,20 @@
 package ca.cmpt276.prj.model;
 
-//  NEXT TASK: Make Tests using JUnit in a separate project to test every method
-//  in one way or another. Aim for 100% code coverage.
-
-//  After all tests are passed, refactor and add class-level comment (and others if absolutely needed).
-
-//  Then your finished the issue.
+/**
+ * This model has data about the three images on a particular card. Its constructor ensures that a
+ * card does not have any duplicate images on it, and that its images are all from the same image
+ * set / theme (either all predators or all landscapes). It has public methods for determining if
+ * two cards have a matching image.
+ */
 public class Card {
     private CardImage topImage;
     private CardImage middleImage;
     private CardImage bottomImage;
 
+    /**
+     * @param isLandscapeImageSet set to true if using the landscape image set;
+     *                            set to false if using the predator image set.
+     */
     public Card(boolean isLandscapeImageSet, CardImage topImage, CardImage middleImage,
                 CardImage bottomImage) {
         if (hasDuplicateImage(topImage, middleImage, bottomImage)) {
@@ -32,6 +36,12 @@ public class Card {
                 || middleImage.equals(bottomImage));
     }
 
+    /**
+     * @param isLandscapeImageSet set to true if using the landscape image set;
+     *                             set to false if using the predator image set.
+     * @return true if all CardImages are from the same image set and match with
+     *          isLandscapeImageSet; false otherwise.
+     */
     private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
                                       CardImage middleImage, CardImage bottomImage) {
         if (isLandscapeImageSet) {
