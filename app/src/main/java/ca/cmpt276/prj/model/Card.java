@@ -1,15 +1,18 @@
 package ca.cmpt276.prj.model;
 
 public class Card {
-    private boolean isLandscapeImageSet;  //  Might want this to be only in Deck class.
     private CardImage topImage;
     private CardImage middleImage;
     private CardImage bottomImage;
 
-    public Card(boolean isLandscapeImageSet, CardImage topImage, CardImage middleImage, CardImage bottomImage) {
-        this.isLandscapeImageSet = isLandscapeImageSet;
+    public Card(boolean isLandscapeImageSet, CardImage topImage, CardImage middleImage,
+                CardImage bottomImage) {
         if (hasDuplicateImage(topImage, middleImage, bottomImage)) {
             throw new IllegalArgumentException("Error: All three CardImages must be unique.");
+        }
+        if (!isUniformlyThemed(isLandscapeImageSet, topImage, middleImage, bottomImage)) {
+            throw new IllegalArgumentException("Error: All three CardImages must be from the " +
+                    "same image set.");
         }
 
         this.topImage = topImage;
@@ -23,34 +26,52 @@ public class Card {
                 || middleImage.equals(bottomImage));
     }
 
-    private boolean isNotUniformlyThemed(CardImage topImage, CardImage middleImage,
-                                         CardImage bottomImage) {
+    //  May want to make another method which tests for UNIQUE matching (i.e., one and ONLY one match).
+    //  hasMatch simply tells you if it has AT LEAST one match.
+    public boolean hasMatch(Card c) {
+        return topImage.equals(c.getTopImage()) || topImage.equals(c.getMiddleImage())
+                || topImage.equals(c.getBottomImage())
+
+                || middleImage.equals(c.getTopImage()) || middleImage.equals(c.getMiddleImage())
+                || middleImage.equals(c.getBottomImage())
+
+                || bottomImage.equals(c.getTopImage()) || bottomImage.equals(c.getMiddleImage())
+                || bottomImage.equals(c.getBottomImage());
+    }
+
+    private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
+                                      CardImage middleImage, CardImage bottomImage) {
         if (isInPredatorSet(topImage)) {
             if (isLandscapeImageSet) {
-                return true;
+                return false;
             }
             else {
-                if (isInPredatorSet(middleImage)) {
-                    if (isInPredatorSet(bottomImage)) {
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
-                }
-                else {
-                    return true;
-                }
+                return isInPredatorSet(middleImage) && isInPredatorSet(bottomImage);
             }
         }
         else {
-            //  NOTE: this should have it's own proper if-else structure, not just return true.
-            //  I only set it to that so that it will compile on my commit.
-            return true;
+            if (!isLandscapeImageSet) {
+                return false;
+            }
+            else {
+                return !isInPredatorSet(middleImage) && !isInPredatorSet(bottomImage);
+            }
         }
     }
 
     private boolean isInPredatorSet(CardImage image) {
         return image.compareTo(CardImage.BEAR) >= 0;
+    }
+
+    public CardImage getTopImage() {
+        return topImage;
+    }
+
+    public CardImage getMiddleImage() {
+        return middleImage;
+    }
+
+    public CardImage getBottomImage() {
+        return bottomImage;
     }
 }
