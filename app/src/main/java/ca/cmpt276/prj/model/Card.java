@@ -1,5 +1,11 @@
 package ca.cmpt276.prj.model;
 
+//  NEXT TASK: Make Tests using JUnit in a separate project to test every method
+//  in one way or another. Aim for 100% code coverage.
+
+//  After all tests are passed, refactor and add class-level comment (and others if absolutely needed).
+
+//  Then your finished the issue.
 public class Card {
     private CardImage topImage;
     private CardImage middleImage;
@@ -26,6 +32,22 @@ public class Card {
                 || middleImage.equals(bottomImage));
     }
 
+    private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
+                                      CardImage middleImage, CardImage bottomImage) {
+        if (isLandscapeImageSet) {
+            return !isInPredatorSet(topImage) && !isInPredatorSet(middleImage) &&
+                    !isInPredatorSet(bottomImage);
+        }
+        else {
+            return isInPredatorSet(topImage) && isInPredatorSet(middleImage) &&
+                    isInPredatorSet(bottomImage);
+        }
+    }
+
+    private boolean isInPredatorSet(CardImage image) {
+        return image.compareTo(CardImage.BEAR) >= 0;
+    }
+
     public boolean hasMatch(Card c) {
         CardImage thisImages[] = { topImage, middleImage, bottomImage };
         CardImage cImages[] = { c.getTopImage(), c.getMiddleImage(), c.getBottomImage() };
@@ -37,6 +59,18 @@ public class Card {
             }
         }
         return false;
+    }
+
+    public CardImage getTopImage() {
+        return topImage;
+    }
+
+    public CardImage getMiddleImage() {
+        return middleImage;
+    }
+
+    public CardImage getBottomImage() {
+        return bottomImage;
     }
 
     public boolean hasExactlyOneMatch(Card c) {
@@ -65,33 +99,5 @@ public class Card {
             }
         }
         return foundMatch;
-    }
-
-    private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
-                                      CardImage middleImage, CardImage bottomImage) {
-        if (isLandscapeImageSet) {
-            return !isInPredatorSet(topImage) && !isInPredatorSet(middleImage) &&
-                    !isInPredatorSet(bottomImage);
-        }
-        else {
-            return isInPredatorSet(topImage) && isInPredatorSet(middleImage) &&
-                    isInPredatorSet(bottomImage);
-        }
-    }
-
-    private boolean isInPredatorSet(CardImage image) {
-        return image.compareTo(CardImage.BEAR) >= 0;
-    }
-
-    public CardImage getTopImage() {
-        return topImage;
-    }
-
-    public CardImage getMiddleImage() {
-        return middleImage;
-    }
-
-    public CardImage getBottomImage() {
-        return bottomImage;
     }
 }
