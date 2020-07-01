@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">prj</string>
+    <string name="btn_high_scores">(PLACEHOLDER) View high scores</string>
+    <string name="btn_high_scores_clear">(PLACEHOLDER) Clear high scores</string>
+    <string name="btn_main_menu">(PLACEHOLDER) Open main menu</string>
+    <string name="txt_placeholder_score">Score goes here</string>
 </resources>
