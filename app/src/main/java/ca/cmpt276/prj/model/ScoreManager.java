@@ -72,7 +72,7 @@ public class ScoreManager {
 	public void resetToDefaults() {
 		scores.clear();
 
-		scores = defaultScores;
+		scores = new ArrayList<>(defaultScores);
 
 		saveScores();
 	}
