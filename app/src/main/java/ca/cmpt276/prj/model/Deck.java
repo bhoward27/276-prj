@@ -1,22 +1,22 @@
 package ca.cmpt276.prj.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
  */
 public class Deck {
-	private List<Card> discardPile;
-	private List<Card> drawPile;
+	private Stack<Card> discardPile;
+	private Stack<Card> drawPile;
 	private int totalNumCards;
 	private int imageSet;
 	private int imageSetOffset;
 
 	public Deck(int numImages, int imageSet) {
-		this.discardPile = new ArrayList<>();
-		this.drawPile = new ArrayList<>();
+		this.discardPile = new Stack<>();
+		this.drawPile = new Stack<>();
 
 		// total number of cards is images^2 - images + 1
 		this.totalNumCards = numImages*numImages - numImages + 1;
@@ -30,23 +30,21 @@ public class Deck {
 
 	// return false if the draw pile has nothing left
 	public boolean moveTopDrawToDiscard() {
-		if (drawPile.size() == 0) {
+		if (drawPile.isEmpty()) {
 			return false;
 		}
-		// treat 0th index as top
-		discardPile.add(0, drawPile.get(0));
-		drawPile.remove(0);
+		discardPile.push(drawPile.pop());
 		return true;
 	}
 
 	// get top card in discard pile, short function name for future readability
 	public Card getTopDsc() {
-		return discardPile.get(0);
+		return discardPile.peek();
 	}
 
 	// get top card in draw pile pile
 	public Card getTopDrw() {
-		return drawPile.get(0);
+		return drawPile.peek();
 	}
 
 	public List<Card> getDrawPile() {
@@ -79,7 +77,7 @@ public class Deck {
 				CardImage image2 = CardImage.valueOf(cardOrders[i][1] + imageSetOffset);
 				CardImage image3 = CardImage.valueOf(cardOrders[i][2] + imageSetOffset);
 
-				drawPile.add(new Card(imageSet, image1, image2, image3));
+				drawPile.push(new Card(imageSet, image1, image2, image3));
 			}
 			Collections.shuffle(drawPile);
 			moveTopDrawToDiscard();
