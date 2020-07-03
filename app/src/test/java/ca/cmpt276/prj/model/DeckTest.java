@@ -74,4 +74,13 @@ class DeckTest {
 		}
 		assertTrue(ended);
 	}
+
+	@Test
+	void testImageSetGetter() {
+		Deck deckLand = new Deck(NUM_IMAGES, LANDSCAPE_SET);
+		Deck deckPred = new Deck(NUM_IMAGES, PREDATOR_SET);
+		assertEquals(LANDSCAPE_SET, deckLand.getImageSet());
+		assertEquals(PREDATOR_SET, deckPred.getImageSet());
+	}
+
 }

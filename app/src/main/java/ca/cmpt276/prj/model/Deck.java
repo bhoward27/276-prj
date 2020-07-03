@@ -58,6 +58,10 @@ public class Deck {
 		return totalNumCards;
 	}
 
+	public int getImageSet() {
+		return imageSet;
+	}
+
 	// citation https://radiganengineering.com/2013/01/spot-it-howd-they-do-that/
 	// hardcoded entries so far because our order is fixed to 2 for this iteration
 	private void initializePiles(int order) {
