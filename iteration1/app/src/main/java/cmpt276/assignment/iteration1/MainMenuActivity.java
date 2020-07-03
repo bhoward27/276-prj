@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 /**
- * Activity for showing the Main Menu, where players can click buttons to go to a variety of Activities.
+ * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities
  * @Author Michael Mora
  */
 public class MainMenuActivity extends AppCompatActivity {
