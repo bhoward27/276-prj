@@ -1,7 +1,6 @@
 package ca.cmpt276.prj.model;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -47,11 +46,11 @@ public class Deck {
 		return drawPile.peek();
 	}
 
-	public List<Card> getDrawPile() {
+	public Stack<Card> getDrawPile() {
 		return drawPile;
 	}
 
-	public List<Card> getDiscardPile() {
+	public Stack<Card> getDiscardPile() {
 		return discardPile;
 	}
 
