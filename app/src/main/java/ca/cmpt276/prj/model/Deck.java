@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
+ */
 public class Deck {
 	private List<Card> discardPile;
 	private List<Card> drawPile;
