@@ -11,8 +11,8 @@ import java.util.Map;
  * Makes accessing values and enums easier
  * TODO: refactor image set selection elsewhere for future expandability
  */
-public enum CardImage { CAVE(1), DESERT(2), FOREST(3), OCEAN(4), STORM(5), SUNRISE(6), VOLCANO(7),
-    BEAR(8), EAGLE(9), LEOPARD(10), LION(11), SHARK(12), SNAKE(13), SPIDER(14);
+public enum CardImage { CAVE(0), DESERT(1), FOREST(2), OCEAN(3), STORM(4), SUNRISE(5), VOLCANO(6),
+    BEAR(7), EAGLE(8), LEOPARD(9), LION(10), SHARK(11), SNAKE(12), SPIDER(13);
     private int value;
     private static Map<Integer, CardImage> map = new HashMap<>();
 
