@@ -28,41 +28,41 @@ class DeckTest {
 	@Test
 	void testMovingCardValues() {
 		Deck deck = new Deck(NUM_IMAGES, LANDSCAPE_SET);
-		System.out.println(TAG + "Draw Top Image: " + deck.getTopDrw().getTopImage());
-		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDrw().getMiddleImage());
-		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDrw().getBottomImage());
-		System.out.println(TAG + "Discard Top Image: " + deck.getTopDsc().getTopImage());
-		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDsc().getMiddleImage());
-		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDsc().getBottomImage());
+		System.out.println(TAG + "Draw Top Image: " + deck.getTopDraw().getTopImage());
+		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDraw().getMiddleImage());
+		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDraw().getBottomImage());
+		System.out.println(TAG + "Discard Top Image: " + deck.getTopDiscard().getTopImage());
+		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDiscard().getMiddleImage());
+		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDiscard().getBottomImage());
 		System.out.println(TAG + "MOVING");
 		deck.moveTopDrawToDiscard();
 
-		System.out.println(TAG + "Draw Top Image: " + deck.getTopDrw().getTopImage());
-		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDrw().getMiddleImage());
-		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDrw().getBottomImage());
-		System.out.println(TAG + "Discard Top Image: " + deck.getTopDsc().getTopImage());
-		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDsc().getMiddleImage());
-		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDsc().getBottomImage());
+		System.out.println(TAG + "Draw Top Image: " + deck.getTopDraw().getTopImage());
+		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDraw().getMiddleImage());
+		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDraw().getBottomImage());
+		System.out.println(TAG + "Discard Top Image: " + deck.getTopDiscard().getTopImage());
+		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDiscard().getMiddleImage());
+		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDiscard().getBottomImage());
 	}
 
 	@Test
 	void testMovingCardValuesPredator() {
 		Deck deck = new Deck(NUM_IMAGES, PREDATOR_SET);
-		System.out.println(TAG + "Draw Top Image: " + deck.getTopDrw().getTopImage());
-		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDrw().getMiddleImage());
-		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDrw().getBottomImage());
-		System.out.println(TAG + "Discard Top Image: " + deck.getTopDsc().getTopImage());
-		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDsc().getMiddleImage());
-		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDsc().getBottomImage());
+		System.out.println(TAG + "Draw Top Image: " + deck.getTopDraw().getTopImage());
+		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDraw().getMiddleImage());
+		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDraw().getBottomImage());
+		System.out.println(TAG + "Discard Top Image: " + deck.getTopDiscard().getTopImage());
+		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDiscard().getMiddleImage());
+		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDiscard().getBottomImage());
 		System.out.println(TAG + "MOVING");
 		deck.moveTopDrawToDiscard();
 
-		System.out.println(TAG + "Draw Top Image: " + deck.getTopDrw().getTopImage());
-		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDrw().getMiddleImage());
-		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDrw().getBottomImage());
-		System.out.println(TAG + "Discard Top Image: " + deck.getTopDsc().getTopImage());
-		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDsc().getMiddleImage());
-		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDsc().getBottomImage());
+		System.out.println(TAG + "Draw Top Image: " + deck.getTopDraw().getTopImage());
+		System.out.println(TAG + "Draw Mid Image: " + deck.getTopDraw().getMiddleImage());
+		System.out.println(TAG + "Draw Bot Image: " + deck.getTopDraw().getBottomImage());
+		System.out.println(TAG + "Discard Top Image: " + deck.getTopDiscard().getTopImage());
+		System.out.println(TAG + "Discard Mid Image: " + deck.getTopDiscard().getMiddleImage());
+		System.out.println(TAG + "Discard Bot Image: " + deck.getTopDiscard().getBottomImage());
 	}
 
 	@Test

@@ -36,13 +36,11 @@ public class Deck {
 		return true;
 	}
 
-	// get top card in discard pile, short function name for future readability
-	public Card getTopDsc() {
+	public Card getTopDiscard() {
 		return discardPile.peek();
 	}
 
-	// get top card in draw pile pile
-	public Card getTopDrw() {
+	public Card getTopDraw() {
 		return drawPile.peek();
 	}
 

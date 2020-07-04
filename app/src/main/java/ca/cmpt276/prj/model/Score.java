@@ -45,6 +45,4 @@ public class Score {
 		int seconds = time % 60;
 		return String.format("%d:%02d", minutes, seconds);
 	}
-
-
 }
