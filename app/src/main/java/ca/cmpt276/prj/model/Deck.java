@@ -70,9 +70,10 @@ public class Deck {
 					{1, 2, 6}, {4, 5, 6}};
 
 			for (int i = 0; i < totalNumCards; i++) {
-				CardImage image1 = CardImage.valueOf(cardOrders[i][0] + imageSetOffset);
-				CardImage image2 = CardImage.valueOf(cardOrders[i][1] + imageSetOffset);
-				CardImage image3 = CardImage.valueOf(cardOrders[i][2] + imageSetOffset);
+				CardImage[] values = CardImage.values();
+				CardImage image1 = values[cardOrders[i][0] + imageSetOffset];
+				CardImage image2 = values[cardOrders[i][1] + imageSetOffset];
+				CardImage image3 = values[cardOrders[i][2] + imageSetOffset];
 
 				drawPile.push(new Card(imageSet, image1, image2, image3));
 			}
