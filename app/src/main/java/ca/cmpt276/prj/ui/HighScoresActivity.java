@@ -27,7 +27,7 @@ public class HighScoresActivity extends AppCompatActivity {
 	SharedPreferences sharedPrefs = null;
 	ScoreManager manager;
 
-	public static Intent makeIntent(Context context){
+	public static Intent makeIntent(Context context) {
 		return new Intent(context, HighScoresActivity.class);
 	}
 

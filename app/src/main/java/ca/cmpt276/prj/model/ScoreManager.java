@@ -2,15 +2,11 @@ package ca.cmpt276.prj.model;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static ca.cmpt276.prj.model.Score.MAX_NAME_LENGTH;
-import static ca.cmpt276.prj.model.Score.NUM_HIGH_SCORES;
 
 /**
  * This class provides an interface for the system's shared preferences and
@@ -18,10 +14,13 @@ import static ca.cmpt276.prj.model.Score.NUM_HIGH_SCORES;
  */
 
 public class ScoreManager {
+	public static final int NUM_HIGH_SCORES = 5;
+	public static final int MAX_NAME_LENGTH = 12;
+
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 
-	private List<Score> scores = new ArrayList<>();
-	private List<Score> defaultScores = new ArrayList<>();
+	private List<Score> scores;
+	private List<Score> defaultScores;
 
 	private SharedPreferences prefs;
 
@@ -30,6 +29,8 @@ public class ScoreManager {
 
 	private ScoreManager(SharedPreferences sharedPrefs) {
 		this.prefs = sharedPrefs;
+		this.scores = new ArrayList<>();
+		this.defaultScores = new ArrayList<>();
 
 		setDefaultScores();
 		loadScores();
@@ -42,72 +43,6 @@ public class ScoreManager {
 		return instance;
 	}
 	// End singleton setup
-
-	private void loadScores() {
-		for (Score score : defaultScores) {
-			int key = defaultScores.indexOf(score);
-
-			int currentTime = prefs.getInt("SCORE_TIME" + key, score.getTime());
-			String currentName = prefs.getString("SCORE_NAME" + key, score.getName());
-			String currentDate = prefs.getString("SCORE_DATE" + key, score.getDate());
-
-			scores.add(new Score(currentTime, currentName, currentDate));
-		}
-	}
-
-	private void saveScores() {
-		SharedPreferences.Editor editPrefs = prefs.edit();
-
-		for (Score score : scores) {
-			int key = scores.indexOf(score);
-
-			editPrefs.putInt("SCORE_TIME" + key, score.getTime());
-			editPrefs.putString("SCORE_NAME" + key, score.getName());
-			editPrefs.putString("SCORE_DATE" + key, score.getDate());
-		}
-
-		editPrefs.apply();
-	}
-
-	public void resetToDefaults() {
-		scores.clear();
-
-		scores = new ArrayList<>(defaultScores);
-
-		saveScores();
-	}
-
-	private void setDefaultScores() {
-		int[] times = {30,
-				45,
-				90,
-				150,
-				180};
-
-		String[] names = {"Joann",
-				"Ethel",
-				"Terrence",
-				"Ian",
-				"Glen"};
-
-		String[] dates = {"June 28, 2020",
-				"June 17, 2020",
-				"June 9, 2020",
-				"June 15, 2020",
-				"May 30, 2020"};
-
-		int key;
-		for (key = 0; key < 5; key++) {
-			defaultScores.add(new Score(times[key], names[key], dates[key]));
-		}
-
-		// placeholder default scores if more than 5 high scores are needed
-		if (NUM_HIGH_SCORES > 5) {
-			for (; key <= NUM_HIGH_SCORES; key++) {
-				defaultScores.add(new Score(1800, String.valueOf(key), "DATE"));
-			}
-		}
-	}
 
 	public void addHighScore(String name, int inputScore) {
 		@SuppressLint("SimpleDateFormat")
@@ -149,4 +84,69 @@ public class ScoreManager {
 		return scores.get(index);
 	}
 
+	public void resetToDefaults() {
+		scores.clear();
+
+		scores = new ArrayList<>(defaultScores);
+
+		saveScores();
+	}
+
+	private void loadScores() {
+		for (Score score : defaultScores) {
+			int key = defaultScores.indexOf(score);
+
+			int currentTime = prefs.getInt("SCORE_TIME" + key, score.getTime());
+			String currentName = prefs.getString("SCORE_NAME" + key, score.getName());
+			String currentDate = prefs.getString("SCORE_DATE" + key, score.getDate());
+
+			scores.add(new Score(currentTime, currentName, currentDate));
+		}
+	}
+
+	private void saveScores() {
+		SharedPreferences.Editor editPrefs = prefs.edit();
+
+		for (Score score : scores) {
+			int key = scores.indexOf(score);
+
+			editPrefs.putInt("SCORE_TIME" + key, score.getTime());
+			editPrefs.putString("SCORE_NAME" + key, score.getName());
+			editPrefs.putString("SCORE_DATE" + key, score.getDate());
+		}
+
+		editPrefs.apply();
+	}
+
+	private void setDefaultScores() {
+		int[] times = {30,
+				45,
+				90,
+				150,
+				180};
+
+		String[] names = {"Joann",
+				"Ethel",
+				"Terrence",
+				"Ian",
+				"Glen"};
+
+		String[] dates = {"June 28, 2020",
+				"June 17, 2020",
+				"June 9, 2020",
+				"June 15, 2020",
+				"May 30, 2020"};
+
+		int key;
+		for (key = 0; key < 5; key++) {
+			defaultScores.add(new Score(times[key], names[key], dates[key]));
+		}
+
+		// placeholder default scores if more than 5 high scores are needed
+		if (NUM_HIGH_SCORES > 5) {
+			for (; key <= NUM_HIGH_SCORES; key++) {
+				defaultScores.add(new Score(1800, String.valueOf(key), "DATE"));
+			}
+		}
+	}
 }

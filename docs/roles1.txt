@@ -1,0 +1,4 @@
+Yuyang Li       -   Scrum Master
+Benjamin Howard -   Product Owner
+Michael Mora    -   Repo Manager
+William Horvath -   Team Member

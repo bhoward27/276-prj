@@ -7,20 +7,23 @@ package ca.cmpt276.prj.model;
  * two cards have a matching image.
  */
 public class Card {
+    public static final int LANDSCAPE_SET = 1;
+    public static final int PREDATOR_SET = 2;
+
     private CardImage topImage;
     private CardImage middleImage;
     private CardImage bottomImage;
 
     /**
-     * @param isLandscapeImageSet set to true if using the landscape image set;
-     *                            set to false if using the predator image set.
+     * @param imageSet set to 1 if using the landscape image set;
+     *                        2 if using the predator image set.
      */
-    public Card(boolean isLandscapeImageSet, CardImage topImage, CardImage middleImage,
+    public Card(int imageSet, CardImage topImage, CardImage middleImage,
                 CardImage bottomImage) {
         if (hasDuplicateImage(topImage, middleImage, bottomImage)) {
             throw new IllegalArgumentException("Error: All three CardImages must be unique.");
         }
-        if (!isUniformlyThemed(isLandscapeImageSet, topImage, middleImage, bottomImage)) {
+        if (!isUniformlyThemed(imageSet, topImage, middleImage, bottomImage)) {
             throw new IllegalArgumentException("Error: All three CardImages must be from the " +
                     "same image set.");
         }
@@ -37,14 +40,15 @@ public class Card {
     }
 
     /**
-     * @param isLandscapeImageSet set to true if using the landscape image set;
-     *                             set to false if using the predator image set.
+     * @param imageSet set to 1 if using the landscape image set;
+                       set to 2 if using the predator image set.
      * @return true if all CardImages are from the same image set and match with
-     *          isLandscapeImageSet; false otherwise.
+     *          imageSet; false otherwise.
      */
-    private boolean isUniformlyThemed(boolean isLandscapeImageSet, CardImage topImage,
+    private boolean isUniformlyThemed(int imageSet, CardImage topImage,
                                       CardImage middleImage, CardImage bottomImage) {
-        if (isLandscapeImageSet) {
+
+        if (imageSet == LANDSCAPE_SET) {
             return !isInPredatorSet(topImage) && !isInPredatorSet(middleImage) &&
                     !isInPredatorSet(bottomImage);
         }
