@@ -7,7 +7,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 /**
- * Help Screen for showcasing
+ * Help Screen for showcasing instructions on how to play the game.
+ * @Author Michael Mora
  */
 public class HelpSreenActivity extends AppCompatActivity {
 
@@ -17,12 +18,11 @@ public class HelpSreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help_sreen);
 
         TextView helpDescriptionAndCitation = findViewById(R.id.helpDescription);
-        //helpDescriptionAndCitation.setText("Optional Features:\n1. Error Checking Input");
         String helpDescriptionText = getString(R.string.helpDescription);
         helpDescriptionAndCitation.setText(helpDescriptionText);
         /*
-        Since a lot of text is used here, I wanted to make it scroll. I used code from this link, which allows such scrolling wihtout a Scrollview.
-        From https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
+        ScrollingMovementMethod used here due to lots of scrolling text.
+        Reference: https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
          */
         helpDescriptionAndCitation.setMovementMethod(new ScrollingMovementMethod());
     }
