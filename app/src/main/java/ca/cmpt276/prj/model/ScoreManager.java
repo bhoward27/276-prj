@@ -8,17 +8,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static ca.cmpt276.prj.model.Constants.MAX_NAME_LENGTH;
+import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
+
 /**
  * This class provides an interface for the system's shared preferences and
  * allows us to interact with the high scores list
  */
 
 public class ScoreManager {
-	public static final int NUM_HIGH_SCORES = 5;
-	public static final int MAX_NAME_LENGTH = 12;
-
-	public static final String PREFS = "ca.cmpt276.prj.Eleven";
-
 	private List<Score> scores;
 	private List<Score> defaultScores;
 

@@ -9,7 +9,7 @@ import android.os.Bundle;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.ScoreManager.PREFS;
+import static ca.cmpt276.prj.model.Constants.PREFS;
 
 public class GameActivity extends AppCompatActivity {
     SharedPreferences sharedPrefs = null;

@@ -2,8 +2,8 @@ package ca.cmpt276.prj.model;
 
 import org.junit.jupiter.api.Test;
 
-import static ca.cmpt276.prj.model.Card.LANDSCAPE_SET;
-import static ca.cmpt276.prj.model.Card.PREDATOR_SET;
+import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
