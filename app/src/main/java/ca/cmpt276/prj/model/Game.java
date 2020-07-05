@@ -21,17 +21,17 @@ public class Game {
 		} else {
 			selectedDrawPileImage = image;
 		}
-
+		// initial game state check (or nothing selected in one pile)
 		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
 			return false;
 		}
 
 		if (selectedDiscardPileImage == selectedDrawPileImage) {
 			deck.moveTopDrawToDiscard();
-			return true;
-		} else {
 			selectedDiscardPileImage = null;
 			selectedDrawPileImage = null;
+			return true;
+		} else {
 			return false;
 		}
 
@@ -49,4 +49,17 @@ public class Game {
 		return deck.getDrawPile().isEmpty();
 	}
 
+	public int getRemainingCards() {
+		return deck.getDrawPile().size();
+	}
+
+	//debug
+
+	public CardImage getSelectedDiscardPileImage() {
+		return selectedDiscardPileImage;
+	}
+
+	public CardImage getSelectedDrawPileImage() {
+		return selectedDrawPileImage;
+	}
 }
