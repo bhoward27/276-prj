@@ -2,6 +2,11 @@ package ca.cmpt276.prj.model;
 
 import java.util.List;
 
+/**
+ * The Game class interfaces with Deck to keep the game state.
+ * Use the return value of tappedUpdateState to determine
+ * whether or not the tapped image matches with the previously tapped image.
+ */
 public class Game {
 	Deck deck;
 	CardImage selectedDiscardPileImage = null;
