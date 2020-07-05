@@ -9,9 +9,6 @@ import android.annotation.SuppressLint;
  */
 
 public class Score {
-	public static final int NUM_HIGH_SCORES = 5;
-	public static final int MAX_NAME_LENGTH = 12;
-
 	private int scoreTime;
 	private String scoreName;
 	private String scoreDate;
@@ -34,6 +31,12 @@ public class Score {
 		return scoreDate;
 	}
 
+	public String getFormattedScore() {
+		String formattedTime = getFormattedTime();
+
+		return formattedTime + " by " + scoreName + " on " + scoreDate;
+	}
+
 	@SuppressLint("DefaultLocale")
 	private String getFormattedTime() {
 		int time = getTime();
@@ -41,11 +44,5 @@ public class Score {
 		int minutes = time / 60;
 		int seconds = time % 60;
 		return String.format("%d:%02d", minutes, seconds);
-	}
-
-	public String getFormattedScore() {
-		String formattedTime = getFormattedTime();
-
-		return formattedTime + " by " + scoreName + " on " + scoreDate;
 	}
 }

@@ -15,7 +15,7 @@ import ca.cmpt276.prj.R;
  */
 public class MainMenuActivity extends AppCompatActivity {
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
     }
 

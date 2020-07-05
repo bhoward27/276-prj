@@ -6,4 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ui.HelpActivity">
 
+    <TextView
+        android:id="@+id/helpDescriptionTItle"
+        android:layout_width="161dp"
+        android:layout_height="84dp"
+        android:fontFamily="casual"
+        android:text="@string/helpDescriptionTitleText"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/helpDescription"
+        android:layout_width="421dp"
+        android:layout_height="172dp"
+        android:fontFamily="casual"
+        android:text="@string/helpDescriptionText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.574" />
+
+    <TextView
+        android:id="@+id/scrollAdvice"
+        android:layout_width="423dp"
+        android:layout_height="25dp"
+        android:fontFamily="casual"
+        android:text="@string/scrollAdviceText"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.915" />
 </androidx.constraintlayout.widget.ConstraintLayout>
