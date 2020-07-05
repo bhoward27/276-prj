@@ -24,10 +24,9 @@ public class HelpActivity extends AppCompatActivity {
         String helpDescriptionText = getString(R.string.helpDescriptionText);
         helpDescriptionAndCitation.setText(helpDescriptionText);
 
-        /*
-        Since a lot of text is used here, I wanted to make it scroll. I used code from this link, which allows such scrolling wihtout a Scrollview.
-        From https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
-         */
+
+        //Since a lot of text is used here, I wanted to make it scroll. I used code from this link, which allows such scrolling wihtout a Scrollview.
+        //From https://stackoverflow.com/questions/1748977/making-textview-scrollable-on-android
         helpDescriptionAndCitation.setMovementMethod(new ScrollingMovementMethod());
 
         }
