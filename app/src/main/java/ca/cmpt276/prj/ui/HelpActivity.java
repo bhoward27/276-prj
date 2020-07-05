@@ -10,7 +10,7 @@ import ca.cmpt276.prj.R;
 
 
 /**
- * Help Screen for showcasing instructions on how to play the game.
+ * Help Screen for shoing instructions on how to play the game.
  */
 
 public class HelpActivity extends AppCompatActivity {
