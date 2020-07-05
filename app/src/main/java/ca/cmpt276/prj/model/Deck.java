@@ -1,6 +1,9 @@
 package ca.cmpt276.prj.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -11,22 +14,24 @@ import java.util.Stack;
 public class Deck {
 	private Stack<Card> discardPile;
 	private Stack<Card> drawPile;
+	private Integer[][] cardOrders;
 	private int totalNumCards;
-	private int imageSet;
+	private int currentImageSet;
 	private int imageSetOffset;
 	private int imagesPerCard;
 
-	public Deck(int imagesPerCard, int imageSet) {
+	public Deck(int imagesPerCard, int imageSetSelected) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
 		this.imagesPerCard = imagesPerCard;
 
 		// total number of cards is images^2 - images + 1
 		this.totalNumCards = imagesPerCard*imagesPerCard - imagesPerCard + 1;
-		this.imageSet = imageSet;
+		this.currentImageSet = imageSetSelected;
 		// offset
-		this.imageSetOffset = (imageSet-1)*totalNumCards;
+		this.imageSetOffset = (imageSetSelected-1)*totalNumCards;
 
+		setCardOrders();
 		initializePiles();
 	}
 
@@ -59,53 +64,70 @@ public class Deck {
 		return totalNumCards;
 	}
 
-	public int getImageSet() {
-		return imageSet;
+	public int getCurrentImageSet() {
+		return currentImageSet;
 	}
 
-	public CardImage[] getDiscardPileImages() {
+	public List<CardImage> getDiscardPileImages() {
 		Card card = getTopDiscard();
-		CardImage[] images = new CardImage[3];
+		List<CardImage> images = new ArrayList<>(imagesPerCard);
 
-		images[0] = card.getTopImage();
-		images[1] = card.getMiddleImage();
-		images[2] = card.getBottomImage();
+		images.add(card.getTopImage());
+		images.add(card.getMiddleImage());
+		images.add(card.getBottomImage());
 
 		return images;
 	}
 
-	public CardImage[] getDrawPileImages() {
+	public List<CardImage> getDrawPileImages() {
 		Card card = getTopDraw();
-		CardImage[] images = new CardImage[3];
+		List<CardImage> images = new ArrayList<>(imagesPerCard);
 
-		images[0] = card.getTopImage();
-		images[1] = card.getMiddleImage();
-		images[2] = card.getBottomImage();
+		images.add(card.getTopImage());
+		images.add(card.getMiddleImage());
+		images.add(card.getBottomImage());
 
 		return images;
+	}
+
+	// convert hardcoded 2d array to list/stack and shuffle the order of cards
+	// and order of images on each card independently
+	private void initializePiles() {
+		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardOrders));
+		Stack<Integer> images = new Stack<>();
+
+		Collections.shuffle(cards);
+
+		for (Integer[] card : cards) {
+			images.addAll(Arrays.asList(card));
+
+			Collections.shuffle(images);
+
+			CardImage[] values = CardImage.values();
+			CardImage image1 = values[images.pop() + imageSetOffset];
+			CardImage image2 = values[images.pop() + imageSetOffset];
+			CardImage image3 = values[images.pop() + imageSetOffset];
+
+			drawPile.push(new Card(currentImageSet, image1, image2, image3));
+		}
+
+		moveTopDrawToDiscard();
 	}
 
 	// citation https://radiganengineering.com/2013/01/spot-it-howd-they-do-that/
-	// hardcoded entries so far because our order is fixed to 2 for this iteration
-	private void initializePiles() {
-		if (imagesPerCard == 3) {
-			int[][] cardOrders = {{0, 1, 4},
+	// for hardcoded entries
+	private void setCardOrders() {
+		// only 3 images per card is currently implemented
+		switch (imagesPerCard) {
+			case 3: cardOrders =
+					new Integer[][]{{0, 1, 4},
 					{2, 3, 4}, {0, 2, 5},
 					{1, 3, 5}, {0, 3, 6},
 					{1, 2, 6}, {4, 5, 6}};
-
-			for (int i = 0; i < totalNumCards; i++) {
-				CardImage[] values = CardImage.values();
-				CardImage image1 = values[cardOrders[i][0] + imageSetOffset];
-				CardImage image2 = values[cardOrders[i][1] + imageSetOffset];
-				CardImage image3 = values[cardOrders[i][2] + imageSetOffset];
-
-				drawPile.push(new Card(imageSet, image1, image2, image3));
-			}
-			Collections.shuffle(drawPile);
-			moveTopDrawToDiscard();
-		} else {
-			throw new UnsupportedOperationException("Not implemented: numImages != 3");
+			break;
+			default:
+				throw new UnsupportedOperationException("Not implemented: imagesPerCard != 3");
 		}
 	}
+
 }

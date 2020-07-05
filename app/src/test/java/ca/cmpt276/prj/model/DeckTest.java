@@ -3,12 +3,12 @@ package ca.cmpt276.prj.model;
 import org.junit.jupiter.api.Test;
 
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
+import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeckTest {
 	private static final String TAG = "%%%DECKTEST: ";
-	public static final int NUM_IMAGES = 3;
 
 	@Test
 	void basic() {
@@ -79,8 +79,8 @@ class DeckTest {
 	void testImageSetGetter() {
 		Deck deckLand = new Deck(NUM_IMAGES, LANDSCAPE_SET);
 		Deck deckPred = new Deck(NUM_IMAGES, PREDATOR_SET);
-		assertEquals(LANDSCAPE_SET, deckLand.getImageSet());
-		assertEquals(PREDATOR_SET, deckPred.getImageSet());
+		assertEquals(LANDSCAPE_SET, deckLand.getCurrentImageSet());
+		assertEquals(PREDATOR_SET, deckPred.getCurrentImageSet());
 	}
 
 }

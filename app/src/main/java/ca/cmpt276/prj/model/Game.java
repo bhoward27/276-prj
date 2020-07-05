@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import java.util.List;
+
 public class Game {
 	Deck deck;
 	CardImage selectedDiscardPileImage = null;
@@ -13,7 +15,7 @@ public class Game {
 		return deck;
 	}
 
-	public boolean doesTappedMatch(boolean isTappedDiscardPile, CardImage image) {
+	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
 		if (isTappedDiscardPile) {
 			selectedDiscardPileImage = image;
 		} else {
@@ -35,11 +37,11 @@ public class Game {
 
 	}
 
-	public CardImage[] getDiscardPileImages() {
+	public List<CardImage> getDiscardPileImages() {
 		return deck.getDiscardPileImages();
 	}
 
-	public CardImage[] getDrawPileImages() {
+	public List<CardImage> getDrawPileImages() {
 		return deck.getDrawPileImages();
 	}
 

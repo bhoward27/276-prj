@@ -5,10 +5,12 @@ public final class Constants {
 
 	public static final int LANDSCAPE_SET = 1;
 	public static final int PREDATOR_SET = 2;
-	private static final boolean DISCARD_PILE_TAPPED = true;
-	private static final boolean DRAW_PILE_TAPPED = false;
+	public static final boolean DISCARD_PILE_TAPPED = true;
+	public static final boolean DRAW_PILE_TAPPED = false;
 	public static final int NUM_HIGH_SCORES = 5;
 	public static final int MAX_NAME_LENGTH = 12;
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
+	// TODO: add functionality for more than 3 images (possible future iterations)
+	public static final int NUM_IMAGES = 3;
 
 }
