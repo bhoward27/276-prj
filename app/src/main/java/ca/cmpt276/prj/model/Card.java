@@ -1,5 +1,8 @@
 package ca.cmpt276.prj.model;
 
+import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
+
 /**
  * This model has data about the three images on a particular card. Its constructor ensures that a
  * card does not have any duplicate images on it, and that its images are all from the same image
@@ -7,9 +10,6 @@ package ca.cmpt276.prj.model;
  * two cards have a matching image.
  */
 public class Card {
-    public static final int LANDSCAPE_SET = 1;
-    public static final int PREDATOR_SET = 2;
-
     private CardImage topImage;
     private CardImage middleImage;
     private CardImage bottomImage;

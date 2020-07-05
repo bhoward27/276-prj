@@ -1,8 +1,5 @@
 package ca.cmpt276.prj.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * This enum defines the two sets of images that can appear on a card.
  * Any image not defined in this enum is invalid for a card.
