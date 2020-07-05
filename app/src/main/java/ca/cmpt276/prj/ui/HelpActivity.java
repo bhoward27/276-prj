@@ -30,5 +30,5 @@ public class HelpActivity extends AppCompatActivity {
          */
         helpDescriptionAndCitation.setMovementMethod(new ScrollingMovementMethod());
 
-    }
-}
+        }
+        }

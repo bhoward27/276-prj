@@ -4,13 +4,13 @@
     <string name="btn_high_scores_clear">(PLACEHOLDER) Clear high scores</string>
     <string name="btn_main_menu">(PLACEHOLDER) Open main menu</string>
     <string name="txt_placeholder_score">Score goes here</string>
-    <string name="helpDescriptionTitleText">TextView</string>
+    <string name="helpDescriptionTitleText">Help</string>
     <string name="helpDescriptionText">In a "Time Solo Deck" game of FindDaMatch, the goal is to discard a deck of cards as quickly as possible
         by finding matching icons between two cards at a time.\n\n
         The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
         You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
         If correct, the draw pile\'s top card will become the new top card in the discard and you\'ll have to keep picking until all cards go to the discard pile.
         \n\nYou\'re timed, so check quickly!</string>
-    <string name="scrollAdviceText">(The help description is scrollable!)</string>
+    <string name="scrollAdviceText">(You can scroll through the help description above!)</string>
 
 </resources>
