@@ -21,7 +21,7 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         TextView helpDescriptionAndCitation = findViewById(R.id.helpDescription);
-        String helpDescriptionText = getString(R.string.helpDescriptionText);
+        String helpDescriptionText = getString(R.string.txt_help_description);
         helpDescriptionAndCitation.setText(helpDescriptionText);
 
 
