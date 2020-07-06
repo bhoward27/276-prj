@@ -69,5 +69,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void goToMainMenu(){
         Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
         startActivity(intent);
+        finish();//Once the Splash Screen is left, pressing the back button on the Main Menu should NOT return to this activity.
     }
 }
