@@ -19,11 +19,10 @@ public class PrefsManager {
 		return instance;
 	}
 
-	public static PrefsManager getInstance(SharedPreferences prefs) {
+	public static void instantiate(SharedPreferences prefs) {
 		if (instance == null) {
 			instance = new PrefsManager(prefs);
 		}
-		return instance;
 	}
 	// End singleton setup
 
