@@ -21,10 +21,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.PREFS;
-
 public class HighScoresActivity extends AppCompatActivity {
-	SharedPreferences sharedPrefs = null;
 	ScoreManager manager;
 
 	public static Intent makeIntent(Context context) {
@@ -36,10 +33,9 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
-
 		getSavedData();
 		// DEBUG
-		// manager.addHighScore("William", 60);
+		manager.addHighScore("William", 60);
 
 		setupButtons();
 		registerClickCallback();
@@ -56,8 +52,7 @@ public class HighScoresActivity extends AppCompatActivity {
 	}
 
 	private void getSavedData() {
-		sharedPrefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-		manager = ScoreManager.getInstance(sharedPrefs);
+		manager = ScoreManager.getInstance();
 	}
 
 	// helper function for clicking on the list to not crash
@@ -87,7 +82,7 @@ public class HighScoresActivity extends AppCompatActivity {
 				itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
 			}
 
-			TextView ScoreText = (TextView) itemView.findViewById((R.id.txtPlaceholderScore));
+			TextView ScoreText = itemView.findViewById((R.id.txtPlaceholderScore));
 			ScoreText.setText(manager.getScoreByIndex(position).getFormattedScore());
 			return itemView;
 		}

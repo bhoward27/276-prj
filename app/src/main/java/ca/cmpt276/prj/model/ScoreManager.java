@@ -25,8 +25,8 @@ public class ScoreManager {
 	// Singleton setup
 	private static ScoreManager instance;
 
-	private ScoreManager(SharedPreferences sharedPrefs) {
-		this.prefs = sharedPrefs;
+	private ScoreManager() {
+		this.prefs = PrefsManager.getInstance().getPrefs();
 		this.scores = new ArrayList<>();
 		this.defaultScores = new ArrayList<>();
 
@@ -34,9 +34,9 @@ public class ScoreManager {
 		loadScores();
 	}
 
-	public static ScoreManager getInstance(SharedPreferences prefs) {
+	public static ScoreManager getInstance() {
 		if (instance == null) {
-			instance = new ScoreManager(prefs);
+			instance = new ScoreManager();
 		}
 		return instance;
 	}

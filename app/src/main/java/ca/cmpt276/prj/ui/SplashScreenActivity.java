@@ -2,7 +2,9 @@ package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.PrefsManager;
+
+import static ca.cmpt276.prj.model.Constants.PREFS;
 
 /**
  * Activity for showing the animated intro preceding an automatic change to the Main Menu Activity. Also includes a button to skip the intro
@@ -23,6 +28,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        // instantly instantiate SharedPreferences singleton for global use over program
+        PrefsManager.getInstance(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
 
         setUpAnimatedIntroText();
         setUpSkipButton();
