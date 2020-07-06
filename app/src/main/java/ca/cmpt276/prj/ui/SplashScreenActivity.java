@@ -30,7 +30,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         // instantly instantiate SharedPreferences singleton for global use over program
-        PrefsManager.getInstance(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+        PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
 
         setUpAnimatedIntroText();
         setUpSkipButton();

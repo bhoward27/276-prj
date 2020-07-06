@@ -142,7 +142,7 @@ public class ScoreManager {
 
 		// placeholder default scores if more than 5 high scores are needed
 		if (NUM_HIGH_SCORES > 5) {
-			for (; key <= NUM_HIGH_SCORES; key++) {
+			for (; key < NUM_HIGH_SCORES; key++) {
 				defaultScores.add(new Score(1800, String.valueOf(key), "DATE"));
 			}
 		}
