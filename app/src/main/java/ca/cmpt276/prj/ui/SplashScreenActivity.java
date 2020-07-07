@@ -24,6 +24,7 @@ import static ca.cmpt276.prj.model.Constants.PREFS;
  */
 public class SplashScreenActivity extends AppCompatActivity {
 
+    private boolean skipButtonPressed = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +47,19 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void beginAutoSkipTimer(){
         new CountDownTimer(7000, 1000){
+            //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
+            //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
+            //would be forced back to the Main Menu when the timer ends.
             @Override
-            public void onTick(long millisUntilFinished) {}
+            public void onTick(long millisUntilFinished) {
+                if(skipButtonPressed) {
+                    cancel();
+                }
+            }
 
             @Override
             public void onFinish() {
-                goToMainMenu();
+                    goToMainMenu();
             }
         }.start();
     }
@@ -61,6 +69,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         btnMainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                skipButtonPressed = true;
                 goToMainMenu();
             }
         });
@@ -69,5 +78,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void goToMainMenu(){
         Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
         startActivity(intent);
+        finish();//Once the Splash Screen is left, pressing the back button on the Main Menu should NOT return to this activity.
     }
 }
