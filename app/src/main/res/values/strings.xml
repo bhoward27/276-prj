@@ -18,6 +18,9 @@
     <string name="txt_options">Options</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">FindDaMatch</string>
+    <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
+    <string name="btn_view_citations">View Citations</string>
     <color name="blue">#005CFF</color>
     <color name="grey">#b8b8b8</color>
+    <color name="green">#008000</color>
 </resources>

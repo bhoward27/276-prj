@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/blue"
     tools:context=".ui.MainMenuActivity">
 
 
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/gameTitleMainMenu"
-        android:layout_width="279dp"
+        android:layout_width="wrap_content"
         android:layout_height="85dp"
         android:fontFamily="casual"
         android:text="@string/txt_game_title_main_menu"
@@ -72,4 +72,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.809" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

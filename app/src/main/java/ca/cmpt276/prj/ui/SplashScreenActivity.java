@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ca.cmpt276.prj.R;
@@ -33,23 +33,59 @@ public class SplashScreenActivity extends AppCompatActivity {
         // instantly instantiate SharedPreferences singleton for global use over program
         PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
 
-        setUpAnimatedIntroText();
+        setUpAnimatedIntro();
         setUpSkipButton();
         beginAutoSkipTimer();
     }
 
 
-    private void setUpAnimatedIntroText(){
+    private void setUpAnimatedIntro(){
+        ImageView animatedMagnifyingGlass = findViewById(R.id.magnifyingGlass);
         TextView animatedText = findViewById(R.id.textIntroTitle);
-        Animation spinAnimation = AnimationUtils.loadAnimation(this, R.anim.animations);
-        animatedText.startAnimation(spinAnimation);
-    }
-
-    private void beginAutoSkipTimer(){
-        new CountDownTimer(7000, 1000){
+        Animation translateRightAnimation = AnimationUtils.loadAnimation(this, R.anim.translate_right_animation);
+        Animation zoomInAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation);
+        Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out_animation);
+        animatedMagnifyingGlass.startAnimation(translateRightAnimation);
+        new CountDownTimer(2000, 1000){
             //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
             //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
             //would be forced back to the Main Menu when the timer ends.
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(skipButtonPressed) {
+                    cancel();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //Wait until translateRightAnimation is finished via CounDownTimer before starting zoomAnimation.
+                animatedMagnifyingGlass.startAnimation(fadeOutAnimation);
+            }
+        }.start();
+
+        new CountDownTimer(4000, 1000){
+            //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
+            //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
+            //would be forced back to the Main Menu when the timer ends.
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(skipButtonPressed) {
+                    cancel();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                //Wait until fadeOutAnimation is finished via CounDownTimer before starting zoomAnimation.
+                animatedMagnifyingGlass.setImageResource(0);
+                animatedText.startAnimation(zoomInAnimation);
+            }
+        }.start();
+    }
+
+    private void beginAutoSkipTimer(){
+        new CountDownTimer(10000, 1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 if(skipButtonPressed) {
