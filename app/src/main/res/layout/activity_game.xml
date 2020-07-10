@@ -14,7 +14,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnDrawIm1"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/txt_content_discardimage_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnDrawIm2"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/txt_content_drawimage_2"
+                app:layout_constraintBottom_toTopOf="@+id/btnDrawIm3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnDrawIm1" />
+
+            <ImageButton
+                android:id="@+id/btnDrawIm3"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="6dp"
+                android:contentDescription="@string/txt_content_drawimage_3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/crdDiscPile"
@@ -24,7 +60,43 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnDiscIm1"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/txt_content_discardimage_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnDiscIm2"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:contentDescription="@string/txt_content_discardimage_2"
+                app:layout_constraintBottom_toTopOf="@+id/btnDiscIm3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnDiscIm1" />
+
+            <ImageButton
+                android:id="@+id/btnDiscIm3"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="6dp"
+                android:contentDescription="@string/txt_content_discardimage_3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
