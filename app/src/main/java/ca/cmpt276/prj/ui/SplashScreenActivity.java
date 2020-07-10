@@ -4,13 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ca.cmpt276.prj.R;
@@ -32,24 +32,39 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         // instantly instantiate SharedPreferences singleton for global use over program
         PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-
-        setUpAnimatedIntroText();
+        setUpAnimatedIntro();
         setUpSkipButton();
         beginAutoSkipTimer();
     }
 
+    private void setUpAnimatedIntro(){
+        ImageView animatedMagnifyingGlass = findViewById(R.id.magnifyingGlass);
+        TextView animatedIntroTitle = findViewById(R.id.textIntroTitle);
+        Animation mangifyingGlassAnimation = AnimationUtils.loadAnimation(this, R.anim.magnifying_glass_animation);
+        Animation introTitleAnimation = AnimationUtils.loadAnimation(this, R.anim.title_text_animation);
+        animatedMagnifyingGlass.startAnimation(mangifyingGlassAnimation);
 
-    private void setUpAnimatedIntroText(){
-        TextView animatedText = findViewById(R.id.textIntroTitle);
-        Animation spinAnimation = AnimationUtils.loadAnimation(this, R.anim.animations);
-        animatedText.startAnimation(spinAnimation);
+        //Code to use setAnimationListener based off:
+        //https://stackoverflow.com/questions/5731019/android-animation-one-after-another
+        mangifyingGlassAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation currentAnimation) {//Wait until animatedMagnifyingGlass' animation is finished before animating animatedText.
+                animatedMagnifyingGlass.setImageResource(0);
+                animatedIntroTitle.startAnimation(introTitleAnimation);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
     }
 
     private void beginAutoSkipTimer(){
-        new CountDownTimer(7000, 1000){
-            //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
-            //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
-            //would be forced back to the Main Menu when the timer ends.
+        new CountDownTimer(10000, 1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 if(skipButtonPressed) {
@@ -78,6 +93,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void goToMainMenu(){
         Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
         startActivity(intent);
-        finish();//Once the Splash Screen is left, pressing the back button on the Main Menu should NOT return to this activity.
+        finish();//Once Splash Screen is left, pressing back button on Main Menu should NOT return to this activity; finish() ensures Splash Screen cannot be returned to during runtime.-
     }
 }
