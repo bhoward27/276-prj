@@ -32,56 +32,35 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         // instantly instantiate SharedPreferences singleton for global use over program
         PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-
         setUpAnimatedIntro();
         setUpSkipButton();
         beginAutoSkipTimer();
     }
 
-
     private void setUpAnimatedIntro(){
         ImageView animatedMagnifyingGlass = findViewById(R.id.magnifyingGlass);
-        TextView animatedText = findViewById(R.id.textIntroTitle);
-        Animation translateRightAnimation = AnimationUtils.loadAnimation(this, R.anim.translate_right_animation);
-        Animation zoomInAnimation = AnimationUtils.loadAnimation(this, R.anim.zoom_in_animation);
-        Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out_animation);
-        animatedMagnifyingGlass.startAnimation(translateRightAnimation);
-        new CountDownTimer(2000, 1000){
-            //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
-            //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
-            //would be forced back to the Main Menu when the timer ends.
+        TextView animatedIntroTitle = findViewById(R.id.textIntroTitle);
+        Animation mangifyingGlassAnimation = AnimationUtils.loadAnimation(this, R.anim.magnifying_glass_animation);
+        Animation introTitleAnimation = AnimationUtils.loadAnimation(this, R.anim.title_text_animation);
+        animatedMagnifyingGlass.startAnimation(mangifyingGlassAnimation);
+
+        //Code to use setAnimationListener based off:
+        //https://stackoverflow.com/questions/5731019/android-animation-one-after-another
+        mangifyingGlassAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                if(skipButtonPressed) {
-                    cancel();
-                }
-            }
+            public void onAnimationStart(Animation animation) {}
 
             @Override
-            public void onFinish() {
-                //Wait until translateRightAnimation is finished via CounDownTimer before starting zoomAnimation.
-                animatedMagnifyingGlass.startAnimation(fadeOutAnimation);
-            }
-        }.start();
-
-        new CountDownTimer(4000, 1000){
-            //Calling cancel stops function from redundantly calling goToMainMenu() if the skip button was pressed.
-            //Otherwise, a user that uses the skip button and goes to a new activity from the Main Menu before this timer ends
-            //would be forced back to the Main Menu when the timer ends.
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(skipButtonPressed) {
-                    cancel();
-                }
-            }
-
-            @Override
-            public void onFinish() {
-                //Wait until fadeOutAnimation is finished via CounDownTimer before starting zoomAnimation.
+            public void onAnimationEnd(Animation currentAnimation) {//Wait until animatedMagnifyingGlass' animation is finished before animating animatedText.
                 animatedMagnifyingGlass.setImageResource(0);
-                animatedText.startAnimation(zoomInAnimation);
+                animatedIntroTitle.startAnimation(introTitleAnimation);
+
             }
-        }.start();
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
     }
 
     private void beginAutoSkipTimer(){
@@ -114,6 +93,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void goToMainMenu(){
         Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
         startActivity(intent);
-        finish();//Once the Splash Screen is left, pressing the back button on the Main Menu should NOT return to this activity.
+        finish();//Once Splash Screen is left, pressing back button on Main Menu should NOT return to this activity; finish() ensures Splash Screen cannot be returned to during runtime.-
     }
 }
