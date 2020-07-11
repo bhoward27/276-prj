@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="cardview_margins">10sp</dimen>
+    <dimen name="cardview_margins">10dp</dimen>
     <dimen name="image_margins">5sp</dimen>
     <dimen name="button_width">131dp</dimen>
     <dimen name="button_height">62.5dp</dimen>

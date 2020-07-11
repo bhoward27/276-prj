@@ -3,12 +3,15 @@ package ca.cmpt276.prj.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -16,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -207,9 +211,28 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: make cards look like they are stacked on top of each other
-    private void updateShadowsAndMargins() {
+    // for setting margins
+    // citation:
+    // https://stackoverflow.com/a/9563438
+    private float convertPixelsToDp(float px){
+        return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
 
+    private void updateShadowsAndMargins() {
+        ConstraintLayout.LayoutParams discCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
+        ConstraintLayout.LayoutParams drawCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
+
+        float shiftAmt = convertPixelsToDp(getResources().getDimension(R.dimen.cardview_margins))/gameInstance.getDeck().getTotalNumCards()+1;
+
+        discCardView.leftMargin -= shiftAmt;
+        discCardView.topMargin -= shiftAmt;
+        discCardView.rightMargin += shiftAmt;
+        discCardView.bottomMargin += shiftAmt;
+
+        drawCardView.leftMargin += shiftAmt;
+        drawCardView.topMargin += shiftAmt;
+        drawCardView.rightMargin -= shiftAmt;
+        drawCardView.bottomMargin -= shiftAmt;
     }
 
     private void resetOverlay(ImageButton pressedButton) {
@@ -233,7 +256,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: ended game dialog or something
     private void finishGame() {
         Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
