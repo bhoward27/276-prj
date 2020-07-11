@@ -14,6 +14,7 @@ import android.widget.AbsoluteLayout;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -145,11 +146,12 @@ public class GameActivity extends AppCompatActivity {
             resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
             button.setImageResource(resourceID);
             button.setTag(image);
-            // TODO: change to relative layout
-            AbsoluteLayout.LayoutParams pos = (AbsoluteLayout.LayoutParams) button.getLayoutParams();
-            pos.x = rndXPos.get(randCount + index);
-            pos.y = rndYPos.get(randCount + index);
-            button.setLayoutParams(pos);
+
+            RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+            buttonLayoutParams.leftMargin = rndXPos.get(randCount + index);
+            buttonLayoutParams.topMargin = rndYPos.get(randCount + index);
+
+            button.setLayoutParams(buttonLayoutParams);
         }
 
         randCount += gameInstance.getImagesPerCard();
