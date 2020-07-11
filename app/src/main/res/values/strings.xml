@@ -6,7 +6,7 @@
     <string name="btn_view_citations">View Citations</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">HELP</string>
-    <string name="txt_help_description">In a "Time Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
+    <string name="txt_help_description">In a "Timed Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
         by finding matching icons between two cards at a time.\n\n
         The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
         You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
@@ -21,6 +21,16 @@
     <string name="txt_options">Options</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">FindDaMatch</string>
+    <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
+    <string name="txt_content_drawimage_2">An image for the second button in the draw pile.</string>
+    <string name="txt_content_drawimage_3">An image for the third button in the draw pile.</string>
+    <string name="txt_content_discardimage_1">An image for the first button in the discard pile.</string>
+    <string name="txt_content_discardimage_2">An image for the second button in the discard pile.</string>
+    <string name="txt_content_discardimage_3">An image for the third button in the discard pile.</string>
+    <string name="tag_btn_key">A tag for the button to know which pile it is in.</string>
+    <string name="txt_discard_pile">Discard Pile</string>
+    <string name="txt_draw_pile">Draw Pile</string>
+    <string name="txt_cards_remaining">Cards remaining:</string>
     <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
     <string name="txt_high_scores">HIGH SCORES</string>
     <string name="txt_first_rank">st :\u0020</string>

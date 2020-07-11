@@ -38,7 +38,7 @@ public class HighScoresActivity extends AppCompatActivity {
 
 		getSavedData();
 		// DEBUG
-		manager.addHighScore("William", 60);
+		// manager.addHighScore("William", 60);
 
 		setupButtons();
 		registerClickCallback();
