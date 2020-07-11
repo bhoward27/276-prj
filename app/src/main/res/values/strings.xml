@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">prj</string>
     <string name="btn_high_scores">High Scores</string>
-    <string name="btn_high_scores_clear">Reset High Scores</string>
+    <string name="btn_high_scores_clear">(PLACEHOLDER) Clear high scores</string>
     <string name="btn_main_menu">Skip</string>
-    <string name="btn_view_citations">View Citations</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">HELP</string>
     <string name="txt_help_description">In a "Time Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
@@ -11,9 +10,7 @@
         The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
         You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
         If correct, the draw pile\'s top card will become the new top card in the discard and you\'ll have to keep picking until all cards go to the discard pile.
-        \n\nYou\'re timed, so check quickly!
-        \n\nThere are two different card themes available: Landscapes, and Animals! Feel free to change them in the Options screen; that is the only place you can do so!
-    </string>
+        \n\nYou\'re timed, so check quickly!</string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
     <string name="txt_play">Play!</string>
@@ -31,8 +28,6 @@
     <string name="txt_discard_pile">Discard Pile</string>
     <string name="txt_draw_pile">Draw Pile</string>
     <string name="txt_cards_remaining">Cards remaining:</string>
-    <color name="blue">#005CFF</color>
-    <color name="grey">#b8b8b8</color>
     <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
     <string name="txt_high_scores">HIGH SCORES</string>
     <string name="txt_first_rank">st :\u0020</string>
