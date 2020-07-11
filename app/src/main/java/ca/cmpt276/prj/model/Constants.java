@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.model;
 
+import android.graphics.Color;
+
 public final class Constants {
 	private Constants() { }
 
