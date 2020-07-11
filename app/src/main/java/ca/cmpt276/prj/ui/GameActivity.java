@@ -260,12 +260,16 @@ public class GameActivity extends AppCompatActivity {
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
 
+        String winMessage = getString(R.string.txt_win_message);
+        String returnAfterWinMessage = getString(R.string.btn_return_after_win);
+        //helpDescriptionAndCitation.setText(helpDescriptionText
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
+
                         // TODO: permanent strings
                         // setMessage(getString(R.string.disp_congratulations)).
-                        setMessage("Good job, you won the game!").
-                        setPositiveButton("hooray!", (dialog, which) -> {
+                        setMessage(winMessage).
+                        setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
                             dialog.dismiss();
                             this.finish();
                         }).

@@ -4,6 +4,7 @@
     <string name="btn_high_scores_clear">Reset High Scores</string>
     <string name="btn_main_menu">Skip</string>
     <string name="btn_view_citations">View Citations</string>
+    <string name="btn_return_after_win">Hooray!</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">HELP</string>
     <string name="txt_help_description">In a "Timed Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
@@ -37,4 +38,12 @@
     <string name="txt_second_rank">nd :\u0020</string>
     <string name="txt_third_rank">rd :\u0020</string>
     <string name="txt_below_top_three_rank">th :\u0020</string>
+    <string name="txt_win_message">Good job, you won the game!</string>
+    <string name="img_cave_or_bear">img_cave_or_bear</string>
+    <string name="img_volcano_spider">img_volcano_spider</string>
+    <string name="img_ocean_or_lion">img_ocean_or_lion</string>
+    <string name="img_desert_or_eagle">img_desert_or_eagle</string>
+    <string name="img_forest_or_leopard">img_forest_or_leopard</string>
+    <string name="img_storm_or_shark">img_storm_or_shark</string>
+    <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
 </resources>
