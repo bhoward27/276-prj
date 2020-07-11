@@ -42,7 +42,7 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView volcanoOrSpider = (ImageView)findViewById(R.id.img_volcano_spider);
 
         int imageSet = 0;
-        
+
         if(imageSet == LANDSCAPE_SET){
             caveOrBear.setImageResource(R.drawable.landscape_cave);
             desertOrEagle.setImageResource(R.drawable.landscape_desert);
