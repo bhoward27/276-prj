@@ -38,11 +38,14 @@ public class GenRand {
 		yList.add(yNew);
 
 		boolean overlap;
-		for (int success = 1; success < num; success++) {
+		// safety for possible infinite loop
+		int overallRetries = 0;
+		for (int succesfullyPlacedImages = 1; succesfullyPlacedImages < num; succesfullyPlacedImages++) {
+
 			xNew = rand.nextInt(0, maxX + 1);
 			yNew = rand.nextInt(0, maxY + 1);
 			overlap = false;
-			for (int tries = 0; tries < 50; tries++) {
+			for (int tries = 0; overallRetries < 10; tries++) {
 				for (Integer x : xList) {
 					if (overlap) break;
 					for (Integer y : yList) {
@@ -56,13 +59,16 @@ public class GenRand {
 				}
 				if (!overlap) break;
 				overlap = false;
-				// reset so it doesn't get stuck
-				if (tries == 49) {
+
+				// reset so it doesn't get stuck unable to find valid placements
+				if (tries >= 50) {
 					xList.clear();
 					yList.clear();
 					xList.add(xNew);
 					yList.add(yNew);
 					tries = 0;
+					succesfullyPlacedImages = 1;
+					overallRetries++;
 				}
 			}
 			xList.add(xNew);
@@ -87,5 +93,10 @@ public class GenRand {
 			return false;
 
 		return true;
+	}
+
+	public void clear() {
+		xList.clear();
+		yList.clear();
 	}
 }
