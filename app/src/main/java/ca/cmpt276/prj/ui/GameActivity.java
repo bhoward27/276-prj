@@ -3,12 +3,15 @@ package ca.cmpt276.prj.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -16,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,40 +54,6 @@ public class GameActivity extends AppCompatActivity {
         initGame();
     }
 
-    // only start the timer if the draw pile is the button clicked and don't restart the timer
-    // also don't let the user start by selecting discard pile (as per user story)
-    @SuppressLint("ClickableViewAccessibility")
-    private void setupTimerAndButtonLock() {
-        // get global access to button ids
-        getButtons();
-        // this function creates the array of button positions which will be used
-        // for each image/card
-        setupButtonPositions();
-        // this function adds images and tags to the buttons
-        refreshButtons();
-
-        // this onTouchListener will be overwritten after setupButtons() is called
-        for (ImageButton button : drawPileButtons) {
-            button.setOnTouchListener((ignored, motionEvent) -> {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    button.setColorFilter(getColor(R.color.colorGreenFilter));
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    resetOverlay(button);
-                    tapUpdateGameState(button);
-
-                    Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
-                    scoreTimer.setBase(SystemClock.elapsedRealtime());
-                    scoreTimer.start();
-
-                    setupButtonListeners();
-                }
-
-                return false;
-            });
-        }
-
-    }
-
     private void initGame() {
         discPileButtons = new ArrayList<>();
         drawPileButtons = new ArrayList<>();
@@ -102,11 +72,19 @@ public class GameActivity extends AppCompatActivity {
         cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                updateRemainingCardsText();
                 cardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                setupTimerAndButtonLock();
+
+                updateRemainingCardsText();
+                setupButtons();
+                setupTimer();
             }
         });
+    }
+
+    private void setupTimer() {
+        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+        scoreTimer.setBase(SystemClock.elapsedRealtime());
+        scoreTimer.start();
     }
 
     private void getButtons() {
@@ -159,16 +137,24 @@ public class GameActivity extends AppCompatActivity {
 
             button.setLayoutParams(buttonLayoutParams);
         }
-
-        randCount += gameInstance.getImagesPerCard();
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void setupButtonListeners() {
+    public void setupButtons() {
+        // get global access to button ids
+        getButtons();
+        // this function creates the array of button positions which will be used
+        // for each image/card
+        setupButtonPositions();
+        // this function adds images and tags to the buttons
+        refreshButtons();
+
         for (ImageButton button : allButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    button.setColorFilter(getColor(R.color.colorGreenFilter));
+                    int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
+                    button.setPadding(pad, pad, pad, pad);
+                    button.setActivated(true);
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     resetOverlay(button);
                     tapUpdateGameState(button);
@@ -200,7 +186,6 @@ public class GameActivity extends AppCompatActivity {
 
         for (int card = 0; card < totalCards; card++) {
             GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax, gameInstance.getImagesPerCard());
-            gen.generate();
             rndLeftMargin.addAll(gen.getxList());
             rndTopMargin.addAll(gen.getyList());
         }
@@ -212,6 +197,10 @@ public class GameActivity extends AppCompatActivity {
         if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // then change the images and remove all overlays to signify no card being selected
+
+                // move index of random positions for card images
+                randCount += gameInstance.getImagesPerCard();
+
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
                 refreshButtons();
@@ -222,29 +211,51 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: make cards look like they are stacked on top of each other
-    private void updateShadowsAndMargins() {
+    // for setting margins
+    // citation:
+    // https://stackoverflow.com/a/9563438
+    private float convertPixelsToDp(float px){
+        return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
 
+    private void updateShadowsAndMargins() {
+        ConstraintLayout.LayoutParams discCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
+        ConstraintLayout.LayoutParams drawCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
+
+        float shiftAmt = convertPixelsToDp(getResources().getDimension(R.dimen.cardview_margins))/gameInstance.getDeck().getTotalNumCards()+1;
+
+        discCardView.leftMargin -= shiftAmt;
+        discCardView.topMargin -= shiftAmt;
+        discCardView.rightMargin += shiftAmt;
+        discCardView.bottomMargin += shiftAmt;
+
+        drawCardView.leftMargin += shiftAmt;
+        drawCardView.topMargin += shiftAmt;
+        drawCardView.rightMargin -= shiftAmt;
+        drawCardView.bottomMargin -= shiftAmt;
     }
 
     private void resetOverlay(ImageButton pressedButton) {
         // remove the overlays for all other buttons in the same card
         boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
-        for (ImageButton imageButton : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
-            if (imageButton != pressedButton) {
-                imageButton.setColorFilter(0);
+        for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
+            if (button != pressedButton) {
+                int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
+                button.setPadding(pad, pad, pad, pad);
+                button.setActivated(false);
             }
         }
     }
 
     private void resetOverlay() {
         // remove the overlays for all buttons
-        for (ImageButton imageButton : allButtons) {
-                imageButton.setColorFilter(0);
+        for (ImageButton button : allButtons) {
+            int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
+            button.setPadding(pad, pad, pad, pad);
+            button.setActivated(false);
         }
     }
 
-    // TODO: ended game dialog or something
     private void finishGame() {
         Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
@@ -268,10 +279,11 @@ public class GameActivity extends AppCompatActivity {
 
                         // TODO: permanent strings
                         // setMessage(getString(R.string.disp_congratulations)).
-                        setMessage(winMessage).
-                        setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
+                        setMessage("Good job, you won the game!").
+                        setPositiveButton("hooray!", (dialog, which) -> {
                             dialog.dismiss();
                             this.finish();
+                            dialog.dismiss();
                         }).
                         setView(congratsImage);
 
@@ -279,6 +291,11 @@ public class GameActivity extends AppCompatActivity {
         alert.show();
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
 }
