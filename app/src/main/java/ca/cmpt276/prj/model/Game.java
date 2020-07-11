@@ -11,9 +11,11 @@ public class Game {
 	Deck deck;
 	CardImage selectedDiscardPileImage = null;
 	CardImage selectedDrawPileImage = null;
+	int imagesPerCard;
 
 	public Game(int imagesPerCard, int imageSet) {
 		this.deck = new Deck(imagesPerCard, imageSet);
+		this.imagesPerCard = imagesPerCard;
 	}
 
 	public Deck getDeck() {
@@ -40,6 +42,10 @@ public class Game {
 			return false;
 		}
 
+	}
+
+	public int getImagesPerCard() {
+		return imagesPerCard;
 	}
 
 	public List<CardImage> getDiscardPileImages() {

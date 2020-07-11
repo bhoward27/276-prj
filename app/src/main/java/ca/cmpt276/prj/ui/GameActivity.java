@@ -2,6 +2,7 @@ package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -9,9 +10,16 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.AbsoluteLayout;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CardImage;
@@ -28,6 +36,8 @@ public class GameActivity extends AppCompatActivity {
     public static final String TAG = "%%%GAMEACTIVITY";
     ImageButton[] btnDisc = new ImageButton[3];
     ImageButton[] btnDraw = new ImageButton[3];
+    Stack<Integer> rndXPos = new Stack<>();
+    Stack<Integer> rndYPos = new Stack<>();
     ScoreManager scoreManager;
     Game gameInstance;
     String resourcePrefix;
@@ -38,9 +48,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         initGame();
-        getButtons();
-        setupButtons();
-        setupDecorations();
     }
 
     private void setupDecorations() {
@@ -59,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         btnDraw[2] = findViewById(R.id.btnDrawIm3);
     }
 
-    private void refreshButtonImages() {
+    private void refreshButtons() {
         // TODO: need options, same as below, this is a hack
         resourcePrefix = gameInstance.getDeck().getCurrentImageSet() == 1 ? "landscape_" : "predator_";
 
@@ -71,6 +78,11 @@ public class GameActivity extends AppCompatActivity {
             resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
             btnDisc[btnNumber].setImageResource(resourceID);
             btnDisc[btnNumber].setTag(discImage);
+
+            AbsoluteLayout.LayoutParams pos = (AbsoluteLayout.LayoutParams) btnDisc[btnNumber].getLayoutParams();
+            pos.x = rndXPos.pop();
+            pos.y = rndYPos.pop();
+            btnDisc[btnNumber].setLayoutParams(pos);
 
             // debug
             Log.d("%%%GAMEACTIVITY", "resourceName: " + resourceName);
@@ -85,6 +97,11 @@ public class GameActivity extends AppCompatActivity {
             btnDraw[btnNumber].setImageResource(resourceID);
             btnDraw[btnNumber].setTag(drawImage);
 
+            AbsoluteLayout.LayoutParams pos = (AbsoluteLayout.LayoutParams) btnDraw[btnNumber].getLayoutParams();
+            pos.x = rndXPos.pop();
+            pos.y = rndYPos.pop();
+            btnDraw[btnNumber].setLayoutParams(pos);
+
             // debug
             Log.d(TAG, "resourceName: " + resourceName);
             Log.d(TAG, "button tag: (refresh) " + (CardImage) btnDraw[btnNumber].getTag());
@@ -95,7 +112,11 @@ public class GameActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     public void setupButtons() {
-        refreshButtonImages();
+        // this function creates the array of button positions which will be used
+        // for each image/card
+        setupButtonPositions();
+        // this function adds images and tags to the buttons
+        refreshButtons();
 
         for (ImageButton imageButton : btnDisc) {
             imageButton.setOnTouchListener((ignored, motionEvent) -> {
@@ -123,6 +144,25 @@ public class GameActivity extends AppCompatActivity {
                 return false;
             });
         }
+
+    }
+
+    private void setupButtonPositions() {
+        CardView cardView = findViewById(R.id.crdDiscPile);
+        int cardWidth = cardView.getWidth();
+        int cardHeight = cardView.getHeight();
+
+        int imageButtonWidth = Math.round(getResources().getDimension(R.dimen.button_width));
+        int imageButtonHeight = Math.round(getResources().getDimension(R.dimen.button_height));
+
+        int widthMax = cardWidth - imageButtonWidth;
+        int heightMax = cardHeight - imageButtonHeight;
+
+        int totalImages = gameInstance.getImagesPerCard()*gameInstance.getDeck().getTotalNumCards();
+        for (int i = 0; i < totalImages; i++) {
+            rndXPos.push(ThreadLocalRandom.current().nextInt(0, widthMax));
+            rndYPos.push(ThreadLocalRandom.current().nextInt(0, heightMax));
+        }
     }
 
     private void tapUpdateGameState(boolean pile, ImageButton pressedButton) {
@@ -135,7 +175,7 @@ public class GameActivity extends AppCompatActivity {
             Log.d(TAG, "tapUpdateGameState: match");
             if (!gameInstance.isGameOver()) {
                 // then change the images and remove the overlay to signify no card being selected
-                refreshButtonImages();
+                refreshButtons();
                 resetOverlay(DISCARD_PILE_TAPPED, null);
                 resetOverlay(DRAW_PILE_TAPPED, null);
             } else {
@@ -182,13 +222,27 @@ public class GameActivity extends AppCompatActivity {
 
         Dialog alert = builder.create();
         alert.show();
-        alert.setCanceledOnTouchOutside(false); // don't let user touch outside dialog box after game finished
+        // don't let user touch outside dialog box after game finished
+        alert.setCanceledOnTouchOutside(false);
     }
 
     private void initGame() {
         scoreManager = ScoreManager.getInstance();
         // TODO: we need options to be working to set the image set dynamically here
         gameInstance = new Game(NUM_IMAGES, LANDSCAPE_SET);
+
+        getButtons();
+        // we have to wait until the cardview finishes loading before getting the positions for the
+        // images
+        CardView cardView = findViewById(R.id.crdDiscPile);
+        cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                cardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                setupButtons();
+                setupDecorations();
+            }
+        });
     }
 
 }

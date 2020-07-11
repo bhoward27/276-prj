@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lytGame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.GameActivity">
@@ -26,48 +27,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
-        <LinearLayout
+        <AbsoluteLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
 
             <ImageButton
                 android:id="@+id/btnDrawIm1"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="43dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
                 android:contentDescription="@string/txt_content_discardimage_3" />
 
             <ImageButton
                 android:id="@+id/btnDrawIm2"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="154dp"
+                android:layout_marginTop="88dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
+                android:layout_x="100dp"
+                android:layout_y="56dp"
                 android:contentDescription="@string/txt_content_drawimage_2" />
 
             <ImageButton
                 android:id="@+id/btnDrawIm3"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="268dp"
+                android:layout_marginTop="122dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
+                android:layout_x="213dp"
+                android:layout_y="102dp"
                 android:contentDescription="@string/txt_content_drawimage_3"
                 android:cropToPadding="false" />
-        </LinearLayout>
+        </AbsoluteLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -81,47 +83,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <AbsoluteLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/btnDiscIm1"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
+                android:layout_x="128dp"
+                android:layout_y="80dp"
                 android:contentDescription="@string/txt_content_discardimage_1" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm2"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="141dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
+                android:layout_x="16dp"
+                android:layout_y="29dp"
                 android:contentDescription="@string/txt_content_discardimage_2" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm3"
-                android:layout_width="250dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/image_margins"
-                android:layout_marginTop="@dimen/image_margins"
+                android:layout_marginStart="268dp"
+                android:layout_marginTop="122dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:layout_weight="1"
+                android:layout_x="257dp"
+                android:layout_y="132dp"
                 android:contentDescription="@string/txt_content_discardimage_3" />
-        </LinearLayout>
+        </AbsoluteLayout>
 
     </androidx.cardview.widget.CardView>
 
