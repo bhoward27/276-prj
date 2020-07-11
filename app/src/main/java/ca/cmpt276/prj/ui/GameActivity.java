@@ -180,12 +180,10 @@ public class GameActivity extends AppCompatActivity {
 
         int totalCards = gameInstance.getDeck().getTotalNumCards();
 
-        GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax, gameInstance.getImagesPerCard());
         for (int card = 0; card < totalCards; card++) {
-            gen.generate();
+            GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax, gameInstance.getImagesPerCard());
             rndLeftMargin.addAll(gen.getxList());
             rndTopMargin.addAll(gen.getyList());
-            gen.clear();
         }
     }
 

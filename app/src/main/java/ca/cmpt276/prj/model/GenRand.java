@@ -18,6 +18,7 @@ public class GenRand {
 	int maxX;
 	int maxY;
 	int num;
+	boolean failed;
 
 	public GenRand(int width, int height, int maxX, int maxY, int num) {
 		xList = new ArrayList<>(num);
@@ -27,9 +28,24 @@ public class GenRand {
 		this.maxX = maxX;
 		this.maxY = maxY;
 		this.num = num;
+		failed = false;
+
+		generate();
 	}
 
-	public void generate() {
+	public boolean isFailed() {
+		return failed;
+	}
+
+	public List<Integer> getxList() {
+		return xList;
+	}
+
+	public List<Integer> getyList() {
+		return yList;
+	}
+
+	private void generate() {
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
 		int xNew = rand.nextInt(0, maxX + 1);
@@ -75,28 +91,20 @@ public class GenRand {
 			yList.add(yNew);
 		}
 
-	}
-
-	public List<Integer> getxList() {
-		return xList;
-	}
-
-	public List<Integer> getyList() {
-		return yList;
+		if (overallRetries >= 10) {
+			failed = true;
+		}
 	}
 
 	private boolean isOverlapping(int x1, int y1, int x2, int y2) {
+		// check if totally beside
 		if (x1 > x2+width || x2 > x1+width)
 			return false;
 
+		// check if totally above/below
 		if (y1 > y2+height || y2 > y1+height)
 			return false;
 
 		return true;
-	}
-
-	public void clear() {
-		xList.clear();
-		yList.clear();
 	}
 }

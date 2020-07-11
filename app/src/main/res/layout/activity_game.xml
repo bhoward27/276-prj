@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:backgroundTint="@color/colorGreenFilter"
     tools:context=".ui.GameActivity">
 
     <Chronometer
@@ -45,12 +47,12 @@
                 android:layout_marginTop="43dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_discardimage_3"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
 
             <ImageButton
                 android:id="@+id/btnDrawIm2"
@@ -63,12 +65,12 @@
                 android:layout_marginTop="88dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_drawimage_2"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
 
             <ImageButton
                 android:id="@+id/btnDrawIm3"
@@ -81,12 +83,12 @@
                 android:layout_marginTop="122dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_drawimage_3"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -119,12 +121,12 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_discardimage_1"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm2"
@@ -137,12 +139,12 @@
                 android:layout_marginTop="80dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_discardimage_2"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm3"
@@ -155,12 +157,12 @@
                 android:layout_marginTop="122dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
                 android:background="@drawable/button_selector_colour"
                 android:contentDescription="@string/txt_content_discardimage_3"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/button_padding" />
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
