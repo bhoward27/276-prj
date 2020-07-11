@@ -21,7 +21,6 @@
     <string name="txt_options">Options</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">FindDaMatch</string>
-<<<<<<< HEAD
     <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
     <string name="txt_content_drawimage_2">An image for the second button in the draw pile.</string>
     <string name="txt_content_drawimage_3">An image for the third button in the draw pile.</string>
@@ -34,12 +33,10 @@
     <string name="txt_cards_remaining">Cards remaining:</string>
     <color name="blue">#005CFF</color>
     <color name="grey">#b8b8b8</color>
-=======
     <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
     <string name="txt_high_scores">HIGH SCORES</string>
     <string name="txt_first_rank">st :\u0020</string>
     <string name="txt_second_rank">nd :\u0020</string>
     <string name="txt_third_rank">rd :\u0020</string>
     <string name="txt_below_top_three_rank">th :\u0020</string>
->>>>>>> remotes/origin/master
 </resources>

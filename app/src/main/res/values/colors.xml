@@ -3,9 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-<<<<<<< HEAD
     <color name="colorGreenFilter">#4400FF00</color>
-=======
     <color name="blue">#005CFF</color>
     <color name="grey">#b8b8b8</color>
     <color name="green">#008000</color>
@@ -17,5 +15,4 @@
     <color name="bronze">#cd7f32</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
->>>>>>> remotes/origin/master
 </resources>
