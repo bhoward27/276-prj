@@ -216,6 +216,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: make cards look like they are stacked on top of each other
     private void updateShadowsAndMargins() {
 
     }
