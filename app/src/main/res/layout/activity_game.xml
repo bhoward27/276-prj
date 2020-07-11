@@ -10,6 +10,7 @@
         android:id="@+id/chrnTimerForScoring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +30,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.33" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.67" />
+
             <ImageButton
                 android:id="@+id/btnDrawIm1"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_discardimage_3"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,22 +58,25 @@
             <ImageButton
                 android:id="@+id/btnDrawIm2"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_drawimage_2"
-                app:layout_constraintBottom_toTopOf="@+id/btnDrawIm3"
+                app:layout_constraintBottom_toTopOf="@+id/guideline5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDrawIm1" />
+                app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
             <ImageButton
                 android:id="@+id/btnDrawIm3"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="6dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_drawimage_3"
+                android:cropToPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -70,18 +89,33 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.33" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.67" />
+
             <ImageButton
                 android:id="@+id/btnDiscIm1"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="6dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_discardimage_1"
+                app:layout_constraintBottom_toTopOf="@+id/guideline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -89,22 +123,24 @@
             <ImageButton
                 android:id="@+id/btnDiscIm2"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_discardimage_2"
-                app:layout_constraintBottom_toTopOf="@+id/btnDiscIm3"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnDiscIm1" />
+                app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm3"
                 android:layout_width="250dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="6dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/image_margins"
                 android:contentDescription="@string/txt_content_discardimage_3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline7" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -113,13 +149,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="220dp" />
+        app:layout_constraintGuide_percent="0.43052837" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="220dp" />
+        app:layout_constraintGuide_percent="0.5694716" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
