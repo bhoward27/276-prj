@@ -3,6 +3,7 @@
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">(PLACEHOLDER) Clear high scores</string>
     <string name="btn_main_menu">Skip</string>
+    <string name="btn_view_citations">View Citations</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">HELP</string>
     <string name="txt_help_description">In a "Time Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
