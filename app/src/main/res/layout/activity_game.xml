@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:backgroundTint="@color/colorGreenFilter"
     tools:context=".ui.GameActivity">
 
     <Chronometer
@@ -18,71 +20,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/crdDrawPile"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/btnDrawIm1"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="43dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_discardimage_3" />
-
-            <ImageButton
-                android:id="@+id/btnDrawIm2"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="154dp"
-                android:layout_marginTop="88dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_drawimage_2" />
-
-            <ImageButton
-                android:id="@+id/btnDrawIm3"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="268dp"
-                android:layout_marginTop="122dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_drawimage_3"
-                android:cropToPadding="false" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
         android:id="@+id/crdDiscPile"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/cardview_margins"
+        android:layout_marginTop="@dimen/cardview_margins"
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -105,7 +47,13 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_discardimage_1" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_discardimage_1"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm2"
@@ -118,7 +66,13 @@
                 android:layout_marginTop="80dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_discardimage_2" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_discardimage_2"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/btnDiscIm3"
@@ -131,10 +85,95 @@
                 android:layout_marginTop="122dp"
                 android:layout_marginEnd="@dimen/image_margins"
                 android:layout_marginBottom="@dimen/image_margins"
-                android:contentDescription="@string/txt_content_discardimage_3" />
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_discardimage_3"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crdDrawPile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="@dimen/cardview_margins"
+        android:layout_marginBottom="@dimen/cardview_margins"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnDrawIm1"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="@dimen/image_margins"
+                android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_discardimage_3"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btnDrawIm2"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="154dp"
+                android:layout_marginTop="88dp"
+                android:layout_marginEnd="@dimen/image_margins"
+                android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_drawimage_2"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btnDrawIm3"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="268dp"
+                android:layout_marginTop="122dp"
+                android:layout_marginEnd="@dimen/image_margins"
+                android:layout_marginBottom="@dimen/image_margins"
+                android:adjustViewBounds="true"
+                android:background="@drawable/button_selector_colour"
+                android:contentDescription="@string/txt_content_drawimage_3"
+                android:cropToPadding="true"
+                android:padding="@dimen/button_padding"
+                android:scaleType="fitCenter"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -143,6 +182,33 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5694716" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lytFauxDisc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/cardview_margins"
+        android:layout_marginTop="@dimen/cardview_margins"
+        android:background="@drawable/faux_card_shadows"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lytFauxDraw"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/cardview_margins"
+        android:layout_marginTop="@dimen/cardview_margins"
+        android:background="@drawable/faux_card_shadows"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
