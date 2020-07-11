@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * This class returns arrays of points which can construct non-overlapping rectangles (at random
+ * positions)
+ */
 public class GenRand {
 	List<Integer> xList;
 	List<Integer> yList;
@@ -54,7 +58,6 @@ public class GenRand {
 				overlap = false;
 				// reset so it doesn't get stuck
 				if (tries == 49) {
-					Log.d("genRand", "generate: tries == 49");
 					xList.clear();
 					yList.clear();
 					xList.add(xNew);
@@ -77,12 +80,9 @@ public class GenRand {
 	}
 
 	private boolean isOverlapping(int x1, int y1, int x2, int y2) {
-
-		// If one rectangle is on left side of other
 		if (x1 > x2+width || x2 > x1+width)
 			return false;
 
-		// If one rectangle is above other
 		if (y1 > y2+height || y2 > y1+height)
 			return false;
 

@@ -181,13 +181,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void tapUpdateGameState(boolean pile, ImageButton pressedButton) {
-        // debug
-        Log.d(TAG, "button: " + pressedButton);
-        Log.d(TAG, "button tag: (tappedListener) " + pressedButton.getTag());
-
         // if there was a match
         if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
-            Log.d(TAG, "tapUpdateGameState: match");
             if (!gameInstance.isGameOver()) {
                 // then change the images and remove the overlay to signify no card being selected
                 updateRemainingCards();
