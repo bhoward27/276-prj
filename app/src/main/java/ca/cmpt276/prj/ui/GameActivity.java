@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
-import android.widget.AbsoluteLayout;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,12 +32,12 @@ import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 
 public class GameActivity extends AppCompatActivity {
     public static final String TAG = "%%%GAMEACTIVITY";
-    List<ImageButton> discPileButtons = new ArrayList<>();
-    List<ImageButton> drawPileButtons = new ArrayList<>();
-    List<ImageButton> allButtons = new ArrayList<>();
-    List<Integer> rndXPos = new ArrayList<>();
-    List<Integer> rndYPos = new ArrayList<>();
-    int randCount = 0;
+    List<ImageButton> discPileButtons;
+    List<ImageButton> drawPileButtons;
+    List<ImageButton> allButtons;
+    List<Integer> rndLeftMargin;
+    List<Integer> rndTopMargin;
+    int randCount;
     ScoreManager scoreManager;
     Game gameInstance;
     String resourcePrefix;
@@ -86,6 +85,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initGame() {
+        discPileButtons = new ArrayList<>();
+        drawPileButtons = new ArrayList<>();
+        allButtons = new ArrayList<>();
+        rndLeftMargin = new ArrayList<>();
+        rndTopMargin = new ArrayList<>();
+        randCount = 0;
+
         scoreManager = ScoreManager.getInstance();
         // TODO: we need options to be working to set the image set dynamically here
         gameInstance = new Game(NUM_IMAGES, LANDSCAPE_SET);
@@ -148,8 +154,8 @@ public class GameActivity extends AppCompatActivity {
             button.setTag(image);
 
             RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
-            buttonLayoutParams.leftMargin = rndXPos.get(randCount + index);
-            buttonLayoutParams.topMargin = rndYPos.get(randCount + index);
+            buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
+            buttonLayoutParams.topMargin = rndTopMargin.get(randCount + index);
 
             button.setLayoutParams(buttonLayoutParams);
         }
@@ -195,8 +201,8 @@ public class GameActivity extends AppCompatActivity {
         for (int card = 0; card < totalCards; card++) {
             GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax, gameInstance.getImagesPerCard());
             gen.generate();
-            rndXPos.addAll(gen.getxList());
-            rndYPos.addAll(gen.getyList());
+            rndLeftMargin.addAll(gen.getxList());
+            rndTopMargin.addAll(gen.getyList());
         }
     }
 
