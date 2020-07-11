@@ -8,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.AbsoluteLayout;
@@ -51,10 +50,38 @@ public class GameActivity extends AppCompatActivity {
         initGame();
     }
 
-    private void setupTimer() {
-        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
-        scoreTimer.setBase(SystemClock.elapsedRealtime());
-        scoreTimer.start();
+    // only start the timer if the draw pile is the button clicked and don't restart the timer
+    // also don't let the user start by selecting discard pile (as per user story)
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupTimerAndButtonLock() {
+        // get global access to button ids
+        getButtons();
+        // this function creates the array of button positions which will be used
+        // for each image/card
+        setupButtonPositions();
+        // this function adds images and tags to the buttons
+        refreshButtons();
+
+        // this onTouchListener will be overwritten after setupButtons() is called
+        for (ImageButton button : drawPileButtons) {
+            button.setOnTouchListener((ignored, motionEvent) -> {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    button.setColorFilter(getColor(R.color.colorGreenFilter));
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    resetOverlay(button);
+                    tapUpdateGameState(button);
+
+                    Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+                    scoreTimer.setBase(SystemClock.elapsedRealtime());
+                    scoreTimer.start();
+
+                    setupButtonListeners();
+                }
+
+                return false;
+            });
+        }
+
     }
 
     private void initGame() {
@@ -68,10 +95,9 @@ public class GameActivity extends AppCompatActivity {
         cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                updateRemainingCards();
+                updateRemainingCardsText();
                 cardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                setupButtons();
-                setupTimer();
+                setupTimerAndButtonLock();
             }
         });
     }
@@ -109,7 +135,8 @@ public class GameActivity extends AppCompatActivity {
         CardImage image;
         for (ImageButton button : allButtons) {
             int index = allButtons.indexOf(button);
-            if ((boolean) button.getTag(R.string.tag_btn_key) == DISCARD_PILE) {
+            boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
+            if (pile == DISCARD_PILE) {
                 image = discPileImages.get(index);
             } else {
                 image = drawPileImages.get(index - gameInstance.getImagesPerCard());
@@ -129,23 +156,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public void setupButtons() {
-        // get global access to button ids
-        getButtons();
-        // this function creates the array of button positions which will be used
-        // for each image/card
-        setupButtonPositions();
-        // this function adds images and tags to the buttons
-        refreshButtons();
-
+    public void setupButtonListeners() {
         for (ImageButton button : allButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     button.setColorFilter(getColor(R.color.colorGreenFilter));
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
-                    resetOverlay(pile, button);
-                    tapUpdateGameState(pile, button);
+                    resetOverlay(button);
+                    tapUpdateGameState(button);
                 }
 
                 return false;
@@ -154,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void updateRemainingCards() {
+    private void updateRemainingCardsText() {
         TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
         txtRemaining.setText(getString(R.string.txt_cards_remaining) + " " + gameInstance.getRemainingCards());
     }
@@ -180,27 +198,40 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void tapUpdateGameState(boolean pile, ImageButton pressedButton) {
+    private void tapUpdateGameState(ImageButton pressedButton) {
+        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         // if there was a match
         if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
-                // then change the images and remove the overlay to signify no card being selected
-                updateRemainingCards();
+                // then change the images and remove all overlays to signify no card being selected
+                updateRemainingCardsText();
+                updateShadowsAndMargins();
                 refreshButtons();
-                resetOverlay(DISCARD_PILE, null);
-                resetOverlay(DRAW_PILE, null);
+                resetOverlay();
             } else {
                 finishGame();
             }
         }
     }
 
-    private void resetOverlay(boolean pile, ImageButton pressedButton) {
+    private void updateShadowsAndMargins() {
+
+    }
+
+    private void resetOverlay(ImageButton pressedButton) {
         // remove the overlays for all other buttons in the same card
+        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         for (ImageButton imageButton : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
             if (imageButton != pressedButton) {
                 imageButton.setColorFilter(0);
             }
+        }
+    }
+
+    private void resetOverlay() {
+        // remove the overlays for all buttons
+        for (ImageButton imageButton : allButtons) {
+                imageButton.setColorFilter(0);
         }
     }
 
