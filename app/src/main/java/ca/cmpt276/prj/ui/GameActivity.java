@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -163,12 +164,17 @@ public class GameActivity extends AppCompatActivity {
                 return false;
             });
         }
-
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateRemainingCardsText() {
         TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
-        txtRemaining.setText(R.string.txt_cards_remaining + gameInstance.getRemainingCards());
+        if(gameInstance.getRemainingCards() < 4){
+            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.green));
+        }else{
+            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.black));
+        }
+        txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
     }
 
     private void setupButtonPositions() {

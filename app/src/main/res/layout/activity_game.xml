@@ -15,6 +15,7 @@
         android:fontFamily="casual"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/orange"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -227,6 +228,7 @@
         android:fontFamily="casual"
         android:text="@string/txt_discard_pile"
         android:textSize="20sp"
+        android:textColor="@color/red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
@@ -238,6 +240,7 @@
         android:fontFamily="casual"
         android:text="@string/txt_draw_pile"
         android:textSize="20sp"
+        android:textColor="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent" />
 
