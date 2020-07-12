@@ -11,7 +11,7 @@
         android:id="@+id/btnMainMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="casual"
         android:text="@string/btn_main_menu"
         android:backgroundTint="@color/grey"
         android:textColor="@color/red"
@@ -38,24 +38,24 @@
 
     <TextView
         android:id="@+id/textIntroTitle"
-        android:layout_width="0dp"
+        android:layout_width="258dp"
         android:layout_height="128dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="casual"
         android:text="@string/txt_game_title_splash_screen"
         android:textAlignment="center"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.548" />
+        app:layout_constraintVertical_bias="0.559" />
 
     <ImageView
         android:id="@+id/magnifyingGlass"
-        android:layout_width="0dp"
-        android:layout_height="266dp"
+        android:layout_width="325dp"
+        android:layout_height="267dp"
         android:contentDescription="@string/magnifying_glass_splash_screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
