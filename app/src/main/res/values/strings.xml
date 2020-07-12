@@ -58,4 +58,11 @@
     <string name="txt_predator_shark_source"><a href="https://www.diving-in-thailand.net/wp-content/uploads/2018/06/inst-9.jpg">Shark</a></string>
     <string name="txt_predator_snake_source"><a href="https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc7ae0b49e6dea2c8ac_L.jpg">Snake</a></string>
     <string name="txt_predator_spider_source"><a href="https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg">Spider</a></string>
+    <!--    END of links to image sources.  -->
+
+    <string name="txt_heading_about_the_team">About the Team</string>
+    <string name="txt_heading_image_sources">Image Sources</string>
+    <string name="txt_heading_landscapes">Landscapes</string>
+    <string name="txt_heading_predators">Predators</string>
+    <string name="txt_body_about_the_team">The team who made this game consists of Yuyang Li, William Horvath, Michael Mora, and Benjamin Howard. The game was made as a school project for a software engineering course at Simon Fraser University.\n\nImages listed directly below do not belong to the team. Tap a link to go to the source of the image.</string>
 </resources>
