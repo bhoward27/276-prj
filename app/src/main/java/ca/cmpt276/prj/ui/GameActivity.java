@@ -295,13 +295,13 @@ public class GameActivity extends AppCompatActivity {
         //Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
         //With the suggestion to place it after alert.show() adapted from Cerlin @ https://stackoverflow.com/a/43536704
         TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
-        dialogMessages.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+        dialogMessages.setTypeface(Typeface.create("sans-sarif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);
         dialogMessages.setGravity(Gravity.CENTER);
 
         //Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
         Button btnReturnToMainMen = alert.findViewById(android.R.id.button1);
-        btnReturnToMainMen.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+        btnReturnToMainMen.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
