@@ -298,7 +298,7 @@ public class GameActivity extends AppCompatActivity {
         dialogMessages.setTypeface(Typeface.create("casual", Typeface.NORMAL));
         dialogMessages.setTextSize(26);
         dialogMessages.setGravity(Gravity.CENTER);
-        
+
         //Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
         Button btnReturnToMainMen = alert.findViewById(android.R.id.button1);
         btnReturnToMainMen.setTypeface(Typeface.create("casual", Typeface.NORMAL));
