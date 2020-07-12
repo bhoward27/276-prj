@@ -31,6 +31,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CardImage;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
+import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
@@ -153,7 +154,7 @@ public class GameActivity extends AppCompatActivity {
         // this function adds images and tags to the buttons
         refreshButtons();
 
-        for (ImageButton button : allButtons) {
+        for (ImageButton button : drawPileButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
@@ -201,9 +202,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void tapUpdateGameState(ImageButton pressedButton) {
-        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         // if there was a match
-        if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
+        if (gameInstance.tappedUpdateState((CardImage) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // then change the images and remove all overlays to signify no card being selected
 
@@ -213,7 +213,7 @@ public class GameActivity extends AppCompatActivity {
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
                 refreshButtons();
-                resetOverlay();
+                resetOverlay(null);
             } else {
                 finishGame();
             }
@@ -244,22 +244,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void resetOverlay(ImageButton pressedButton) {
         // remove the overlays for all other buttons in the same card
-        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
-        for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
+        for (ImageButton button : drawPileButtons) {
             if (button != pressedButton) {
                 int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
                 button.setPadding(pad, pad, pad, pad);
                 button.setActivated(false);
             }
-        }
-    }
-
-    private void resetOverlay() {
-        // remove the overlays for all buttons
-        for (ImageButton button : allButtons) {
-            int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
-            button.setPadding(pad, pad, pad, pad);
-            button.setActivated(false);
         }
     }
 
@@ -277,13 +267,13 @@ public class GameActivity extends AppCompatActivity {
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
-        String winMessage = getString(R.string.txt_win_message);
+        congratsImage.setAdjustViewBounds(true);
+        String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
-                        setMessage(winMessage + time).
+                        setMessage(winMessage).
                         setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
-                            dialog.dismiss();
                             this.finish();
                             dialog.dismiss();
                         }).
@@ -301,6 +291,8 @@ public class GameActivity extends AppCompatActivity {
 
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
+        // don't let back button exit back to game
+        alert.setCancelable(false);
     }
 
     @Override

@@ -62,6 +62,16 @@ public class Card {
         return image.compareTo(CardImage.BEAR) >= 0;
     }
 
+    public boolean hasMatchImage(CardImage image) {
+        CardImage[] thisImages = { topImage, middleImage, bottomImage };
+        for (CardImage x : thisImages) {
+            if (x.equals(image)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean hasMatch(Card c) {
         CardImage thisImages[] = { topImage, middleImage, bottomImage };
         CardImage cImages[] = { c.getTopImage(), c.getMiddleImage(), c.getBottomImage() };

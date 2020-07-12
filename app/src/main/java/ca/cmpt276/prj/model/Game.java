@@ -22,21 +22,10 @@ public class Game {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
-		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = image;
-		} else {
-			selectedDrawPileImage = image;
-		}
-		// initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
-			return false;
-		}
+	public boolean tappedUpdateState(CardImage image) {
 
-		if (selectedDiscardPileImage == selectedDrawPileImage) {
+		if (deck.getTopDiscard().hasMatchImage(image)) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = null;
-			selectedDrawPileImage = null;
 			return true;
 		} else {
 			return false;
