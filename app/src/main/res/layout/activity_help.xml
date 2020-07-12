@@ -49,11 +49,11 @@
         app:layout_constraintVertical_bias="0.818" />
 
     <Button
-        android:id="@+id/btnGoToCitations"
+        android:id="@+id/btnCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
-        android:text="@string/btn_view_citations"
+        android:text="@string/btn_view_credits"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
