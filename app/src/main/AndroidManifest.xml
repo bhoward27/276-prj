@@ -10,30 +10,39 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.CreditsActivity"
+            android:label="@string/title_credits_activity"/>
+        <activity
             android:name=".ui.HighScoresActivity"
+            android:label="@string/title_high_scores_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.GameActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.HelpActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.MainMenuActivity"
+            android:label="@string/title_options_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.SplashScreenActivity"
+        <activity
+            android:name=".ui.HelpActivity"
+            android:label="@string/title_help_activity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MainMenuActivity"
+            android:label="@string/title_main_menu_activity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SplashScreenActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
