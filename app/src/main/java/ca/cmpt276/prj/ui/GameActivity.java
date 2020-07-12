@@ -153,7 +153,7 @@ public class GameActivity extends AppCompatActivity {
         // this function adds images and tags to the buttons
         refreshButtons();
 
-        for (ImageButton button : allButtons) {
+        for (ImageButton button : drawPileButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
@@ -213,7 +213,7 @@ public class GameActivity extends AppCompatActivity {
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
                 refreshButtons();
-                resetOverlay();
+                resetOverlay(null);
             } else {
                 finishGame();
             }
@@ -244,22 +244,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void resetOverlay(ImageButton pressedButton) {
         // remove the overlays for all other buttons in the same card
-        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
-        for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
+        for (ImageButton button : drawPileButtons) {
             if (button != pressedButton) {
                 int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
                 button.setPadding(pad, pad, pad, pad);
                 button.setActivated(false);
             }
-        }
-    }
-
-    private void resetOverlay() {
-        // remove the overlays for all buttons
-        for (ImageButton button : allButtons) {
-            int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
-            button.setPadding(pad, pad, pad, pad);
-            button.setActivated(false);
         }
     }
 

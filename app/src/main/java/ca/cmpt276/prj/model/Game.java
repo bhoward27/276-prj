@@ -23,20 +23,9 @@ public class Game {
 	}
 
 	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
-		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = image;
-		} else {
-			selectedDrawPileImage = image;
-		}
-		// initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
-			return false;
-		}
 
-		if (selectedDiscardPileImage == selectedDrawPileImage) {
+		if (deck.getTopDraw().hasMatchImage(image)) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = null;
-			selectedDrawPileImage = null;
 			return true;
 		} else {
 			return false;
