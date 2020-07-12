@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/textIntroTitle"
-        android:layout_width="258dp"
+        android:layout_width="0dp"
         android:layout_height="128dp"
         android:fontFamily="casual"
         android:text="@string/txt_game_title_splash_screen"
@@ -47,15 +47,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.559" />
+        app:layout_constraintVertical_bias="0.548" />
 
     <ImageView
         android:id="@+id/magnifyingGlass"
-        android:layout_width="325dp"
-        android:layout_height="267dp"
+        android:layout_width="0dp"
+        android:layout_height="266dp"
         android:contentDescription="@string/magnifyingglasssplashscreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
