@@ -22,9 +22,9 @@ public class Game {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
+	public boolean tappedUpdateState(CardImage image) {
 
-		if (deck.getTopDraw().hasMatchImage(image)) {
+		if (deck.getTopDiscard().hasMatchImage(image)) {
 			deck.moveTopDrawToDiscard();
 			return true;
 		} else {

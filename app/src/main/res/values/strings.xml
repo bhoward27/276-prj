@@ -42,7 +42,7 @@
     <string name="txt_first_rank">st:\u0020</string>
     <string name="txt_second_rank">nd:\u0020</string>
     <string name="txt_third_rank">rd:\u0020</string>
-    <string name="txt_below_top_three_rank">th :\u0020</string>
+    <string name="txt_below_top_three_rank">th:\u0020</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
