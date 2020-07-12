@@ -4,15 +4,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,7 +49,7 @@ public class GameActivity extends AppCompatActivity {
     ScoreManager scoreManager;
     Game gameInstance;
     String resourcePrefix;
-
+    Chronometer scoreTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setupTimer() {
-        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+        scoreTimer = findViewById(R.id.chrnTimerForScoring);
         scoreTimer.setBase(SystemClock.elapsedRealtime());
         scoreTimer.start();
     }
@@ -163,12 +167,17 @@ public class GameActivity extends AppCompatActivity {
                 return false;
             });
         }
-
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateRemainingCardsText() {
         TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
-        txtRemaining.setText(getString(R.string.txt_cards_remaining) + " " + gameInstance.getRemainingCards());
+        if(gameInstance.getRemainingCards() < 4){
+            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.green));
+        }else{
+            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.black));
+        }
+        txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
     }
 
     private void setupButtonPositions() {
@@ -211,9 +220,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // for setting margins
-    // citation:
-    // https://stackoverflow.com/a/9563438
+    // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna @ https://stackoverflow.com/a/9563438
     private float convertPixelsToDp(float px){
         return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
@@ -257,26 +264,26 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void finishGame() {
-        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+        scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
         // TODO: name from options
         scoreManager.addHighScore("NAME FROM OPTIONS", time);
-
-        congratulationsDialog();
+        congratulationsDialog(time);
     }
 
-    private void congratulationsDialog() {
-        // adapted from Miguel @ https://stackoverflow.com/a/18898412
+    private void congratulationsDialog(int time) {
+
+        //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
-
+        String winMessage = getString(R.string.txt_win_message);
+        String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
-                        // TODO: permanent strings
-                        // setMessage(getString(R.string.disp_congratulations)).
-                        setMessage("Good job, you won the game!").
-                        setPositiveButton("hooray!", (dialog, which) -> {
+                        setMessage(winMessage + time).
+                        setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
+                            dialog.dismiss();
                             this.finish();
                             dialog.dismiss();
                         }).
@@ -284,6 +291,14 @@ public class GameActivity extends AppCompatActivity {
 
         Dialog alert = builder.create();
         alert.show();
+
+        //Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
+        //With the suggestion to place it after alert.show() adapted from Cerlin @ https://stackoverflow.com/a/43536704
+        TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
+        dialogMessages.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+        dialogMessages.setTextSize(26);
+        dialogMessages.setGravity(Gravity.CENTER);
+
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
     }
