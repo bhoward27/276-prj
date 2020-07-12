@@ -45,7 +45,7 @@ public class GameActivity extends AppCompatActivity {
     ScoreManager scoreManager;
     Game gameInstance;
     String resourcePrefix;
-
+    Chronometer scoreTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setupTimer() {
-        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+        scoreTimer = findViewById(R.id.chrnTimerForScoring);
         scoreTimer.setBase(SystemClock.elapsedRealtime());
         scoreTimer.start();
     }
@@ -168,7 +168,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void updateRemainingCardsText() {
         TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
-        txtRemaining.setText(getString(R.string.txt_cards_remaining) + " " + gameInstance.getRemainingCards());
+        txtRemaining.setText(R.string.txt_cards_remaining + gameInstance.getRemainingCards());
     }
 
     private void setupButtonPositions() {
@@ -257,15 +257,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void finishGame() {
-        Chronometer scoreTimer = findViewById(R.id.chrnTimerForScoring);
+        scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
         // TODO: name from options
         scoreManager.addHighScore("NAME FROM OPTIONS", time);
-
-        congratulationsDialog();
+        congratulationsDialog(time);
     }
 
-    private void congratulationsDialog() {
+    private void congratulationsDialog(int time) {
         // adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
@@ -273,14 +272,13 @@ public class GameActivity extends AppCompatActivity {
 
         String winMessage = getString(R.string.txt_win_message);
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
-        //helpDescriptionAndCitation.setText(helpDescriptionText
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
 
                         // TODO: permanent strings
                         // setMessage(getString(R.string.disp_congratulations)).
-                        setMessage("Good job, you won the game!").
-                        setPositiveButton("hooray!", (dialog, which) -> {
+                                setMessage(winMessage + time).
+                        setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
                             dialog.dismiss();
                             this.finish();
                             dialog.dismiss();

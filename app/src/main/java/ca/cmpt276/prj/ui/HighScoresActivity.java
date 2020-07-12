@@ -109,10 +109,10 @@ public class HighScoresActivity extends AppCompatActivity {
 					break;
 			}
 
-			//Code for setting a font already included in Android Studio from:
-			//https://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android
+			//Code for setting a font already included in Android Studio adapted from Oded @ https://stackoverflow.com/a/31867144
 			scoreText.setTypeface(Typeface.create("casual", Typeface.NORMAL));
 			scoreText.setTextSize(20);
+
 			scoreText.setText(scoreRank + placementText + manager.getScoreByIndex(position).getFormattedScore());
 
 			return itemView;

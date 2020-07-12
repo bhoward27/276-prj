@@ -41,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView sunriseOrSnake = (ImageView)findViewById(R.id.img_sunrise_or_snake);
         ImageView volcanoOrSpider = (ImageView)findViewById(R.id.img_volcano_spider);
 
-        int imageSet = 0;
+        int imageSet = 0;//Test code; when Options is implemented this may be changed.
 
         if(imageSet == LANDSCAPE_SET){
             caveOrBear.setImageResource(R.drawable.landscape_cave);
@@ -60,8 +60,6 @@ public class MainMenuActivity extends AppCompatActivity {
             sunriseOrSnake.setImageResource(R.drawable.predator_snake);
             volcanoOrSpider.setImageResource(R.drawable.predator_spider);
         }
-
-
     }
     private void setUpButtons() {
 
