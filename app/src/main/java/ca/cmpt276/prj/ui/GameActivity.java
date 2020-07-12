@@ -292,6 +292,8 @@ public class GameActivity extends AppCompatActivity {
 
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
+        // don't let back button exit back to game
+        alert.setCancelable(false);
     }
 
     @Override
