@@ -44,8 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Animation introTitleAnimation = AnimationUtils.loadAnimation(this, R.anim.title_text_animation);
         animatedMagnifyingGlass.startAnimation(mangifyingGlassAnimation);
 
-        //Code to use setAnimationListener based off:
-        //https://stackoverflow.com/questions/5731019/android-animation-one-after-another
+        //Code to use setAnimationListener adapted from RightHandedMonkey @ https://stackoverflow.com/questions/5731019/android-animation-one-after-another
         mangifyingGlassAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}

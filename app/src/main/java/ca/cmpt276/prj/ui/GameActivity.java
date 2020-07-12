@@ -220,9 +220,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // for setting margins
-    // citation:
-    // https://stackoverflow.com/a/9563438
+    // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna @ https://stackoverflow.com/a/9563438
     private float convertPixelsToDp(float px){
         return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
@@ -274,19 +272,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void congratulationsDialog(int time) {
-        // adapted from Miguel @ https://stackoverflow.com/a/18898412
+
+        //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
-
         String winMessage = getString(R.string.txt_win_message);
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
-
-                        // TODO: permanent strings
-                        // setMessage(getString(R.string.disp_congratulations)).
-                                setMessage(winMessage + time).
+                        setMessage(winMessage + time).
                         setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
                             dialog.dismiss();
                             this.finish();
