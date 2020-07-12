@@ -31,6 +31,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CardImage;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
+import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
@@ -267,11 +268,11 @@ public class GameActivity extends AppCompatActivity {
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
-        String winMessage = getString(R.string.txt_win_message);
+        String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
-                        setMessage(winMessage + time).
+                        setMessage(winMessage).
                         setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
                             dialog.dismiss();
                             this.finish();
