@@ -268,13 +268,13 @@ public class GameActivity extends AppCompatActivity {
         ImageView congratsImage = new ImageView(this);
         // TODO: permanent image
         congratsImage.setImageResource(R.drawable.predator_spider);
+        congratsImage.setAdjustViewBounds(true);
         String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).
                         setMessage(winMessage).
                         setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
-                            dialog.dismiss();
                             this.finish();
                             dialog.dismiss();
                         }).
