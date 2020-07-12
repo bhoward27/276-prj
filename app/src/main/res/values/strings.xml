@@ -34,11 +34,11 @@
     <string name="txt_cards_remaining">Matches remaining: \u0020</string>
     <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
     <string name="txt_high_scores">HIGH SCORES</string>
-    <string name="txt_first_rank">st :\u0020</string>
-    <string name="txt_second_rank">nd :\u0020</string>
-    <string name="txt_third_rank">rd :\u0020</string>
+    <string name="txt_first_rank">st:\u0020</string>
+    <string name="txt_second_rank">nd:\u0020</string>
+    <string name="txt_third_rank">rd:\u0020</string>
     <string name="txt_below_top_three_rank">th :\u0020</string>
-    <string name="txt_win_message">You won! Your final score in seconds is: \u0020 </string>
+    <string name="txt_win_message">You won! Your final score in seconds is:\u0020</string>
     <string name="img_cave_or_bear">img_cave_or_bear</string>
     <string name="img_volcano_spider">img_volcano_spider</string>
     <string name="img_ocean_or_lion">img_ocean_or_lion</string>

@@ -8,12 +8,15 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -293,6 +296,14 @@ public class GameActivity extends AppCompatActivity {
 
         Dialog alert = builder.create();
         alert.show();
+
+        //Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
+        //With the suggestion to place it after alert.show() adapted from Cerlin @ https://stackoverflow.com/a/43536704
+        TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
+        dialogMessages.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+        dialogMessages.setTextSize(26);
+        dialogMessages.setGravity(Gravity.CENTER);
+
         // don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
     }
