@@ -264,7 +264,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void congratulationsDialog(int time) {
-
         //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID;
