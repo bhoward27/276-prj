@@ -19,6 +19,7 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.PrefsManager;
 
+//Activity for different types of pictures and setting the player name
 public class OptionsActivity extends AppCompatActivity {
     PrefsManager prefsManager;
     int savedValue;
