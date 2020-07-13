@@ -17,8 +17,9 @@
         The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
         You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
         If correct, the draw pile\'s top card will become the new top card in the discard and you\'ll have to keep picking until all cards go to the discard pile.
-        \n\nYou\'re timed, so check quickly!
-        \n\nThere are two different card themes available: Landscapes, and Animals! Feel free to change them in the Options screen; that is the only place you can do so!
+        \n\nYou\'re timed the moment the game begins, so match quickly!
+        n\nIn the Options menu you can enter your player name as it will appear on the High Scores if your score is within the top 55. You can also choose between
+        two deck themes available: Landscapes, and Predators!
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
