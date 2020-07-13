@@ -22,15 +22,25 @@ public class Game {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(CardImage image) {
+	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
+		if (isTappedDiscardPile) {
+			selectedDiscardPileImage = image;
+		} else {
+			selectedDrawPileImage = image;
+		}
+		// initial game state check (or nothing selected in one pile)
+		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
+			return false;
+		}
 
-		if (deck.getTopDiscard().hasMatchImage(image)) {
+		if (selectedDiscardPileImage == selectedDrawPileImage) {
 			deck.moveTopDrawToDiscard();
+			selectedDiscardPileImage = null;
+			selectedDrawPileImage = null;
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 
 	public int getImagesPerCard() {

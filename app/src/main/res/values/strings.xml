@@ -84,4 +84,6 @@
     <string name="img_storm_or_shark">img_storm_or_shark</string>
     <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
     <string name="txt_prompt_image_type">Select the type of pictures:</string>
+    <string name="txt_prompt_name">Enter your name for high scores:</string>
+    <string name="txt_placeholder_name">UR_NAME_HERE</string>
 </resources>

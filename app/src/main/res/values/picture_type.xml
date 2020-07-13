@@ -5,5 +5,5 @@
         <item>Predator</item>
     </string-array>
 
-    <string name="default_picture_types">Landscape</string>
+    <string name="default_picture_type">Landscape</string>
 </resources>
