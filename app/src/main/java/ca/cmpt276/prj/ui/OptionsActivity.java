@@ -21,7 +21,7 @@ public class OptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        getSupportActionBar().setTitle("Options");
+        getSupportActionBar().setTitle(getString(R.string.title_options_activity));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         createRadioButton();
