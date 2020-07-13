@@ -297,7 +297,7 @@ public class GameActivity extends AppCompatActivity {
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);
         String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
-        if (playerRank <= NUM_HIGH_SCORES) {
+        if (playerRank != 0) {
             winMessage += getString(R.string.txt_player_place, playerRank);
         }
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);

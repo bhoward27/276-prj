@@ -57,7 +57,7 @@ public class ScoreManager {
 		}
 
 		if (position >= NUM_HIGH_SCORES){
-			return position+1;
+			return 0;
 		}
 
 		scores.add(position, new Score(inputScore, name, formattedDate));
