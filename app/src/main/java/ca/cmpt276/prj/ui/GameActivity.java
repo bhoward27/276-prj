@@ -38,6 +38,7 @@ import ca.cmpt276.prj.model.ScoreManager;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
+import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 
@@ -259,11 +260,11 @@ public class GameActivity extends AppCompatActivity {
         scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
         // TODO: name from options
-        scoreManager.addHighScore("NAME FROM OPTIONS", time);
-        congratulationsDialog(time);
+        int playerRank = scoreManager.addHighScore("NAME FROM OPTIONS", time);
+        congratulationsDialog(time, playerRank);
     }
 
-    private void congratulationsDialog(int time) {
+    private void congratulationsDialog(int time, int playerRank) {
         //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID;
@@ -281,7 +282,11 @@ public class GameActivity extends AppCompatActivity {
         }
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
+        congratsImage.setMaxHeight(400);
         String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
+        if (playerRank <= NUM_HIGH_SCORES) {
+            winMessage += getString(R.string.txt_player_place, playerRank);
+        }
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this).

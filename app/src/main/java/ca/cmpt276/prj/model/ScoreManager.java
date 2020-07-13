@@ -42,7 +42,7 @@ public class ScoreManager {
 	}
 	// End singleton setup
 
-	public void addHighScore(String name, int inputScore) {
+	public int addHighScore(String name, int inputScore) {
 		@SuppressLint("SimpleDateFormat")
 		SimpleDateFormat formatter = new SimpleDateFormat("MMMM d, yyyy");
 		Date date = new Date();
@@ -59,7 +59,7 @@ public class ScoreManager {
 		}
 
 		if (position >= NUM_HIGH_SCORES){
-			return;
+			return position+1;
 		}
 
 		scores.add(position, new Score(inputScore, formattedName, formattedDate));
@@ -67,6 +67,8 @@ public class ScoreManager {
 		scores.remove(NUM_HIGH_SCORES);
 
 		saveScores();
+
+		return position+1;
 	}
 
 	public List<Score> getScores() {

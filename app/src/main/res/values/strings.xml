@@ -48,6 +48,7 @@
     <string name="txt_second_rank">nd:\u0020</string>
     <string name="txt_third_rank">rd:\u0020</string>
     <string name="txt_below_top_three_rank">th:\u0020</string>
+    <string name="txt_player_place">\nYou earned rank %d on the leaderboard!</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
@@ -73,7 +74,7 @@
     <string name="txt_heading_landscapes">Landscapes</string>
     <string name="txt_heading_predators">Predators</string>
     <string name="txt_body_about_the_team">The team who made this game consists of Yuyang Li, William Horvath, Michael Mora, and Benjamin Howard. The game was made as a school project for a software engineering course at Simon Fraser University.\n\nImages listed directly below do not belong to the team. Tap a link to go to the source of the image.</string>
-    <string name="txt_win_message">You won! Your final score is:\n %s</string>
+    <string name="txt_win_message">You won! Your final score is: %s</string>
     <string name="img_cave_or_bear">img_cave_or_bear</string>
     <string name="img_volcano_spider">img_volcano_spider</string>
     <string name="img_ocean_or_lion">img_ocean_or_lion</string>
