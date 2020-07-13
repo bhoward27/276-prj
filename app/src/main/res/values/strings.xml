@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Find daMatch</string>
     <string name="title_credits_activity">Credits</string>
-    <string name="title_help_activity">How to Play</string>
+    <string name="title_help_activity">Help</string>
     <string name="title_high_scores_activity">High Scores</string>
     <string name="title_main_menu_activity">Main Menu</string>
     <string name="title_options_activity">Options</string>
@@ -11,15 +11,19 @@
     <string name="btn_return_after_win">Hooray!</string>
     <string name="btn_view_credits">View Credits</string>
     <string name="txt_placeholder_score">Score goes here</string>
-    <string name="txt_help_Description_Title">HELP</string>
-    <string name="txt_help_description">In a "Timed Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
-        by finding matching icons between two cards at a time.\n\n
-        The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
-        You are to tap any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol IN THE DRAW PILE.
-        If correct, the draw pile\'s top card will become the new top card in the discard pile and you\'ll have to keep picking until all cards go to the discard pile.
-        \n\nYou\'re timed the moment the game begins, so match quickly!
-        \n\nIn the Options menu you can enter your player name as it will appear on the High Scores if your score is within the top 5. You can also choose between
-        two deck themes available: Landscapes, and Predators!
+    <string name="txt_help_Description_Title">How to Play</string>
+    <string name="txt_help_description">Every card has three images on it, and any pair of cards
+        in the deck will have exactly one image in common. Your task is to find the matching image
+        as fast as possible.\n\nTo select an image, tap that image on the card from the draw pile
+        (the draw pile appears on the bottom half of the screen).\n\nIf you have tapped the matching image, good job! The game will then advance by moving that
+        card to the discard pile and revealing a new card in the draw pile. The game will
+        continue until no cards are left.\n\nIf you are quick, you just might get a high score!
+    </string>
+    <string name="txt_heading_tips">Tips</string>
+    <string name="txt_body_tips">Tip #1: To change your player name so that it shows up in your next
+        high score, go to the Options screen and change it there.\n\nTip #2: For some visual variety, head to the Options screen where you can change
+        to a landscape deck or a predator deck. This will change the theme of the app and what
+        images will appear on cards in future games.
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
