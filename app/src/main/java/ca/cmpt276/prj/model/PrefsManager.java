@@ -2,9 +2,11 @@ package ca.cmpt276.prj.model;
 
 import android.content.SharedPreferences;
 
+import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_STRING_PREF;
 import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_INT_PREF;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PrefsManager {
@@ -34,10 +36,10 @@ public class PrefsManager {
 		int putValue = 0;
 		switch (strType) {
 			case "Landscape":
-				putValue = 1;
+				putValue = LANDSCAPE_SET;
 				break;
 			case "Predator":
-				putValue = 2;
+				putValue = PREDATOR_SET;
 				break;
 		}
 		editor.putString(PICTURE_TYPE_STRING_PREF, strType);
@@ -50,10 +52,10 @@ public class PrefsManager {
 		int defaultInt = 0;
 		switch (defaultValue) {
 			case "Landscape":
-				defaultInt = 1;
+				defaultInt = LANDSCAPE_SET;
 				break;
 			case "Predator":
-				defaultInt = 2;
+				defaultInt = PREDATOR_SET;
 				break;
 		}
 		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
