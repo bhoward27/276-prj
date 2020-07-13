@@ -163,9 +163,9 @@ public class GameActivity extends AppCompatActivity {
         refreshButtons();
 
         // dynamic ImageButton sizes
-        double buttonSpacingY = findViewById(R.id.crdDiscPile).getHeight() /
+        double buttonSpacingX = findViewById(R.id.crdDiscPile).getWidth() /
                 ((gameInstance.getImagesPerCard()) * BUTTON_SPACING_PADDING);
-        double buttonSpacingX = IMAGES_RATIOS * buttonSpacingY;
+        double buttonSpacingY = (1/IMAGES_RATIOS) * buttonSpacingX;
 
         int buttonHeight = (int) Math.round(buttonSpacingY);
         // 2.01:1 is the ratio of the current images
