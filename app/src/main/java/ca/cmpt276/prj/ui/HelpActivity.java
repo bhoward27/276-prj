@@ -15,7 +15,8 @@ import ca.cmpt276.prj.R;
 
 
 /**
- * Help Screen for shoing instructions on how to play the game.
+ * This class shows the Help screen, where the player can learn the rules of the game and some
+ * info about the options available on the Options screen.
  */
 
 public class HelpActivity extends AppCompatActivity {

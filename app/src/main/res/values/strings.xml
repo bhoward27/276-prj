@@ -14,15 +14,14 @@
     <string name="txt_help_Description_Title">How to Play</string>
     <string name="txt_help_description">Every card has three images on it, and any pair of cards
         in the deck will have exactly one image in common. Your task is to find the matching image
-        as fast as possible.\n\nTo select an image, tap that image on the card from the draw pile
-        (the draw pile appears on the bottom half of the screen).\n\nIf you\'ve tapped the matching
-        image, good job! The game will then advance by moving that card to the discard pile and
-        revealing a new card in the draw pile. The game will continue until no cards are left.\n\nIf
+        as fast as possible.\n\nTo select an image, tap that image on the card.\n\nIf you\'ve tapped the matching
+        image on both cards, good job! The game will then advance by moving the draw pile card to the discard pile and
+        then revealing a new card in the draw pile. The game will continue until no cards are left.\n\nIf
         you\'re quick, you just might get a high score!
     </string>
     <string name="txt_heading_tips">Tips</string>
     <string name="txt_body_tips">Tip #1: To change your player name so that it shows up in your next
-        high score, go to the Options screen and change it there.\n\nTip #2: For some visual
+        high score, go to the Options screen and enter your name into the entry box.\n\nTip #2: For some visual
         variety, head to the Options screen where you can change the deck theme to either Landscape
         or Predator. This will change which images will appear on cards in future games.
     </string>
