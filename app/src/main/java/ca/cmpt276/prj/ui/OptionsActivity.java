@@ -22,6 +22,7 @@ import ca.cmpt276.prj.model.PrefsManager;
 public class OptionsActivity extends AppCompatActivity {
     PrefsManager prefsManager;
     int savedValue;
+    String defaultName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         String defaultValue = getString(R.string.default_picture_type);
         savedValue = prefsManager.getTypePictureInstalledInt(defaultValue);
+        defaultName = getString(R.string.txt_placeholder_name);
     }
 
     private void createRadioButton() {
@@ -73,7 +75,11 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void createNameChangeFields() {
         EditText edtName = findViewById(R.id.editTextTextPersonName);
-        edtName.setText(prefsManager.getName(getString(R.string.txt_placeholder_name)));
+        String nameFromPrefs = prefsManager.getName(defaultName);
+
+        if (!nameFromPrefs.matches(defaultName)) {
+            edtName.setText(nameFromPrefs);
+        }
 
         edtName.addTextChangedListener(mTextWatcher);
     }
