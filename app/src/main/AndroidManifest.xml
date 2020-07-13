@@ -25,11 +25,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
+            android:label="@string/title_options_activity"
             android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HelpActivity"
+            android:label="@string/title_help_activity"
             android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
