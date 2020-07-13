@@ -28,6 +28,7 @@ public class CreditsActivity extends AppCompatActivity {
         TextView stormLink = (TextView) findViewById(R.id.textViewStormSource);
         TextView sunriseLink = (TextView) findViewById(R.id.textViewSunriseSource);
         TextView volcanoLink = (TextView) findViewById(R.id.textViewVolcanoSource);
+        TextView rainbowLink = (TextView) findViewById(R.id.textViewRainbowSource);
 
         TextView bearLink = (TextView) findViewById(R.id.textViewBearSource);
         TextView eagleLink = (TextView) findViewById(R.id.textViewEagleSource);
@@ -36,11 +37,12 @@ public class CreditsActivity extends AppCompatActivity {
         TextView sharkLink = (TextView) findViewById(R.id.textViewSharkSource);
         TextView snakeLink = (TextView) findViewById(R.id.textViewSnakeSource);
         TextView spiderLink = (TextView) findViewById(R.id.textViewSpiderSource);
+        TextView orcaLink = (TextView) findViewById(R.id.textViewOrcaSource);
 
         TextView links[] = { caveLink, desertLink, forestLink, oceanLink,
-                stormLink, sunriseLink, volcanoLink,
+                stormLink, sunriseLink, volcanoLink, rainbowLink,
                 bearLink, eagleLink, leopardLink, lionLink,
-                sharkLink, snakeLink, spiderLink };
+                sharkLink, snakeLink, spiderLink, orcaLink };
 
         //  CITATION: the below code in this method is based off of an answer on StackOverflow:
         //  https://stackoverflow.com/questions/2734270/how-to-make-links-in-a-textview-clickable

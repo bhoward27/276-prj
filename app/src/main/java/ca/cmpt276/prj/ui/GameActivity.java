@@ -29,6 +29,7 @@ import java.util.List;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CardImage;
+import ca.cmpt276.prj.model.Constants;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ScoreManager;
@@ -37,6 +38,7 @@ import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 
 public class GameActivity extends AppCompatActivity {
     public static final String TAG = "%%%GAMEACTIVITY";
@@ -114,7 +116,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void refreshButtons() {
         // TODO: need options, same as below, this is a hack
-        resourcePrefix = gameInstance.getDeck().getCurrentImageSet() == 1 ? "landscape_" : "predator_";
+        resourcePrefix = (gameInstance.getDeck().getCurrentImageSet() == LANDSCAPE_SET) ? "landscape_" : "predator_";
 
         String resourceName;
         int resourceID;
@@ -275,8 +277,20 @@ public class GameActivity extends AppCompatActivity {
 
         //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
-        // TODO: permanent image
-        congratsImage.setImageResource(R.drawable.predator_spider);
+        int winImageID;
+        int currentImageSet = gameInstance.getDeck().getCurrentImageSet();
+        switch (currentImageSet) {
+            case LANDSCAPE_SET:
+                winImageID = R.drawable.landscape_rainbow;
+                break;
+            case PREDATOR_SET:
+                winImageID = R.drawable.predator_orca;
+                break;
+            default:
+                throw new RuntimeException("Error: " + currentImageSet + " is an invalid value " +
+                        "for Deck.currentImageSet.");
+        }
+        congratsImage.setImageResource(winImageID);
         String winMessage = getString(R.string.txt_win_message);
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
         AlertDialog.Builder builder =

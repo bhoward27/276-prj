@@ -52,6 +52,7 @@
     <string name="txt_landscape_storm_source"><a href="https://friscostyle.com/wp-content/uploads/2019/10/4-22-15-Floydada-Texas-Supercell-Sunset-IG.jpg">Storm</a></string>
     <string name="txt_landscape_sunrise_source"><a href="https://freecampsites.net/wp-content/uploads/2017/07/DSC07985-Pano.jpg">Sunrise</a></string>
     <string name="txt_landscape_volcano_source"><a href="https://www.spain-tenerife.com/hotelbeatrizatlantis/images/stories/rotator/location/location03.jpg">Volcano</a></string>
+    <string name="txt_landscape_rainbow_source"><a href="https://images.genius.com/dec0f72f076ee60a9b5978a1458dcd2b.1000x1000x1.jpg">Rainbow</a></string>
     <string name="txt_predator_bear_source"><a href="https://www.endextinction.org/sites/default/files/2019-09/two-polar-bears.jpg">Bear</a></string>
     <string name="txt_predator_eagle_source"><a href="https://www.sidneysailing.com/wp-content/uploads/2016/04/Pender-Island-sailing-package-bald-eagle.jpg">Eagle</a></string>
     <string name="txt_predator_leopard_source"><a href="https://img.fotocommunity.com/how-stupid-b2f68778-5067-4615-bdff-c350e72723d5.jpg?width=1000">Leopard</a></string>
@@ -59,6 +60,7 @@
     <string name="txt_predator_shark_source"><a href="https://www.diving-in-thailand.net/wp-content/uploads/2018/06/inst-9.jpg">Shark</a></string>
     <string name="txt_predator_snake_source"><a href="https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc7ae0b49e6dea2c8ac_L.jpg">Snake</a></string>
     <string name="txt_predator_spider_source"><a href="https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg">Spider</a></string>
+    <string name="txt_predator_orca_source"><a href="https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg">Orca</a></string>
     <!--    END of links to image sources.  -->
 
     <string name="txt_heading_about_the_team">About the Team</string>
