@@ -23,7 +23,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
-            android:label="@string/title_options_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
@@ -42,7 +41,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

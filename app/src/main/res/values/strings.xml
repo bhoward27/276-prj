@@ -83,4 +83,5 @@
     <string name="img_forest_or_leopard">img_forest_or_leopard</string>
     <string name="img_storm_or_shark">img_storm_or_shark</string>
     <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
+    <string name="txt_prompt_image_type">Select the type of pictures:</string>
 </resources>
