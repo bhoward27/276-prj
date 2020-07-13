@@ -107,7 +107,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         String nameFromEdt = edtName.getText().toString();
         if (nameFromEdt.matches("")) {
-            prefsManager.saveName(getString(R.string.txt_placeholder_name));
+            prefsManager.saveName(defaultName);
         } else {
             prefsManager.saveName(nameFromEdt);
         }
