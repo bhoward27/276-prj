@@ -36,6 +36,9 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
+		getSupportActionBar().setTitle("HighScores");
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		getSavedData();
 		// DEBUG
 		manager.addHighScore("William", 60);
