@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import ca.cmpt276.prj.R;
 
 
@@ -23,7 +25,7 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        getSupportActionBar().setTitle("Help");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_help_activity));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView helpDescriptionAndCitation = findViewById(R.id.helpDescription);

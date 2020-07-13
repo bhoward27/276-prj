@@ -32,7 +32,7 @@
     <string name="txt_help">Help</string>
     <string name="txt_options">Options</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
-    <string name="txt_game_title_splash_screen">FindDaMatch</string>
+    <string name="txt_game_title_splash_screen">Find daMatch</string>
     <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
     <string name="txt_content_drawimage_2">An image for the second button in the draw pile.</string>
     <string name="txt_content_drawimage_3">An image for the third button in the draw pile.</string>

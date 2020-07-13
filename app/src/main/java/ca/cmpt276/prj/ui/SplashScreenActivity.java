@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.PrefsManager;
 
@@ -30,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        getSupportActionBar().setTitle("FindDaMatch");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.txt_game_title_splash_screen));
 
         // instantly instantiate SharedPreferences singleton for global use over program
         PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));

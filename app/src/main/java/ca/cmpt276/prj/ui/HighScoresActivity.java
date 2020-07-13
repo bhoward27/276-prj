@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
@@ -36,7 +38,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
-		getSupportActionBar().setTitle("High Scores");
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_high_scores_activity));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		getSavedData();
