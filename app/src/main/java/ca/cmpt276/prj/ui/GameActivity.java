@@ -34,10 +34,11 @@ import ca.cmpt276.prj.model.PrefsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
+import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
+import static ca.cmpt276.prj.model.Constants.IMAGES_RATIOS;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
-import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 
@@ -161,7 +162,23 @@ public class GameActivity extends AppCompatActivity {
         // this function adds images and tags to the buttons
         refreshButtons();
 
+        // dynamic ImageButton sizes
+        double buttonSpacingY = findViewById(R.id.crdDiscPile).getHeight() /
+                ((gameInstance.getImagesPerCard()) * BUTTON_SPACING_PADDING);
+        double buttonSpacingX = IMAGES_RATIOS * buttonSpacingY;
+
+        int buttonHeight = (int) Math.round(buttonSpacingY);
+        // 2.01:1 is the ratio of the current images
+        int buttonWidth = (int) Math.round(buttonSpacingX);
+
         for (ImageButton button : allButtons) {
+            RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+
+            buttonLayoutParams.width = buttonWidth;
+            buttonLayoutParams.height = buttonHeight;
+
+            button.setLayoutParams(buttonLayoutParams);
+
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
@@ -193,8 +210,8 @@ public class GameActivity extends AppCompatActivity {
         int cardWidth = cardView.getWidth();
         int cardHeight = cardView.getHeight();
 
-        int imageButtonWidth = Math.round(getResources().getDimension(R.dimen.button_width));
-        int imageButtonHeight = Math.round(getResources().getDimension(R.dimen.button_height));
+        int imageButtonWidth = allButtons.get(0).getWidth();
+        int imageButtonHeight = allButtons.get(0).getHeight();
 
         int widthMax = cardWidth - imageButtonWidth;
         int heightMax = cardHeight - imageButtonHeight;
