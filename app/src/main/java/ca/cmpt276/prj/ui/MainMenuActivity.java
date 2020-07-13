@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.ImageView;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.PrefsManager;
 
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 
@@ -18,6 +19,7 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
  * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities
  */
 public class MainMenuActivity extends AppCompatActivity {
+    PrefsManager prefs;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
@@ -27,6 +29,8 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        prefs = PrefsManager.getInstance();
 
         setUpImages();
         setUpButtons();
@@ -42,7 +46,7 @@ public class MainMenuActivity extends AppCompatActivity {
         //ImageView sunriseOrSnake = (ImageView)findViewById(R.id.img_sunrise_or_snake);
         ImageView volcanoOrSpider = (ImageView)findViewById(R.id.img_volcano_spider);
 
-        int imageSet = 0;//Test code; when Options is implemented this may be changed.
+        int imageSet = prefs.getTypePictureInstalledInt(getString(R.string.default_picture_type));
 
         if(imageSet == LANDSCAPE_SET){
             caveOrBear.setImageResource(R.drawable.landscape_cave);
@@ -99,5 +103,12 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        setUpImages();
+        super.onResume();
+
     }
 }

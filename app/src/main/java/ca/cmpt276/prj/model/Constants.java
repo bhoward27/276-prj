@@ -14,4 +14,7 @@ public final class Constants {
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 	// TODO: add functionality for more than 3 images (possible future iterations)
 	public static final int NUM_IMAGES = 3;
+	public static final String PICTURE_TYPE_INT_PREF = "PICTURE_TYPES_INT";
+	public static final String PICTURE_TYPE_STRING_PREF = "PICTURE_TYPES_STRING";
+	public static final String NAME_PREF = "PLAYER_NAME";
 }

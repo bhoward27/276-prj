@@ -11,23 +11,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.CreditsActivity"
+            android:parentActivityName=".ui.HelpActivity"
             android:label="@string/title_credits_activity"/>
         <activity
             android:name=".ui.HighScoresActivity"
-            android:label="@string/title_high_scores_activity"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.GameActivity"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HelpActivity"
-            android:label="@string/title_help_activity"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

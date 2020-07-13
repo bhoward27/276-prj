@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static ca.cmpt276.prj.model.Constants.MAX_NAME_LENGTH;
 import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
 
 /**
@@ -48,7 +47,6 @@ public class ScoreManager {
 		Date date = new Date();
 
 		String formattedDate = formatter.format(date);
-		String formattedName = name.substring(0, Math.min(name.length(), MAX_NAME_LENGTH));
 
 		int position = NUM_HIGH_SCORES;
 		for (Score score : scores){
@@ -59,10 +57,10 @@ public class ScoreManager {
 		}
 
 		if (position >= NUM_HIGH_SCORES){
-			return position+1;
+			return 0;
 		}
 
-		scores.add(position, new Score(inputScore, formattedName, formattedDate));
+		scores.add(position, new Score(inputScore, name, formattedDate));
 		// purge overflowed score
 		scores.remove(NUM_HIGH_SCORES);
 
