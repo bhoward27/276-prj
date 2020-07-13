@@ -14,7 +14,6 @@ import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -23,15 +22,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.CardImage;
-import ca.cmpt276.prj.model.Constants;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
+import ca.cmpt276.prj.model.PrefsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -50,7 +49,10 @@ public class GameActivity extends AppCompatActivity {
     List<Integer> rndLeftMargin;
     List<Integer> rndTopMargin;
     int randCount;
+    int imageSet;
+    String defaultPictureType;
     ScoreManager scoreManager;
+    PrefsManager prefsManager;
     Game gameInstance;
     String resourcePrefix;
     Chronometer scoreTimer;
@@ -58,7 +60,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         initGame();
     }
@@ -72,8 +74,10 @@ public class GameActivity extends AppCompatActivity {
         randCount = 0;
 
         scoreManager = ScoreManager.getInstance();
-        // TODO: we need options to be working to set the image set dynamically here
-        gameInstance = new Game(NUM_IMAGES, LANDSCAPE_SET);
+        prefsManager = PrefsManager.getInstance();
+        defaultPictureType = getString(R.string.default_picture_type);
+        imageSet = prefsManager.getTypePictureInstalledInt(defaultPictureType);
+        gameInstance = new Game(NUM_IMAGES, imageSet);
 
         // we have to wait until the cardview finishes loading before getting the positions for the
         // images
@@ -118,8 +122,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void refreshButtons() {
-        // TODO: need options, same as below, this is a hack
-        resourcePrefix = (gameInstance.getDeck().getCurrentImageSet() == LANDSCAPE_SET) ? "landscape_" : "predator_";
+        resourcePrefix = prefsManager.getTypePictureInstalledStr(defaultPictureType).toLowerCase() + "_";
 
         String resourceName;
         int resourceID;
@@ -158,7 +161,7 @@ public class GameActivity extends AppCompatActivity {
         // this function adds images and tags to the buttons
         refreshButtons();
 
-        for (ImageButton button : drawPileButtons) {
+        for (ImageButton button : allButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
@@ -206,8 +209,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void tapUpdateGameState(ImageButton pressedButton) {
+        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         // if there was a match
-        if (gameInstance.tappedUpdateState((CardImage) pressedButton.getTag())) {
+        if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // then change the images and remove all overlays to signify no card being selected
 
@@ -217,7 +221,7 @@ public class GameActivity extends AppCompatActivity {
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
                 refreshButtons();
-                resetOverlay(null);
+                resetOverlay();
             } else {
                 finishGame();
             }
@@ -248,7 +252,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void resetOverlay(ImageButton pressedButton) {
         // remove the overlays for all other buttons in the same card
-        for (ImageButton button : drawPileButtons) {
+        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
+        for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
             if (button != pressedButton) {
                 int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
                 button.setPadding(pad, pad, pad, pad);
@@ -257,11 +262,20 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void resetOverlay() {
+        // remove the overlays for all buttons
+        for (ImageButton button : allButtons) {
+            int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
+            button.setPadding(pad, pad, pad, pad);
+            button.setActivated(false);
+        }
+    }
+
+
     private void finishGame() {
         scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
-        // TODO: name from options
-        int playerRank = scoreManager.addHighScore("NAME FROM OPTIONS", time);
+        int playerRank = scoreManager.addHighScore(prefsManager.getName(getString(R.string.txt_placeholder_name)), time);
         congratulationsDialog(time, playerRank);
     }
 
@@ -269,8 +283,7 @@ public class GameActivity extends AppCompatActivity {
         //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID;
-        int currentImageSet = gameInstance.getDeck().getCurrentImageSet();
-        switch (currentImageSet) {
+        switch (imageSet) {
             case LANDSCAPE_SET:
                 winImageID = R.drawable.landscape_rainbow;
                 break;
@@ -278,14 +291,14 @@ public class GameActivity extends AppCompatActivity {
                 winImageID = R.drawable.predator_orca;
                 break;
             default:
-                throw new RuntimeException("Error: " + currentImageSet + " is an invalid value " +
-                        "for Deck.currentImageSet.");
+                throw new UnsupportedOperationException("Error: " + imageSet + " is an invalid value " +
+                        "for imageSet.");
         }
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);
         String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
-        if (playerRank <= NUM_HIGH_SCORES) {
+        if (playerRank != 0) {
             winMessage += getString(R.string.txt_player_place, playerRank);
         }
         String returnAfterWinMessage = getString(R.string.btn_return_after_win);
