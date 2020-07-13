@@ -36,7 +36,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
-		getSupportActionBar().setTitle("HighScores");
+		getSupportActionBar().setTitle("High Scores");
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		getSavedData();
