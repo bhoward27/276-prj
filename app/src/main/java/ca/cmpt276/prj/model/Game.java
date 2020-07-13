@@ -11,35 +11,30 @@ public class Game {
 	Deck deck;
 	CardImage selectedDiscardPileImage = null;
 	CardImage selectedDrawPileImage = null;
+	int imagesPerCard;
 
 	public Game(int imagesPerCard, int imageSet) {
 		this.deck = new Deck(imagesPerCard, imageSet);
+		this.imagesPerCard = imagesPerCard;
 	}
 
 	public Deck getDeck() {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
-		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = image;
-		} else {
-			selectedDrawPileImage = image;
-		}
-		// initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
-			return false;
-		}
+	public boolean tappedUpdateState(CardImage image) {
 
-		if (selectedDiscardPileImage == selectedDrawPileImage) {
+		if (deck.getTopDiscard().hasMatchImage(image)) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = null;
-			selectedDrawPileImage = null;
 			return true;
 		} else {
 			return false;
 		}
 
+	}
+
+	public int getImagesPerCard() {
+		return imagesPerCard;
 	}
 
 	public List<CardImage> getDiscardPileImages() {

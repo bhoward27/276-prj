@@ -1,18 +1,30 @@
 <resources>
-    <string name="app_name">prj</string>
+    <string name="app_name">Find daMatch</string>
+    <string name="title_credits_activity">Credits</string>
+    <string name="title_help_activity">Help</string>
+    <string name="title_high_scores_activity">High Scores</string>
+    <string name="title_main_menu_activity">Main Menu</string>
+    <string name="title_options_activity">Options</string>
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">Reset High Scores</string>
     <string name="btn_main_menu">Skip</string>
-    <string name="btn_view_citations">View Citations</string>
+    <string name="btn_return_after_win">Hooray!</string>
+    <string name="btn_view_credits">View Credits</string>
     <string name="txt_placeholder_score">Score goes here</string>
-    <string name="txt_help_Description_Title">HELP</string>
-    <string name="txt_help_description">In a "Time Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
-        by finding matching icons between two cards at a time.\n\n
-        The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
-        You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
-        If correct, the draw pile\'s top card will become the new top card in the discard and you\'ll have to keep picking until all cards go to the discard pile.
-        \n\nYou\'re timed, so check quickly!
-        \n\nThere are two different card themes available: Landscapes, and Animals! Feel free to change them in the Options screen; that is the only place you can do so!
+    <string name="txt_help_Description_Title">How to Play</string>
+    <string name="txt_help_description">Every card has three images on it, and any pair of cards
+        in the deck will have exactly one image in common. Your task is to find the matching image
+        as fast as possible.\n\nTo select an image, tap that image on the card from the draw pile
+        (the draw pile appears on the bottom half of the screen).\n\nIf you\'ve tapped the matching
+        image, good job! The game will then advance by moving that card to the discard pile and
+        revealing a new card in the draw pile. The game will continue until no cards are left.\n\nIf
+        you\'re quick, you just might get a high score!
+    </string>
+    <string name="txt_heading_tips">Tips</string>
+    <string name="txt_body_tips">Tip #1: To change your player name so that it shows up in your next
+        high score, go to the Options screen and change it there.\n\nTip #2: For some visual
+        variety, head to the Options screen where you can change the deck theme to either Landscape
+        or Predator. This will change which images will appear on cards in future games.
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
@@ -21,11 +33,55 @@
     <string name="txt_options">Options</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">FindDaMatch</string>
-    <string name="magnifyingglasssplashscreen">MagnifyingGlassSplashScreen</string>
+    <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
+    <string name="txt_content_drawimage_2">An image for the second button in the draw pile.</string>
+    <string name="txt_content_drawimage_3">An image for the third button in the draw pile.</string>
+    <string name="txt_content_discardimage_1">An image for the first button in the discard pile.</string>
+    <string name="txt_content_discardimage_2">An image for the second button in the discard pile.</string>
+    <string name="txt_content_discardimage_3">An image for the third button in the discard pile.</string>
+    <string name="tag_btn_key">A tag for the button to know which pile it is in.</string>
+    <string name="txt_discard_pile">Discard Pile</string>
+    <string name="txt_draw_pile">Draw Pile</string>
+    <string name="txt_cards_remaining">Matches remaining: \u0020</string>
+    <string name="magnifying_glass_splash_screen">MagnifyingGlassSplashScreen</string>
     <string name="txt_high_scores">HIGH SCORES</string>
-    <string name="txt_first_rank">st :\u0020</string>
-    <string name="txt_second_rank">nd :\u0020</string>
-    <string name="txt_third_rank">rd :\u0020</string>
-    <string name="txt_below_top_three_rank">th :\u0020</string>
+    <string name="txt_first_rank">st:\u0020</string>
+    <string name="txt_second_rank">nd:\u0020</string>
+    <string name="txt_third_rank">rd:\u0020</string>
+    <string name="txt_below_top_three_rank">th:\u0020</string>
+    <string name="txt_player_place">\nYou earned rank %d on the leaderboard!</string>
+
+<!--    Links to Image Sources  -->
+    <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
+    <string name="txt_landscape_desert_source"><a href="https://static.trulia-cdn.com/pictures/thumbs_5/zillowstatic/ISjv7m0b6f7jm90000000000.jpg">Desert</a></string>
+    <string name="txt_landscape_forest_source"><a href="https://images.unsplash.com/photo-1516637236287-2de3d0ce59af?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;w=1000&amp;q=80">Forest</a></string>
+    <string name="txt_landscape_ocean_source"><a href="https://caregiver.com/downloads/344/download/12478922_Ocean.jpg?cb=70f1866175a1f9b5192f1bb4f5efea8d&amp;w=1200">Ocean</a></string>
+    <string name="txt_landscape_storm_source"><a href="https://friscostyle.com/wp-content/uploads/2019/10/4-22-15-Floydada-Texas-Supercell-Sunset-IG.jpg">Storm</a></string>
+    <string name="txt_landscape_sunrise_source"><a href="https://freecampsites.net/wp-content/uploads/2017/07/DSC07985-Pano.jpg">Sunrise</a></string>
+    <string name="txt_landscape_volcano_source"><a href="https://www.spain-tenerife.com/hotelbeatrizatlantis/images/stories/rotator/location/location03.jpg">Volcano</a></string>
+    <string name="txt_landscape_rainbow_source"><a href="https://images.genius.com/dec0f72f076ee60a9b5978a1458dcd2b.1000x1000x1.jpg">Rainbow</a></string>
+    <string name="txt_predator_bear_source"><a href="https://www.endextinction.org/sites/default/files/2019-09/two-polar-bears.jpg">Bear</a></string>
+    <string name="txt_predator_eagle_source"><a href="https://www.sidneysailing.com/wp-content/uploads/2016/04/Pender-Island-sailing-package-bald-eagle.jpg">Eagle</a></string>
+    <string name="txt_predator_leopard_source"><a href="https://img.fotocommunity.com/how-stupid-b2f68778-5067-4615-bdff-c350e72723d5.jpg?width=1000">Leopard</a></string>
+    <string name="txt_predator_lion_source"><a href="https://media.ellerstrand.se/2011/05/Lion06.jpg">Lion</a></string>
+    <string name="txt_predator_shark_source"><a href="https://www.diving-in-thailand.net/wp-content/uploads/2018/06/inst-9.jpg">Shark</a></string>
+    <string name="txt_predator_snake_source"><a href="https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc7ae0b49e6dea2c8ac_L.jpg">Snake</a></string>
+    <string name="txt_predator_spider_source"><a href="https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg">Spider</a></string>
+    <string name="txt_predator_orca_source"><a href="https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg">Orca</a></string>
+    <!--    END of links to image sources.  -->
+
+    <string name="txt_heading_about_the_team">About the Team</string>
+    <string name="txt_heading_image_sources">Image Sources</string>
+    <string name="txt_heading_landscapes">Landscapes</string>
+    <string name="txt_heading_predators">Predators</string>
+    <string name="txt_body_about_the_team">The team who made this game consists of Yuyang Li, William Horvath, Michael Mora, and Benjamin Howard. The game was made as a school project for a software engineering course at Simon Fraser University.\n\nImages listed directly below do not belong to the team. Tap a link to go to the source of the image.</string>
+    <string name="txt_win_message">You won! Your final score is: %s</string>
+    <string name="img_cave_or_bear">img_cave_or_bear</string>
+    <string name="img_volcano_spider">img_volcano_spider</string>
+    <string name="img_ocean_or_lion">img_ocean_or_lion</string>
+    <string name="img_desert_or_eagle">img_desert_or_eagle</string>
+    <string name="img_forest_or_leopard">img_forest_or_leopard</string>
+    <string name="img_storm_or_shark">img_storm_or_shark</string>
+    <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
     <string name="txt_prompt_image_type">Select the type of pictures:</string>
 </resources>

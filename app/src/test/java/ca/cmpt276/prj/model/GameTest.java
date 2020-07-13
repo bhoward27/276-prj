@@ -1,16 +1,13 @@
 package ca.cmpt276.prj.model;
 
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
-import static ca.cmpt276.prj.model.Constants.DISCARD_PILE_TAPPED;
-import static ca.cmpt276.prj.model.Constants.DRAW_PILE_TAPPED;
+import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
+import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -35,7 +32,7 @@ class GameTest {
 				System.out.println("Draw pile: " + possibleDrawImages);
 				System.out.println("Discard pile: " + possibleDiscardImages);
 				for (CardImage imageDisc : possibleDiscardImages) {
-					success = (game.tappedUpdateState(DISCARD_PILE_TAPPED, imageDisc) || game.tappedUpdateState(DRAW_PILE_TAPPED, imageDraw));
+					success = (game.tappedUpdateState(DISCARD_PILE, imageDisc) || game.tappedUpdateState(DRAW_PILE, imageDraw));
 					System.out.println("Draw selected: " + game.getSelectedDrawPileImage());
 					System.out.println("Discard selected: " + game.getSelectedDiscardPileImage());
 					if (success) {

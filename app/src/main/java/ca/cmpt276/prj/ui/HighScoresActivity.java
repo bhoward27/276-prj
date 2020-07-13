@@ -41,7 +41,7 @@ public class HighScoresActivity extends AppCompatActivity {
 
 		getSavedData();
 		// DEBUG
-		manager.addHighScore("William", 60);
+		// manager.addHighScore("William", 60);
 
 		setupButtons();
 		registerClickCallback();
@@ -61,7 +61,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		manager = ScoreManager.getInstance();
 	}
 
-	// helper function for clicking on the list to not crash
+	// Helper function for clicking on the list to not crash
 	private void registerClickCallback() {
 		ListView list = findViewById(R.id.lstvwScores);
 		list.setOnItemClickListener((parent, viewClicked, position, id) -> { });
@@ -89,12 +89,11 @@ public class HighScoresActivity extends AppCompatActivity {
 			}
 
 			TextView scoreText = itemView.findViewById((R.id.txtPlaceholderScore));
-			int scoreRank = position + 1; //+1 accounts of 1st element in list having a position of 0
+			int scoreRank = position + 1; // +1 accounts of 1st element in list having a position of 0
 			String placementText;
-			switch(scoreRank){//Assigns different colour to the current text according to its spot on the list
+			switch(scoreRank){// Assigns different colour to the current text according to its spot on the list
 				case 1:
-					//Code for setting the color found on:
-					//https://stackoverflow.com/questions/31842983/getresources-getcolor-is-deprecated
+					// Code for setting the color adapted from yfsx and Vasily Kabunov @ /https://stackoverflow.com/a/34487328
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this, R.color.gold));
 					placementText = getString(R.string.txt_first_rank);
 					break;
@@ -112,10 +111,10 @@ public class HighScoresActivity extends AppCompatActivity {
 					break;
 			}
 
-			//Code for setting a font already included in Android Studio from:
-			//https://stackoverflow.com/questions/12128331/how-to-change-fontfamily-of-textview-in-android
-			scoreText.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+			// Code for setting a font already included in Android Studio adapted from Oded @ https://stackoverflow.com/a/31867144
+			scoreText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 			scoreText.setTextSize(20);
+
 			scoreText.setText(scoreRank + placementText + manager.getScoreByIndex(position).getFormattedScore());
 
 			return itemView;
