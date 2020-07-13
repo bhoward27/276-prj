@@ -35,7 +35,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         createRadioButton();
         createNameChangeFields();
-        
+
     }
 
     private void initPrefs() {
@@ -99,7 +99,13 @@ public class OptionsActivity extends AppCompatActivity {
     private void saveName() {
         EditText edtName = findViewById(R.id.editTextTextPersonName);
 
-        prefsManager.saveName(edtName.getText().toString());
+        String nameFromEdt = edtName.getText().toString();
+        if (nameFromEdt.matches("")) {
+            prefsManager.saveName(getString(R.string.txt_placeholder_name));
+        } else {
+            prefsManager.saveName(nameFromEdt);
+        }
+
     }
 
 }

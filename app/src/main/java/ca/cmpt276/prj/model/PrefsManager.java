@@ -41,6 +41,8 @@ public class PrefsManager {
 			case "Predator":
 				putValue = PREDATOR_SET;
 				break;
+			default:
+				putValue = LANDSCAPE_SET;
 		}
 		editor.putString(PICTURE_TYPE_STRING_PREF, strType);
 		editor.putInt(PICTURE_TYPE_INT_PREF, putValue);
@@ -49,7 +51,7 @@ public class PrefsManager {
 	}
 
 	public int getTypePictureInstalledInt(String defaultValue){
-		int defaultInt = 0;
+		int defaultInt;
 		switch (defaultValue) {
 			case "Landscape":
 				defaultInt = LANDSCAPE_SET;
@@ -57,6 +59,8 @@ public class PrefsManager {
 			case "Predator":
 				defaultInt = PREDATOR_SET;
 				break;
+			default:
+				defaultInt = LANDSCAPE_SET;
 		}
 		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
 	}
