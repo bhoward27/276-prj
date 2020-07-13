@@ -32,14 +32,13 @@ public class Score {
 	}
 
 	public String getFormattedScore() {
-		String formattedTime = getFormattedTime();
+		String formattedTime = getFormattedTime(scoreTime);
 
 		return formattedTime + " by " + scoreName + " on " + scoreDate;
 	}
 
 	@SuppressLint("DefaultLocale")
-	private String getFormattedTime() {
-		int time = getTime();
+	public static String getFormattedTime(int time) {
 
 		int minutes = time / 60;
 		int seconds = time % 60;

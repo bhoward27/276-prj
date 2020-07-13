@@ -15,10 +15,11 @@
     <string name="txt_help_description">In a "Timed Solo Deck" game of FindDaMatch, you are to discard a deck of cards as quickly as possible
         by finding matching icons between two cards at a time.\n\n
         The game begins by separating one random card as the top of the discard pile, leaving the rest in the draw pile.\n\n
-        You are to spot any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol.\n
-        If correct, the draw pile\'s top card will become the new top card in the discard and you\'ll have to keep picking until all cards go to the discard pile.
-        \n\nYou\'re timed, so check quickly!
-        \n\nThere are two different card themes available: Landscapes, and Animals! Feel free to change them in the Options screen; that is the only place you can do so!
+        You are to tap any matching symbol between the card at the top of the discard pile and the current top card in the draw pile by tapping on said symbol IN THE DRAW PILE.
+        If correct, the draw pile\'s top card will become the new top card in the discard pile and you\'ll have to keep picking until all cards go to the discard pile.
+        \n\nYou\'re timed the moment the game begins, so match quickly!
+        \n\nIn the Options menu you can enter your player name as it will appear on the High Scores if your score is within the top 5. You can also choose between
+        two deck themes available: Landscapes, and Predators!
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
@@ -42,7 +43,7 @@
     <string name="txt_first_rank">st:\u0020</string>
     <string name="txt_second_rank">nd:\u0020</string>
     <string name="txt_third_rank">rd:\u0020</string>
-    <string name="txt_below_top_three_rank">th :\u0020</string>
+    <string name="txt_below_top_three_rank">th:\u0020</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
@@ -68,7 +69,7 @@
     <string name="txt_heading_landscapes">Landscapes</string>
     <string name="txt_heading_predators">Predators</string>
     <string name="txt_body_about_the_team">The team who made this game consists of Yuyang Li, William Horvath, Michael Mora, and Benjamin Howard. The game was made as a school project for a software engineering course at Simon Fraser University.\n\nImages listed directly below do not belong to the team. Tap a link to go to the source of the image.</string>
-    <string name="txt_win_message">You won! Your final score in seconds is:\u0020</string>
+    <string name="txt_win_message">You won! Your final score is:\n %s</string>
     <string name="img_cave_or_bear">img_cave_or_bear</string>
     <string name="img_volcano_spider">img_volcano_spider</string>
     <string name="img_ocean_or_lion">img_ocean_or_lion</string>

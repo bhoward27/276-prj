@@ -53,7 +53,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation currentAnimation) {//Wait until animatedMagnifyingGlass' animation is finished before animating animatedText.
                 animatedMagnifyingGlass.setImageResource(0);
                 animatedIntroTitle.startAnimation(introTitleAnimation);
-
             }
 
             @Override
