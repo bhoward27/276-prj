@@ -35,12 +35,12 @@ public class OptionsActivity extends AppCompatActivity {
 
         createRadioButton();
         createNameChangeFields();
-
-        //Toast.makeText(this,"Saved value: " + savedValue, Toast.LENGTH_SHORT).show();
+        
     }
 
     private void initPrefs() {
         prefsManager = PrefsManager.getInstance();
+        // debug
         //prefsManager.getPrefs().edit().clear().apply();
 
         String defaultValue = getString(R.string.default_picture_type);
@@ -48,7 +48,7 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private void createRadioButton() {
-        RadioGroup group = (RadioGroup) findViewById(R.id.radioGroup);
+        RadioGroup group = findViewById(R.id.radioGroup);
 
         List<String> defStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.str_pic_types)));
 
@@ -58,11 +58,7 @@ public class OptionsActivity extends AppCompatActivity {
             button.setText(str);
 
             //Set on-click callbacks
-            button.setOnClickListener(v -> {
-                Toast.makeText(OptionsActivity.this, "You clicked " + str, Toast.LENGTH_SHORT).show();
-                Log.d("OPTIONS", "strType: " + str);
-                prefsManager.saveStrTypeInstalled(str);
-            });
+            button.setOnClickListener(v -> prefsManager.saveStrTypeInstalled(str));
 
             //Add to radio group:
             group.addView(button);
@@ -82,6 +78,7 @@ public class OptionsActivity extends AppCompatActivity {
         edtName.addTextChangedListener(mTextWatcher);
     }
 
+    // make it so that the name only saves when the user is finished typing
     public TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
