@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import ca.cmpt276.prj.R;
 
+/**
+ * This class shows the Credits screen, which clickable hyperlinks to all images not created by the
+ * dev team that did not come prepacked in Android Studio. It also shows some info on the dev team.
+ */
 public class CreditsActivity extends AppCompatActivity {
 
     @Override
