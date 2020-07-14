@@ -35,6 +35,7 @@
         android:textAlignment="center"
         android:textColor="@color/red"
         android:textSize="50sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -152,5 +153,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_forest_or_leopard"
         app:srcCompat="@drawable/landscape_storm" />
+
+    <ImageView
+        android:id="@+id/img_sunrise_or_snake"
+        android:layout_width="118dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/img_sunrise_or_snake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenOptions"
+        app:srcCompat="@drawable/landscape_sunrise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

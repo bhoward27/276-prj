@@ -43,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
         ImageView forestOrLeopard = (ImageView)findViewById(R.id.img_forest_or_leopard);
         ImageView oceanOrLion = (ImageView)findViewById(R.id.img_ocean_or_lion);
         ImageView stormOrShark = (ImageView)findViewById(R.id.img_storm_or_shark);
-        //ImageView sunriseOrSnake = (ImageView)findViewById(R.id.img_sunrise_or_snake);
+        ImageView sunriseOrSnake = (ImageView)findViewById(R.id.img_sunrise_or_snake);
         ImageView volcanoOrSpider = (ImageView)findViewById(R.id.img_volcano_spider);
 
         int imageSet = prefs.getTypePictureInstalledInt(getString(R.string.default_picture_type));
@@ -54,7 +54,7 @@ public class MainMenuActivity extends AppCompatActivity {
             forestOrLeopard.setImageResource(R.drawable.landscape_forest);
             oceanOrLion.setImageResource(R.drawable.landscape_ocean);
             stormOrShark.setImageResource(R.drawable.landscape_storm);
-            //sunriseOrSnake.setImageResource(R.drawable.landscape_sunrise);
+            sunriseOrSnake.setImageResource(R.drawable.landscape_sunrise);
             volcanoOrSpider.setImageResource(R.drawable.landscape_volcano);
         }else{
             caveOrBear.setImageResource(R.drawable.predator_bear);
@@ -62,7 +62,7 @@ public class MainMenuActivity extends AppCompatActivity {
             forestOrLeopard.setImageResource(R.drawable.predator_leopard);
             oceanOrLion.setImageResource(R.drawable.predator_lion);
             stormOrShark.setImageResource(R.drawable.predator_shark);
-            //sunriseOrSnake.setImageResource(R.drawable.predator_snake);
+            sunriseOrSnake.setImageResource(R.drawable.predator_snake);
             volcanoOrSpider.setImageResource(R.drawable.predator_spider);
         }
     }

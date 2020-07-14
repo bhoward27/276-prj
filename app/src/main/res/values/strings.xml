@@ -12,7 +12,7 @@
     <string name="btn_view_credits">View Credits</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">How to Play</string>
-    <string name="txt_help_description">Every card has three images on it, and any pair of cards
+    <string name="txt_help_description">In the \"Timed Solo Deck\" mode available in this game, every card has three images on it, and any pair of cards
         in the deck will have exactly one image in common. Your task is to find the matching image
         as fast as possible.\n\nTo select an image, tap that image on the card.\n\nIf you\'ve tapped the matching
         image on both cards, good job! The game will then advance by moving the draw pile card to the discard pile and
@@ -26,7 +26,7 @@
         or Predator. This will change which images will appear on cards in future games.
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
-    <string name="txt_game_title_main_menu">FindDaMatch\nMain Menu</string>
+    <string name="txt_game_title_main_menu">Find daMatch\nMain Menu</string>
     <string name="txt_play">Play!</string>
     <string name="txt_help">Help</string>
     <string name="txt_options">Options</string>
