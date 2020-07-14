@@ -54,7 +54,7 @@ public class GenRand {
 		yList.add(yNew);
 
 		boolean overlap;
-		// safety for possible infinite loop
+		// Safety for possible infinite loop
 		int overallRetries = 0;
 		for (int succesfullyPlacedImages = 1; succesfullyPlacedImages < num; succesfullyPlacedImages++) {
 
@@ -76,7 +76,7 @@ public class GenRand {
 				if (!overlap) break;
 				overlap = false;
 
-				// reset so it doesn't get stuck unable to find valid placements
+				// Reset so it doesn't get stuck unable to find valid placements
 				if (tries >= 50) {
 					xList.clear();
 					yList.clear();
@@ -97,11 +97,11 @@ public class GenRand {
 	}
 
 	private boolean isOverlapping(int x1, int y1, int x2, int y2) {
-		// check if totally beside
+		// Check if overlapping horizontally
 		if (x1 > x2+width || x2 > x1+width)
 			return false;
 
-		// check if totally above/below
+		// Check if overlapping vertically
 		if (y1 > y2+height || y2 > y1+height)
 			return false;
 

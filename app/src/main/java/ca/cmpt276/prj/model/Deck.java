@@ -25,7 +25,7 @@ public class Deck {
 		this.drawPile = new Stack<>();
 		this.imagesPerCard = imagesPerCard;
 
-		// total number of cards is images^2 - images + 1
+		// Total number of cards is images^2 - images + 1
 		this.totalNumCards = imagesPerCard*imagesPerCard - imagesPerCard + 1;
 		this.currentImageSet = imageSetSelected;
 		// offset
@@ -35,7 +35,7 @@ public class Deck {
 		initializePiles();
 	}
 
-	// return false if the draw pile has nothing left
+	// Return false if the draw pile has nothing left
 	public boolean moveTopDrawToDiscard() {
 		if (drawPile.isEmpty()) {
 			return false;
@@ -90,7 +90,7 @@ public class Deck {
 		return images;
 	}
 
-	// convert hardcoded 2d array to list/stack and shuffle the order of cards
+	// Convert hardcoded 2d array to list/stack and shuffle the order of cards
 	// and order of images on each card independently
 	private void initializePiles() {
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardOrders));
@@ -114,7 +114,7 @@ public class Deck {
 		moveTopDrawToDiscard();
 	}
 
-	// citation https://radiganengineering.com/2013/01/spot-it-howd-they-do-that/
+	// Citation: https://radiganengineering.com/2013/01/spot-it-howd-they-do-that/
 	// for hardcoded entries
 	private void setCardOrders() {
 		// only 3 images per card is currently implemented

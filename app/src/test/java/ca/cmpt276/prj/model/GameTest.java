@@ -33,8 +33,6 @@ class GameTest {
 				System.out.println("Discard pile: " + possibleDiscardImages);
 				for (CardImage imageDisc : possibleDiscardImages) {
 					success = (game.tappedUpdateState(DISCARD_PILE, imageDisc) || game.tappedUpdateState(DRAW_PILE, imageDraw));
-					System.out.println("Draw selected: " + game.getSelectedDrawPileImage());
-					System.out.println("Discard selected: " + game.getSelectedDiscardPileImage());
 					if (success) {
 						System.out.println(imageDraw + " matched " + imageDisc);
 						matches++;

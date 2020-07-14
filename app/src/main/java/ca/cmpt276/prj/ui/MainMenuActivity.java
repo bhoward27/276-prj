@@ -37,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void setUpImages(){//Images change depending on the currently selected deck
+    private void setUpImages(){//Images change depending on the currently selected deck in the Options screen
         ImageView caveOrBear = (ImageView)findViewById(R.id.img_cave_or_bear);
         ImageView desertOrEagle = (ImageView)findViewById(R.id.img_desert_or_eagle);
         ImageView forestOrLeopard = (ImageView)findViewById(R.id.img_forest_or_leopard);
@@ -66,6 +66,7 @@ public class MainMenuActivity extends AppCompatActivity {
             volcanoOrSpider.setImageResource(R.drawable.predator_spider);
         }
     }
+
     private void setUpButtons() {
 
         Button btnPlay = findViewById(R.id.btnPlay);

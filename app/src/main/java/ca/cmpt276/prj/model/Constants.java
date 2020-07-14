@@ -2,6 +2,9 @@ package ca.cmpt276.prj.model;
 
 import android.graphics.Color;
 
+/**
+ *  Code for storing constants for use by other functions.
+ */
 public final class Constants {
 	private Constants() { }
 

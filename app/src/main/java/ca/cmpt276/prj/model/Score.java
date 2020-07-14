@@ -3,9 +3,8 @@ package ca.cmpt276.prj.model;
 import android.annotation.SuppressLint;
 
 /**
- * This class contains all the functionality of a Score object
- * and a couple helper functions for beautiful formatted output
- * of the score
+ * This class contains all the functionality of a Score object and a couple helper functions for
+ * beautiful formatted output of the score.
  */
 
 public class Score {

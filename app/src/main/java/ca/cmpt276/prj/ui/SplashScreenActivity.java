@@ -95,6 +95,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void goToMainMenu(){
         Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
         startActivity(intent);
-        finish();//Once Splash Screen is left, pressing back button on Main Menu should NOT return to this activity; finish() ensures Splash Screen cannot be returned to during runtime.-
+        // Once Splash Screen is left, pressing back button on Main Menu should NOT return to this
+        // activity; finish() ensures Splash Screen cannot be returned to during runtime.-
+        finish();
     }
 }

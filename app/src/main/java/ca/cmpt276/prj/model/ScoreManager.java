@@ -61,7 +61,7 @@ public class ScoreManager {
 		}
 
 		scores.add(position, new Score(inputScore, name, formattedDate));
-		// purge overflowed score
+		// Purge overflowed score
 		scores.remove(NUM_HIGH_SCORES);
 
 		saveScores();
@@ -71,11 +71,6 @@ public class ScoreManager {
 
 	public List<Score> getScores() {
 		return scores;
-	}
-
-	// may be useful for the GameActivity to display current high score
-	public int getHighScoreTime(int key) {
-		return scores.get(key).getTime();
 	}
 
 	public Score getScoreByIndex(int index) {
