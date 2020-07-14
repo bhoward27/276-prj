@@ -30,12 +30,6 @@ public class Score {
 		return scoreDate;
 	}
 
-	public String getFormattedScore() {
-		String formattedTime = getFormattedTime(scoreTime);
-
-		return formattedTime + " by " + scoreName + " on " + scoreDate;
-	}
-
 	@SuppressLint("DefaultLocale")
 	public static String getFormattedTime(int time) {
 
