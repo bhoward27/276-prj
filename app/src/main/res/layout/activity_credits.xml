@@ -272,4 +272,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewRainbowSource"
         app:layout_constraintTop_toBottomOf="@+id/textViewSpiderSource" />
+
+    <TextView
+        android:id="@+id/textViewAppIconSource"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="228dp"
+        android:text="@string/txt_credits_app_icon"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHeadingImageSources" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
