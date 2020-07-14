@@ -1,7 +1,0 @@
-Scrum Master: Yuyang Li
-
-Product Owner: Ben Howard
-
-Repo Manager: Michael Mora
-
-Team Member: William Horvath
