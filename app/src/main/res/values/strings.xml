@@ -68,7 +68,7 @@
     <string name="txt_predator_snake_source"><a href="https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc7ae0b49e6dea2c8ac_L.jpg">Snake</a></string>
     <string name="txt_predator_spider_source"><a href="https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg">Spider</a></string>
     <string name="txt_predator_orca_source"><a href="https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg">Orca</a></string>
-    <string name="app_icon_source"><a href="https://www.easyicon.net/language.en/1161600-Magnifying_Glass_icon.html">AppIcon</a></string>
+    <string name="txt_app_icon_source"><a href="https://www.easyicon.net/language.en/1161600-Magnifying_Glass_icon.html">App Icon</a></string>
     <!--    END of links to image sources.  -->
 
     <string name="txt_heading_about_the_team">About the Team</string>
