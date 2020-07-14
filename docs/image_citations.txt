@@ -34,3 +34,10 @@ predator_snake.jpg --- https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc
 predator_spider.jpg --- https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg
 
 predator_orca.jpg --- https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg
+
+**********************
+**********************
+
+APP ICON:
+ic_launcher.png --- https://www.easyicon.net/language.en/1161600-Magnifying_Glass_icon.html
+

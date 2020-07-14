@@ -78,7 +78,7 @@ public class PrefsManager {
 	}
 
 	public void saveName(String Name) {
-		SharedPreferences.Editor editor = prefs.edit();//Write the value
+		SharedPreferences.Editor editor = prefs.edit();// Write the value
 		editor.putString(NAME_PREF, Name);
 		editor.apply();
 	}

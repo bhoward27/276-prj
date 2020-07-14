@@ -28,7 +28,7 @@ public class Game {
 		} else {
 			selectedDrawPileImage = image;
 		}
-		// initial game state check (or nothing selected in one pile)
+		// Initial game state check (or nothing selected in one pile)
 		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
 			return false;
 		}
@@ -61,15 +61,5 @@ public class Game {
 
 	public int getRemainingCards() {
 		return deck.getDrawPile().size();
-	}
-
-	//debug
-
-	public CardImage getSelectedDiscardPileImage() {
-		return selectedDiscardPileImage;
-	}
-
-	public CardImage getSelectedDrawPileImage() {
-		return selectedDrawPileImage;
 	}
 }

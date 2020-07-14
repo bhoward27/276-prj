@@ -19,7 +19,9 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.PrefsManager;
 
-//Activity for different types of pictures and setting the player name
+/**
+ * Activity for different types of pictures and setting the player name
+ */
 public class OptionsActivity extends AppCompatActivity {
     PrefsManager prefsManager;
     int savedValue;
@@ -41,32 +43,29 @@ public class OptionsActivity extends AppCompatActivity {
     }
 
     private void initPrefs() {
-        prefsManager = PrefsManager.getInstance();
-        // debug
-        //prefsManager.getPrefs().edit().clear().apply();
-
         String defaultValue = getString(R.string.default_picture_type);
+
+        prefsManager = PrefsManager.getInstance();
         savedValue = prefsManager.getTypePictureInstalledInt(defaultValue);
         defaultName = getString(R.string.txt_placeholder_name);
     }
 
     private void createRadioButton() {
         RadioGroup group = findViewById(R.id.radioGroup);
-
         List<String> defStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.str_pic_types)));
 
-        //Create the radio buttons:
+        // Create the radio buttons:
         for (String str : defStringArray) {
             RadioButton button = new RadioButton(this);
             button.setText(str);
 
-            //Set on-click callbacks
+            // Set on-click callbacks
             button.setOnClickListener(v -> prefsManager.saveStrTypeInstalled(str));
 
-            //Add to radio group:
+            // Add to radio group:
             group.addView(button);
 
-            //Select default button:
+            // Select default button:
             if(defStringArray.indexOf(str)+1 == savedValue){
                 button.setChecked(true);
             }
@@ -85,7 +84,7 @@ public class OptionsActivity extends AppCompatActivity {
         edtName.addTextChangedListener(mTextWatcher);
     }
 
-    // make it so that the name only saves when the user is finished typing
+    // Make it so that the name only saves when the user is finished typing
     public TextWatcher mTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -105,8 +104,8 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void saveName() {
         EditText edtName = findViewById(R.id.editTextTextPersonName);
-
         String nameFromEdt = edtName.getText().toString();
+
         if (nameFromEdt.matches("")) {
             prefsManager.saveName(defaultName);
         } else {

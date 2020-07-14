@@ -28,19 +28,11 @@ public class HelpActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_help_activity));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        TextView helpDescriptionAndCitation = findViewById(R.id.helpDescription);
-        String helpDescriptionText = getString(R.string.txt_help_description);
-        helpDescriptionAndCitation.setText(helpDescriptionText);
-
-        //Since a lot of text is used here, I wanted to make it scroll. I used code from this link, which allows such scrolling wihtout a Scrollview.
-        //Code adapted from Amit Chintawar @ https://stackoverflow.com/a/3256305
-        helpDescriptionAndCitation.setMovementMethod(new ScrollingMovementMethod());
         setupCreditsButton();
     }
 
     private void setupCreditsButton() {
-        Button button = (Button) findViewById(R.id.btnCredits);
+        Button button = findViewById(R.id.btnCredits);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

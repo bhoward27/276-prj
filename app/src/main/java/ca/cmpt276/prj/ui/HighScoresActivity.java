@@ -42,8 +42,6 @@ public class HighScoresActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		getSavedData();
-		// DEBUG
-		// manager.addHighScore("William", 60);
 
 		setupButtons();
 		registerClickCallback();
@@ -95,7 +93,8 @@ public class HighScoresActivity extends AppCompatActivity {
 			String placementText;
 			switch(scoreRank){// Assigns different colour to the current text according to its spot on the list
 				case 1:
-					// Code for setting the color adapted from yfsx and Vasily Kabunov @ /https://stackoverflow.com/a/34487328
+					// Code for setting the color adapted from yfsx and Vasily Kabunov
+					// @ https://stackoverflow.com/a/34487328
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this, R.color.gold));
 					placementText = getString(R.string.txt_first_rank);
 					break;
@@ -113,7 +112,8 @@ public class HighScoresActivity extends AppCompatActivity {
 					break;
 			}
 
-			// Code for setting a font already included in Android Studio adapted from Oded @ https://stackoverflow.com/a/31867144
+			// Code for setting a font already included in Android Studio adapted from Oded
+			// @ https://stackoverflow.com/a/31867144
 			scoreText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 			scoreText.setTextSize(20);
 

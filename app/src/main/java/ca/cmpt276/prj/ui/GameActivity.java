@@ -42,8 +42,10 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
 
+/**
+ * Class for displaying the game to the player, including game over messages.
+ */
 public class GameActivity extends AppCompatActivity {
-    public static final String TAG = "%%%GAMEACTIVITY";
     List<ImageButton> discPileButtons;
     List<ImageButton> drawPileButtons;
     List<ImageButton> allButtons;
@@ -57,6 +59,7 @@ public class GameActivity extends AppCompatActivity {
     Game gameInstance;
     String resourcePrefix;
     Chronometer scoreTimer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +83,7 @@ public class GameActivity extends AppCompatActivity {
         imageSet = prefsManager.getTypePictureInstalledInt(defaultPictureType);
         gameInstance = new Game(NUM_IMAGES, imageSet);
 
-        // we have to wait until the cardview finishes loading before getting the positions for the
-        // images
+        // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
         cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -154,15 +156,15 @@ public class GameActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     public void setupButtons() {
-        // get global access to button ids
+        // Get global access to button ids
         getButtons();
-        // this function creates the array of button positions which will be used
+        // This function creates the array of button positions which will be used
         // for each image/card
         setupButtonPositions();
-        // this function adds images and tags to the buttons
+        // This function adds images and tags to the buttons
         refreshButtons();
 
-        // dynamic ImageButton sizes
+        // Dynamic ImageButton sizes
         double buttonSpacingX = findViewById(R.id.crdDiscPile).getWidth() /
                 ((gameInstance.getImagesPerCard()) * BUTTON_SPACING_PADDING);
         double buttonSpacingY = (1/IMAGES_RATIOS) * buttonSpacingX;
@@ -227,12 +229,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void tapUpdateGameState(ImageButton pressedButton) {
         boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
-        // if there was a match
+        // If there was a match
         if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
-                // then change the images and remove all overlays to signify no card being selected
+                // Then change the images and remove all overlays to signify no card being selected
 
-                // move index of random positions for card images
+                // Move index of random positions for card images
                 randCount += gameInstance.getImagesPerCard();
 
                 updateRemainingCardsText();
@@ -245,7 +247,8 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna @ https://stackoverflow.com/a/9563438
+    // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna
+    // @ https://stackoverflow.com/a/9563438
     private float convertPixelsToDp(float px){
         return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
@@ -268,7 +271,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void resetOverlay(ImageButton pressedButton) {
-        // remove the overlays for all other buttons in the same card
+        // Remove the overlays for all other buttons in the same card
         boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
             if (button != pressedButton) {
@@ -280,7 +283,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void resetOverlay() {
-        // remove the overlays for all buttons
+        // Remove the overlays for all buttons
         for (ImageButton button : allButtons) {
             int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
             button.setPadding(pad, pad, pad, pad);
@@ -297,7 +300,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void congratulationsDialog(int time, int playerRank) {
-        //Code adapted from Miguel @ https://stackoverflow.com/a/18898412
+        // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID;
         switch (imageSet) {
@@ -331,20 +334,21 @@ public class GameActivity extends AppCompatActivity {
         Dialog alert = builder.create();
         alert.show();
 
-        //Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
-        //With the suggestion to place it after alert.show() adapted from Cerlin @ https://stackoverflow.com/a/43536704
+        // Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
+        // With the suggestion to place it after alert.show() adapted from Cerlin
+        // @ https://stackoverflow.com/a/43536704
         TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
         dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);
         dialogMessages.setGravity(Gravity.CENTER);
 
-        //Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
+        // Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
         Button btnReturnToMainMenu = alert.findViewById(android.R.id.button1);
         btnReturnToMainMenu.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
-        // don't let user touch outside dialog box after game finished
+        // Don't let user touch outside dialog box after game finished
         alert.setCanceledOnTouchOutside(false);
-        // don't let back button exit back to game
+        // Don't let back button exit back to game
         alert.setCancelable(false);
     }
 
