@@ -46,7 +46,6 @@ import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
  * Class for displaying the game to the player, including game over messages.
  */
 public class GameActivity extends AppCompatActivity {
-    public static final String TAG = "%%%GAMEACTIVITY";
     List<ImageButton> discPileButtons;
     List<ImageButton> drawPileButtons;
     List<ImageButton> allButtons;
@@ -84,8 +83,7 @@ public class GameActivity extends AppCompatActivity {
         imageSet = prefsManager.getTypePictureInstalledInt(defaultPictureType);
         gameInstance = new Game(NUM_IMAGES, imageSet);
 
-        // We have to wait until the cardview finishes loading before getting the positions for the
-        // images
+        // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
         cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -161,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
         // Get global access to button ids
         getButtons();
         // This function creates the array of button positions which will be used
-        // For each image/card
+        // for each image/card
         setupButtonPositions();
         // This function adds images and tags to the buttons
         refreshButtons();
@@ -249,8 +247,8 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // Code for setting margins adapted from Muhammad Nabeel Arif
-    // and Salam El-Banna @ https://stackoverflow.com/a/9563438
+    // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna
+    // @ https://stackoverflow.com/a/9563438
     private float convertPixelsToDp(float px){
         return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
@@ -285,7 +283,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void resetOverlay() {
-        // remove the overlays for all buttons
+        // Remove the overlays for all buttons
         for (ImageButton button : allButtons) {
             int pad = Math.round(getResources().getDimension(R.dimen.button_padding));
             button.setPadding(pad, pad, pad, pad);
@@ -337,7 +335,8 @@ public class GameActivity extends AppCompatActivity {
         alert.show();
 
         // Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
-        // With the suggestion to place it after alert.show() adapted from Cerlin @ https://stackoverflow.com/a/43536704
+        // With the suggestion to place it after alert.show() adapted from Cerlin
+        // @ https://stackoverflow.com/a/43536704
         TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
         dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);

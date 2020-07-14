@@ -11,7 +11,7 @@
     <string name="btn_return_after_win">Hooray!</string>
     <string name="btn_view_credits">View Credits</string>
     <string name="txt_placeholder_score">Score goes here</string>
-    <string name="txt_help_Description_Title">How to Play</string>
+    <string name="txt_help_Description_Title">How To Play</string>
     <string name="txt_help_description">In the \"Timed Solo Deck\" mode available in this game, every card has three images on it, and any pair of cards
         in the deck will have exactly one image in common. Your task is to find the matching image
         as fast as possible.\n\nTo select an image, tap that image on the card.\n\nIf you\'ve tapped the matching

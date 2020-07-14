@@ -25,6 +25,7 @@ public class CreditsActivity extends AppCompatActivity {
     }
 
     private void setupHyperlinks() {
+        //Links for private
         TextView caveLink = (TextView) findViewById(R.id.textViewCaveSource);
         TextView desertLink = (TextView) findViewById(R.id.textViewDesertSource);
         TextView forestLink = (TextView) findViewById(R.id.textViewForestSource);
@@ -48,7 +49,7 @@ public class CreditsActivity extends AppCompatActivity {
                 bearLink, eagleLink, leopardLink, lionLink,
                 sharkLink, snakeLink, spiderLink, orcaLink };
 
-        //  CITATION: the below code in this method is based off of an answer on StackOverflow:
+        //  The code below is adapted from:
         //  https://stackoverflow.com/questions/2734270/how-to-make-links-in-a-textview-clickable
         for (TextView link : links) {
             //  This makes it so that when a hyperlink is tapped, it opens the link in a
