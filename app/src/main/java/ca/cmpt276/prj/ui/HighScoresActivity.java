@@ -117,7 +117,10 @@ public class HighScoresActivity extends AppCompatActivity {
 			scoreText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 			scoreText.setTextSize(20);
 
-			scoreText.setText(scoreRank + placementText + manager.getScoreByIndex(position).getFormattedScore());
+			Score currScore = manager.getScoreByIndex(position);
+			scoreText.setText(scoreRank + placementText + Score.getFormattedTime(currScore.getTime()) +
+					getString(R.string.txt_score_by) + currScore.getName() +
+					getString(R.string.txt_score_on) + currScore.getDate());
 
 			return itemView;
 		}
