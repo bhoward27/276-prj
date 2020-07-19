@@ -2,6 +2,7 @@ package ca.cmpt276.prj.model;
 
 import android.content.SharedPreferences;
 
+import static ca.cmpt276.prj.model.Constants.DRAW_PILE_SIZE_STRING_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_STRING_PREF;
@@ -50,6 +51,12 @@ public class PrefsManager {
 		editor.apply();
 	}
 
+	public void saveDrawPileSize(String size){
+		SharedPreferences.Editor editor = prefs.edit();
+
+		editor.putString(DRAW_PILE_SIZE_STRING_PREF, size);
+		editor.apply();
+	}
 
 	public int getTypePictureInstalledInt(String defaultValue){
 		int defaultInt;
@@ -66,7 +73,15 @@ public class PrefsManager {
 		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
 	}
 
-	//
+	public String getDrawPileSize(String defaultSize){
+		return prefs.getString(DRAW_PILE_SIZE_STRING_PREF, defaultSize);
+	}
+
+
+//	public String getOrder(String defaultOrder){
+//		return prefs.getString()
+//	}
+//
 //	public int getDrawPileSize(String defaultValue){
 //		int defaultInt;
 //		switch (defaultValue) {

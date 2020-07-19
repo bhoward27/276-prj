@@ -27,7 +27,7 @@ public class OptionsActivity extends AppCompatActivity {
     String defaultDrawPileSize;
     String defaultOrder;
     String savedOrder;
-    String savedDeawPileSize;
+    String savedDrawPileSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +48,10 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void initPrefs() {
         String defaultValue = getString(R.string.default_picture_type);
-
-        defaultDrawPileSize = getString(R.string.txt_draw_pile_size_all);
-
+        String defaultDrawPileSize = getString(R.string.default_draw_pile_size);//in draw_pile_sizes.xml
         prefsManager = PrefsManager.getInstance();
-        savedValue = prefsManager.getTypePictureInstalledInt(defaultValue);
+        savedValue = prefsManager.getTypePictureInstalledInt(defaultValue);//This seems to be for setting default?
+        savedDrawPileSize = prefsManager.getDrawPileSize(defaultDrawPileSize);
         defaultName = getString(R.string.txt_placeholder_name);
     }
 
@@ -104,21 +103,25 @@ public class OptionsActivity extends AppCompatActivity {
 
         RadioGroup radioDrawPileSize = findViewById(R.id.radio_draw_pile_size);
         List<String> allPileSizes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
+        int index = 0;
         // Create the radio buttons:
         for (String str : allPileSizes) {
+
             RadioButton button = new RadioButton(this);
             button.setText(str);
 
             // Set on-click callbacks
-            button.setOnClickListener(v -> prefsManager.saveStrTypeInstalled(str));
+            button.setOnClickListener(v -> prefsManager.saveDrawPileSize(str));
 
             // Add to radio group:
             radioDrawPileSize.addView(button);
 
             // Select default button:
-            if(allPileSizes.indexOf(str)+1 == savedValue){
+            //if(allPileSizes.indexOf(str)+1 == savedValue){
+            if(allPileSizes.get(index) == savedDrawPileSize){
                 button.setChecked(true);
             }
+            index++;
         }
     }
     private void createNameChangeFields() {
