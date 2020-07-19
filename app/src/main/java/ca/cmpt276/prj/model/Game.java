@@ -9,12 +9,14 @@ import java.util.List;
  */
 public class Game {
 	Deck deck;
-	CardImage selectedDiscardPileImage = null;
-	CardImage selectedDrawPileImage = null;
+	int selectedDiscardPileImage;
+	int selectedDrawPileImage;
 	int imagesPerCard;
 
-	public Game(int imagesPerCard, int imageSet) {
-		this.deck = new Deck(imagesPerCard, imageSet);
+	public Game(int imagesPerCard) {
+		this.deck = new Deck(imagesPerCard);
+		this.selectedDiscardPileImage = Integer.MAX_VALUE;
+		this.selectedDrawPileImage = Integer.MAX_VALUE;
 		this.imagesPerCard = imagesPerCard;
 	}
 
@@ -22,21 +24,21 @@ public class Game {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
+	public boolean tappedUpdateState(boolean isTappedDiscardPile, int imageIndex) {
 		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = image;
+			selectedDiscardPileImage = imageIndex;
 		} else {
-			selectedDrawPileImage = image;
+			selectedDrawPileImage = imageIndex;
 		}
 		// Initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
+		if (selectedDiscardPileImage == Integer.MAX_VALUE || selectedDrawPileImage == Integer.MAX_VALUE) {
 			return false;
 		}
 
 		if (selectedDiscardPileImage == selectedDrawPileImage) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = null;
-			selectedDrawPileImage = null;
+			selectedDiscardPileImage = Integer.MAX_VALUE;
+			selectedDrawPileImage = Integer.MAX_VALUE;
 			return true;
 		} else {
 			return false;
@@ -47,11 +49,11 @@ public class Game {
 		return imagesPerCard;
 	}
 
-	public List<CardImage> getDiscardPileImages() {
+	public List<Integer> getDiscardPileImages() {
 		return deck.getDiscardPileImages();
 	}
 
-	public List<CardImage> getDrawPileImages() {
+	public List<Integer> getDrawPileImages() {
 		return deck.getDrawPileImages();
 	}
 
