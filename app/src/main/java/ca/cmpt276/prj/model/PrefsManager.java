@@ -37,7 +37,7 @@ public class PrefsManager {
 		SharedPreferences.Editor editor = prefs.edit();//Write the value
 
 		editor.putInt(IMAGE_SET_INT_PREF, imageSet);
-		editor.putString(IMAGE_SET_PREFIX_PREF, mapIntToAlpha(imageSet));
+		editor.putString(IMAGE_SET_PREFIX_PREF, ResGrab.getAlpha(imageSet));
 		editor.putString(IMAGE_SET_NAME_PREF, imageSetName);
 
 		editor.apply();
@@ -69,7 +69,5 @@ public class PrefsManager {
 		editor.apply();
 	}
 
-	private String mapIntToAlpha(int i) {
-		return i >= 0 && i < 26 ? String.valueOf((char)(i + 97)) : null;
-	}
+
 }

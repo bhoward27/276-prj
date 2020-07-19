@@ -10,6 +10,7 @@ public final class Constants {
 
 	public static final boolean DISCARD_PILE = true;
 	public static final boolean DRAW_PILE = false;
+	public static final int NONE_SELECTED = Integer.MAX_VALUE;
 	public static final int NUM_HIGH_SCORES = 5;
 	public static final int MAX_NAME_LENGTH = 12;
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
@@ -22,5 +23,6 @@ public final class Constants {
 	public static final double IMAGES_RATIOS = 2.01;
 	public static final double BUTTON_SPACING_PADDING = 1.05;
 	public static final int DEFAULT_IMAGE_SET = 0;
+
 	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
 }

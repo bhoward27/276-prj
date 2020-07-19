@@ -2,6 +2,8 @@ package ca.cmpt276.prj.model;
 
 import java.util.List;
 
+import static ca.cmpt276.prj.model.Constants.NONE_SELECTED;
+
 /**
  * The Game class interfaces with Deck to keep the game state.
  * Use the return value of tappedUpdateState to determine
@@ -15,8 +17,8 @@ public class Game {
 
 	public Game(int imagesPerCard) {
 		this.deck = new Deck(imagesPerCard);
-		this.selectedDiscardPileImage = Integer.MAX_VALUE;
-		this.selectedDrawPileImage = Integer.MAX_VALUE;
+		this.selectedDiscardPileImage = NONE_SELECTED;
+		this.selectedDrawPileImage = NONE_SELECTED;
 		this.imagesPerCard = imagesPerCard;
 	}
 
@@ -31,14 +33,14 @@ public class Game {
 			selectedDrawPileImage = imageIndex;
 		}
 		// Initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == Integer.MAX_VALUE || selectedDrawPileImage == Integer.MAX_VALUE) {
+		if (selectedDiscardPileImage == NONE_SELECTED || selectedDrawPileImage == NONE_SELECTED) {
 			return false;
 		}
 
 		if (selectedDiscardPileImage == selectedDrawPileImage) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = Integer.MAX_VALUE;
-			selectedDrawPileImage = Integer.MAX_VALUE;
+			selectedDiscardPileImage = NONE_SELECTED;
+			selectedDrawPileImage = NONE_SELECTED;
 			return true;
 		} else {
 			return false;
