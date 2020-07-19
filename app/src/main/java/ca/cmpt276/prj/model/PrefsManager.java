@@ -50,6 +50,7 @@ public class PrefsManager {
 		editor.apply();
 	}
 
+
 	public int getTypePictureInstalledInt(String defaultValue){
 		int defaultInt;
 		switch (defaultValue) {
@@ -64,6 +65,29 @@ public class PrefsManager {
 		}
 		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
 	}
+
+	//
+//	public int getDrawPileSize(String defaultValue){
+//		int defaultInt;
+//		switch (defaultValue) {
+//			case "5":
+//				defaultInt = 5;
+//				break;
+//			case "10":
+//				defaultInt = 10;
+//				break;
+//			case "20":
+//				defaultInt = 20;
+//				break;
+//			case "All":
+//				defaultInt = ;
+//				break;
+//			default:
+//				defaultInt = LANDSCAPE_SET;
+//		}
+//		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
+//	}
+
 
 	public String getTypePictureInstalledStr(String defaultValue){
 		return prefs.getString(PICTURE_TYPE_STRING_PREF, defaultValue);

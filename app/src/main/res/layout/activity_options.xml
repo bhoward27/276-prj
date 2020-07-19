@@ -7,6 +7,21 @@
     android:layout_height="match_parent" tools:context=".ui.OptionsActivity">
 
     <TextView
+        android:id="@+id/text_draw_pile_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="413dp"
+        android:layout_marginEnd="194dp"
+        android:text="@string/txt_prompt_draw_pile_size"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/txOptionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,20 +50,35 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="136dp"
         android:text="@string/txt_prompt_image_type"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/txtName"
+        android:id="@+id/text_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="239dp"
+        android:layout_marginEnd="192dp"
+        android:text="@string/txt_prompt_order"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="82dp"
         android:text="@string/txt_prompt_name"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -63,16 +93,33 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
+        android:layout_width="328dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="7dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@+id/txtName"
         android:ems="10"
         android:hint="@string/txt_placeholder_name"
         android:inputType="textPersonName"
         android:maxLength="@integer/max_name_length" />
 
+    <RadioGroup
+        android:id="@+id/radio_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_order"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_draw_pile_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_draw_pile_size"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
