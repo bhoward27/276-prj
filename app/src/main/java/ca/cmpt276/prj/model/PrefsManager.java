@@ -1,12 +1,14 @@
 package ca.cmpt276.prj.model;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET_PREFIX;
+import static ca.cmpt276.prj.model.Constants.IMAGE_SET_NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
-import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_STRING_PREF;
-import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_INT_PREF;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
+import static ca.cmpt276.prj.model.Constants.IMAGE_SET_PREFIX_PREF;
+import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PrefsManager {
@@ -31,42 +33,26 @@ public class PrefsManager {
 	}
 	// End singleton setup
 
-	public void saveStrTypeInstalled(String strType) {
+	public void saveImageSetSelected(int imageSet, String imageSetName) {
 		SharedPreferences.Editor editor = prefs.edit();//Write the value
-		int putValue = 0;
-		switch (strType) {
-			case "Landscape":
-				putValue = LANDSCAPE_SET;
-				break;
-			case "Predator":
-				putValue = PREDATOR_SET;
-				break;
-			default:
-				putValue = LANDSCAPE_SET;
-		}
-		editor.putString(PICTURE_TYPE_STRING_PREF, strType);
-		editor.putInt(PICTURE_TYPE_INT_PREF, putValue);
+
+		editor.putInt(IMAGE_SET_INT_PREF, imageSet);
+		editor.putString(IMAGE_SET_PREFIX_PREF, getAlpha(imageSet));
+		editor.putString(IMAGE_SET_NAME_PREF, imageSetName);
 
 		editor.apply();
 	}
 
-	public int getTypePictureInstalledInt(String defaultValue){
-		int defaultInt;
-		switch (defaultValue) {
-			case "Landscape":
-				defaultInt = LANDSCAPE_SET;
-				break;
-			case "Predator":
-				defaultInt = PREDATOR_SET;
-				break;
-			default:
-				defaultInt = LANDSCAPE_SET;
-		}
-		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
+	public int getImageSetSelected() {
+		return prefs.getInt(IMAGE_SET_INT_PREF, DEFAULT_IMAGE_SET);
 	}
 
-	public String getTypePictureInstalledStr(String defaultValue){
-		return prefs.getString(PICTURE_TYPE_STRING_PREF, defaultValue);
+	public String getImageSetSelectedPrefix() {
+		return prefs.getString(IMAGE_SET_PREFIX_PREF, DEFAULT_IMAGE_SET_PREFIX);
+	}
+
+	public String getImageSetSelectedName(String defaultName) {
+		return prefs.getString(IMAGE_SET_NAME_PREF, defaultName);
 	}
 
 	public SharedPreferences getPrefs() {
@@ -82,4 +68,9 @@ public class PrefsManager {
 		editor.putString(NAME_PREF, Name);
 		editor.apply();
 	}
+
+	public static String getAlpha(int index) {
+		return index >= 0 && index < 26 ? String.valueOf((char)(index + 97)) : null;
+	}
+
 }

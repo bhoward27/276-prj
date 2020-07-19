@@ -2,6 +2,8 @@ package ca.cmpt276.prj.model;
 
 import java.util.List;
 
+import static ca.cmpt276.prj.model.Constants.NONE_SELECTED;
+
 /**
  * The Game class interfaces with Deck to keep the game state.
  * Use the return value of tappedUpdateState to determine
@@ -9,12 +11,14 @@ import java.util.List;
  */
 public class Game {
 	Deck deck;
-	CardImage selectedDiscardPileImage = null;
-	CardImage selectedDrawPileImage = null;
+	int selectedDiscardPileImage;
+	int selectedDrawPileImage;
 	int imagesPerCard;
 
-	public Game(int imagesPerCard, int imageSet) {
-		this.deck = new Deck(imagesPerCard, imageSet);
+	public Game(int imagesPerCard) {
+		this.deck = new Deck(imagesPerCard);
+		this.selectedDiscardPileImage = NONE_SELECTED;
+		this.selectedDrawPileImage = NONE_SELECTED;
 		this.imagesPerCard = imagesPerCard;
 	}
 
@@ -22,21 +26,21 @@ public class Game {
 		return deck;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, CardImage image) {
+	public boolean tappedUpdateState(boolean isTappedDiscardPile, int imageIndex) {
 		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = image;
+			selectedDiscardPileImage = imageIndex;
 		} else {
-			selectedDrawPileImage = image;
+			selectedDrawPileImage = imageIndex;
 		}
 		// Initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == null || selectedDrawPileImage == null) {
+		if (selectedDiscardPileImage == NONE_SELECTED || selectedDrawPileImage == NONE_SELECTED) {
 			return false;
 		}
 
 		if (selectedDiscardPileImage == selectedDrawPileImage) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = null;
-			selectedDrawPileImage = null;
+			selectedDiscardPileImage = NONE_SELECTED;
+			selectedDrawPileImage = NONE_SELECTED;
 			return true;
 		} else {
 			return false;
@@ -47,11 +51,11 @@ public class Game {
 		return imagesPerCard;
 	}
 
-	public List<CardImage> getDiscardPileImages() {
+	public List<Integer> getDiscardPileImages() {
 		return deck.getDiscardPileImages();
 	}
 
-	public List<CardImage> getDrawPileImages() {
+	public List<Integer> getDrawPileImages() {
 		return deck.getDrawPileImages();
 	}
 

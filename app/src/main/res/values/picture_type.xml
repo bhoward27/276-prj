@@ -3,6 +3,7 @@
     <string-array name="str_pic_types">
         <item>Landscape</item>
         <item>Predator</item>
+        <item>Third option</item>
     </string-array>
 
     <string name="default_picture_type">Landscape</string>
