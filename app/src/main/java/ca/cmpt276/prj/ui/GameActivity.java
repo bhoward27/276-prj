@@ -39,6 +39,7 @@ import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.IMAGES_RATIOS;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
  * Class for displaying the game to the player, including game over messages.
@@ -123,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void refreshButtons() {
-        resourcePrefix = imageSetPrefix + "_";
+        resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 
         String resourceName;
         int resourceID;
@@ -302,7 +303,8 @@ public class GameActivity extends AppCompatActivity {
     private void congratulationsDialog(int time, int playerRank) {
         // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
-        int winImageID = getResources().getIdentifier(imageSetPrefix + "_end", "drawable", getPackageName());
+        int winImageID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
+                        "end", "drawable", getPackageName());
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);

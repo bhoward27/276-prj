@@ -23,6 +23,6 @@ public final class Constants {
 	public static final double IMAGES_RATIOS = 2.01;
 	public static final double BUTTON_SPACING_PADDING = 1.05;
 	public static final int DEFAULT_IMAGE_SET = 0;
-
+	public static final String RESOURCE_DIVIDER = "_";
 	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
 }
