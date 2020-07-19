@@ -19,8 +19,8 @@
         android:fontFamily="sans-serif"
         android:text="@string/btn_high_scores"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/img_2"
-        app:layout_constraintStart_toEndOf="@+id/img_1"
+        app:layout_constraintEnd_toStartOf="@+id/img_desert_or_eagle"
+        app:layout_constraintStart_toEndOf="@+id/img_cave_or_bear"
         app:layout_constraintTop_toBottomOf="@+id/btnPlay" />
 
     <TextView
@@ -84,12 +84,12 @@
         android:fontFamily="sans-serif"
         android:text="@string/txt_options"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/img_4"
-        app:layout_constraintStart_toEndOf="@+id/img_3"
+        app:layout_constraintEnd_toStartOf="@+id/img_ocean_or_lion"
+        app:layout_constraintStart_toEndOf="@+id/img_forest_or_leopard"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenHelp" />
 
     <ImageView
-        android:id="@+id/img_1"
+        android:id="@+id/img_cave_or_bear"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
@@ -97,32 +97,32 @@
         android:contentDescription="@string/img_cave_or_bear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameTitleMainMenu"
-        app:srcCompat="@drawable/a_0" />
+        app:srcCompat="@drawable/landscape_cave" />
 
     <ImageView
-        android:id="@+id/img_7"
+        android:id="@+id/img_volcano_spider"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/img_volcano_spider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_4"
-        app:srcCompat="@drawable/a_1" />
+        app:layout_constraintTop_toBottomOf="@+id/img_ocean_or_lion"
+        app:srcCompat="@drawable/landscape_volcano" />
 
     <ImageView
-        android:id="@+id/img_4"
+        android:id="@+id/img_ocean_or_lion"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/img_ocean_or_lion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_2"
-        app:srcCompat="@drawable/a_2" />
+        app:layout_constraintTop_toBottomOf="@+id/img_desert_or_eagle"
+        app:srcCompat="@drawable/landscape_ocean" />
 
     <ImageView
-        android:id="@+id/img_2"
+        android:id="@+id/img_desert_or_eagle"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
@@ -130,32 +130,32 @@
         android:contentDescription="@string/img_desert_or_eagle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameTitleMainMenu"
-        app:srcCompat="@drawable/a_3" />
+        app:srcCompat="@drawable/landscape_desert" />
 
     <ImageView
-        android:id="@+id/img_3"
+        android:id="@+id/img_forest_or_leopard"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/img_forest_or_leopard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_1"
-        app:srcCompat="@drawable/a_4" />
+        app:layout_constraintTop_toBottomOf="@+id/img_cave_or_bear"
+        app:srcCompat="@drawable/landscape_forest" />
 
     <ImageView
-        android:id="@+id/img_5"
+        android:id="@+id/img_storm_or_shark"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:contentDescription="@string/img_storm_or_shark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_3"
-        app:srcCompat="@drawable/a_5" />
+        app:layout_constraintTop_toBottomOf="@+id/img_forest_or_leopard"
+        app:srcCompat="@drawable/landscape_storm" />
 
     <ImageView
-        android:id="@+id/img_6"
+        android:id="@+id/img_sunrise_or_snake"
         android:layout_width="118dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
@@ -164,6 +164,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenOptions"
-        app:srcCompat="@drawable/a_6" />
+        app:srcCompat="@drawable/landscape_sunrise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
