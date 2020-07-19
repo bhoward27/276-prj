@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +46,7 @@ public class OptionsActivity extends AppCompatActivity {
         String defaultValue = getString(R.string.default_picture_type);
 
         prefsManager = PrefsManager.getInstance();
-        savedValue = prefsManager.getImageSetSelected();
+        savedValue = prefsManager.getTypePictureInstalledInt(defaultValue);
         defaultName = getString(R.string.txt_placeholder_name);
     }
 
@@ -53,20 +55,18 @@ public class OptionsActivity extends AppCompatActivity {
         List<String> defStringArray = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.str_pic_types)));
 
         // Create the radio buttons:
-        for (String imageSetName : defStringArray) {
-            int indexOfButton = defStringArray.indexOf(imageSetName);
-
+        for (String str : defStringArray) {
             RadioButton button = new RadioButton(this);
-            button.setText(imageSetName);
+            button.setText(str);
 
             // Set on-click callbacks
-            button.setOnClickListener(v -> prefsManager.saveImageSetSelected(indexOfButton, imageSetName));
+            button.setOnClickListener(v -> prefsManager.saveStrTypeInstalled(str));
 
             // Add to radio group:
             group.addView(button);
 
             // Select default button:
-            if(defStringArray.indexOf(imageSetName) == savedValue){
+            if(defStringArray.indexOf(str)+1 == savedValue){
                 button.setChecked(true);
             }
 

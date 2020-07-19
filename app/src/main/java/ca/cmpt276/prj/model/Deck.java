@@ -16,15 +16,20 @@ public class Deck {
 	private Stack<Card> drawPile;
 	private Integer[][] cardOrders;
 	private int totalNumCards;
+	private int currentImageSet;
+	private int imageSetOffset;
 	private int imagesPerCard;
 
-	public Deck(int imagesPerCard) {
+	public Deck(int imagesPerCard, int imageSetSelected) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
 		this.imagesPerCard = imagesPerCard;
 
 		// Total number of cards is images^2 - images + 1
 		this.totalNumCards = imagesPerCard*imagesPerCard - imagesPerCard + 1;
+		this.currentImageSet = imageSetSelected;
+		// offset
+		this.imageSetOffset = (imageSetSelected-1)*totalNumCards;
 
 		setCardOrders();
 		initializePiles();
@@ -59,21 +64,51 @@ public class Deck {
 		return totalNumCards;
 	}
 
-	public List<Integer> getDiscardPileImages() {
-		return getTopDiscard().getImagesMap();
+	public int getCurrentImageSet() {
+		return currentImageSet;
 	}
 
-	public List<Integer> getDrawPileImages() {
-		return getTopDraw().getImagesMap();
+	public List<CardImage> getDiscardPileImages() {
+		Card card = getTopDiscard();
+		List<CardImage> images = new ArrayList<>(imagesPerCard);
+
+		images.add(card.getTopImage());
+		images.add(card.getMiddleImage());
+		images.add(card.getBottomImage());
+
+		return images;
+	}
+
+	public List<CardImage> getDrawPileImages() {
+		Card card = getTopDraw();
+		List<CardImage> images = new ArrayList<>(imagesPerCard);
+
+		images.add(card.getTopImage());
+		images.add(card.getMiddleImage());
+		images.add(card.getBottomImage());
+
+		return images;
 	}
 
 	// Convert hardcoded 2d array to list/stack and shuffle the order of cards
+	// and order of images on each card independently
 	private void initializePiles() {
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardOrders));
+		Stack<Integer> images = new Stack<>();
+
 		Collections.shuffle(cards);
 
 		for (Integer[] card : cards) {
-			drawPile.push(new Card(Arrays.asList(card)));
+			images.addAll(Arrays.asList(card));
+
+			Collections.shuffle(images);
+
+			CardImage[] values = CardImage.values();
+			CardImage image1 = values[images.pop() + imageSetOffset];
+			CardImage image2 = values[images.pop() + imageSetOffset];
+			CardImage image3 = values[images.pop() + imageSetOffset];
+
+			drawPile.push(new Card(currentImageSet, image1, image2, image3));
 		}
 
 		moveTopDrawToDiscard();
