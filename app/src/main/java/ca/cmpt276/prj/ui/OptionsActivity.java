@@ -118,7 +118,7 @@ public class OptionsActivity extends AppCompatActivity {
 
             // Select default button:
             //if(allPileSizes.indexOf(str)+1 == savedValue){
-            if(allPileSizes.get(index) == savedDrawPileSize){
+            if(allPileSizes.get(index).equals(savedDrawPileSize)){
                 button.setChecked(true);
             }
             index++;
