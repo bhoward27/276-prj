@@ -126,26 +126,23 @@ public class GameActivity extends AppCompatActivity {
     private void refreshButtons() {
         resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 
-        String resourceName;
-        int resourceID;
         List<Integer> discPileImages = gameInstance.getDiscardPileImages();
         List<Integer> drawPileImages = gameInstance.getDrawPileImages();
 
-        int imageIndex;
         for (ImageButton button : allButtons) {
+            // this index is used for accessing the random number for this image out of all total images
+            // and also for getting the image for the button from the gameInstance piles
             int index = allButtons.indexOf(button);
             boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
 
-            if (pile == DISCARD_PILE) {
-                imageIndex = discPileImages.get(index);
-            } else {
-                imageIndex = drawPileImages.get(index - gameInstance.getImagesPerCard());
-            }
+            List<Integer> currPileImages = (pile == DISCARD_PILE) ? discPileImages : drawPileImages;
+            int imageNum = currPileImages.get(index % gameInstance.getImagesPerCard());
 
-            resourceName = resourcePrefix + imageIndex;
-            resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
+            // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+            String resourceName = resourcePrefix + imageNum;
+            int resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
             button.setImageResource(resourceID);
-            button.setTag(imageIndex);
+            button.setTag(imageNum);
 
             RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
             buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
@@ -172,6 +169,7 @@ public class GameActivity extends AppCompatActivity {
 
         int buttonHeight = (int) Math.round(buttonSpacingY);
         // 2.01:1 is the ratio of the current images
+        // TODO: change to not hardcode ratio
         int buttonWidth = (int) Math.round(buttonSpacingX);
 
         for (ImageButton button : allButtons) {
