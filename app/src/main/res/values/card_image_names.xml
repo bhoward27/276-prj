@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="card_image_names">
+<!--        image names for image set a (landscapes)    -->
+        <item>Cave</item>
+        <item>Desert</item>
+        <item>Forest</item>
+        <item>Ocean</item>
+        <item>Storm</item>
+        <item>Sunrise</item>
+        <item>Volcano</item>
+        <item>Glacier</item>
+        <item>Sand Dunes</item>
+        <item>Wheat Field</item>
+        <item>Mountainside</item>
+        <item>Northern Lights</item>
+        <item>Swamp</item>
+
+<!--        image names for image set b (predators)     -->
+        <item>Polar Bears</item>
+        <item>Eagle</item>
+        <item>Leopard</item>
+        <item>Lion</item>
+        <item>Shark</item>
+        <item>Snake</item>
+        <item>Spider</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+</resources>
