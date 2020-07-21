@@ -1,5 +1,9 @@
 package ca.cmpt276.prj.model;
 
+/**
+ * This is a singleton class that contains a 2D array / matrix of names, where a name corresponds
+ * to a card image. For example, the name of a_0.jpg is Cave.
+ */
 public class ImageNameMatrix {
     public static final int NUM_IMAGE_SETS = 2; // # of rows in the matrix
     public static final int NUM_IMAGES_PER_SET = 13; // # of columns in the matrix
@@ -17,7 +21,8 @@ public class ImageNameMatrix {
 
     /**
      * This method copies the data from namesFromXML into cardImageNames,
-     * a 2D array where each row holds all the image names of a particular image set.
+     * a 2D array in which each row holds the image names of a particular image set.
+     * For example, row 0 holds the names for image set a, row 1 for image set b, etc..
      *
      * @param namesFromXML the 1D string array from card_image_names.xml.
      *
