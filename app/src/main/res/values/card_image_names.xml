@@ -2,11 +2,11 @@
 <resources>
     <string-array name="card_image_names">
 <!--        image names for image set a (landscapes)    -->
-        <item>Cave</item>
+        <item>Tunnel</item>
         <item>Desert</item>
-        <item>Forest</item>
-        <item>Ocean</item>
-        <item>Storm</item>
+        <item>Mushrooms</item>
+        <item>Beach</item>
+        <item>Clouds</item>
         <item>Sunrise</item>
         <item>Volcano</item>
         <item>Glacier</item>
@@ -15,6 +15,20 @@
         <item>Mountainside</item>
         <item>Northern Lights</item>
         <item>Swamp</item>
+        <item>Tundra</item>
+        <item>River</item>
+        <item>Waterfall</item>
+        <item>Winter Woods</item>
+        <item>Frosty Cave</item>
+        <item>Bamboo Forest</item>
+        <item>Flower Field</item>
+        <item>Lily Pads</item>
+        <item>Evergreen Forest</item>
+        <item>Canyon</item>
+        <item>Island</item>
+        <item>Lava</item>
+        <item>Coastal Cliffs</item>
+        <item>Lightning</item>
 
 <!--        image names for image set b (predators)     -->
         <item>Polar Bears</item>
@@ -24,6 +38,20 @@
         <item>Shark</item>
         <item>Snake</item>
         <item>Spider</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
         <item></item>
         <item></item>
         <item></item>
