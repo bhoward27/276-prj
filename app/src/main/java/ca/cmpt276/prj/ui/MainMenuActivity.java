@@ -52,11 +52,9 @@ public class MainMenuActivity extends AppCompatActivity {
         Collections.shuffle(views);
 
         String imageSetPrefix = prefs.getImageSetSelectedPrefix();
-        int resourceID;
 
-        Log.d("test", "setUpImages: " + imageSetPrefix);
         for (ImageView view : views) {
-            resourceID = getResources().getIdentifier(imageSetPrefix + "_" + views.indexOf(view),
+            int resourceID = getResources().getIdentifier(imageSetPrefix + "_" + views.indexOf(view),
                     "drawable", getPackageName());
             view.setImageResource(resourceID);
         }

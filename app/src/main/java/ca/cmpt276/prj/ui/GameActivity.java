@@ -64,7 +64,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         initGame();
     }
 
@@ -144,6 +143,7 @@ public class GameActivity extends AppCompatActivity {
             button.setImageResource(resourceID);
             button.setTag(imageNum);
 
+            // set the random position
             RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
             buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
             buttonLayoutParams.topMargin = rndTopMargin.get(randCount + index);
@@ -198,9 +198,9 @@ public class GameActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void updateRemainingCardsText() {
         TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
-        if(gameInstance.getRemainingCards() < 4){
+        if (gameInstance.getRemainingCards() < 4) {
             txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.green));
-        }else{
+        } else {
             txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.black));
         }
         txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
@@ -211,6 +211,9 @@ public class GameActivity extends AppCompatActivity {
         int cardWidth = cardView.getWidth();
         int cardHeight = cardView.getHeight();
 
+        /* TODO: this should be changed if not all the buttons are the same size, the random generator
+            will also need to be changed to accommodate for this fact
+         */
         int imageButtonWidth = allButtons.get(0).getWidth();
         int imageButtonHeight = allButtons.get(0).getHeight();
 
@@ -248,7 +251,7 @@ public class GameActivity extends AppCompatActivity {
 
     // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna
     // @ https://stackoverflow.com/a/9563438
-    private float convertPixelsToDp(float px){
+    private float convertPixelsToDp(float px) {
         return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
