@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.CardImage;
+import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.PrefsManager;
@@ -38,9 +38,8 @@ import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.IMAGES_RATIOS;
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_SET;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
  * Class for displaying the game to the player, including game over messages.
@@ -53,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
     List<Integer> rndTopMargin;
     int randCount;
     int imageSet;
-    String defaultPictureType;
+    String imageSetPrefix;
     ScoreManager scoreManager;
     PrefsManager prefsManager;
     Game gameInstance;
@@ -79,9 +78,9 @@ public class GameActivity extends AppCompatActivity {
 
         scoreManager = ScoreManager.getInstance();
         prefsManager = PrefsManager.getInstance();
-        defaultPictureType = getString(R.string.default_picture_type);
-        imageSet = prefsManager.getTypePictureInstalledInt(defaultPictureType);
-        gameInstance = new Game(NUM_IMAGES, imageSet);
+        imageSet = prefsManager.getImageSetSelected();
+        imageSetPrefix = prefsManager.getImageSetSelectedPrefix();
+        gameInstance = new Game(NUM_IMAGES);
 
         // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
@@ -125,26 +124,28 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void refreshButtons() {
-        resourcePrefix = prefsManager.getTypePictureInstalledStr(defaultPictureType).toLowerCase() + "_";
+        resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 
         String resourceName;
         int resourceID;
-        List<CardImage> discPileImages = gameInstance.getDiscardPileImages();
-        List<CardImage> drawPileImages = gameInstance.getDrawPileImages();
+        List<Integer> discPileImages = gameInstance.getDiscardPileImages();
+        List<Integer> drawPileImages = gameInstance.getDrawPileImages();
 
-        CardImage image;
+        int imageIndex;
         for (ImageButton button : allButtons) {
             int index = allButtons.indexOf(button);
             boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
+
             if (pile == DISCARD_PILE) {
-                image = discPileImages.get(index);
+                imageIndex = discPileImages.get(index);
             } else {
-                image = drawPileImages.get(index - gameInstance.getImagesPerCard());
+                imageIndex = drawPileImages.get(index - gameInstance.getImagesPerCard());
             }
-            resourceName = resourcePrefix + image.name().toLowerCase();
+
+            resourceName = resourcePrefix + imageIndex;
             resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
             button.setImageResource(resourceID);
-            button.setTag(image);
+            button.setTag(imageIndex);
 
             RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
             buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
@@ -230,7 +231,7 @@ public class GameActivity extends AppCompatActivity {
     private void tapUpdateGameState(ImageButton pressedButton) {
         boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
         // If there was a match
-        if (gameInstance.tappedUpdateState(pile, (CardImage) pressedButton.getTag())) {
+        if (gameInstance.tappedUpdateState(pile, (int) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // Then change the images and remove all overlays to signify no card being selected
 
@@ -302,18 +303,8 @@ public class GameActivity extends AppCompatActivity {
     private void congratulationsDialog(int time, int playerRank) {
         // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
-        int winImageID;
-        switch (imageSet) {
-            case LANDSCAPE_SET:
-                winImageID = R.drawable.landscape_rainbow;
-                break;
-            case PREDATOR_SET:
-                winImageID = R.drawable.predator_orca;
-                break;
-            default:
-                throw new UnsupportedOperationException("Error: " + imageSet + " is an invalid value " +
-                        "for imageSet.");
-        }
+        int winImageID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
+                        "end", "drawable", getPackageName());
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);
@@ -338,12 +329,14 @@ public class GameActivity extends AppCompatActivity {
         // With the suggestion to place it after alert.show() adapted from Cerlin
         // @ https://stackoverflow.com/a/43536704
         TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
+        assert dialogMessages != null;
         dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);
         dialogMessages.setGravity(Gravity.CENTER);
 
         // Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
         Button btnReturnToMainMenu = alert.findViewById(android.R.id.button1);
+        assert btnReturnToMainMenu != null;
         btnReturnToMainMenu.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
         // Don't let user touch outside dialog box after game finished
@@ -356,5 +349,4 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         this.finish();
     }
-
 }
