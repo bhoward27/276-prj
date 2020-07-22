@@ -13,8 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PrefsManager {
 	private SharedPreferences prefs;
-
-	// Singleton setup
 	private static PrefsManager instance;
 
 	private PrefsManager(SharedPreferences sharedPrefs) {
