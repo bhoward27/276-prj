@@ -21,6 +21,7 @@ public final class Constants {
 	public static final String PICTURE_TYPE_STRING_PREF = "PICTURE_TYPES_STRING";
 
 	public static final String DRAW_PILE_SIZE_STRING_PREF = "DRAW_PILE_SIZE_STRING_PREF";
+	public static final String ORDER_STRING_PREF = "ORDER_STRING_PREF";
 	public static final String NAME_PREF = "PLAYER_NAME";
 	public static final double IMAGES_RATIOS = 2.01;
 	public static final double BUTTON_SPACING_PADDING = 1.05;

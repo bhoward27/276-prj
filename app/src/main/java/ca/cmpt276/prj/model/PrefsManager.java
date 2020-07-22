@@ -3,6 +3,7 @@ package ca.cmpt276.prj.model;
 import android.content.SharedPreferences;
 
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE_SIZE_STRING_PREF;
+import static ca.cmpt276.prj.model.Constants.ORDER_STRING_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_SET;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.PICTURE_TYPE_STRING_PREF;
@@ -51,10 +52,16 @@ public class PrefsManager {
 		editor.apply();
 	}
 
-	public void saveDrawPileSize(String size){
+	public void saveDrawPileSize(String drawPileSize){
 		SharedPreferences.Editor editor = prefs.edit();
 
-		editor.putString(DRAW_PILE_SIZE_STRING_PREF, size);
+		editor.putString(DRAW_PILE_SIZE_STRING_PREF, drawPileSize);
+		editor.apply();
+	}
+
+	public void saveOrder(String order){
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(ORDER_STRING_PREF, order);
 		editor.apply();
 	}
 
@@ -78,30 +85,9 @@ public class PrefsManager {
 	}
 
 
-//	public String getOrder(String defaultOrder){
-//		return prefs.getString()
-//	}
-//
-//	public int getDrawPileSize(String defaultValue){
-//		int defaultInt;
-//		switch (defaultValue) {
-//			case "5":
-//				defaultInt = 5;
-//				break;
-//			case "10":
-//				defaultInt = 10;
-//				break;
-//			case "20":
-//				defaultInt = 20;
-//				break;
-//			case "All":
-//				defaultInt = ;
-//				break;
-//			default:
-//				defaultInt = LANDSCAPE_SET;
-//		}
-//		return prefs.getInt(PICTURE_TYPE_INT_PREF, defaultInt);
-//	}
+	public String getOrder(String defaultOrder){
+		return prefs.getString(ORDER_STRING_PREF, defaultOrder);
+	}
 
 
 	public String getTypePictureInstalledStr(String defaultValue){
