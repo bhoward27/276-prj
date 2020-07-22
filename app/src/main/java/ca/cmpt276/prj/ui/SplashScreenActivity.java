@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.PrefsManager;
 
 import static ca.cmpt276.prj.model.Constants.PREFS;
@@ -36,6 +37,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         // instantly instantiate SharedPreferences singleton for global use over program
         PrefsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+        constructImageNameMatrix();
+
         setUpAnimatedIntro();
         setUpSkipButton();
         beginAutoSkipTimer();
@@ -98,5 +101,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Once Splash Screen is left, pressing back button on Main Menu should NOT return to this
         // activity; finish() ensures Splash Screen cannot be returned to during runtime.-
         finish();
+    }
+
+    private void constructImageNameMatrix() {
+        String names[] = getResources().getStringArray(R.array.card_image_names);
+        ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
+        imageNames.setCardImageNames(names);
     }
 }
