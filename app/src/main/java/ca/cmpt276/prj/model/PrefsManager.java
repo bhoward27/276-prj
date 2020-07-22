@@ -70,5 +70,4 @@ public class PrefsManager {
 	public static String getAlpha(int index) {
 		return index >= 0 && index < 26 ? String.valueOf((char)(index + 97)) : null;
 	}
-
 }

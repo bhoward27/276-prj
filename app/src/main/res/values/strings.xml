@@ -86,7 +86,7 @@
     <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
     <string name="txt_prompt_image_type">Select the type of pictures:</string>
     <string name="txt_prompt_name">Enter your name for high scores:</string>
-    <string name="txt_placeholder_name">UR_NAME_HERE</string>
+    <string name="txt_player_name_placeholder">[Your name]</string>
     <string name="txt_score_by">\u0020by\u0020</string>
     <string name="txt_score_on">\u0020on\u0020</string>
 </resources>

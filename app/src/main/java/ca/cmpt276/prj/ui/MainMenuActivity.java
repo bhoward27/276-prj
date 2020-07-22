@@ -17,6 +17,9 @@ import java.util.List;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.PrefsManager;
 
+import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+
 /**
  * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities
  */
@@ -56,8 +59,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         Log.d("test", "setUpImages: " + imageSetPrefix);
         for (ImageView view : views) {
-            resourceID = getResources().getIdentifier(imageSetPrefix + "_" + views.indexOf(view),
-                    "drawable", getPackageName());
+            resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
+                            + views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
             view.setImageResource(resourceID);
         }
     }

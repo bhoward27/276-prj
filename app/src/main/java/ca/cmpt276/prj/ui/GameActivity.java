@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.PrefsManager;
@@ -296,7 +295,7 @@ public class GameActivity extends AppCompatActivity {
     private void finishGame() {
         scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
-        int playerRank = scoreManager.addHighScore(prefsManager.getName(getString(R.string.txt_placeholder_name)), time);
+        int playerRank = scoreManager.addHighScore(prefsManager.getName(getString(R.string.txt_player_name_placeholder)), time);
         congratulationsDialog(time, playerRank);
     }
 
