@@ -23,6 +23,7 @@ public final class Constants {
 	public static final String DRAW_PILE_SIZE_PREF = "DRAW_PILE_SIZE_PREF";
 	public static final String DIFFERENT_CARDS_AMOUNT_PREF = "DIFFERENT_CARDS_AMOUNT_PREF";
 	public static final String NAME_PREF = "PLAYER_NAME";
+	public static final String DEFAULT_PLAYER_NAME = "[Your name]";
 	public static final double IMAGES_RATIOS = 2.01;
 	public static final double BUTTON_SPACING_PADDING = 1.05;
 	public static final int LANDSCAPE_IMAGE_SET = 0;
@@ -38,4 +39,6 @@ public final class Constants {
 	public static final String SCORE_TIME_KEY_PREFIX = "SCORE_TIME";
 	public static final String SCORE_NAME_KEY_PREFIX = "SCORE_NAME";
 	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
+	public static final String WORD_MODE_PREF_KEY = "WORD_MODE_PREF";
+	public static final boolean DEFAULT_WORD_MODE = false;
 }
