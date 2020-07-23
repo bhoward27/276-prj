@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 
 import java.util.Arrays;
 
+import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_ORDER_PREF;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
@@ -13,6 +16,7 @@ import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
+import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
@@ -68,14 +72,12 @@ public class OptionSet {
         playerName = prefs.getString(NAME_PREF, DEFAULT_PLAYER_NAME);
     }
 
-    //  Wait for Michael's reply to implement.
     private void loadOrderPref() {
-
+        order = prefs.getInt(ORDER_PREF_KEY, DEFAULT_ORDER_PREF);
     }
 
-    //  Wait for Michael's reply to implement.
     private void loadDeckSizePref() {
-
+        deckSize = prefs.getInt(DECK_SIZE_PREF_KEY, DEFAULT_DECK_SIZE);
     }
 
     private void loadWordModePref() {
@@ -86,12 +88,6 @@ public class OptionSet {
         if (imageSet < LANDSCAPE_IMAGE_SET || imageSet > FLICKR_IMAGE_SET) {
             throw new IllegalArgumentException("Error: Invalid imageSet argument. ImageSet " +
                     "must be in range [" + LANDSCAPE_IMAGE_SET + ", " + FLICKR_IMAGE_SET + "].");
-        }
-        //  This ensures that the imageSetPrefix works.
-        boolean canBeMappedToALowercaseLetter = (imageSet >= 0 && imageSet < 26);
-        if (!canBeMappedToALowercaseLetter) {
-            throw new IllegalArgumentException("Error: Invalid imageSet argument. ImageSet " +
-                    "must at least be in range [0, 26).");
         }
 
         SharedPreferences.Editor editor = prefs.edit();
@@ -133,11 +129,11 @@ public class OptionSet {
     public void setOrder(int order) {
         if (Arrays.binarySearch(SUPPORTED_ORDERS, order) < 0) {
             throw new IllegalArgumentException("Error: Invalid order argument. Only the following"
-                    + " order values are currently supported: " + SUPPORTED_ORDERS.toString());
+                    + " order values are currently supported: " + Arrays.toString(SUPPORTED_ORDERS));
         }
 
         SharedPreferences.Editor editor = prefs.edit();
-        //***  putInt the order ***
+        editor.putInt(ORDER_PREF_KEY, order);
         editor.apply();
 
         this.order = order;
@@ -154,7 +150,7 @@ public class OptionSet {
         }
 
         SharedPreferences.Editor editor = prefs.edit();
-        //***  putInt the deckSize ***
+        editor.putInt(DECK_SIZE_PREF_KEY, deckSize);
         editor.apply();
 
         this.deckSize = deckSize;
@@ -162,6 +158,14 @@ public class OptionSet {
 
     public int getDeckSize() {
         return deckSize;
+    }
+
+    /**
+     * @return the maximum possible deckSize for the current order.
+     */
+    public int getMaxDeckSize() {
+        int numImagesPerCard = order + 1;
+        return numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
     }
 
     public void setWordMode(boolean wordMode) {
