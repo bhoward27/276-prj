@@ -29,7 +29,7 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
-import ca.cmpt276.prj.model.PrefsManager;
+import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
     int imageSet;
     String imageSetPrefix;
     ScoreManager scoreManager;
-    PrefsManager prefsManager;
+    OptionSet options;
     Game gameInstance;
     String resourcePrefix;
     Chronometer scoreTimer;
@@ -77,9 +77,9 @@ public class GameActivity extends AppCompatActivity {
         randCount = 0;
 
         scoreManager = ScoreManager.getInstance();
-        prefsManager = PrefsManager.getInstance();
-        imageSet = prefsManager.getImageSetSelected();
-        imageSetPrefix = prefsManager.getImageSetSelectedPrefix();
+        options = OptionSet.getInstance();
+        imageSet = options.getImageSet();
+        imageSetPrefix = options.getImageSetPrefix();
         gameInstance = new Game(NUM_IMAGES);
 
         // We have to wait until the cardview loads before getting the positions for the images
@@ -305,8 +305,7 @@ public class GameActivity extends AppCompatActivity {
     private void finishGame() {
         scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
-        int playerRank = scoreManager.addHighScore(prefsManager.getName(getString(
-                                                        R.string.txt_player_name_placeholder)),
+        int playerRank = scoreManager.addHighScore(options.getPlayerName(),
                                                         time);
         congratulationsDialog(time, playerRank);
     }

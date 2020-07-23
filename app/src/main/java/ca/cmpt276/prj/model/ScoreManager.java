@@ -12,6 +12,7 @@ import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
 import static ca.cmpt276.prj.model.Constants.SCORE_DATE_KEY_PREFIX;
 import static ca.cmpt276.prj.model.Constants.SCORE_NAME_KEY_PREFIX;
 import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This class provides an interface for the system's shared preferences and
@@ -27,8 +28,15 @@ public class ScoreManager {
 	// Singleton setup
 	private static ScoreManager instance;
 
-	private ScoreManager() {
-		this.prefs = PrefsManager.getInstance().getPrefs();
+	//  Call instantiate on splash screen.
+	public static void instantiate(SharedPreferences prefs) {
+		if (instance == null) {
+			instance = new ScoreManager(prefs);
+		}
+	}
+
+	private ScoreManager(SharedPreferences prefs) {
+		this.prefs = prefs;
 		this.scores = new ArrayList<>();
 		this.defaultScores = new ArrayList<>();
 
@@ -37,9 +45,7 @@ public class ScoreManager {
 	}
 
 	public static ScoreManager getInstance() {
-		if (instance == null) {
-			instance = new ScoreManager();
-		}
+		assertNotNull(instance);
 		return instance;
 	}
 	// End singleton setup

@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.PrefsManager;
+import ca.cmpt276.prj.model.OptionSet;
 
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
@@ -24,7 +24,7 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities
  */
 public class MainMenuActivity extends AppCompatActivity {
-    PrefsManager prefs;
+    OptionSet options;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
@@ -35,7 +35,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        prefs = PrefsManager.getInstance();
+        options = OptionSet.getInstance();
 
         setUpImages();
         setUpButtons();
@@ -54,7 +54,7 @@ public class MainMenuActivity extends AppCompatActivity {
         // randomize images? we can remove this, just an idea
         Collections.shuffle(views);
 
-        String imageSetPrefix = prefs.getImageSetSelectedPrefix();
+        String imageSetPrefix = options.getImageSetPrefix();
         int resourceID;
 
         Log.d("test", "setUpImages: " + imageSetPrefix);

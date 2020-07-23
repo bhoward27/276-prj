@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.PrefsManager;
+import ca.cmpt276.prj.model.OptionSet;
 
 /**
  * Activity for different types of pictures and setting the player name.
  */
 public class OptionsActivity extends AppCompatActivity {
-    PrefsManager prefsManager;
-    int imageSetIndexPref;
+    int imageSetPref;
+    OptionSet options;
     String playerNamePlaceholder;
 
     @Override
@@ -30,7 +30,7 @@ public class OptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        initPrefs();
+        initOptionSet();
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_options_activity));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -39,11 +39,11 @@ public class OptionsActivity extends AppCompatActivity {
         setupEntryBox();
     }
 
-    private void initPrefs() {
+    private void initOptionSet() {
         String defaultValue = getString(R.string.default_picture_type);
 
-        prefsManager = PrefsManager.getInstance();
-        imageSetIndexPref = prefsManager.getImageSetSelected();
+        options = OptionSet.getInstance();
+        imageSetPref = options.getImageSet();
         playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
     }
 
@@ -57,12 +57,11 @@ public class OptionsActivity extends AppCompatActivity {
 
             RadioButton button = new RadioButton(this);
             button.setText(imageSetName);
-            button.setOnClickListener(v -> prefsManager.saveImageSetSelected(indexOfButton,
-                                                                                imageSetName));
+            button.setOnClickListener(v -> options.setImageSet(indexOfButton));
             radioGroup.addView(button);
 
             // Select default button:
-            if (deckThemeNames.indexOf(imageSetName) == imageSetIndexPref) {
+            if (deckThemeNames.indexOf(imageSetName) == imageSetPref) {
                 button.setChecked(true);
             }
         }
@@ -70,7 +69,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void setupEntryBox() {
         EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
-        String playerNamePref = prefsManager.getName(playerNamePlaceholder);
+        String playerNamePref = options.getPlayerName();
 
         if (!playerNamePref.matches(playerNamePlaceholder)) {
             playerNameEntryBox.setText(playerNamePref);
@@ -102,9 +101,9 @@ public class OptionsActivity extends AppCompatActivity {
         String enteredPlayerName = playerNameEntryBox.getText().toString();
 
         if (enteredPlayerName.matches("")) {
-            prefsManager.saveName(playerNamePlaceholder);
+            options.setPlayerName(playerNamePlaceholder);
         } else {
-            prefsManager.saveName(enteredPlayerName);
+            options.setPlayerName(enteredPlayerName);
         }
     }
 }
