@@ -23,6 +23,10 @@ import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
 import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * This class is a singleton that interacts with SharedPreferences to retrieve and save options.
+ * Whenever a setter is called, the preference is automatically saved.
+ */
 public class OptionSet {
     private static OptionSet instance;
     private SharedPreferences prefs;
@@ -31,7 +35,7 @@ public class OptionSet {
     private String playerName;
     private int order;
     private int deckSize;
-    private boolean wordMode;
+    private boolean wordMode; // when true, some cards will have words appear instead of images.
 
     private static final int ASCII_OFFSET = 97;
 
