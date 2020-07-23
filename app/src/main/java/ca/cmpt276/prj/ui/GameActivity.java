@@ -27,10 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
-import ca.cmpt276.prj.model.PrefsManager;
+import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -38,6 +37,7 @@ import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
 import static ca.cmpt276.prj.model.Constants.IMAGES_RATIOS;
+import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity {
     int imageSet;
     String imageSetPrefix;
     ScoreManager scoreManager;
-    PrefsManager prefsManager;
+    OptionSet options;
     Game gameInstance;
     String resourcePrefix;
     Chronometer scoreTimer;
@@ -77,14 +77,15 @@ public class GameActivity extends AppCompatActivity {
         randCount = 0;
 
         scoreManager = ScoreManager.getInstance();
-        prefsManager = PrefsManager.getInstance();
-        imageSet = prefsManager.getImageSetSelected();
-        imageSetPrefix = prefsManager.getImageSetSelectedPrefix();
+        options = OptionSet.getInstance();
+        imageSet = options.getImageSet();
+        imageSetPrefix = options.getImageSetPrefix();
         gameInstance = new Game(NUM_IMAGES);
 
         // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
-        cardView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        cardView.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 cardView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -143,11 +144,13 @@ public class GameActivity extends AppCompatActivity {
             }
 
             resourceName = resourcePrefix + imageIndex;
-            resourceID = getResources().getIdentifier(resourceName, "drawable", getPackageName());
+            resourceID = getResources().getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                                                            getPackageName());
             button.setImageResource(resourceID);
             button.setTag(imageIndex);
 
-            RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+            RelativeLayout.LayoutParams buttonLayoutParams =
+                    (RelativeLayout.LayoutParams) button.getLayoutParams();
             buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
             buttonLayoutParams.topMargin = rndTopMargin.get(randCount + index);
 
@@ -168,14 +171,15 @@ public class GameActivity extends AppCompatActivity {
         // Dynamic ImageButton sizes
         double buttonSpacingX = findViewById(R.id.crdDiscPile).getWidth() /
                 ((gameInstance.getImagesPerCard()) * BUTTON_SPACING_PADDING);
-        double buttonSpacingY = (1/IMAGES_RATIOS) * buttonSpacingX;
+        double buttonSpacingY = (1 / IMAGES_RATIOS) * buttonSpacingX;
 
         int buttonHeight = (int) Math.round(buttonSpacingY);
         // 2.01:1 is the ratio of the current images
         int buttonWidth = (int) Math.round(buttonSpacingX);
 
         for (ImageButton button : allButtons) {
-            RelativeLayout.LayoutParams buttonLayoutParams = (RelativeLayout.LayoutParams) button.getLayoutParams();
+            RelativeLayout.LayoutParams buttonLayoutParams =
+                    (RelativeLayout.LayoutParams) button.getLayoutParams();
 
             buttonLayoutParams.width = buttonWidth;
             buttonLayoutParams.height = buttonHeight;
@@ -222,7 +226,8 @@ public class GameActivity extends AppCompatActivity {
         int totalCards = gameInstance.getDeck().getTotalNumCards();
 
         for (int card = 0; card < totalCards; card++) {
-            GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax, gameInstance.getImagesPerCard());
+            GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax,
+                                        gameInstance.getImagesPerCard());
             rndLeftMargin.addAll(gen.getxList());
             rndTopMargin.addAll(gen.getyList());
         }
@@ -251,14 +256,18 @@ public class GameActivity extends AppCompatActivity {
     // Code for setting margins adapted from Muhammad Nabeel Arif and Salam El-Banna
     // @ https://stackoverflow.com/a/9563438
     private float convertPixelsToDp(float px){
-        return px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px / ((float) getResources().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     private void updateShadowsAndMargins() {
-        ConstraintLayout.LayoutParams discCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
-        ConstraintLayout.LayoutParams drawCardView = (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
+        ConstraintLayout.LayoutParams discCardView =
+                (ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
+        ConstraintLayout.LayoutParams drawCardView =
+                (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
-        float shiftAmt = convertPixelsToDp(getResources().getDimension(R.dimen.cardview_margins))/gameInstance.getDeck().getTotalNumCards()+1;
+        float shiftAmt = convertPixelsToDp(getResources().getDimension(R.dimen.cardview_margins))
+                            / gameInstance.getDeck().getTotalNumCards() + 1;
 
         discCardView.leftMargin -= shiftAmt;
         discCardView.topMargin -= shiftAmt;
@@ -295,8 +304,9 @@ public class GameActivity extends AppCompatActivity {
 
     private void finishGame() {
         scoreTimer.stop();
-        int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase())/1000;
-        int playerRank = scoreManager.addHighScore(prefsManager.getName(getString(R.string.txt_placeholder_name)), time);
+        int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
+        int playerRank = scoreManager.addHighScore(options.getPlayerName(),
+                                                        time);
         congratulationsDialog(time, playerRank);
     }
 
@@ -304,7 +314,7 @@ public class GameActivity extends AppCompatActivity {
         // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
-                        "end", "drawable", getPackageName());
+                        "end", IMAGE_FOLDER_NAME, getPackageName());
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);
