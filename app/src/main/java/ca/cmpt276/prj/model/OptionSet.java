@@ -66,7 +66,7 @@ public class OptionSet {
 
     //  Wait for Michael's reply to implement.
     private void loadOrderPref() {
-        
+
     }
 
     //  Wait for Michael's reply to implement.
