@@ -26,4 +26,7 @@ public final class Constants {
 	public static final String IMAGE_FOLDER_NAME = "drawable";
 	public static final String RESOURCE_DIVIDER = "_";
 	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
+	public static final String SCORE_TIME_KEY_PREFIX = "SCORE_TIME";
+	public static final String SCORE_NAME_KEY_PREFIX = "SCORE_NAME";
+	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
 }
