@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +24,8 @@ import ca.cmpt276.prj.model.PrefsManager;
 /**
  * Activity for different types of pictures and setting the player name
  */
-public class OptionsActivity extends AppCompatActivity {
+
+public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     PrefsManager prefsManager;
     int savedValue;
     String defaultName;
@@ -37,6 +42,8 @@ public class OptionsActivity extends AppCompatActivity {
 
         createRadioButton();
         createNameChangeFields();
+        createOrderSpinner();
+        createDrawPileSizeSpinner();
 
     }
 
@@ -47,6 +54,52 @@ public class OptionsActivity extends AppCompatActivity {
         savedValue = prefsManager.getImageSetSelected();
         defaultName = getString(R.string.txt_placeholder_name);
     }
+
+    private void createOrderSpinner(){
+        Spinner orderSpinner = findViewById(R.id.spn_order);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_deck_order, android.R.layout.simple_spinner_item);
+        String currentOrder = prefsManager.getOrderSelected();
+        int currentDifferentCardsAmount = prefsManager.getDifferentCardsAmountSelected();
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderSpinner.setAdapter(adapter);
+        int defaultPosition = adapter.getPosition(currentOrder);
+        orderSpinner.setSelection(defaultPosition);
+        orderSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void createDrawPileSizeSpinner(){
+        Spinner orderDrawPileSize = findViewById(R.id.spn_draw_pile);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
+        String currentDrawPileSize = prefsManager.getDrawPileSizeSelected();
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderDrawPileSize.setAdapter(adapter);
+        int defaultPosition = adapter.getPosition(currentDrawPileSize);
+        orderDrawPileSize.setSelection(defaultPosition);
+        orderDrawPileSize.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //Multiple spinners exist in this activity, and they must all use the same
+        //overriden onItemSelected/onNothingSelected functions. a switch statement
+        //will identify which spinner is using the function via parent ID.
+        switch(parent.getId()) {
+            case R.id.spn_order:
+                String selectedOrder = parent.getItemAtPosition(position).toString();
+                prefsManager.saveOrderSelcted(selectedOrder);
+                break;
+            case R.id.spn_draw_pile:
+                String selectedDrawPileSize = parent.getItemAtPosition(position).toString();
+                prefsManager.saveDrawPileSizeSelected(selectedDrawPileSize);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {}
 
     private void createRadioButton() {
         RadioGroup group = findViewById(R.id.radioGroup);

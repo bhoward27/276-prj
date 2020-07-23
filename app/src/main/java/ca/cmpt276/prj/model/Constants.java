@@ -19,10 +19,16 @@ public final class Constants {
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
 	public static final String IMAGE_SET_PREFIX_PREF = "PICTURE_TYPES_PREFIX";
 	public static final String IMAGE_SET_NAME_PREF = "PICTURE_TYPES_NAME";
+	public static final String ORDER_PREF = "ORDER_PREF";
+	public static final String DRAW_PILE_SIZE_PREF = "DRAW_PILE_SIZE_PREF";
+	public static final String DIFFERENT_CARDS_AMOUNT_PREF = "DIFFERENT_CARDS_AMOUNT_PREF";
 	public static final String NAME_PREF = "PLAYER_NAME";
 	public static final double IMAGES_RATIOS = 2.01;
 	public static final double BUTTON_SPACING_PADDING = 1.05;
 	public static final int DEFAULT_IMAGE_SET = 0;
+	public static final int DEFAULT_DIFFERENT_CARDS_AMOUNT = 7;
+	public static final String DEFAULT_ORDER = "Order 2";
+	public static final String DEFAULT_DRAW_PILE_SIZE = "All";
 	public static final String RESOURCE_DIVIDER = "_";
 	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
 }
