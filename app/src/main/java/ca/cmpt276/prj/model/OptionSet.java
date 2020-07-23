@@ -3,15 +3,19 @@ package ca.cmpt276.prj.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Arrays;
+
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREFS;
+import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
 import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,7 +29,7 @@ public class OptionSet {
     private int deckSize;
     private boolean wordMode;
 
-    public static final int ASCII_OFFSET = 97;
+    private static final int ASCII_OFFSET = 97;
 
     //  Call instantiate on splash screen.
     public static void instantiate(SharedPreferences prefs) {
@@ -97,29 +101,78 @@ public class OptionSet {
         this.imageSet = imageSet;
     }
 
+    public int getImageSet() {
+        return imageSet;
+    }
+
     /**
      * This method maps the image set number to a lowercase letter and returns it as a string.
      * For example, 0 gets mapped to "a", 1 to "b", and so on.
      */
     public String getImageSetPrefix() {
-         return String.valueOf((char) (imageSet + ASCII_OFFSET));
+        return String.valueOf((char) (imageSet + ASCII_OFFSET));
     }
 
-    //  Not sure whether this is needed or would be used at all.
-//    public String getImageSetName() {
-//        String imageSetName;
-//        switch(imageSet) {
-//            case LANDSCAPE_IMAGE_SET:
-//                imageSetName =
-//                break;
-//            case PREDATOR_IMAGE_SET:
-//
-//                break;
-//            case FLICKR_IMAGE_SET:
-//
-//                break;
-//            default:
-//                throw new UnsupportedOperationException("Error: imageSet must be in range [0, 2].");
-//        }
-//    }
+    public void setPlayerName(String name) {
+        if (name.matches("")) {
+            throw new IllegalArgumentException("Error: Invalid argument. playerName must not be " +
+                    "a null string.");
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(NAME_PREF, name);
+        editor.apply();
+
+        playerName = name;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setOrder(int order) {
+        if (Arrays.binarySearch(SUPPORTED_ORDERS, order) < 0) {
+            throw new IllegalArgumentException("Error: Invalid order argument. Only the following"
+                    + " order values are currently supported: " + SUPPORTED_ORDERS.toString());
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        //***  putInt the order ***
+        editor.apply();
+
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setDeckSize(int deckSize) {
+        if (deckSize < MINIMUM_DECK_SIZE) {
+            throw new IllegalArgumentException("Error: Invalid deckSize argument. deckSize must" +
+                    " be at least " + MINIMUM_DECK_SIZE + ".");
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        //***  putInt the deckSize ***
+        editor.apply();
+
+        this.deckSize = deckSize;
+    }
+
+    public int getDeckSize() {
+        return deckSize;
+    }
+
+    public void setWordMode(boolean wordMode) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(WORD_MODE_PREF_KEY, wordMode);
+        editor.apply();
+
+        this.wordMode = wordMode;
+    }
+
+    public boolean isWordMode() {
+        return wordMode;
+    }
 }

@@ -41,4 +41,8 @@ public final class Constants {
 	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
 	public static final String WORD_MODE_PREF_KEY = "WORD_MODE_PREF";
 	public static final boolean DEFAULT_WORD_MODE = false;
+	//	Orders must appear in ascending order in the below array for binary search to work on
+	//	it.
+	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };
+	public static final int MINIMUM_DECK_SIZE = 5;
 }
