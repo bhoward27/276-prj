@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +24,7 @@ import ca.cmpt276.prj.model.OptionSet;
 /**
  * Activity for different types of pictures and setting the player name.
  */
-public class OptionsActivity extends AppCompatActivity {
+public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     int imageSetPref;
     OptionSet options;
     String playerNamePlaceholder;
@@ -37,6 +41,8 @@ public class OptionsActivity extends AppCompatActivity {
 
         createRadioButton();
         setupEntryBox();
+        createOrderSpinner();
+        createDeckSizeSpinner();
     }
 
     private void initOptionSet() {
@@ -66,6 +72,53 @@ public class OptionsActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void createOrderSpinner(){
+        Spinner orderSpinner = findViewById(R.id.spn_order);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
+//        String currentDrawPileSize = prefsManager.getDrawPileSizeSelected();
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        orderSpinner.setAdapter(adapter);
+//        int defaultPosition = adapter.getPosition(currentDrawPileSize);
+//        orderDrawPileSize.setSelection(defaultPosition);
+        orderSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void createDeckSizeSpinner(){
+        Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
+//        String currentDrawPileSize = prefsManager.getDrawPileSizeSelected();
+//
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        deckSizeSpinner.setAdapter(adapter);
+//        int defaultPosition = adapter.getPosition(currentDrawPileSize);
+//        orderDrawPileSize.setSelection(defaultPosition);
+        deckSizeSpinner.setOnItemSelectedListener(this);
+    }
+
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch(parent.getId()){
+            case R.id.spn_order:
+                //Integer.parseInt(s.replaceAll("[\\D]", ""))
+                String text = parent.getItemAtPosition(position).toString();
+                int chosenOrder = Integer.parseInt(text.replaceAll("[\\D]", ""));
+                options.setOrder(chosenOrder);
+                break;
+            case R.id.spn_pile_size:
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
 
     private void setupEntryBox() {
         EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
@@ -106,4 +159,5 @@ public class OptionsActivity extends AppCompatActivity {
             options.setPlayerName(enteredPlayerName);
         }
     }
+
 }
