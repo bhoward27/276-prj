@@ -50,8 +50,8 @@
     <string name="txt_below_top_three_rank">th:\u0020</string>
     <string name="txt_player_place">\nYou earned rank %d on the leaderboard!</string>
     <string name="txt_credits_app_icon">App Icon</string>
-    <string name="txt_prompt_order">Select the Order</string>
-    <string name="txt_prompt_pile_size">Select the Draw Pile SIze</string>
+    <string name="txt_prompt_order">Select Order:</string>
+    <string name="txt_prompt_pile_size">Select Draw Pile SIze:</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>

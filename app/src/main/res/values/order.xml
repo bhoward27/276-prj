@@ -2,10 +2,10 @@
 <resources>
 
     <string-array name="str_deck_order">
-        <item>Order 2</item>
-        <item>Order 3</item>
-        <item>Order 5</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
     </string-array>
 
-    <string name="default_deck_order">Order 2</string>
+    <string name="default_deck_order">2</string>
 </resources>
