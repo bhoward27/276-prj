@@ -24,7 +24,7 @@ public class Deck {
 		this.imagesPerCard = imagesPerCard;
 
 		// Total number of cards is images^2 - images + 1
-		this.totalNumCards = imagesPerCard*imagesPerCard - imagesPerCard + 1;
+		this.totalNumCards = imagesPerCard * imagesPerCard - imagesPerCard + 1;
 
 		setCardOrders();
 		initializePiles();
@@ -94,5 +94,4 @@ public class Deck {
 				throw new UnsupportedOperationException("Not implemented: imagesPerCard != 3");
 		}
 	}
-
 }

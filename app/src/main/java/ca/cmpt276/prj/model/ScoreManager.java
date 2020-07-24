@@ -9,10 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
+import static ca.cmpt276.prj.model.Constants.SCORE_DATE_KEY_PREFIX;
+import static ca.cmpt276.prj.model.Constants.SCORE_NAME_KEY_PREFIX;
+import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This class provides an interface for the system's shared preferences and
- * allows us to interact with the high scores list
+ * allows us to interact with the high scores list.
  */
 
 public class ScoreManager {
@@ -24,8 +28,15 @@ public class ScoreManager {
 	// Singleton setup
 	private static ScoreManager instance;
 
-	private ScoreManager() {
-		this.prefs = PrefsManager.getInstance().getPrefs();
+	//  Call instantiate on splash screen.
+	public static void instantiate(SharedPreferences prefs) {
+		if (instance == null) {
+			instance = new ScoreManager(prefs);
+		}
+	}
+
+	private ScoreManager(SharedPreferences prefs) {
+		this.prefs = prefs;
 		this.scores = new ArrayList<>();
 		this.defaultScores = new ArrayList<>();
 
@@ -34,9 +45,7 @@ public class ScoreManager {
 	}
 
 	public static ScoreManager getInstance() {
-		if (instance == null) {
-			instance = new ScoreManager();
-		}
+		assertNotNull(instance);
 		return instance;
 	}
 	// End singleton setup
@@ -89,9 +98,9 @@ public class ScoreManager {
 		for (Score score : defaultScores) {
 			int key = defaultScores.indexOf(score);
 
-			int currentTime = prefs.getInt("SCORE_TIME" + key, score.getTime());
-			String currentName = prefs.getString("SCORE_NAME" + key, score.getName());
-			String currentDate = prefs.getString("SCORE_DATE" + key, score.getDate());
+			int currentTime = prefs.getInt(SCORE_TIME_KEY_PREFIX + key, score.getTime());
+			String currentName = prefs.getString(SCORE_NAME_KEY_PREFIX + key, score.getName());
+			String currentDate = prefs.getString(SCORE_DATE_KEY_PREFIX + key, score.getDate());
 
 			scores.add(new Score(currentTime, currentName, currentDate));
 		}
@@ -103,9 +112,9 @@ public class ScoreManager {
 		for (Score score : scores) {
 			int key = scores.indexOf(score);
 
-			editPrefs.putInt("SCORE_TIME" + key, score.getTime());
-			editPrefs.putString("SCORE_NAME" + key, score.getName());
-			editPrefs.putString("SCORE_DATE" + key, score.getDate());
+			editPrefs.putInt(SCORE_TIME_KEY_PREFIX + key, score.getTime());
+			editPrefs.putString(SCORE_NAME_KEY_PREFIX + key, score.getName());
+			editPrefs.putString(SCORE_DATE_KEY_PREFIX + key, score.getDate());
 		}
 
 		editPrefs.apply();
