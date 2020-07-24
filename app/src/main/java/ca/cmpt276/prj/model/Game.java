@@ -13,13 +13,13 @@ public class Game {
 	Deck deck;
 	int selectedDiscardPileImage;
 	int selectedDrawPileImage;
-	int imagesPerCard;
+	int order;
 
-	public Game(int imagesPerCard) {
-		this.deck = new Deck(imagesPerCard);
+	public Game(int order) {
+		this.deck = new Deck(order);
 		this.selectedDiscardPileImage = NONE_SELECTED;
 		this.selectedDrawPileImage = NONE_SELECTED;
-		this.imagesPerCard = imagesPerCard;
+		this.order = order;
 	}
 
 	public Deck getDeck() {
@@ -47,8 +47,8 @@ public class Game {
 		}
 	}
 
-	public int getImagesPerCard() {
-		return imagesPerCard;
+	public int getOrder() {
+		return order;
 	}
 
 	public List<Integer> getDiscardPileImages() {
