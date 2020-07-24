@@ -93,8 +93,8 @@
         android:layout_marginTop="10dp"/>
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="328dp"
+        android:id="@+id/editTextPlayerNameEntryBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -103,7 +103,7 @@
         android:layout_marginEnd="50dp"
         android:layout_toEndOf="@+id/txtName"
         android:ems="10"
-        android:hint="@string/txt_placeholder_name"
+        android:hint="@string/txt_player_name_placeholder"
         android:inputType="textPersonName"
         android:maxLength="@integer/max_name_length" />
 

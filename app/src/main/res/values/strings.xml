@@ -77,22 +77,6 @@
     <string name="txt_heading_predators">Predators</string>
     <string name="txt_body_about_the_team">The team who made this game consists of Yuyang Li, William Horvath, Michael Mora, and Benjamin Howard. The game was made as a school project for a software engineering course at Simon Fraser University.\n\nImages listed directly below do not belong to the team. Tap a link to go to the source of the image.</string>
     <string name="txt_win_message">You won! Your final score is: %s</string>
-    <string name="txt_prompt_image_type">Deck Type:</string>
-    <string name="txt_prompt_name">Name for high scores:</string>
-    <string name="txt_placeholder_name">Name here!</string>
-    <string name="txt_score_by">\u0020by\u0020</string>
-    <string name="txt_score_on">\u0020on\u0020</string>
-    <string name="txt_draw_pile_size_five">5</string>
-    <string name="txt_draw_pile_size_ten">10</string>
-    <string name="txt_draw_pile_size_fifteen">15</string>
-    <string name="txt_draw_pile_size_twenty">20</string>
-    <string name="txt_draw_pile_size_all">all</string>
-    <string name="txt_prompt_order">Order (Images per card = Order + 1):</string>
-    <string name="txt_prompt_draw_pile_size">Cards in the draw pile:</string>
-    <string name="txt_order_2">Order 2 </string>
-    <string name="txt_order_3">Order 3 </string>
-    <string name="txt_order_5">Order 5 </string>
-
     <string name="img_cave_or_bear">img_cave_or_bear</string>
     <string name="img_volcano_spider">img_volcano_spider</string>
     <string name="img_ocean_or_lion">img_ocean_or_lion</string>
@@ -100,5 +84,9 @@
     <string name="img_forest_or_leopard">img_forest_or_leopard</string>
     <string name="img_storm_or_shark">img_storm_or_shark</string>
     <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
-
+    <string name="txt_prompt_image_type">Select the type of pictures:</string>
+    <string name="txt_prompt_name">Enter your name for high scores:</string>
+    <string name="txt_player_name_placeholder">[Your name]</string>
+    <string name="txt_score_by">\u0020by\u0020</string>
+    <string name="txt_score_on">\u0020on\u0020</string>
 </resources>
