@@ -23,7 +23,7 @@ public final class Constants {
 	public static final String DIFFERENT_CARDS_AMOUNT_PREF = "DIFFERENT_CARDS_AMOUNT_PREF";
 	public static final String NAME_PREF = "PLAYER_NAME";
 	public static final String DEFAULT_PLAYER_NAME = "[Your name]";
-	public static final double BUTTON_SPACING_PADDING = 1.05;
+	public static final double BUTTON_SPACING_PADDING = 1.3;
 	public static final int LANDSCAPE_IMAGE_SET = 0;
 	public static final int PREDATOR_IMAGE_SET = 1;
 	public static final int FLICKR_IMAGE_SET = 2;

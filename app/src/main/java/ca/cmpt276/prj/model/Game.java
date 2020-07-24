@@ -47,8 +47,8 @@ public class Game {
 		}
 	}
 
-	public int getOrder() {
-		return order;
+	public int getNumImagesPerCard() {
+		return order+1;
 	}
 
 	public List<Integer> getDiscardPileImages() {

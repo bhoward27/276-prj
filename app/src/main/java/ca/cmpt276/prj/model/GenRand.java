@@ -2,73 +2,52 @@ package ca.cmpt276.prj.model;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import ca.cmpt276.prj.BuildConfig;
 
 /**
  * This class returns arrays of points which can construct non-overlapping rectangles (at random
  * positions)
  */
 public class GenRand {
-	List<Integer> xList;
-	List<Integer> yList;
-	int width;
-	int height;
-	int maxX;
-	int maxY;
-	int num;
-	boolean failed;
-
-	public GenRand(int width, int height, int maxX, int maxY, int num) {
-		xList = new ArrayList<>(num);
-		yList = new ArrayList<>(num);
-		this.width = width;
-		this.height = height;
-		this.maxX = maxX;
-		this.maxY = maxY;
-		this.num = num;
-		failed = false;
-
-		generate();
+	private GenRand() {
 	}
 
-	public boolean isFailed() {
-		return failed;
-	}
-
-	public List<Integer> getxList() {
-		return xList;
-	}
-
-	public List<Integer> getyList() {
-		return yList;
-	}
-
-	private void generate() {
+	public static List<List<Double>> gen(List<Double> widths, List<Double> heights, double maxX, double maxY, int numImages, int offset) {
+		List<Double> xList = new ArrayList<>();
+		List<Double> yList = new ArrayList<>();
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-		int xNew = rand.nextInt(0, maxX + 1);
-		int yNew = rand.nextInt(0, maxY + 1);
+		double xNew = rand.nextDouble(0, maxX + 1 - widths.get(0 + offset));
+		double yNew = rand.nextDouble(0, maxY + 1 - heights.get(0 + offset));
 		xList.add(xNew);
 		yList.add(yNew);
 
 		boolean overlap;
 		// Safety for possible infinite loop
 		int overallRetries = 0;
-		for (int succesfullyPlacedImages = 1; succesfullyPlacedImages < num; succesfullyPlacedImages++) {
+		for (int imageI = 1; imageI < numImages; imageI++) {
 
-			xNew = rand.nextInt(0, maxX + 1);
-			yNew = rand.nextInt(0, maxY + 1);
+			xNew = rand.nextDouble(0, maxX + 1 - widths.get(imageI + offset));
+			yNew = rand.nextDouble(0, maxY + 1 - heights.get(imageI + offset));
 			overlap = false;
 			for (int tries = 0; overallRetries < 10; tries++) {
-				for (Integer x : xList) {
+				for (Double x : xList) {
 					if (overlap) break;
-					for (Integer y : yList) {
-						overlap = isOverlapping(x, y, xNew, yNew);
+					for (Double y : yList) {
+						double width = widths.get(xList.indexOf(x) + offset);
+						double height = heights.get(yList.indexOf(y) + offset);
+						double newWidth = widths.get(imageI + offset);
+						double newHeight = heights.get(imageI + offset);
+
+						overlap = isOverlapping(x, width, y, height, xNew, newWidth, yNew, newHeight);
 						if (overlap) {
-							xNew = rand.nextInt(0, maxX + 1);
-							yNew = rand.nextInt(0, maxY + 1);
+							xNew = rand.nextDouble(0, maxX + 1 - widths.get(imageI + offset));
+							yNew = rand.nextDouble(0, maxY + 1 - heights.get(imageI + offset));
 							break;
 						}
 					}
@@ -80,10 +59,12 @@ public class GenRand {
 				if (tries >= 50) {
 					xList.clear();
 					yList.clear();
+					xNew = rand.nextDouble(0, maxX + 1 - widths.get(imageI + offset));
+					yNew = rand.nextDouble(0, maxY + 1 - heights.get(imageI + offset));
 					xList.add(xNew);
 					yList.add(yNew);
 					tries = 0;
-					succesfullyPlacedImages = 1;
+					imageI = 1;
 					overallRetries++;
 				}
 			}
@@ -92,17 +73,26 @@ public class GenRand {
 		}
 
 		if (overallRetries >= 10) {
-			failed = true;
+			Log.d("GenRand", "Something broke.");
+			throw new UnknownError("too many retries");
 		}
+		if (BuildConfig.DEBUG && xList.size() != numImages || yList.size() != numImages) {
+			throw new AssertionError("Assertion failed");
+		}
+
+		List<List<Double>> finalList = new ArrayList<>();
+		finalList.add(0, xList);
+		finalList.add(1, yList);
+		return finalList;
 	}
 
-	private boolean isOverlapping(int x1, int y1, int x2, int y2) {
+	private static boolean isOverlapping(double x1, double x1width, double y1, double y1height, double x2, double x2width, double y2, double y2height) {
 		// Check if overlapping horizontally
-		if (x1 > x2+width || x2 > x1+width)
+		if (x1 > x2+x2width || x2 > x1+x1width)
 			return false;
 
 		// Check if overlapping vertically
-		if (y1 > y2+height || y2 > y1+height)
+		if (y1 > y2+y2height || y2 > y1+y1height)
 			return false;
 
 		return true;

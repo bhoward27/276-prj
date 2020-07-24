@@ -8,15 +8,16 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -30,7 +31,6 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.OptionSet;
@@ -50,9 +50,11 @@ public class GameActivity extends AppCompatActivity {
     List<ImageButton> discPileButtons;
     List<ImageButton> drawPileButtons;
     List<ImageButton> allButtons;
-    List<Integer> rndLeftMargin;
-    List<Integer> rndTopMargin;
-    int randCount;
+    List<Double> rndLeftMargin;
+    List<Double> rndTopMargin;
+    double[] buttonWidths;
+    double[] buttonHeights;
+    int buttonCount;
     int imageSet;
     String imageSetPrefix;
     ScoreManager scoreManager;
@@ -75,16 +77,20 @@ public class GameActivity extends AppCompatActivity {
         allButtons = new ArrayList<>();
         rndLeftMargin = new ArrayList<>();
         rndTopMargin = new ArrayList<>();
-        randCount = 0;
+        buttonCount = 0;
 
         scoreManager = ScoreManager.getInstance();
         options = OptionSet.getInstance();
         imageSet = options.getImageSet();
         imageSetPrefix = options.getImageSetPrefix();
+        resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 
         // temporarily set order here before options is done
-        options.setOrder(2);
+        options.setOrder(3);
         gameInstance = new Game(options.getOrder());
+
+        buttonWidths = new double[options.getMaxDeckSize()];
+        buttonHeights = new double[options.getMaxDeckSize()];
 
         // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
@@ -107,98 +113,53 @@ public class GameActivity extends AppCompatActivity {
         scoreTimer.start();
     }
 
+    private void setButtonParameters(ImageButton button, boolean pile) {
+        Resources res = getResources();
+        int pad = Math.round(res.getDimension(R.dimen.button_padding));
+
+        button.setVisibility(View.VISIBLE);
+        button.setScaleType(ImageView.ScaleType.CENTER);
+        button.setPadding(pad, pad, pad, pad);
+        button.setCropToPadding(true);
+        button.setContentDescription(res.getString(R.string.txt_content_discardimage_1));
+        button.setBackground(getDrawable(R.drawable.button_selector_colour));
+        button.setAdjustViewBounds(true);
+        button.setForegroundGravity(Gravity.CENTER);
+
+    }
+
     private void getButtons() {
         RelativeLayout discCard = findViewById(R.id.lytDisc);
         RelativeLayout drawCard = findViewById(R.id.lytDraw);
 
-        RelativeLayout.LayoutParams discBtnParams = (RelativeLayout.LayoutParams)
-                findViewById(R.id.btnDiscIm1).getLayoutParams();
-        RelativeLayout.LayoutParams drawBtnParams = (RelativeLayout.LayoutParams)
-                findViewById(R.id.btnDrawIm1).getLayoutParams();
-
         for (int i = 0; i < options.getOrder()+1; i++) {
             ImageButton button = new ImageButton(this);
-            button.setLayoutParams(discBtnParams);
+            setButtonParameters(button, DISCARD_PILE);
             button.setTag(R.string.tag_btn_key, DISCARD_PILE);
             discCard.addView(button);
             discPileButtons.add(button);
 
             button = new ImageButton(this);
-            button.setLayoutParams(drawBtnParams);
+            setButtonParameters(button, DRAW_PILE);
             button.setTag(R.string.tag_btn_key, DRAW_PILE);
             drawCard.addView(button);
             drawPileButtons.add(button);
         }
 
-        discCard.removeView(findViewById(R.id.btnDiscIm1));
-        drawCard.removeView(findViewById(R.id.btnDrawIm1));
-
         allButtons.addAll(discPileButtons);
         allButtons.addAll(drawPileButtons);
-    }
-
-    private void refreshButtons() {
-        resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-
-        List<Integer> discPileImages = gameInstance.getDiscardPileImages();
-        List<Integer> drawPileImages = gameInstance.getDrawPileImages();
-
-        for (ImageButton button : allButtons) {
-            // this index is used for accessing the random number for this image out of all total images
-            // and also for getting the image for the button from the gameInstance piles
-            int index = allButtons.indexOf(button);
-            boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
-
-            List<Integer> currPileImages = (pile == DISCARD_PILE) ? discPileImages : drawPileImages;
-            int imageNum = currPileImages.get(index % gameInstance.getOrder());
-
-            // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
-            String resourceName = resourcePrefix + imageNum;
-            int resourceID = getResources().getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                                                            getPackageName());
-            button.setImageResource(resourceID);
-            button.setTag(imageNum);
-
-            // set the random position
-            RelativeLayout.LayoutParams buttonLayoutParams =
-                    (RelativeLayout.LayoutParams) button.getLayoutParams();
-            buttonLayoutParams.leftMargin = rndLeftMargin.get(randCount + index);
-            buttonLayoutParams.topMargin = rndTopMargin.get(randCount + index);
-
-            button.setLayoutParams(buttonLayoutParams);
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     public void setupButtons() {
         // Get global access to button ids
         getButtons();
-        // This function creates the array of button positions which will be used
-        // for each image/card
-        setupButtonPositions();
+
+
         // This function adds images and tags to the buttons
         refreshButtons();
 
-        // Dynamic ImageButton sizes
-        double buttonSpacingX = findViewById(R.id.crdDiscPile).getWidth() /
-                ((gameInstance.getOrder()) * BUTTON_SPACING_PADDING);
-        //double buttonSpacingY = (1 / IMAGES_RATIOS) * buttonSpacingX;
-        double buttonSpacingY = (1 / 2) * buttonSpacingX;
-
-        int buttonHeight = (int) Math.round(buttonSpacingY);
-        // 2.01:1 is the ratio of the current images
-        // TODO: change to not hardcode ratio
-        int buttonWidth = (int) Math.round(buttonSpacingX);
-
         for (ImageButton button : allButtons) {
-            RelativeLayout.LayoutParams buttonLayoutParams =
-                    (RelativeLayout.LayoutParams) button.getLayoutParams();
-
-            buttonLayoutParams.width = buttonWidth;
-            buttonLayoutParams.height = buttonHeight;
-
-            button.setLayoutParams(buttonLayoutParams);
-
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     int pad = Math.round(getResources().getDimension(R.dimen.button_selected_padding));
@@ -225,28 +186,83 @@ public class GameActivity extends AppCompatActivity {
         txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
     }
 
-    private void setupButtonPositions() {
+    private void refreshButtons() {
+        List<Integer> discPileImages = gameInstance.getDiscardPileImages();
+        List<Integer> drawPileImages = gameInstance.getDrawPileImages();
+
+        generateRandomPositions();
+
+        for (ImageButton button : allButtons) {
+            // this index is used for accessing the random number for this image out of all total images
+            // and also for getting the image for the button from the gameInstance piles
+            int index = allButtons.indexOf(button);
+            boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
+
+            List<Integer> currPileImages = (pile == DISCARD_PILE) ? discPileImages : drawPileImages;
+            int imageNum = currPileImages.get(index % gameInstance.getNumImagesPerCard());
+
+            // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+            String resourceName = resourcePrefix + imageNum;
+            int resourceID = getResources().getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                    getPackageName());
+            button.setImageResource(resourceID);
+            button.setTag(imageNum);
+
+            // set size & random position
+            RelativeLayout.LayoutParams buttonLayoutParams =
+                    (RelativeLayout.LayoutParams) button.getLayoutParams();
+            buttonLayoutParams.width = (int) Math.round(buttonWidths[imageNum]);
+            buttonLayoutParams.height = (int) Math.round(buttonHeights[imageNum]);
+
+            buttonLayoutParams.leftMargin = (int) Math.round(rndLeftMargin.get(buttonCount + index));
+            buttonLayoutParams.topMargin = (int) Math.round(rndTopMargin.get(buttonCount + index));
+        }
+    }
+
+    private void generateRandomPositions() {
         CardView cardView = findViewById(R.id.crdDiscPile);
         int cardWidth = cardView.getWidth();
         int cardHeight = cardView.getHeight();
+        int cardRatio = cardWidth/cardHeight;
+        int numImages = gameInstance.getNumImagesPerCard();
+        double padding = getResources().getDimension(R.dimen.button_padding);
+        List<Integer> allCurrentImages = new ArrayList<>();
+        List<Double> currBtnWidths = new ArrayList<>();
+        List<Double> currBtnHeights = new ArrayList<>();
+        allCurrentImages.addAll(gameInstance.getDrawPileImages());
+        allCurrentImages.addAll(gameInstance.getDiscardPileImages());
 
-        /* TODO: this should be changed if not all the buttons are the same size, the random generator
-            will also need to be changed to accommodate for this fact
-         */
-        int imageButtonWidth = allButtons.get(0).getWidth();
-        int imageButtonHeight = allButtons.get(0).getHeight();
+        for (int i : allCurrentImages) {
+            String resourceName = resourcePrefix + i;
+            int resourceID = getResources().getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                    getPackageName());
+            Drawable image = getDrawable(resourceID);
+            assert image != null;
+            double ratio = (double) image.getIntrinsicWidth() / (double) image.getIntrinsicHeight();
+            double w = 0;
+            double h = 0;
+            if (ratio > cardRatio) { // if the image is wider than the card's ratio
+                h = cardHeight / (numImages * BUTTON_SPACING_PADDING);
+                w = ratio * h;
+            } else {
+                w = cardWidth / (numImages * BUTTON_SPACING_PADDING);
+                h = (1.0/ratio) * w;
+            }
+            currBtnWidths.add(w + padding);
+            currBtnHeights.add(h + padding);
 
-        int widthMax = cardWidth - imageButtonWidth;
-        int heightMax = cardHeight - imageButtonHeight;
-
-        int totalCards = gameInstance.getDeck().getTotalNumCards();
-
-        for (int card = 0; card < totalCards; card++) {
-            GenRand gen = new GenRand(imageButtonWidth, imageButtonHeight, widthMax, heightMax,
-                                        gameInstance.getOrder());
-            rndLeftMargin.addAll(gen.getxList());
-            rndTopMargin.addAll(gen.getyList());
+            buttonWidths[i] = w;
+            buttonHeights[i] = h;
         }
+
+        List<List<Double>> margins = GenRand.gen(currBtnWidths, currBtnHeights, (double) cardWidth, (double) cardHeight, numImages, 0);
+        rndLeftMargin.addAll(margins.get(0));
+        rndTopMargin.addAll(margins.get(1));
+
+        margins = GenRand.gen(currBtnWidths, currBtnHeights, (double) cardWidth, (double) cardHeight, numImages, numImages);
+        rndLeftMargin.addAll(margins.get(0));
+        rndTopMargin.addAll(margins.get(1));
+
     }
 
     private void tapUpdateGameState(ImageButton pressedButton) {
@@ -257,7 +273,7 @@ public class GameActivity extends AppCompatActivity {
                 // Then change the images and remove all overlays to signify no card being selected
 
                 // Move index of random positions for card images
-                randCount += gameInstance.getOrder();
+                buttonCount += gameInstance.getNumImagesPerCard();
 
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
