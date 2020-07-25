@@ -55,11 +55,9 @@ public class MainMenuActivity extends AppCompatActivity {
         Collections.shuffle(views);
 
         String imageSetPrefix = options.getImageSetPrefix();
-        int resourceID;
 
-        Log.d("test", "setUpImages: " + imageSetPrefix);
         for (ImageView view : views) {
-            resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
+            int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
                             + views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
             view.setImageResource(resourceID);
         }
