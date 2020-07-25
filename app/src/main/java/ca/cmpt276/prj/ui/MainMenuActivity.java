@@ -27,17 +27,6 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 public class MainMenuActivity extends AppCompatActivity {
     OptionSet options;
 
-    private void testImageNames() {
-        ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
-        System.out.println("Printing image names...");
-        for (int i = 0; i < ImageNameMatrix.NUM_IMAGE_SETS; ++i) {
-            for (int j = 0; j < ImageNameMatrix.NUM_IMAGES_PER_SET; ++j) {
-                System.out.print(imageNames.getName(i, j) + ", ");
-            }
-            System.out.println();
-        }
-    }
-
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
     }
@@ -47,7 +36,6 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        testImageNames();
         options = OptionSet.getInstance();
 
 
