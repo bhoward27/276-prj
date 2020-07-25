@@ -9,5 +9,5 @@
     </string-array>
 
     <string name="default_draw_pile_size">5</string>
-    <string name="all">All (%d cards)</string>
+    <string name="all_option">All (%d cards)</string>
 </resources>

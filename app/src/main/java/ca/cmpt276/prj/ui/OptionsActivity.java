@@ -84,7 +84,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         ArrayList<String> allDrawPileSizes = new ArrayList<String>
                 (Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
         validDrawPileSizes = new ArrayList<String>(0);
-        int maxDeckSIze = options.getMaxDeckSize();
+        int maxDeckSize = options.getMaxDeckSize();
 
 //        validOptions.add("5");
 //        validOptions.add("10");
@@ -93,13 +93,34 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
         for(int i = 0; i < allDrawPileSizes.size(); i++){
             String checkedSize = allDrawPileSizes.get(i);
+            //DEBUGGING NOTE; DELETE THIS IN FINAL PRODUCT:
+            /*
+            As it turns out, I don't need to clean up all non-numerical characters in any of the
+            strings so long as they all have just numerical characters. I received a numberformat
+            exception at the parseInt line because:
+            1. I had once defined one of the elements in the array to be "All". Therefore,
+            when the for loop tried to call replaceAll on that element, the entire string was made
+            into "   " (\\D replaces all letters with the specified replacement, "" in this caee).
+            Doing parseInt on a string like that causes a NumberFormatException because there are no
+            numerical characters at all.
+
+            My (temporary) solution? Remove "All" entirely as an option in the string array and manually add it
+            to the arraylist of choosable options AFTER all the strings that actually have numbers
+            are checked... see a little below for what I mean
+             */
 //            checkedSize = checkedSize.replaceAll("\\D","");
             int checkedSizeNumber = Integer.parseInt(checkedSize);
-            if(checkedSizeNumber <= maxDeckSIze){
+            if(checkedSizeNumber <= maxDeckSize){
                 validDrawPileSizes.add(allDrawPileSizes.get(i));
             }
         }
-        validDrawPileSizes.add(getString(R.string.all, maxDeckSIze));
+        /*Programmer's note continued:
+        Now, the All option is added, with the added feature of showing the max number of cards!
+        This means that there is now an int in the string, so doing parseInt on it should no longer
+        cause problems. Case in point, onItemSelected() can do parseInt on this string if that
+        option is chosen, with no issues.
+         */
+        validDrawPileSizes.add(getString(R.string.all_option, maxDeckSize));
     }
 
     public ArrayList<String> getValidDrawPileSizes(){
@@ -137,7 +158,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, getValidDrawPileSizes());
         deckSizeSpinner.setAdapter(adapter);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
 
         //Code for setting default selected option in Spinner as below adapted from itzhar
         //@ https://stackoverflow.com/a/29129817
