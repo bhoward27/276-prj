@@ -74,9 +74,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    //Valid Draw Pile Sizes are only applicable here, and are therefore its getter/setter functions
-    //Are not defined in OptionsSet
-    //However, to determine Valid Draw Pile we still need to use an instance of OptionsSet
+    //Valid Draw Pile Sizes are only applicable here, and therefore its getter/setter functions
+    //Are not defined in OptionsSet. However, to determine Valid Draw Pile we still need to use an
+    //Instance of OptionsSet
     private void setValidDrawPileSizes(){
         //Begin with a populated array;
         //Code for getting ArrayList from string-array adapted from
@@ -85,11 +85,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 (Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
         validDrawPileSizes = new ArrayList<String>(0);
         int maxDeckSize = options.getMaxDeckSize();
-
-//        validOptions.add("5");
-//        validOptions.add("10");
-//        validOptions.add("15");
-//        validOptions.add("20");
 
         for(int i = 0; i < allDrawPileSizes.size(); i++){
             String checkedSize = allDrawPileSizes.get(i);
@@ -106,9 +101,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
             My (temporary) solution? Remove "All" entirely as an option in the string array and manually add it
             to the arraylist of choosable options AFTER all the strings that actually have numbers
-            are checked... see a little below for what I mean
+            are checked... see a little below for what I mean...
              */
 //            checkedSize = checkedSize.replaceAll("\\D","");
+
             int checkedSizeNumber = Integer.parseInt(checkedSize);
             if(checkedSizeNumber <= maxDeckSize){
                 validDrawPileSizes.add(allDrawPileSizes.get(i));
@@ -121,7 +117,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         option is chosen, with no issues.
          */
         validDrawPileSizes.add(getString(R.string.all_option, maxDeckSize));
-    }
+}
 
     public ArrayList<String> getValidDrawPileSizes(){
         return validDrawPileSizes;
@@ -165,10 +161,27 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         String currentDeckSize = Integer.toString(currentDeckSizeNumber);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deckSizeSpinner.setAdapter(adapter);
-        int defaultPosition = adapter.getPosition(currentDeckSize);
 
+
+          //@TODO: Might be nice to change default to be set to "All..." if chosen size now invalid?
+          //@TODO: Or, set choice to the next biggest choice possible instead of all?
+//        int maxDeckSize = options.getMaxDeckSize();
+//
+//        for(int i = 0; i < maxDeckSize; i++){
+//
+//        }
+        int defaultPosition = adapter.getPosition(currentDeckSize);
+//        if(options.getDeckSize() <= options.getMaxDeckSize()){
+//        Use String.format here instead?
+//            defaultPosition = adapter.getPosition(getString(R.string.all_option, options.getDeckSize()));
+
+//        }else{
+//            defaultPosition = adapter.getPosition(currentDeckSize);
+//        }
         deckSizeSpinner.setSelection(defaultPosition);
         deckSizeSpinner.setOnItemSelectedListener(this);
+        //Return string to be in spinner
+        // String.format("%s%d", getString(--id of the all string--), deckSizeNumber)
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,7 +196,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 String pileSizeName = parent.getItemAtPosition(position).toString();
                 pileSizeName = pileSizeName.replaceAll("\\D","");//if All is chosen
                 int pileSizeNumber = Integer.parseInt(pileSizeName);
-                options.setDeckSize(pileSizeNumber);
+                options.setDeckSize(pileSizeNumber);//Can set deckSize with All, no worries
                 break;
             default:
                 break;
