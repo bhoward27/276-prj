@@ -55,6 +55,14 @@ a_25-coastal_cliffs.jpg --- https://imagesvc.meredithcorp.io/v3/mm/image?url=htt
 
 a_26-lightning.jpg --- https://kids.nationalgeographic.com/content/dam/kids/photos/Polls/magazine/spook-o-meter/spooky-lighting.jpg
 
+a_27-foggy_forest.jpg --- https://ssl.c.photoshelter.com/img-get/I0000JODP8wkGaC0/s/1200/I0000JODP8wkGaC0.jpg
+
+a_28-reflective_cave.jpg --- https://oxalisadventure.com/uploads/2019/09/sondoongbanner-amp__637054714239538252.jpg
+
+a_29-amber_cave.jpg --- https://media2.trover.com/T/54a21892d6bdd41aac009485/fixedw_large_4x.jpg
+
+a_30-grass.jpg --- https://www.westonnurseries.com/wp-content/uploads/2018/08/Sept12-263-1-1.jpg
+
 **********************
 **********************
 

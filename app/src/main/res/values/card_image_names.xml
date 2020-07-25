@@ -29,6 +29,10 @@
         <item>Lava</item>
         <item>Coastal Cliffs</item>
         <item>Lightning</item>
+        <item>Foggy Forest</item>
+        <item>Reflective Cave</item>
+        <item>Amber Cave</item>
+        <item>Grass</item>
 
 <!--        image names for image set b (predators)     -->
         <item>Polar Bears</item>
@@ -38,6 +42,10 @@
         <item>Shark</item>
         <item>Snake</item>
         <item>Spider</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
         <item></item>
         <item></item>
         <item></item>
