@@ -15,7 +15,6 @@ public final class Constants {
 	public static final int MAX_NAME_LENGTH = 12;
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 	// TODO: add functionality for more than 3 images (possible future iterations)
-	public static final int NUM_IMAGES = 3;
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
 	public static final String IMAGE_SET_PREFIX_PREF = "PICTURE_TYPES_PREFIX";
 	public static final String IMAGE_SET_NAME_PREF = "PICTURE_TYPES_NAME";
@@ -24,8 +23,7 @@ public final class Constants {
 	public static final String DIFFERENT_CARDS_AMOUNT_PREF = "DIFFERENT_CARDS_AMOUNT_PREF";
 	public static final String NAME_PREF = "PLAYER_NAME";
 	public static final String DEFAULT_PLAYER_NAME = "[Your name]";
-	public static final double IMAGES_RATIOS = 2.01;
-	public static final double BUTTON_SPACING_PADDING = 1.05;
+	public static final double BUTTON_SPACING_PADDING = 10;
 	public static final int LANDSCAPE_IMAGE_SET = 0;
 	public static final int PREDATOR_IMAGE_SET = 1;
 	public static final int FLICKR_IMAGE_SET = 2;
