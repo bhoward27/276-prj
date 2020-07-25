@@ -6,8 +6,8 @@
         <item>10</item>
         <item>15</item>
         <item>20</item>
-        <item>All</item>
     </string-array>
 
-    <string name="default_draw_pile_size">All</string>
+    <string name="default_draw_pile_size">5</string>
+    <string name="all">All (%d cards)</string>
 </resources>

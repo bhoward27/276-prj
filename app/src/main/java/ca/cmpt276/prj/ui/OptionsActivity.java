@@ -28,6 +28,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     int imageSetPref;
     OptionSet options;
     String playerNamePlaceholder;
+    ArrayList<String> validDrawPileSizes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,42 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    //Valid Draw Pile Sizes are only applicable here, and are therefore its getter/setter functions
+    //Are not defined in OptionsSet
+    //However, to determine Valid Draw Pile we still need to use an instance of OptionsSet
+    private void setValidDrawPileSizes(){
+        //Begin with a populated array;
+        //Code for getting ArrayList from string-array adapted from
+        //@ https://stackoverflow.com/a/19127223
+        ArrayList<String> allDrawPileSizes = new ArrayList<String>
+                (Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
+        validDrawPileSizes = new ArrayList<String>(0);
+        int maxDeckSIze = options.getMaxDeckSize();
+
+//        validOptions.add("5");
+//        validOptions.add("10");
+//        validOptions.add("15");
+//        validOptions.add("20");
+
+        for(int i = 0; i < allDrawPileSizes.size(); i++){
+            String checkedSize = allDrawPileSizes.get(i);
+//            checkedSize = checkedSize.replaceAll("\\D","");
+            int checkedSizeNumber = Integer.parseInt(checkedSize);
+            if(checkedSizeNumber <= maxDeckSIze){
+                validDrawPileSizes.add(allDrawPileSizes.get(i));
+            }
+        }
+        validDrawPileSizes.add(getString(R.string.all, maxDeckSIze));
+    }
+
+    public ArrayList<String> getValidDrawPileSizes(){
+        return validDrawPileSizes;
+    }
+
     private void createOrderSpinner(){
         Spinner orderSpinner = findViewById(R.id.spn_order);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_deck_order, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.str_deck_order, android.R.layout.simple_spinner_item);
         int currentOrderNumber = options.getOrder();//Pre-select an option based on saved prefs
 
 
@@ -92,17 +126,22 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         orderSpinner.setOnItemSelectedListener(this);
     }
 
-    private void determineValidDeckSizes(){
+    private void createDeckSizeSpinner(){
+        setValidDrawPileSizes();
+        updateDeckSizeSpinner();
 
     }
 
-    private void createDeckSizeSpinner(){
+    private void updateDeckSizeSpinner(){
         Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
-        int currentDeckSizeNumber = options.getDeckSize();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, getValidDrawPileSizes());
+        deckSizeSpinner.setAdapter(adapter);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.str_draw_pile_sizes, android.R.layout.simple_spinner_item);
 
         //Code for setting default selected option in Spinner as below adapted from itzhar
         //@ https://stackoverflow.com/a/29129817
+        int currentDeckSizeNumber = options.getDeckSize();
         String currentDeckSize = Integer.toString(currentDeckSizeNumber);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deckSizeSpinner.setAdapter(adapter);
@@ -111,17 +150,18 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         deckSizeSpinner.setSelection(defaultPosition);
         deckSizeSpinner.setOnItemSelectedListener(this);
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()){
             case R.id.spn_order:
                 String orderName = parent.getItemAtPosition(position).toString();
                 int orderNumber = Integer.parseInt(orderName);
-                options.setOrder(orderNumber);
+                options.setOrder(orderNumber);//Save selected Order
+                createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
                 break;
             case R.id.spn_pile_size:
                 String pileSizeName = parent.getItemAtPosition(position).toString();
+                pileSizeName = pileSizeName.replaceAll("\\D","");//if All is chosen
                 int pileSizeNumber = Integer.parseInt(pileSizeName);
                 options.setDeckSize(pileSizeNumber);
                 break;
