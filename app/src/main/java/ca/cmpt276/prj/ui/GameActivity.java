@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.OptionSet;
@@ -50,8 +51,8 @@ public class GameActivity extends AppCompatActivity {
     List<ImageButton> discPileButtons;
     List<ImageButton> drawPileButtons;
     List<ImageButton> allButtons;
-    List<Double> rndLeftMargin;
-    List<Double> rndTopMargin;
+    List<Integer> rndLeftMargin;
+    List<Integer> rndTopMargin;
     double[] buttonWidths;
     double[] buttonHeights;
     int buttonCount;
@@ -89,8 +90,11 @@ public class GameActivity extends AppCompatActivity {
         options.setOrder(3);
         gameInstance = new Game(options.getOrder());
 
-        buttonWidths = new double[options.getMaxDeckSize()];
-        buttonHeights = new double[options.getMaxDeckSize()];
+        // TODO: getdecksize
+        //buttonWidths = new double[options.getDeckSize()];
+        //buttonHeights = new double[options.getDeckSize()];
+        buttonWidths = new double[13];
+        buttonHeights = new double[13];
 
         // We have to wait until the cardview loads before getting the positions for the images
         CardView cardView = findViewById(R.id.crdDiscPile);
@@ -155,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
         // Get global access to button ids
         getButtons();
 
-
+        generateRandomPositions();
         // This function adds images and tags to the buttons
         refreshButtons();
 
@@ -190,8 +194,6 @@ public class GameActivity extends AppCompatActivity {
         List<Integer> discPileImages = gameInstance.getDiscardPileImages();
         List<Integer> drawPileImages = gameInstance.getDrawPileImages();
 
-        generateRandomPositions();
-
         for (ImageButton button : allButtons) {
             // this index is used for accessing the random number for this image out of all total images
             // and also for getting the image for the button from the gameInstance piles
@@ -214,55 +216,46 @@ public class GameActivity extends AppCompatActivity {
             buttonLayoutParams.width = (int) Math.round(buttonWidths[imageNum]);
             buttonLayoutParams.height = (int) Math.round(buttonHeights[imageNum]);
 
-            buttonLayoutParams.leftMargin = (int) Math.round(rndLeftMargin.get(buttonCount + index));
-            buttonLayoutParams.topMargin = (int) Math.round(rndTopMargin.get(buttonCount + index));
+            buttonLayoutParams.leftMargin = rndLeftMargin.get(buttonCount + index);
+            buttonLayoutParams.topMargin = rndTopMargin.get(buttonCount + index);
         }
     }
 
+    // TODO: move this to OptionsActivity to only perform once for each imageset (performance)
     private void generateRandomPositions() {
         CardView cardView = findViewById(R.id.crdDiscPile);
         int cardWidth = cardView.getWidth();
         int cardHeight = cardView.getHeight();
         int cardRatio = cardWidth/cardHeight;
         int numImages = gameInstance.getNumImagesPerCard();
-        double padding = getResources().getDimension(R.dimen.button_padding);
-        List<Integer> allCurrentImages = new ArrayList<>();
-        List<Double> currBtnWidths = new ArrayList<>();
-        List<Double> currBtnHeights = new ArrayList<>();
-        allCurrentImages.addAll(gameInstance.getDrawPileImages());
-        allCurrentImages.addAll(gameInstance.getDiscardPileImages());
 
-        for (int i : allCurrentImages) {
+        // TODO: getdecksize
+        for (int i = 0; i < 13; i++) {
             String resourceName = resourcePrefix + i;
             int resourceID = getResources().getIdentifier(resourceName, IMAGE_FOLDER_NAME,
                     getPackageName());
             Drawable image = getDrawable(resourceID);
             assert image != null;
             double ratio = (double) image.getIntrinsicWidth() / (double) image.getIntrinsicHeight();
-            double w = 0;
-            double h = 0;
+            double w;
+            double h;
             if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                h = cardHeight / (numImages * BUTTON_SPACING_PADDING);
+                h = (double) cardHeight / numImages;
                 w = ratio * h;
             } else {
-                w = cardWidth / (numImages * BUTTON_SPACING_PADDING);
+                w = (double) cardWidth / numImages;
                 h = (1.0/ratio) * w;
             }
-            currBtnWidths.add(w + padding);
-            currBtnHeights.add(h + padding);
 
             buttonWidths[i] = w;
             buttonHeights[i] = h;
         }
 
-        List<List<Double>> margins = GenRand.gen(currBtnWidths, currBtnHeights, (double) cardWidth, (double) cardHeight, numImages, 0);
-        rndLeftMargin.addAll(margins.get(0));
-        rndTopMargin.addAll(margins.get(1));
-
-        margins = GenRand.gen(currBtnWidths, currBtnHeights, (double) cardWidth, (double) cardHeight, numImages, numImages);
-        rndLeftMargin.addAll(margins.get(0));
-        rndTopMargin.addAll(margins.get(1));
-
+        for (Card c : gameInstance.getDeck().getAllCards()) {
+            List<List<Integer>> margins = GenRand.gen(buttonWidths, buttonHeights, cardWidth, cardHeight, c.getImagesMap());
+            rndLeftMargin.addAll(0, margins.get(0));
+            rndTopMargin.addAll(0, margins.get(1));
+        }
     }
 
     private void tapUpdateGameState(ImageButton pressedButton) {

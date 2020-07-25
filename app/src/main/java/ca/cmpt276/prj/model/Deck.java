@@ -2,6 +2,7 @@ package ca.cmpt276.prj.model;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import java.util.Stack;
 public class Deck {
 	private Stack<Card> discardPile;
 	private Stack<Card> drawPile;
+	private List<Card> allCards;
 	private Integer[][] cardConfigurations;
 	private int totalNumCards;
 	private int order;
@@ -23,6 +25,7 @@ public class Deck {
 	public Deck(int order) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
+		this.allCards = new ArrayList<>();
 		this.order = order;
 
 		int numImagesPerCard = order + 1;
@@ -40,6 +43,10 @@ public class Deck {
 		}
 		discardPile.push(drawPile.pop());
 		return true;
+	}
+
+	public List<Card> getAllCards() {
+		return allCards;
 	}
 
 	public Card getTopDiscard() {
@@ -78,6 +85,8 @@ public class Deck {
 		for (Integer[] card : cards) {
 			drawPile.push(new Card(Arrays.asList(card)));
 		}
+
+		allCards.addAll(drawPile);
 
 		moveTopDrawToDiscard();
 	}
