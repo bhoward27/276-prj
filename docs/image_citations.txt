@@ -1,5 +1,7 @@
+Note: at the moment, filenames are not exactly the same as in drawable, but you should be able to tell which pictures are which *hopefully*.
+
 LANDSCAPE IMAGE SET:
-landscape_cave.jpg --- https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg
+landscape_tunnel.jpg --- https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg
 
 landscape_desert.jpg --- https://static.trulia-cdn.com/pictures/thumbs_5/zillowstatic/ISjv7m0b6f7jm90000000000.jpg
 
@@ -81,7 +83,20 @@ predator_snake.jpg --- https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc
 
 predator_spider.jpg --- https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg
 
-predator_orca.jpg --- https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg
+b_end.jpg --- https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg
+
+b_7-venus_fly_trap.jpg --- https://www.carolina.com/images/product/large/157240_lp.jpg
+
+b_8-pitcher_plant.jpg ---
+https://images.squarespace-cdn.com/content/v1/544591e6e4b0135285aeb5b6/1567376314442-Q5N9ZMNOCP95WOQPDLFA/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/DSCN2855.jpg
+
+b_9-jellyfish.jpg --- https://www.sobefurniture.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/j/e/jellyfish-blue.jpg
+
+b_10-yellowjacket.jpg --- https://www.lvpest.com/wp-content/uploads/2015/04/Yellowjacket-web-1000x1000.jpg
+
+b_11-jackal.jpg --- https://images.squarespace-cdn.com/content/v1/53efcdeae4b0677d18888187/1485377956199-SQ3XHUWKQZRNNIXHGH26/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/Black-backed+Jackal.jpg
+
+b_12-starfish.jpg --- https://www.easterncapescubadiving.co.za/images/_large/DSCF1191.jpg
 
 **********************
 **********************
