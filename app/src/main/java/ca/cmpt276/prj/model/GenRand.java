@@ -1,17 +1,10 @@
 package ca.cmpt276.prj.model;
 
-import android.annotation.SuppressLint;
 import android.graphics.Rect;
-import android.util.Log;
 
-import androidx.constraintlayout.solver.widgets.Rectangle;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
-import ca.cmpt276.prj.BuildConfig;
 
 import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 
@@ -20,22 +13,34 @@ import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
  * positions)
  */
 public class GenRand {
-	private GenRand() {
+	private List<Integer> xMargins = new ArrayList<>();
+	private List<Integer> yMargins = new ArrayList<>();
+	private List<Rect> allRects = new ArrayList<>();
+	private List<Rect> rectsAdded = new ArrayList<>();
+
+	public GenRand() { }
+
+	public List<Integer> getXMargins() {
+		return xMargins;
 	}
 
-	public static List<List<Integer>> gen(double[] widths, double[] heights, int maxX, int maxY, List<Integer> imagesOnCard) {
+	public List<Integer> getYMargins() {
+		return yMargins;
+	}
+
+	public void gen(List<Double> widths, List<Double> heights, int maxX, int maxY) {
+		xMargins.clear();
+		yMargins.clear();
+		allRects.clear();
+		rectsAdded.clear();
+
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-		List<Integer> xList = new ArrayList<>();
-		List<Integer> yList = new ArrayList<>();
-		List<Rect> allRects = new ArrayList<>();
-		List<Rect> rectsAdded = new ArrayList<>();
-
-		for (int i : imagesOnCard) {
+		for (int i = 0; i < widths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(widths[i] + BUTTON_SPACING_PADDING),
-					(int) Math.round(heights[i] + BUTTON_SPACING_PADDING));
+					(int) Math.round(widths.get(i) + BUTTON_SPACING_PADDING),
+					(int) Math.round(heights.get(i) + BUTTON_SPACING_PADDING));
 			allRects.add(rect);
 		}
 
@@ -60,8 +65,8 @@ public class GenRand {
 			}
 			rectsAdded.add(newRect);
 
-			xList.add(newRect.left);
-			yList.add(newRect.top);
+			xMargins.add(newRect.left);
+			yMargins.add(newRect.top);
 
 			// if we reached 25 tries already
 			if (overlaps) {
@@ -70,16 +75,11 @@ public class GenRand {
 					throw new RuntimeException("GenRand: Can't find image placements");
 				}
 				rectsAdded.clear();
-				xList.clear();
-				yList.clear();
+				xMargins.clear();
+				yMargins.clear();
 				i = -1;
 				totalRetryCount++;
 			}
 		}
-
-		List<List<Integer>> finalList = new ArrayList<>();
-		finalList.add(0, xList);
-		finalList.add(1, yList);
-		return finalList;
 	}
 }
