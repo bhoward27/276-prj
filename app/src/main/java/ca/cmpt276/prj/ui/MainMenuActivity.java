@@ -1,6 +1,7 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -104,8 +105,12 @@ public class MainMenuActivity extends AppCompatActivity {
         btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryFragment.class);
                 startActivity(intent);
+//                FragmentManager manager = getSupportFragmentManager();
+//                PhotoGalleryFragment photo = new PhotoGalleryFragment();
+
+                //
             }
         });
     }

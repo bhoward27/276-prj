@@ -7,17 +7,17 @@
         android:id="@+id/menu_item_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_item_clear"
         android:title="@string/clear_search"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/menu_item_toggle_polling"
-        android:title="@string/start_polling"
-        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/menu_item_toggle_polling"-->
+<!--        android:title="@string/start_polling"-->
+<!--        app:showAsAction="never"/>-->
 
 </menu>
-<!--最后一个=不确定-->
+<!--最后一个=不确定,可能 search 用不到-->
