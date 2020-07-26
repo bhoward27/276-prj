@@ -2,8 +2,15 @@ package ca.cmpt276.prj.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import ca.cmpt276.prj.R;
 
 import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
@@ -36,6 +43,7 @@ public class OptionSet {
     private int order;
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
+    private ArrayList<String> validDrawPileSizes;
 
     private static final int ASCII_OFFSET = 97;
 
@@ -183,4 +191,128 @@ public class OptionSet {
     public boolean isWordMode() {
         return wordMode;
     }
+
+
+
+    //------
+    //Are there things I can move to OptionsActivity only...?
+    //
+    //Valid Draw Pile Sizes are only applicable here, and therefore its getter/setter functions
+    //Are not defined in OptionsSet. However, to determine Valid Draw Pile we still need to use an
+    //Instance of OptionsSet
+
+    public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
+        //Begin with a populated array;
+        //Code for getting ArrayList from string-array adapted from
+        //@ https://stackoverflow.com/a/19127223
+        int maxDeckSize = getMaxDeckSize();
+        validDrawPileSizes = new ArrayList<>(0);
+        for (int i = 0; i < allDrawPileSizes.size(); i++) {
+            String checkedSize = allDrawPileSizes.get(i);
+            //DEBUGGING NOTE; DELETE THIS IN FINAL PRODUCT:
+            /*
+            As it turns out, I don't need to clean up all non-numerical characters in any of the
+            strings so long as they all have just numerical characters. I received a numberformat
+            exception at the parseInt line because:
+            1. I had once defined one of the elements in the array to be "All". Therefore,
+            when the for loop tried to call replaceAll on that element, the entire string was made
+            into "   " (\\D replaces all letters with the specified replacement, "" in this caee).
+            Doing parseInt on a string like that causes a NumberFormatException because there are no
+            numerical characters at all.
+
+            My (temporary) solution? Remove "All" entirely as an option in the string array and manually add it
+            to the arraylist of choosable options AFTER all the strings that actually have numbers
+            are checked... see a little below for what I mean...
+             */
+            int checkedSizeNumber = Integer.parseInt(checkedSize);
+            if (checkedSizeNumber <= maxDeckSize) {
+                validDrawPileSizes.add(allDrawPileSizes.get(i));
+            }
+
+            //all_option will be made frull in calling function via getString(R.string.all_option, maxDeckSize));
+        }
+                /*Programmer's note continued:
+        Now, the All option is added, with the added feature of showing the max number of cards!
+        This means that there is now an int in the string, so doing parseInt on it should no longer
+        cause problems. Case in point, onItemSelected() can do parseInt on this string if that
+        option is chosen, with no issues.
+         */
+        validDrawPileSizes.add(all_option);
+    }
+
+    //Return list for the ui to print
+    public ArrayList<String> getValidDrawPileSizes(){
+        return validDrawPileSizes;
+    }
+
+    //Creation of orderSPinner in UI
+
+//    private void createDeckSizeSpinner(){
+//        setValidDrawPileSizes();//call with param using getValidDrawSize
+//        updateDeckSizeSpinner();//This function is from the OptionsActivity
+//
+//    }
+////
+////    private void updateDeckSizeSpinner(){
+////        Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
+////        ArrayList<String> drawPileSizesOptions = getValidDrawPileSizes();
+////        //Code for setting default selected option in Spinner as below adapted from itzhar
+////        //@ https://stackoverflow.com/a/29129817
+////        int currentDeckSizeNumber = options.getDeckSize();
+////        String currentDeckSize = Integer.toString(currentDeckSizeNumber);
+////
+////        //Dynamic allocation of ArrayAdapter via ArrayLists adapted from Hiral Vadodaria
+////        //@ https://stackoverflow.com/a/7818488
+////        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+////                android.R.layout.simple_spinner_item, drawPileSizesOptions);
+////
+////        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+////        deckSizeSpinner.setAdapter(adapter);
+////
+////        //@TODO: Might be nice to change default to be set to "All..." if chosen size now invalid?
+////        //@TODO: Or, set choice to the next biggest choice possible instead of all?
+////
+////        int defaultPosition = adapter.getPosition(currentDeckSize);//Is this the line?
+////        //getPosition returns -1 when the specified thing (currentDeckSize) is not found in
+////        //The ArrayAdapter. This can only happen if the all_option option from draw_pile_sizes.xml
+////        // was selected because currentDeckSize is only a number at this point and all_option
+////        //can't match with the number
+////        if(defaultPosition == -1){
+////            //all_option was selected; make it the parameter for a call to getPosition using
+////            //currentDeckSizeNumber to match the exact string value as stored in adapter.
+////            //This allows the all_option option to be properly restored as the currently selected
+////            //draw pile size if it was selected the last time OptionsActivity was opened.
+////            defaultPosition = adapter.getPosition(getString(R.string.all_option, currentDeckSizeNumber));
+////        }
+////        deckSizeSpinner.setSelection(defaultPosition);
+////        deckSizeSpinner.setOnItemSelectedListener(this);
+////    }
+//
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        switch(parent.getId()){
+//            case R.id.spn_order:
+//                String orderName = parent.getItemAtPosition(position).toString();
+//                int orderNumber = Integer.parseInt(orderName);
+//                options.setOrder(orderNumber);//Save selected Order
+//                createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
+//                break;
+//            case R.id.spn_pile_size:
+//                String pileSizeName = parent.getItemAtPosition(position).toString();
+//                //Remove any letters part of the chosen option (applicable to all_option)
+//                //So parseInt works with just blank spaces and numbers
+//                pileSizeName = pileSizeName.replaceAll("\\D","");
+//                int pileSizeNumber = Integer.parseInt(pileSizeName);
+//                options.setDeckSize(pileSizeNumber);
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
+
 }
