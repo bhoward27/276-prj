@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import static ca.cmpt276.prj.model.Constants.MAX_NUM_IMAGES;
+
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
  * The constructor takes in how many images per card and a value for the image set, allowing
@@ -21,8 +23,9 @@ public class Deck {
 	private Integer[][] cardConfigurations;
 	private int totalNumCards;
 	private int order;
+	private int deckSize;
 
-	public Deck(int order) {
+	public Deck(int order, int deckSize) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
 		this.allCards = new ArrayList<>();
@@ -82,8 +85,22 @@ public class Deck {
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardConfigurations));
 		Collections.shuffle(cards);
 
+		List<Integer> randMap = new ArrayList<>(MAX_NUM_IMAGES);
+		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+			randMap.add(i);
+		}
+		Collections.shuffle(randMap);
+
+		// change the card image indices to random ones in the available images
 		for (Integer[] card : cards) {
-			drawPile.push(new Card(Arrays.asList(card)));
+			for (int i = 0; i < card.length; i++) {
+				card[i] = randMap.get(card[i]);
+			}
+		}
+
+		// add to the drawpile a random card until there are no cards left
+		for (Integer[] card : cards) {
+			drawPile.push(new Card(Arrays.asList(card), cards.indexOf(card)));
 		}
 
 		allCards.addAll(drawPile);

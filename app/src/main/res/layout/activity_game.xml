@@ -68,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5694716" />
+        app:layout_constraintGuide_percent="@fraction/draw_guideline_pct" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lytFauxDisc"
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43052837" />
+        app:layout_constraintGuide_percent="@fraction/disc_guideline_pct" />
 
     <TextView
         android:id="@+id/txtDiscardPile"
