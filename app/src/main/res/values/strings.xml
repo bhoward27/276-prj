@@ -52,6 +52,8 @@
     <string name="txt_below_top_three_rank">th:\u0020</string>
     <string name="txt_player_place">\nYou earned rank %d on the leaderboard!</string>
     <string name="txt_credits_app_icon">App Icon</string>
+    <string name="txt_prompt_order">Select Order:</string>
+    <string name="txt_prompt_pile_size">Select Draw Pile Size:</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
@@ -88,7 +90,7 @@
     <string name="img_sunrise_or_snake">img_sunrise_or_snake</string>
     <string name="txt_prompt_image_type">Select the type of pictures:</string>
     <string name="txt_prompt_name">Enter your name for high scores:</string>
-    <string name="txt_placeholder_name">UR_NAME_HERE</string>
+    <string name="txt_player_name_placeholder">[Your name]</string>
     <string name="txt_score_by">\u0020by\u0020</string>
     <string name="txt_score_on">\u0020on\u0020</string>
     <string name="start_polling">Start polling</string>

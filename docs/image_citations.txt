@@ -1,5 +1,7 @@
+Note: at the moment, filenames are not exactly the same as in drawable, but you should be able to tell which pictures are which *hopefully*.
+
 LANDSCAPE IMAGE SET:
-landscape_cave.jpg --- https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg
+landscape_tunnel.jpg --- https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg
 
 landscape_desert.jpg --- https://static.trulia-cdn.com/pictures/thumbs_5/zillowstatic/ISjv7m0b6f7jm90000000000.jpg
 
@@ -14,6 +16,54 @@ landscape_sunrise.jpg --- https://freecampsites.net/wp-content/uploads/2017/07/D
 landscape_volcano.jpg --- https://www.spain-tenerife.com/hotelbeatrizatlantis/images/stories/rotator/location/location03.jpg
 
 landscape_rainbow.jpg --- https://images.genius.com/dec0f72f076ee60a9b5978a1458dcd2b.1000x1000x1.jpg
+
+a_7-glacier.jpg --- https://images.squarespace-cdn.com/content/v1/597f7e37ff7c508d3eecddab/1504968316250-YJQFFVT4NTMH75Q29R58/ke17ZwdGBToddI8pDm48kJK4Mm1kch8SFO9ZNkN1NT97gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmFk_H6M1tkD9NpL7mXac0oVSXdFfjxR5AjcLwGSebOiGBsFzzcw3xKxvyC_6CFFG_/_MG_0028.jpg
+
+a_8-sahara.jpg --- https://mhamidvoyages.com/wpmhamid/wp-content/uploads/2018/03/trek-maroc-2jour-1.jpg
+
+a_9-wheat.jpg --- https://images.robertharding.com/preview/RF/TI/SQUARE/1178-14808.jpg
+
+a_10-mountainside.jpg --- https://images.squarespace-cdn.com/content/v1/551c9c5ae4b072084067fe90/1436279971211-CDMCESXZHX6SBUB66VLC/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/image-asset.jpeg
+
+a_11-northern_lights.jpg --- https://img.apmcdn.org/5184a4755bba07211560f50098bb8d22be6b2898/square/8825e8-20150321-northernlights3.jpg
+
+a_12-swamp.jpg --- https://thumborcdn.acast.com/cYAWMtBlgb1YOxQfy2F_gQ8EPTs=/1000x1000/https%3A%2F%2Fstatic1.squarespace.com%2Fstatic%2F544591e6e4b0135285aeb5b6%2F54a6d25be4b0ab38fede8846%2F5e2dd4be26c25036228c18d9%2F1580062531663%2F1500w%2Fponds-and-marshes-in-the-kobuk-river-region.jpg
+
+a_13-tundra.jpg --- https://www.thoughtco.com/thmb/vyDz-tOgtEc0J3wRNKUxFJ6Q7GU=/1000x1000/smart/filters:no_upscale()/92292471-56a005035f9b58eba4ae83e0.jpg
+
+a_14-river.jpg --- https://www.thoughtco.com/thmb/BmW_uwS8Bhv8nL_nCTGOMlyUkPI=/1000x1000/smart/filters:no_upscale()/rainforest-malaysia2-f59197a5d22449c3b04c89cfad056456.jpg
+
+a_15-waterfall.jpg --- https://cdn.thecrazytourist.com/wp-content/uploads/2018/10/ccimage-shutterstock_685901833.jpg
+
+a_16-winter_woods.jpg --- https://www.brambleberry.com/on/demandware.static/-/Sites-brambleberry-master-catalog/default/dwdad4c1df/images/large/ingredients/fragrance-oils/main/SpellboundWoods_FO175_Main.jpg
+
+a_17-frosty_cave.jpg --- https://cdna.artstation.com/p/assets/images/images/005/336/568/large/tomasz-wyszolmirski-speed-frosty-cave-rt-fog-001.jpg?1490294973
+
+a_18-bamboo_forest.jpg --- https://www.best4hedging.co.uk/images/golden-bamboo-hedge-plants-p73-6374_image.jpg
+
+a_19-flower_field.jpg --- https://i.ebayimg.com/images/g/U80AAOSwxFpe~G5l/s-l1600.jpg
+
+a_20-lily_pads.jpg --- https://images.squarespace-cdn.com/content/v1/59556c0a3e00bea4f3d20947/1499777208269-G1M2JQGALXFVPXOX7C44/ke17ZwdGBToddI8pDm48kLPswmMOqQZ9-Q6KHLjvbpZ7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UTcpTqfU-ZEsztPyQLxhSSK-PhJjRDDFQG0l3_ZnmWi1QjT9byXZM3ISxo3y1NRptg/TotalPond_A16532_FloatingLilyPads_inUSE_2000x2000_72dpi_rgb.jpg
+
+a_21-evergreen_forest.jpg --- https://www.thoughtco.com/thmb/1DN_j4fgYrGuB8exiiLWkn-KHQA=/1000x1000/smart/filters:no_upscale()/GettyImages-750496861-5c3cfc12c9e77c0001d8106a.jpg
+
+a_22-canyon.jpg --- https://images.squarespace-cdn.com/content/v1/5511fe83e4b096f7c0b89bea/1430798348824-D29NZ0Z2CTEPIU8T7KT9/ke17ZwdGBToddI8pDm48kIyvoTDOqK6tuLbY8s33gHl7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UTzjvHSAOXjnTxN2sJb-n4pP61BYfWtluh1bxbCEA7ounr1xKjsq_-rO8kOgOtwYvw/image-asset.jpeg
+
+a_23-island.jpg --- https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimg1.coastalliving.timeinc.net%2Fsites%2Fdefault%2Ffiles%2Fimage%2F2015%2F12%2Fmain%2F0216-white-island-grenada_0.jpg
+
+a_24-lava.jpg --- https://cdn.fstoppers.com/styles/full/s3/photos/233019/05/28/cfdd99678e176b74d84d22e0c5683419.jpg
+
+a_25-coastal_cliffs.jpg --- https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F35%2F2018%2F03%2F16184654%2Fsouth-point-hawaii.jpg
+
+a_26-lightning.jpg --- https://kids.nationalgeographic.com/content/dam/kids/photos/Polls/magazine/spook-o-meter/spooky-lighting.jpg
+
+a_27-foggy_forest.jpg --- https://ssl.c.photoshelter.com/img-get/I0000JODP8wkGaC0/s/1200/I0000JODP8wkGaC0.jpg
+
+a_28-reflective_cave.jpg --- https://oxalisadventure.com/uploads/2019/09/sondoongbanner-amp__637054714239538252.jpg
+
+a_29-amber_cave.jpg --- https://media2.trover.com/T/54a21892d6bdd41aac009485/fixedw_large_4x.jpg
+
+a_30-grass.jpg --- https://www.westonnurseries.com/wp-content/uploads/2018/08/Sept12-263-1-1.jpg
 
 **********************
 **********************
@@ -33,7 +83,56 @@ predator_snake.jpg --- https://www.ogdoo.gr/media/k2/items/cache/35c71a0669ce4fc
 
 predator_spider.jpg --- https://2.bp.blogspot.com/-ITIGEfh8Kp8/WcSnZLIpHhI/AAAAAAAAl9I/v7Or93zpixwQ_vziY4ZNp4SW93SCrn1_QCLcBGAs/s1600/pensthorpe21-09-003.jpg
 
-predator_orca.jpg --- https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg
+b_end.jpg --- https://i.pinimg.com/originals/96/67/40/966740a739e3638b21b2fad92198c4e4.jpg
+
+b_7-venus_fly_trap.jpg --- https://www.carolina.com/images/product/large/157240_lp.jpg
+
+b_8-pitcher_plant.jpg ---
+https://images.squarespace-cdn.com/content/v1/544591e6e4b0135285aeb5b6/1567376314442-Q5N9ZMNOCP95WOQPDLFA/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/DSCN2855.jpg
+
+b_9-jellyfish.jpg --- https://www.sobefurniture.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/j/e/jellyfish-blue.jpg
+
+b_10-yellowjacket.jpg --- https://www.lvpest.com/wp-content/uploads/2015/04/Yellowjacket-web-1000x1000.jpg
+
+b_11-jackal.jpg --- https://images.squarespace-cdn.com/content/v1/53efcdeae4b0677d18888187/1485377956199-SQ3XHUWKQZRNNIXHGH26/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/Black-backed+Jackal.jpg
+
+b_12-starfish.jpg --- https://www.easterncapescubadiving.co.za/images/_large/DSCF1191.jpg
+
+b_13-octopus.jpg --- https://i.pinimg.com/originals/d7/69/44/d76944110f6858a1b99746722d6e2915.jpg
+
+b_14-heron.jpg --- https://www.thespruce.com/thmb/pOZRK_SXiPlPmjDRdRUv_HWM1ps=/1000x1000/smart/filters:no_upscale()/great-blue-heron-59d4ef5822fa3a0011e1a090.jpg
+
+b_15-hawk.jpg --- https://www.thespruce.com/thmb/Ui8ANqcketSc_D7pRm5oILnNiT4=/1000x1000/smart/filters:no_upscale()/red-tailed-hawk-5a3e779deb4d520037e58cd4.jpg
+
+b_16-wolf.jpg --- https://img.apmcdn.org/5d713a4d4e43cf212c9a4792aa2f68aa954d1731/square/9aa7b7-20171019-wolf.jpg
+
+b_17-jaguar.jpg --- https://i.pinimg.com/originals/ac/c4/c0/acc4c0456194f91035194f71e0964235.jpg
+
+b_18-humpback_whale.jpg --- https://i.pinimg.com/originals/9d/f7/22/9df7225e0c2350e92b37ef8d11494db1.jpg
+
+b_19-eel.jpg --- https://live.staticflickr.com/3380/3298114011_0df66d3776_b.jpg
+
+b_20-lynx.jpg --- https://memestatic1.fjcdn.com/comments/Eurasian+lynx+can+grow+to+be+6684+lbs+_3bfc6469f8b53e00f64ce13d212d26be.jpg
+
+b_21-great_horned_owl.jpg --- https://images.squarespace-cdn.com/content/v1/5ad6b802a9e0287694992efa/1562869042253-RBNNDXJZ03CA6GH9USYX/ke17ZwdGBToddI8pDm48kOHharjbXE569iDtPmFiIzV7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QHyNOqBUUEtDDsRWrJLTmEczKEiHaQrO44vfJ0kKvII-l8EErdbLuiKWLH7IXylIPU-2zjWdmSuEBY49pphZR/GreatHornedOwl1.ngsversion.1418744332359.adapt.1900.1.jpg
+
+b_22-barred_owl.jpg --- https://www.thespruce.com/thmb/CYGOkF3NT-MwzLemqa5nFoeQ6nY=/1000x1000/smart/filters:no_upscale()/barred-owl-5a317a0ee258f80036aa6d8c.jpg
+
+b_23-bat.jpg --- https://media.npr.org/assets/img/2020/02/06/pienbats-1_sq-c3755fe308895d3b152962dc3944512c3e345ffb.jpg?s=1000
+
+b_24-praying_mantis.jpg --- https://jarphys.files.wordpress.com/2017/07/2017_0720mantis_01.jpg
+
+b_25-stingray.jpg --- https://s24748.pcdn.co/wp-content/uploads/2019/05/Stingray-City-Grand-Cayman-4.jpg
+
+b_26-ladybug.jpg --- https://live.staticflickr.com/3538/3406251014_66e0ae29c4_b.jpg
+
+b_27-dragonfly.jpg --- https://www.ephotozine.com/articles/xxxx-wildlife-photography-tutorials-26971/images/banded_1000.jpg
+
+b_28-komodo_dragon.jpg --- https://javatravelline.com/wp-content/uploads/2019/08/komodo2.jpg
+
+b_29-wolverine.jpg --- https://pbs.twimg.com/media/DjimPRlVAAAlYNr.jpg
+
+b_30-badger.jpg --- https://www.landscapetreesecology.com/wp-content/uploads/2017/04/badger-sq.jpg
 
 **********************
 **********************

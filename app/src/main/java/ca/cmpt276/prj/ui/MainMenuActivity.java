@@ -16,13 +16,17 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.PrefsManager;
+import ca.cmpt276.prj.model.ImageNameMatrix;
+import ca.cmpt276.prj.model.OptionSet;
+
+import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
  * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities
  */
 public class MainMenuActivity extends AppCompatActivity {
-    PrefsManager prefs;
+    OptionSet options;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
@@ -33,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        prefs = PrefsManager.getInstance();
+        options = OptionSet.getInstance();
 
         setUpImages();
         setUpButtons();
@@ -52,13 +56,11 @@ public class MainMenuActivity extends AppCompatActivity {
         // randomize images? we can remove this, just an idea
         Collections.shuffle(views);
 
-        String imageSetPrefix = prefs.getImageSetSelectedPrefix();
-        int resourceID;
+        String imageSetPrefix = options.getImageSetPrefix();
 
-        Log.d("test", "setUpImages: " + imageSetPrefix);
         for (ImageView view : views) {
-            resourceID = getResources().getIdentifier(imageSetPrefix + "_" + views.indexOf(view),
-                    "drawable", getPackageName());
+            int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
+                            + views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
             view.setImageResource(resourceID);
         }
     }
@@ -66,39 +68,27 @@ public class MainMenuActivity extends AppCompatActivity {
     private void setUpButtons() {
 
         Button btnPlay = findViewById(R.id.btnPlay);
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);//Change when Activity for the actual game is added
-                startActivity(intent);
-            }
+        btnPlay.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);//Change when Activity for the actual game is added
+            startActivity(intent);
         });
 
         Button btnOpenHelp = findViewById(R.id.btnOpenHelp);
-        btnOpenHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, HelpActivity.class);
-                startActivity(intent);
-            }
+        btnOpenHelp.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, HelpActivity.class);
+            startActivity(intent);
         });
 
         Button btnOpenOptions = findViewById(R.id.btnOpenOptions);
-        btnOpenOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
-                startActivity(intent);
-            }
+        btnOpenOptions.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
+            startActivity(intent);
         });
 
         Button btnOpenHighScores = findViewById(R.id.btnOpenHighScores);
-        btnOpenHighScores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
-                startActivity(intent);
-            }
+        btnOpenHighScores.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
+            startActivity(intent);
         });
 
         Button btnOpenPhotoGallery = findViewById(R.id.btnOpenPhotoGallery);

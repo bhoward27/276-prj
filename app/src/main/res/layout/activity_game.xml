@@ -36,66 +36,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
+            android:id="@+id/lytDisc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/btnDiscIm1"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_discardimage_1"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/btnDiscIm2"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="141dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_discardimage_2"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/btnDiscIm3"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="268dp"
-                android:layout_marginTop="122dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_discardimage_3"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-        </RelativeLayout>
+            android:layout_height="match_parent"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -113,67 +56,9 @@
         app:layout_constraintTop_toTopOf="@+id/guideline">
 
         <RelativeLayout
+            android:id="@+id/lytDraw"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/btnDrawIm1"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="43dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_discardimage_3"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/btnDrawIm2"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="154dp"
-                android:layout_marginTop="88dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_drawimage_2"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-
-            <ImageButton
-                android:id="@+id/btnDrawIm3"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="@dimen/button_height"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="268dp"
-                android:layout_marginTop="122dp"
-                android:layout_marginEnd="@dimen/image_margins"
-                android:layout_marginBottom="@dimen/image_margins"
-                android:adjustViewBounds="true"
-                android:background="@drawable/button_selector_colour"
-                android:contentDescription="@string/txt_content_drawimage_3"
-                android:cropToPadding="true"
-                android:padding="@dimen/button_padding"
-                android:scaleType="fitCenter"
-                android:visibility="visible" />
-
-        </RelativeLayout>
+            android:layout_height="match_parent"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -183,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5694716" />
+        app:layout_constraintGuide_percent="@fraction/draw_guideline_pct" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lytFauxDisc"
@@ -218,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43052837" />
+        app:layout_constraintGuide_percent="@fraction/disc_guideline_pct" />
 
     <TextView
         android:id="@+id/txtDiscardPile"

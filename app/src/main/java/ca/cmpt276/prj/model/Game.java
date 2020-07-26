@@ -13,17 +13,23 @@ public class Game {
 	Deck deck;
 	int selectedDiscardPileImage;
 	int selectedDrawPileImage;
-	int imagesPerCard;
+	int order;
+	int deckSize;
 
-	public Game(int imagesPerCard) {
-		this.deck = new Deck(imagesPerCard);
+	public Game(int order, int deckSize) {
+		this.deck = new Deck(order, deckSize);
 		this.selectedDiscardPileImage = NONE_SELECTED;
 		this.selectedDrawPileImage = NONE_SELECTED;
-		this.imagesPerCard = imagesPerCard;
+		this.order = order;
+		this.deckSize = deckSize;
 	}
 
 	public Deck getDeck() {
 		return deck;
+	}
+
+	public int getDeckSize() {
+		return deckSize;
 	}
 
 	public boolean tappedUpdateState(boolean isTappedDiscardPile, int imageIndex) {
@@ -47,8 +53,8 @@ public class Game {
 		}
 	}
 
-	public int getImagesPerCard() {
-		return imagesPerCard;
+	public int getNumImagesPerCard() {
+		return order+1;
 	}
 
 	public List<Integer> getDiscardPileImages() {

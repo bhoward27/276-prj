@@ -1,10 +1,15 @@
 package ca.cmpt276.prj.model;
 
+import android.util.Log;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+
+import static ca.cmpt276.prj.model.Constants.MAX_NUM_IMAGES;
 
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
@@ -14,17 +19,21 @@ import java.util.Stack;
 public class Deck {
 	private Stack<Card> discardPile;
 	private Stack<Card> drawPile;
-	private Integer[][] cardOrders;
+	private List<Card> allCards;
+	private Integer[][] cardConfigurations;
 	private int totalNumCards;
-	private int imagesPerCard;
+	private int order;
+	private int deckSize;
 
-	public Deck(int imagesPerCard) {
+	public Deck(int order, int deckSize) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
-		this.imagesPerCard = imagesPerCard;
+		this.allCards = new ArrayList<>();
+		this.order = order;
 
+		int numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1
-		this.totalNumCards = imagesPerCard*imagesPerCard - imagesPerCard + 1;
+		this.totalNumCards = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
 		setCardOrders();
 		initializePiles();
@@ -37,6 +46,10 @@ public class Deck {
 		}
 		discardPile.push(drawPile.pop());
 		return true;
+	}
+
+	public List<Card> getAllCards() {
+		return allCards;
 	}
 
 	public Card getTopDiscard() {
@@ -69,12 +82,28 @@ public class Deck {
 
 	// Convert hardcoded 2d array to list/stack and shuffle the order of cards
 	private void initializePiles() {
-		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardOrders));
+		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardConfigurations));
 		Collections.shuffle(cards);
 
-		for (Integer[] card : cards) {
-			drawPile.push(new Card(Arrays.asList(card)));
+		List<Integer> randMap = new ArrayList<>(MAX_NUM_IMAGES);
+		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+			randMap.add(i);
 		}
+		Collections.shuffle(randMap);
+
+		// change the card image indices to random ones in the available images
+		for (Integer[] card : cards) {
+			for (int i = 0; i < card.length; i++) {
+				card[i] = randMap.get(card[i]);
+			}
+		}
+
+		// add to the drawpile a random card until there are no cards left
+		for (Integer[] card : cards) {
+			drawPile.push(new Card(Arrays.asList(card), cards.indexOf(card)));
+		}
+
+		allCards.addAll(drawPile);
 
 		moveTopDrawToDiscard();
 	}
@@ -83,16 +112,24 @@ public class Deck {
 	// for hardcoded entries
 	private void setCardOrders() {
 		// only 3 images per card is currently implemented
-		switch (imagesPerCard) {
-			case 3: cardOrders =
+		switch (order) {
+			case 2: cardConfigurations =
 					new Integer[][]{{0, 1, 4},
-					{2, 3, 4}, {0, 2, 5},
-					{1, 3, 5}, {0, 3, 6},
-					{1, 2, 6}, {4, 5, 6}};
+							{2, 3, 4}, {0, 2, 5},
+							{1, 3, 5}, {0, 3, 6},
+							{1, 2, 6}, {4, 5, 6}};
+			break;
+			case 3: cardConfigurations =
+					new Integer[][]{{0, 1, 2, 9},
+							{9, 3, 4, 5}, {8, 9, 6, 7},
+							{0, 10, 3, 6}, {1, 10, 4, 7},
+							{8, 2, 10, 5}, {0, 8, 11, 4},
+							{1, 11, 5, 6}, {11, 2, 3, 7},
+							{0, 12, 5, 7}, {8, 1, 3, 12},
+							{12, 2, 4, 6}, {9, 10, 11, 12}};
 			break;
 			default:
 				throw new UnsupportedOperationException("Not implemented: imagesPerCard != 3");
 		}
 	}
-
 }

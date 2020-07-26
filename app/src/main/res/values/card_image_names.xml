@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="card_image_names">
+<!--        image names for image set a (landscapes)    -->
+        <item>Tunnel</item>
+        <item>Desert</item>
+        <item>Mushrooms</item>
+        <item>Beach</item>
+        <item>Clouds</item>
+        <item>Sunrise</item>
+        <item>Volcano</item>
+        <item>Glacier</item>
+        <item>Sand Dunes</item>
+        <item>Wheat Field</item>
+        <item>Mountainside</item>
+        <item>Northern Lights</item>
+        <item>Swamp</item>
+        <item>Tundra</item>
+        <item>River</item>
+        <item>Waterfall</item>
+        <item>Winter Woods</item>
+        <item>Frosty Cave</item>
+        <item>Bamboo Forest</item>
+        <item>Flower Field</item>
+        <item>Lily Pads</item>
+        <item>Evergreen Forest</item>
+        <item>Canyon</item>
+        <item>Island</item>
+        <item>Lava</item>
+        <item>Coastal Cliffs</item>
+        <item>Lightning</item>
+        <item>Foggy Forest</item>
+        <item>Reflective Cave</item>
+        <item>Amber Cave</item>
+        <item>Grass</item>
+
+<!--        image names for image set b (predators)     -->
+        <item>Polar Bears</item>
+        <item>Eagle</item>
+        <item>Leopard</item>
+        <item>Lion</item>
+        <item>Shark</item>
+        <item>Snake</item>
+        <item>Spider</item>
+        <item>Venus Fly Trap</item>
+        <item>Pitcher Plant</item>
+        <item>Jellyfish</item>
+        <item>Yellowjacket</item>
+        <item>Jackal</item>
+        <item>Starfish</item>
+        <item>Octopus</item>
+        <item>Heron</item>
+        <item>Hawk</item>
+        <item>Wolf</item>
+        <item>Jaguar</item>
+        <item>Humpback Whale</item>
+        <item>Eel</item>
+        <item>Lynx</item>
+        <item>Great Horned Owl</item>
+        <item>Barred Owl</item>
+        <item>Bat</item>
+        <item>Praying Mantis</item>
+        <item>Stingray</item>
+        <item>Ladybug</item>
+        <item>Dragonfly</item>
+        <item>Komodo Dragon</item>
+        <item>Wolverine</item>
+        <item>Badger</item>
+    </string-array>
+</resources>
