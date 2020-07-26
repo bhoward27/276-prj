@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
@@ -66,39 +67,27 @@ public class MainMenuActivity extends AppCompatActivity {
     private void setUpButtons() {
 
         Button btnPlay = findViewById(R.id.btnPlay);
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);//Change when Activity for the actual game is added
-                startActivity(intent);
-            }
+        btnPlay.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);//Change when Activity for the actual game is added
+            startActivity(intent);
         });
 
         Button btnOpenHelp = findViewById(R.id.btnOpenHelp);
-        btnOpenHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, HelpActivity.class);
-                startActivity(intent);
-            }
+        btnOpenHelp.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, HelpActivity.class);
+            startActivity(intent);
         });
 
         Button btnOpenOptions = findViewById(R.id.btnOpenOptions);
-        btnOpenOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
-                startActivity(intent);
-            }
+        btnOpenOptions.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
+            startActivity(intent);
         });
 
         Button btnOpenHighScores = findViewById(R.id.btnOpenHighScores);
-        btnOpenHighScores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
-                startActivity(intent);
-            }
+        btnOpenHighScores.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
+            startActivity(intent);
         });
     }
 

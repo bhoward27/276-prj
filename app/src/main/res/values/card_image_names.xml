@@ -29,6 +29,10 @@
         <item>Lava</item>
         <item>Coastal Cliffs</item>
         <item>Lightning</item>
+        <item>Foggy Forest</item>
+        <item>Reflective Cave</item>
+        <item>Amber Cave</item>
+        <item>Grass</item>
 
 <!--        image names for image set b (predators)     -->
         <item>Polar Bears</item>
@@ -38,25 +42,29 @@
         <item>Shark</item>
         <item>Snake</item>
         <item>Spider</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>Venus Fly Trap</item>
+        <item>Pitcher Plant</item>
+        <item>Jellyfish</item>
+        <item>Yellowjacket</item>
+        <item>Jackal</item>
+        <item>Starfish</item>
+        <item>Octopus</item>
+        <item>Heron</item>
+        <item>Hawk</item>
+        <item>Wolf</item>
+        <item>Jaguar</item>
+        <item>Humpback Whale</item>
+        <item>Eel</item>
+        <item>Lynx</item>
+        <item>Great Horned Owl</item>
+        <item>Barred Owl</item>
+        <item>Bat</item>
+        <item>Praying Mantis</item>
+        <item>Stingray</item>
+        <item>Ladybug</item>
+        <item>Dragonfly</item>
+        <item>Komodo Dragon</item>
+        <item>Wolverine</item>
+        <item>Badger</item>
     </string-array>
 </resources>
