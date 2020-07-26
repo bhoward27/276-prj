@@ -14,16 +14,22 @@ public class Game {
 	int selectedDiscardPileImage;
 	int selectedDrawPileImage;
 	int order;
+	int deckSize;
 
-	public Game(int order) {
-		this.deck = new Deck(order);
+	public Game(int order, int deckSize) {
+		this.deck = new Deck(order, deckSize);
 		this.selectedDiscardPileImage = NONE_SELECTED;
 		this.selectedDrawPileImage = NONE_SELECTED;
 		this.order = order;
+		this.deckSize = deckSize;
 	}
 
 	public Deck getDeck() {
 		return deck;
+	}
+
+	public int getDeckSize() {
+		return deckSize;
 	}
 
 	public boolean tappedUpdateState(boolean isTappedDiscardPile, int imageIndex) {

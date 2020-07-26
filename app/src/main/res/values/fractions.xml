@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="disc_guideline_pct">0.43</fraction>
+    <fraction name="draw_guideline_pct">0.57</fraction>
+</resources>

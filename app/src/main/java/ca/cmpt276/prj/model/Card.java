@@ -11,11 +11,22 @@ import java.util.List;
  */
 public class Card {
     private List<Integer> imagesMap;
+    public List<Integer> leftMargins = new ArrayList<>();
+    public List<Integer> topMargins = new ArrayList<>();
+    public List<Double> imageWidths = new ArrayList<>();
+    public List<Double> imageHeights = new ArrayList<>();
 
-    public Card(List<Integer> imageOrders) {
+    private int cardNum;
+
+    public Card(List<Integer> imageOrders, int num) {
         this.imagesMap = new ArrayList<>();
-        imagesMap.addAll(imageOrders);
+        this.cardNum = num;
 
+        imagesMap.addAll(imageOrders);
+    }
+
+    public int getCardNum() {
+        return cardNum;
     }
 
     public List<Integer> getImagesMap() {
@@ -25,4 +36,6 @@ public class Card {
     public Integer getImagesByIndex(int index) {
         return imagesMap.get(index);
     }
+
 }
+
