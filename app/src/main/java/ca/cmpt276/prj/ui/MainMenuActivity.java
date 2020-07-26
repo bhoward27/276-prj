@@ -38,7 +38,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
         options = OptionSet.getInstance();
 
-
         setUpImages();
         setUpButtons();
 
