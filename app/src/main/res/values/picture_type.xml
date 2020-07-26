@@ -3,15 +3,7 @@
     <string-array name="str_pic_types">
         <item>Landscape</item>
         <item>Predator</item>
-        <item>Third option</item>
-    </string-array>
-
-    <string-array name="str_draw_p">
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>All</item>
+        <item>Flickr</item>
     </string-array>
 
     <string name="default_picture_type">Landscape</string>
