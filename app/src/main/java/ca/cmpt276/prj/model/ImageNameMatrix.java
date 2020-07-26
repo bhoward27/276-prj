@@ -6,7 +6,7 @@ package ca.cmpt276.prj.model;
  */
 public class ImageNameMatrix {
     public static final int NUM_IMAGE_SETS = 2; // # of rows in the matrix
-    public static final int NUM_IMAGES_PER_SET = 27; // # of columns in the matrix
+    public static final int NUM_IMAGES_PER_SET = 31; // # of columns in the matrix
     private static String cardImageNames[][];
     private static ImageNameMatrix instance;
 
