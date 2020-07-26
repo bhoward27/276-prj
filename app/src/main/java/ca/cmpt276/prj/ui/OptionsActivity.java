@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,7 +84,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         //@ https://stackoverflow.com/a/19127223
         ArrayList<String> allDrawPileSizes = new ArrayList<String>
                 (Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
-        validDrawPileSizes = new ArrayList<String>(0);
+        validDrawPileSizes = new ArrayList<>(0);
         int maxDeckSize = options.getMaxDeckSize();
 
         for(int i = 0; i < allDrawPileSizes.size(); i++){
@@ -151,17 +152,22 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     private void updateDeckSizeSpinner(){
         Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
+        ArrayList<String> drawPileSizesOptions = getValidDrawPileSizes();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, getValidDrawPileSizes());
-        deckSizeSpinner.setAdapter(adapter);
-
+                android.R.layout.simple_spinner_item, drawPileSizesOptions);
+        //deckSizeSpinner.setAdapter(adapter);
+        for(int i = 0; i < drawPileSizesOptions.size(); i++){
+            Log.d("updateDeckSizeSpinner option before parseInt: ", drawPileSizesOptions.get(i));
+        }
         //Code for setting default selected option in Spinner as below adapted from itzhar
         //@ https://stackoverflow.com/a/29129817
         int currentDeckSizeNumber = options.getDeckSize();
         String currentDeckSize = Integer.toString(currentDeckSizeNumber);
+        //Remove all stuff
+        //currentDeckSize = currentDeckSize.replaceAll("\\D","");//if All is chosen
+        Log.d("CurrentDeckSize String is: ", currentDeckSize);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deckSizeSpinner.setAdapter(adapter);
-
 
           //@TODO: Might be nice to change default to be set to "All..." if chosen size now invalid?
           //@TODO: Or, set choice to the next biggest choice possible instead of all?
@@ -170,7 +176,14 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 //        for(int i = 0; i < maxDeckSize; i++){
 //
 //        }
-        int defaultPosition = adapter.getPosition(currentDeckSize);
+        //Do I need to parse a steing first?
+
+        //I get it. It tries to look for 31, but there is not just any 31
+        int defaultPosition = adapter.getPosition(currentDeckSize);//Is this the line?
+        if(defaultPosition == -1){
+            defaultPosition = adapter.getPosition(getString(R.string.all_option, currentDeckSizeNumber));
+        }
+        Log.d("Just before the for loop, defaultPosition is....", "" + defaultPosition);
 //        if(options.getDeckSize() <= options.getMaxDeckSize()){
 //        Use String.format here instead?
 //            defaultPosition = adapter.getPosition(getString(R.string.all_option, options.getDeckSize()));
@@ -178,7 +191,16 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 //        }else{
 //            defaultPosition = adapter.getPosition(currentDeckSize);
 //        }
+        for(int i = 0; i < validDrawPileSizes.size(); i++){
+            String checkedSize = validDrawPileSizes.get(i);
+            checkedSize  = checkedSize.replaceAll("\\D","");//if All is chosen
+            Log.d("The thing", "THe thing is:" + checkedSize);
+            int pileSizeNumber = Integer.parseInt(checkedSize);
+            //Get it, parse it,
+            //if the same, set as selection.
+        }
         deckSizeSpinner.setSelection(defaultPosition);
+        Log.d("AFter ParseInt, defaul position is:", "..." + defaultPosition);//Prints out -1, when all was seleted, meaning that at this time, all wasn't found.
         deckSizeSpinner.setOnItemSelectedListener(this);
         //Return string to be in spinner
         // String.format("%s%d", getString(--id of the all string--), deckSizeNumber)
@@ -197,6 +219,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 pileSizeName = pileSizeName.replaceAll("\\D","");//if All is chosen
                 int pileSizeNumber = Integer.parseInt(pileSizeName);
                 options.setDeckSize(pileSizeNumber);//Can set deckSize with All, no worries
+                Log.d("okay ", "okay: " + pileSizeNumber);
                 break;
             default:
                 break;
