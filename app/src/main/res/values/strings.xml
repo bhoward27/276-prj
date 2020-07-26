@@ -5,6 +5,7 @@
     <string name="title_high_scores_activity">High Scores</string>
     <string name="title_main_menu_activity">Main Menu</string>
     <string name="title_options_activity">Options</string>
+    <string name="title_photo_gallery_activity">PhotoGallery</string>
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">Reset High Scores</string>
     <string name="btn_main_menu">Skip</string>
@@ -30,6 +31,7 @@
     <string name="txt_play">Play!</string>
     <string name="txt_help">Help</string>
     <string name="txt_options">Options</string>
+    <string name="txt_photo_gallery">Photo Gallery</string>
     <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 1) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">Find daMatch</string>
     <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
@@ -89,4 +91,7 @@
     <string name="txt_placeholder_name">UR_NAME_HERE</string>
     <string name="txt_score_by">\u0020by\u0020</string>
     <string name="txt_score_on">\u0020on\u0020</string>
+    <string name="start_polling">Start polling</string>
+    <string name="clear_search">Clear Search</string>
+    <string name="search">Search</string>
 </resources>

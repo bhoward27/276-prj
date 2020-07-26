@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.cmpt276.prj">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +33,12 @@
         <activity
             android:name=".ui.HelpActivity"
             android:label="@string/title_help_activity"
+            android:parentActivityName=".ui.MainMenuActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PhotoGalleryActivity"
+            android:label="@string/title_photo_gallery_activity"
             android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
