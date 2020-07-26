@@ -105,7 +105,7 @@ public class MainMenuActivity extends AppCompatActivity {
         btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryFragment.class);
+                Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
                 startActivity(intent);
 //                FragmentManager manager = getSupportFragmentManager();
 //                PhotoGalleryFragment photo = new PhotoGalleryFragment();
