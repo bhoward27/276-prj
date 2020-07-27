@@ -244,7 +244,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: move this to OptionsActivity to only perform once for each imageset (performance)
     private void generateRandomPositions() {
         // START GETTING CARDVIEW WIDTH AND HEIGHT
         int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins);
