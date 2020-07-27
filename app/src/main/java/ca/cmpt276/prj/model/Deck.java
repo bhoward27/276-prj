@@ -105,7 +105,7 @@ public class Deck {
 					cardBools.add(rand.nextBoolean());
 				}
 				Collections.shuffle(cardBools);
-				deckBools.add(cardBools);
+				deckBools.add(new ArrayList<>(cardBools));
 			}
 		} else {
 			for (int card = 0; card < deckSize; card++) {
@@ -113,7 +113,7 @@ public class Deck {
 				for (int i = 0; i < numImagesPerCard; i++) {
 					cardBools.add(false);
 				}
-				deckBools.add(cardBools);
+				deckBools.add(new ArrayList<>(cardBools));
 			}
 		}
 
