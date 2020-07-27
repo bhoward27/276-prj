@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -45,6 +47,18 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         setupEntryBox();
         createOrderSpinner();
         createDeckSizeSpinner();
+        setupCheckBox();
+    }
+
+    private void setupCheckBox() {
+        CheckBox chck = findViewById(R.id.chckWordMode);
+        if (options.isWordMode()) {
+            chck.setChecked(true);
+        }
+        chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            options.setWordMode(isChecked);
+        }
+        );
     }
 
     private void initOptionSet() {

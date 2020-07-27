@@ -88,12 +88,8 @@ public class GameActivity extends AppCompatActivity {
         resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
         globalResources = getResources();
 
-        // temporarily set order here before options is done
-        options.setOrder(3);
         // TODO: change MaxDeckSize -> DeckSize once that's finished
-        // TODO: finish word mode option
-        //gameInstance = new Game(options.getOrder(), options.getMaxDeckSize(), options.isWordMode());
-        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize(), true);
+        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize(), options.isWordMode());
 
         updateRemainingCardsText();
         setupButtons();
@@ -145,9 +141,7 @@ public class GameActivity extends AppCompatActivity {
 
         for (Button button : drawPileButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    button.setActivated(true);
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     tapUpdateGameState(button);
                 }
 
@@ -358,7 +352,7 @@ public class GameActivity extends AppCompatActivity {
         // Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
         // With the suggestion to place it after alert.show() adapted from Cerlin
         // @ https://stackoverflow.com/a/43536704
-        TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
+        TextView dialogMessages = alert.findViewById(android.R.id.message);
         assert dialogMessages != null;
         dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);
