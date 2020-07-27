@@ -194,7 +194,9 @@ public class OptionSet {
 
 
 
+
     //------
+
     //Are there things I can move to OptionsActivity only...?
     //
     //Valid Draw Pile Sizes are only applicable here, and therefore its getter/setter functions

@@ -52,6 +52,8 @@
     <string name="txt_credits_app_icon">App Icon</string>
     <string name="txt_prompt_order">Select Order:</string>
     <string name="txt_prompt_pile_size">Select Draw Pile Size:</string>
+    <string name="txt_selected_order">Selected Order: $d</string>
+    <string name="txt_selected_pile_size">Selected Draw Pile Size: %d</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>

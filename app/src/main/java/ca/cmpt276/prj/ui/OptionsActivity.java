@@ -80,8 +80,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.str_deck_order, android.R.layout.simple_spinner_item);
         int currentOrderNumber = options.getOrder();//Pre-select an option based on saved prefs
-
-
         //Code for setting default selected option in Spinner as below adapted from itzhar
         //@ https://stackoverflow.com/a/29129817
         //Conversion from int to string necessary to use with adapter.getPosition
