@@ -1,6 +1,7 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -88,6 +89,16 @@ public class MainMenuActivity extends AppCompatActivity {
         btnOpenHighScores.setOnClickListener(v -> {
             Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
             startActivity(intent);
+        });
+
+        Button btnOpenPhotoGallery = findViewById(R.id.btnOpenPhotoGallery);
+        btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
+                startActivity(intent);
+
+            }
         });
     }
 
