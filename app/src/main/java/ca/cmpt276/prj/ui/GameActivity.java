@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -22,7 +23,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Card;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
+import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
@@ -49,11 +51,13 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  * Class for displaying the game to the player, including game over messages.
  */
 public class GameActivity extends AppCompatActivity {
-    List<ImageButton> discPileButtons;
-    List<ImageButton> drawPileButtons;
-    List<ImageButton> allButtons;
+    List<Button> discPileButtons;
+    List<Button> drawPileButtons;
+    List<Button> allButtons;
     int buttonCount;
     int imageSet;
+
+    ImageNameMatrix imageNames;
     String imageSetPrefix;
     ScoreManager scoreManager;
     OptionSet options;
@@ -80,13 +84,11 @@ public class GameActivity extends AppCompatActivity {
         options = OptionSet.getInstance();
         imageSet = options.getImageSet();
         imageSetPrefix = options.getImageSetPrefix();
+        imageNames = ImageNameMatrix.getInstance();
         resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
         globalResources = getResources();
 
-        // temporarily set order here before options is done
-        options.setOrder(3);
-        // TODO: change MaxDeckSize -> DeckSize once that's finished
-        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize());
+        gameInstance = new Game(options.getOrder(), options.getDeckSize(), options.isWordMode());
 
         updateRemainingCardsText();
         setupButtons();
@@ -99,18 +101,14 @@ public class GameActivity extends AppCompatActivity {
         scoreTimer.start();
     }
 
-    private void setButtonParameters(ImageButton button, boolean pile) {
-        int pad = Math.round(globalResources.getDimension(R.dimen.button_padding));
-
+    private void setButtonParameters(Button button, boolean pile) {
         button.setVisibility(View.VISIBLE);
-        button.setScaleType(ImageView.ScaleType.CENTER);
-        button.setPadding(pad, pad, pad, pad);
-        button.setCropToPadding(true);
-        button.setContentDescription(globalResources.getString(R.string.txt_content_discardimage_1));
-        button.setBackground(getDrawable(R.drawable.button_selector_colour));
-        button.setAdjustViewBounds(true);
         button.setForegroundGravity(Gravity.CENTER);
+        button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
+        button.setAllCaps(false);
 
+        button.setTag(R.string.tag_btn_bg, button.getBackground());
+        button.setTag(R.string.tag_btn_key, pile);
     }
 
     private void getButtons() {
@@ -118,15 +116,13 @@ public class GameActivity extends AppCompatActivity {
         RelativeLayout drawCard = findViewById(R.id.lytDraw);
 
         for (int i = 0; i < options.getOrder()+1; i++) {
-            ImageButton button = new ImageButton(this);
+            Button button = new Button(this);
             setButtonParameters(button, DISCARD_PILE);
-            button.setTag(R.string.tag_btn_key, DISCARD_PILE);
             discCard.addView(button);
             discPileButtons.add(button);
 
-            button = new ImageButton(this);
+            button = new Button(this);
             setButtonParameters(button, DRAW_PILE);
-            button.setTag(R.string.tag_btn_key, DRAW_PILE);
             drawCard.addView(button);
             drawPileButtons.add(button);
         }
@@ -144,14 +140,9 @@ public class GameActivity extends AppCompatActivity {
         // This function adds images and tags to the buttons
         refreshButtons();
 
-        for (ImageButton button : allButtons) {
+        for (Button button : drawPileButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    int pad = Math.round(globalResources.getDimension(R.dimen.button_selected_padding));
-                    button.setPadding(pad, pad, pad, pad);
-                    button.setActivated(true);
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    resetOverlay(button);
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     tapUpdateGameState(button);
                 }
 
@@ -178,7 +169,7 @@ public class GameActivity extends AppCompatActivity {
         Card currDiscardCard = gameInstance.getDeck().getTopDiscard();
         Card currDrawCard = gameInstance.getDeck().getTopDraw();
 
-        for (ImageButton button : allButtons) {
+        for (Button button : allButtons) {
             // this index is used for accessing the random number for this image out of all total images
             // and also for getting the image for the button from the gameInstance piles
             int index = allButtons.indexOf(button);
@@ -197,12 +188,18 @@ public class GameActivity extends AppCompatActivity {
             }
 
             int imageNum = currPileImages.get(modIndex);
+            if (!currCard.isWord.get(modIndex)) {
+                // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+                String resourceName = resourcePrefix + imageNum;
+                int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                        getPackageName());
+                button.setText("");
+                button.setBackgroundResource(resourceID);
+            } else {
+                button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
+                button.setText(imageNames.getName(imageSet, imageNum));
+            }
 
-            // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
-            String resourceName = resourcePrefix + imageNum;
-            int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                    getPackageName());
-            button.setImageResource(resourceID);
             button.setTag(imageNum);
 
             // set size & random position
@@ -251,20 +248,28 @@ public class GameActivity extends AppCompatActivity {
         for (Card c : allCards) {
             List<Integer> imagesMap = c.getImagesMap();
             for (int i : imagesMap) {
-                String resourceName = resourcePrefix + i;
-                int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                        getPackageName());
-                Drawable image = getDrawable(resourceID);
-                assert image != null;
-                double ratio = (double) image.getIntrinsicWidth() / (double) image.getIntrinsicHeight();
                 double w;
                 double h;
-                if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                    h = (double) cardHeight / numImages;
-                    w = ratio * h;
+                if (!c.isWord.get(imagesMap.indexOf(i))) {
+                    String resourceName = resourcePrefix + i;
+                    int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                            getPackageName());
+                    Drawable image = getDrawable(resourceID);
+                    assert image != null;
+                    double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+                    if (ratio > cardRatio) { // if the image is wider than the card's ratio
+                        h = (double) cardHeight / Math.log(numImages*50);
+                        Log.d("h", "h: " + h);
+                        w = ratio * h;
+                        Log.d("h", "w: " + w);
+                    } else {
+                        w = (double) cardWidth / Math.log(numImages*50);
+                        h = (1.0/ratio) * w;
+                    }
                 } else {
-                    w = (double) cardWidth / numImages;
-                    h = (1.0/ratio) * w;
+                    // make non-image buttons slightly bigger
+                    w = (cardWidth+BUTTON_SPACING_PADDING*2) / Math.log(numImages*20);
+                    h = w;
                 }
 
                 c.imageWidths.add(w);
@@ -281,10 +286,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void tapUpdateGameState(ImageButton pressedButton) {
-        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
+    private void tapUpdateGameState(Button pressedButton) {
         // If there was a match
-        if (gameInstance.tappedUpdateState(pile, (int) pressedButton.getTag())) {
+        if (gameInstance.tappedUpdateState((int) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // Then change the images and remove all overlays to signify no card being selected
 
@@ -294,7 +298,6 @@ public class GameActivity extends AppCompatActivity {
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
                 refreshButtons();
-                resetOverlay();
             } else {
                 finishGame();
             }
@@ -308,7 +311,7 @@ public class GameActivity extends AppCompatActivity {
                 (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
         int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins)
-                            / gameInstance.getDeck().getTotalNumCards();
+                            / options.getDeckSize();
 
         discCardView.leftMargin -= shiftAmt;
         discCardView.topMargin -= shiftAmt;
@@ -320,28 +323,6 @@ public class GameActivity extends AppCompatActivity {
         drawCardView.rightMargin -= shiftAmt;
         drawCardView.bottomMargin -= shiftAmt;
     }
-
-    private void resetOverlay(ImageButton pressedButton) {
-        // Remove the overlays for all other buttons in the same card
-        boolean pile = (boolean) pressedButton.getTag(R.string.tag_btn_key);
-        for (ImageButton button : (pile == DISCARD_PILE ? discPileButtons : drawPileButtons)) {
-            if (button != pressedButton) {
-                int pad = Math.round(globalResources.getDimension(R.dimen.button_padding));
-                button.setPadding(pad, pad, pad, pad);
-                button.setActivated(false);
-            }
-        }
-    }
-
-    private void resetOverlay() {
-        // Remove the overlays for all buttons
-        for (ImageButton button : allButtons) {
-            int pad = Math.round(globalResources.getDimension(R.dimen.button_padding));
-            button.setPadding(pad, pad, pad, pad);
-            button.setActivated(false);
-        }
-    }
-
 
     private void finishGame() {
         scoreTimer.stop();
@@ -379,7 +360,7 @@ public class GameActivity extends AppCompatActivity {
         // Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
         // With the suggestion to place it after alert.show() adapted from Cerlin
         // @ https://stackoverflow.com/a/43536704
-        TextView dialogMessages = (TextView) alert.findViewById(android.R.id.message);
+        TextView dialogMessages = alert.findViewById(android.R.id.message);
         assert dialogMessages != null;
         dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         dialogMessages.setTextSize(26);

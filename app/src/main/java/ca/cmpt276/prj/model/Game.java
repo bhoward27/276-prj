@@ -16,8 +16,8 @@ public class Game {
 	int order;
 	int deckSize;
 
-	public Game(int order, int deckSize) {
-		this.deck = new Deck(order, deckSize);
+	public Game(int order, int deckSize, boolean isWordMode) {
+		this.deck = new Deck(order, deckSize, isWordMode);
 		this.selectedDiscardPileImage = NONE_SELECTED;
 		this.selectedDrawPileImage = NONE_SELECTED;
 		this.order = order;
@@ -32,21 +32,9 @@ public class Game {
 		return deckSize;
 	}
 
-	public boolean tappedUpdateState(boolean isTappedDiscardPile, int imageIndex) {
-		if (isTappedDiscardPile) {
-			selectedDiscardPileImage = imageIndex;
-		} else {
-			selectedDrawPileImage = imageIndex;
-		}
-		// Initial game state check (or nothing selected in one pile)
-		if (selectedDiscardPileImage == NONE_SELECTED || selectedDrawPileImage == NONE_SELECTED) {
-			return false;
-		}
-
-		if (selectedDiscardPileImage == selectedDrawPileImage) {
+	public boolean tappedUpdateState(int imageIndex) {
+		if (deck.getDiscardPileImages().contains(imageIndex)) {
 			deck.moveTopDrawToDiscard();
-			selectedDiscardPileImage = NONE_SELECTED;
-			selectedDrawPileImage = NONE_SELECTED;
 			return true;
 		} else {
 			return false;

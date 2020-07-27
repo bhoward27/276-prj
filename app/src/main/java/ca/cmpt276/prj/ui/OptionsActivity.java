@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -21,6 +23,8 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionSet;
+
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
 /**
  * Activity for different types of pictures and setting the player name.
@@ -45,7 +49,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         setupEntryBox();
         createOrderSpinner();
         createDeckSizeSpinner();
+        setupCheckBox();
     }
+
+
 
     private void initOptionSet() {
         String defaultValue = getString(R.string.default_picture_type);
@@ -65,14 +72,41 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
             RadioButton button = new RadioButton(this);
             button.setText(imageSetName);
-            button.setOnClickListener(v -> options.setImageSet(indexOfButton));
+            if (deckThemeNames.indexOf(imageSetName) != FLICKR_IMAGE_SET) {
+                button.setOnClickListener(v -> options.setImageSet(indexOfButton));
+            } else {
+                button.setOnClickListener(v -> {
+                    options.setImageSet(indexOfButton);
+                    CheckBox chck = findViewById(R.id.chckWordMode);
+                    chck.setChecked(false);
+                });
+            }
             radioGroup.addView(button);
 
             // Select default button:
             if (deckThemeNames.indexOf(imageSetName) == imageSetPref) {
                 button.setChecked(true);
             }
+
+
         }
+    }
+
+    private void setupCheckBox() {
+        CheckBox chck = findViewById(R.id.chckWordMode);
+        if (options.isWordMode()) {
+            chck.setChecked(true);
+        }
+        chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    // don't let word mode be used if flickr is the imageset
+            Log.d("t", "imageSet: " + options.getImageSet());
+            if (options.getImageSet() != FLICKR_IMAGE_SET) {
+                options.setWordMode(isChecked);
+            } else {
+                options.setWordMode(false);
+                buttonView.setChecked(false);
+            }
+        });
     }
 
     //Valid Draw Pile Sizes are only applicable here, and therefore its getter/setter functions
