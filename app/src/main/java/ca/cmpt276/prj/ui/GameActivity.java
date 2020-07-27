@@ -280,8 +280,8 @@ public class GameActivity extends AppCompatActivity {
         GenRand rand = new GenRand();
         for (Card c : allCards) {
             rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-            c.leftMargins = rand.getXMargins();
-            c.topMargins = rand.getYMargins();
+            c.leftMargins.addAll(rand.getXMargins());
+            c.topMargins.addAll(rand.getYMargins());
         }
     }
 
