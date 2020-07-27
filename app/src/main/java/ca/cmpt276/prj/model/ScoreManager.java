@@ -15,8 +15,8 @@ import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * This class provides an interface for the system's shared preferences and
- * allows us to interact with the high scores list.
+ * This class provides an interface for the system's shared preferences and allows us to interact
+ * with different high scores lists depending on the chosen options in OptionsActivity.
  */
 
 public class ScoreManager {
