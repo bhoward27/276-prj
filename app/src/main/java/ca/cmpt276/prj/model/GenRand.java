@@ -39,8 +39,8 @@ public class GenRand {
 		for (int i = 0; i < widths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(widths.get(i) + BUTTON_SPACING_PADDING),
-					(int) Math.round(heights.get(i) + BUTTON_SPACING_PADDING));
+					(int) Math.round(widths.get(i)),
+					(int) Math.round(heights.get(i)));
 			allRects.add(rect);
 		}
 
