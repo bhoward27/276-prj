@@ -311,7 +311,7 @@ public class GameActivity extends AppCompatActivity {
                 (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
         int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins)
-                            / gameInstance.getDeck().getTotalNumCards();
+                            / options.getDeckSize();
 
         discCardView.leftMargin -= shiftAmt;
         discCardView.topMargin -= shiftAmt;
