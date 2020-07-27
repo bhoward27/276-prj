@@ -105,6 +105,8 @@ public class GameActivity extends AppCompatActivity {
     private void setButtonParameters(Button button, boolean pile) {
         button.setVisibility(View.VISIBLE);
         button.setForegroundGravity(Gravity.CENTER);
+        button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
+        button.setAllCaps(false);
 
         button.setTag(R.string.tag_btn_bg, button.getBackground());
         button.setTag(R.string.tag_btn_key, pile);
@@ -192,9 +194,8 @@ public class GameActivity extends AppCompatActivity {
                 String resourceName = resourcePrefix + imageNum;
                 int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
                         getPackageName());
-                Drawable image = globalResources.getDrawable(resourceID, null);
                 button.setText("");
-                button.setBackground(image);
+                button.setBackgroundResource(resourceID);
             } else {
                 button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
                 button.setText(imageNames.getName(imageSet, imageNum));
@@ -248,20 +249,26 @@ public class GameActivity extends AppCompatActivity {
         for (Card c : allCards) {
             List<Integer> imagesMap = c.getImagesMap();
             for (int i : imagesMap) {
-                String resourceName = resourcePrefix + i;
-                int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                        getPackageName());
-                Drawable image = getDrawable(resourceID);
-                assert image != null;
-                double ratio = (double) image.getIntrinsicWidth() / (double) image.getIntrinsicHeight();
                 double w;
                 double h;
-                if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                    h = (double) cardHeight / numImages;
-                    w = ratio * h;
+                if (!c.isWord.get(imagesMap.indexOf(i))) {
+                    String resourceName = resourcePrefix + i;
+                    int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                            getPackageName());
+                    Drawable image = getDrawable(resourceID);
+                    assert image != null;
+                    double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+                    if (ratio > cardRatio) { // if the image is wider than the card's ratio
+                        h = (double) cardHeight / numImages;
+                        w = ratio * h;
+                    } else {
+                        w = (double) cardWidth / numImages;
+                        h = (1.0/ratio) * w;
+                    }
                 } else {
-                    w = (double) cardWidth / numImages;
-                    h = (1.0/ratio) * w;
+                    // make non-image buttons slightly bigger
+                    w = (cardWidth+BUTTON_SPACING_PADDING*3) / numImages;
+                    h = w;
                 }
 
                 c.imageWidths.add(w);
@@ -273,8 +280,8 @@ public class GameActivity extends AppCompatActivity {
         GenRand rand = new GenRand();
         for (Card c : allCards) {
             rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-            c.leftMargins.addAll(rand.getXMargins());
-            c.topMargins.addAll(rand.getYMargins());
+            c.leftMargins = rand.getXMargins();
+            c.topMargins = rand.getYMargins();
         }
     }
 
