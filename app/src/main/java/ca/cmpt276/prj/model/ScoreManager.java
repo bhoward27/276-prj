@@ -19,10 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * with different high scores lists depending on the chosen options in OptionsActivity.
  */
 
+//List of scores
+
+	//Add parameters involving the user's options in the Score
+	//Now, make a new arrayList of Lists
+	//If the first element
 public class ScoreManager {
 	private List<Score> scores;
 	private List<Score> defaultScores;
-
 	private SharedPreferences prefs;
 
 	// Singleton setup
@@ -31,9 +35,9 @@ public class ScoreManager {
 	//  Call instantiate on splash screen.
 	public static void instantiate(SharedPreferences prefs) {
 		if (instance == null) {
-			instance = new ScoreManager(prefs);
-		}
+		instance = new ScoreManager(prefs);
 	}
+}
 
 	private ScoreManager(SharedPreferences prefs) {
 		this.prefs = prefs;
