@@ -16,8 +16,8 @@ public class Game {
 	int order;
 	int deckSize;
 
-	public Game(int order, int deckSize) {
-		this.deck = new Deck(order, deckSize);
+	public Game(int order, int deckSize, boolean isWordMode) {
+		this.deck = new Deck(order, deckSize, isWordMode);
 		this.selectedDiscardPileImage = NONE_SELECTED;
 		this.selectedDrawPileImage = NONE_SELECTED;
 		this.order = order;

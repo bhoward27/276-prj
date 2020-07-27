@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static ca.cmpt276.prj.model.Constants.MAX_NUM_IMAGES;
 
@@ -24,12 +25,14 @@ public class Deck {
 	private int totalNumCards;
 	private int order;
 	private int deckSize;
+	private boolean isWordMode;
 
-	public Deck(int order, int deckSize) {
+	public Deck(int order, int deckSize, boolean isWordMode) {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
 		this.allCards = new ArrayList<>();
 		this.order = order;
+		this.isWordMode = isWordMode;
 
 		int numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1
@@ -85,6 +88,21 @@ public class Deck {
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardConfigurations));
 		Collections.shuffle(cards);
 
+		List<Boolean> wordBools = new ArrayList<>();
+		// add at least one of each, word and image
+		if (isWordMode) {
+			ThreadLocalRandom rand = ThreadLocalRandom.current();
+			wordBools.add(true);
+			wordBools.add(false);
+			for (int i = 0; i < deckSize-2; i++) {
+				wordBools.add(rand.nextBoolean());
+			}
+		} else {
+			for (int i = 0; i < deckSize; i++) {
+				wordBools.add(false);
+			}
+		}
+
 		List<Integer> randMap = new ArrayList<>(MAX_NUM_IMAGES);
 		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
 			randMap.add(i);
@@ -100,7 +118,7 @@ public class Deck {
 
 		// add to the drawpile a random card until there are no cards left
 		for (Integer[] card : cards) {
-			drawPile.push(new Card(Arrays.asList(card), cards.indexOf(card)));
+			drawPile.push(new Card(Arrays.asList(card), cards.indexOf(card), wordBools));
 		}
 
 		allCards.addAll(drawPile);

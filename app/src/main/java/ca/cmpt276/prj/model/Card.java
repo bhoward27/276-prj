@@ -10,18 +10,19 @@ import java.util.List;
  * two cards have a matching image.
  */
 public class Card {
-    private List<Integer> imagesMap;
+    private List<Integer> imagesMap = new ArrayList<>();
     public List<Integer> leftMargins = new ArrayList<>();
     public List<Integer> topMargins = new ArrayList<>();
     public List<Double> imageWidths = new ArrayList<>();
     public List<Double> imageHeights = new ArrayList<>();
+    public List<Boolean> isWord = new ArrayList<>();
 
     private int cardNum;
 
-    public Card(List<Integer> imageOrders, int num) {
-        this.imagesMap = new ArrayList<>();
+    public Card(List<Integer> imageOrders, int num, List<Boolean> wordBools) {
         this.cardNum = num;
 
+        isWord.addAll(wordBools);
         imagesMap.addAll(imageOrders);
     }
 

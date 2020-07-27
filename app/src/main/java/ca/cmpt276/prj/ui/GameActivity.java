@@ -86,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
         // temporarily set order here before options is done
         options.setOrder(3);
         // TODO: change MaxDeckSize -> DeckSize once that's finished
-        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize());
+        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize(), options.isWordMode());
 
         updateRemainingCardsText();
         setupButtons();
@@ -197,12 +197,16 @@ public class GameActivity extends AppCompatActivity {
             }
 
             int imageNum = currPileImages.get(modIndex);
+            if (!currCard.isWord.get(modIndex)) {
+                // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+                String resourceName = resourcePrefix + imageNum;
+                int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                        getPackageName());
+                button.setImageResource(resourceID);
+            } else {
+                button.setText
+            }
 
-            // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
-            String resourceName = resourcePrefix + imageNum;
-            int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                    getPackageName());
-            button.setImageResource(resourceID);
             button.setTag(imageNum);
 
             // set size & random position
