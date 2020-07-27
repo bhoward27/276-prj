@@ -93,6 +93,7 @@ public class Deck {
 
 		List<List<Boolean>> deckBools = new ArrayList<>();
 
+		// randomly choose images to be words
 		List<Boolean> cardBools = new ArrayList<>();
 		if (isWordMode) {
 			ThreadLocalRandom rand = ThreadLocalRandom.current();
