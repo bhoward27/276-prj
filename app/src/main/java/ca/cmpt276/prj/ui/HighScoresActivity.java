@@ -20,16 +20,22 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
 public class HighScoresActivity extends AppCompatActivity {
 	ScoreManager scoreManager;
+	OptionSet options;
+	int currentOrder;
+	int currentDrawPileSize;
 
 	public static Intent makeIntent(Context context) {
 		return new Intent(context, HighScoresActivity.class);
 	}
 
+	//Make a score list of stuff
+	//Make an ArrayList of an ArrayList of scores 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,12 +47,29 @@ public class HighScoresActivity extends AppCompatActivity {
 
 		scoreManager = ScoreManager.getInstance();
 
+		initOptionSet();
 		setupButtons();
 		registerClickCallback();
 		populateListView();
-
+		printChosenOptions();
 	}
 
+	private void initOptionSet() {
+		options = OptionSet.getInstance();
+		currentOrder = options.getOrder();
+		currentDrawPileSize = options.getDeckSize();
+	}
+
+	private void printChosenOptions(){
+		TextView textCurrentOrder = findViewById(R.id.txt_order);
+		TextView textCurrentDrawPileSize = findViewById(R.id.txt_draw_pile_size);
+		String chosenOrder = getString(R.string.txt_selected_order, currentOrder);
+		String chosenDrawPileSize = getString(R.string.txt_selected_pile_size, currentDrawPileSize);
+		//If deck = max
+		textCurrentOrder.setText(chosenOrder);
+		textCurrentDrawPileSize.setText(chosenDrawPileSize);
+	}
+//String.format("%s%d",R.string.txt_selected_order, currentOrder))
 	private void setupButtons() {
 		Button btnClearHighScores = findViewById(R.id.btnClearHighScores);
 		btnClearHighScores.setOnClickListener(view -> {

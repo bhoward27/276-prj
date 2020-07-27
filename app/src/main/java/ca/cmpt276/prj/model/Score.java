@@ -11,6 +11,8 @@ public class Score {
 	private int scoreTime;
 	private String scoreName;
 	private String scoreDate;
+	private int order;
+	private int drawPileSize;
 
 	public Score(int scoreTime, String scoreName, String scoreDate) {
 		this.scoreTime = scoreTime;

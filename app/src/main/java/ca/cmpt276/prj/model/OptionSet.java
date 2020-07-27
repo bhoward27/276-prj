@@ -192,17 +192,6 @@ public class OptionSet {
         return wordMode;
     }
 
-
-
-
-    //------
-
-    //Are there things I can move to OptionsActivity only...?
-    //
-    //Valid Draw Pile Sizes are only applicable here, and therefore its getter/setter functions
-    //Are not defined in OptionsSet. However, to determine Valid Draw Pile we still need to use an
-    //Instance of OptionsSet
-
     public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
         //Begin with a populated array;
         //Code for getting ArrayList from string-array adapted from
@@ -246,75 +235,4 @@ public class OptionSet {
     public ArrayList<String> getValidDrawPileSizes(){
         return validDrawPileSizes;
     }
-
-    //Creation of orderSPinner in UI
-
-//    private void createDeckSizeSpinner(){
-//        setValidDrawPileSizes();//call with param using getValidDrawSize
-//        updateDeckSizeSpinner();//This function is from the OptionsActivity
-//
-//    }
-////
-////    private void updateDeckSizeSpinner(){
-////        Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
-////        ArrayList<String> drawPileSizesOptions = getValidDrawPileSizes();
-////        //Code for setting default selected option in Spinner as below adapted from itzhar
-////        //@ https://stackoverflow.com/a/29129817
-////        int currentDeckSizeNumber = options.getDeckSize();
-////        String currentDeckSize = Integer.toString(currentDeckSizeNumber);
-////
-////        //Dynamic allocation of ArrayAdapter via ArrayLists adapted from Hiral Vadodaria
-////        //@ https://stackoverflow.com/a/7818488
-////        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-////                android.R.layout.simple_spinner_item, drawPileSizesOptions);
-////
-////        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-////        deckSizeSpinner.setAdapter(adapter);
-////
-////        //@TODO: Might be nice to change default to be set to "All..." if chosen size now invalid?
-////        //@TODO: Or, set choice to the next biggest choice possible instead of all?
-////
-////        int defaultPosition = adapter.getPosition(currentDeckSize);//Is this the line?
-////        //getPosition returns -1 when the specified thing (currentDeckSize) is not found in
-////        //The ArrayAdapter. This can only happen if the all_option option from draw_pile_sizes.xml
-////        // was selected because currentDeckSize is only a number at this point and all_option
-////        //can't match with the number
-////        if(defaultPosition == -1){
-////            //all_option was selected; make it the parameter for a call to getPosition using
-////            //currentDeckSizeNumber to match the exact string value as stored in adapter.
-////            //This allows the all_option option to be properly restored as the currently selected
-////            //draw pile size if it was selected the last time OptionsActivity was opened.
-////            defaultPosition = adapter.getPosition(getString(R.string.all_option, currentDeckSizeNumber));
-////        }
-////        deckSizeSpinner.setSelection(defaultPosition);
-////        deckSizeSpinner.setOnItemSelectedListener(this);
-////    }
-//
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        switch(parent.getId()){
-//            case R.id.spn_order:
-//                String orderName = parent.getItemAtPosition(position).toString();
-//                int orderNumber = Integer.parseInt(orderName);
-//                options.setOrder(orderNumber);//Save selected Order
-//                createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
-//                break;
-//            case R.id.spn_pile_size:
-//                String pileSizeName = parent.getItemAtPosition(position).toString();
-//                //Remove any letters part of the chosen option (applicable to all_option)
-//                //So parseInt works with just blank spaces and numbers
-//                pileSizeName = pileSizeName.replaceAll("\\D","");
-//                int pileSizeNumber = Integer.parseInt(pileSizeName);
-//                options.setDeckSize(pileSizeNumber);
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
-
 }
