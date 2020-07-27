@@ -97,10 +97,7 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
                 startActivity(intent);
-//                FragmentManager manager = getSupportFragmentManager();
-//                PhotoGalleryFragment photo = new PhotoGalleryFragment();
 
-                //
             }
         });
     }
