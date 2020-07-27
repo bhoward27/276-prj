@@ -88,8 +88,7 @@ public class GameActivity extends AppCompatActivity {
         resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
         globalResources = getResources();
 
-        // TODO: change MaxDeckSize -> DeckSize once that's finished
-        gameInstance = new Game(options.getOrder(), options.getMaxDeckSize(), options.isWordMode());
+        gameInstance = new Game(options.getOrder(), options.getDeckSize(), options.isWordMode());
 
         updateRemainingCardsText();
         setupButtons();
@@ -259,15 +258,17 @@ public class GameActivity extends AppCompatActivity {
                     assert image != null;
                     double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
                     if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                        h = (double) cardHeight / numImages;
+                        h = (double) cardHeight / Math.log(numImages*50);
+                        Log.d("h", "h: " + h);
                         w = ratio * h;
+                        Log.d("h", "w: " + w);
                     } else {
-                        w = (double) cardWidth / numImages;
+                        w = (double) cardWidth / Math.log(numImages*50);
                         h = (1.0/ratio) * w;
                     }
                 } else {
                     // make non-image buttons slightly bigger
-                    w = (cardWidth+BUTTON_SPACING_PADDING*3) / numImages;
+                    w = (cardWidth+BUTTON_SPACING_PADDING*2) / Math.log(numImages*20);
                     h = w;
                 }
 

@@ -132,9 +132,12 @@ public class Deck {
 		}
 
 		// add to the drawpile a random card until there are no cards left
+		int cardNum = 0;
 		for (Integer[] card : cards) {
+			if (cardNum >= deckSize) break;
 			int cardIndex = cards.indexOf(card);
 			drawPile.push(new Card(Arrays.asList(card), cardIndex, deckBools.get(cardIndex)));
+			cardNum++;
 		}
 
 		allCards.addAll(drawPile);
