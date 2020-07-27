@@ -25,6 +25,7 @@ public class Deck {
 	private int totalNumCards;
 	private int order;
 	private int deckSize;
+	private int numImagesPerCard;
 	private boolean isWordMode;
 
 	public Deck(int order, int deckSize, boolean isWordMode) {
@@ -33,8 +34,9 @@ public class Deck {
 		this.allCards = new ArrayList<>();
 		this.order = order;
 		this.isWordMode = isWordMode;
+		this.deckSize = deckSize;
 
-		int numImagesPerCard = order + 1;
+		this.numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1
 		this.totalNumCards = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
@@ -86,20 +88,32 @@ public class Deck {
 	// Convert hardcoded 2d array to list/stack and shuffle the order of cards
 	private void initializePiles() {
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardConfigurations));
+		// shuffle card orders
 		Collections.shuffle(cards);
 
-		List<Boolean> wordBools = new ArrayList<>();
-		// add at least one of each, word and image
+		List<List<Boolean>> deckBools = new ArrayList<>();
+
+		List<Boolean> cardBools = new ArrayList<>();
 		if (isWordMode) {
 			ThreadLocalRandom rand = ThreadLocalRandom.current();
-			wordBools.add(true);
-			wordBools.add(false);
-			for (int i = 0; i < deckSize-2; i++) {
-				wordBools.add(rand.nextBoolean());
+			for (int card = 0; card < deckSize; card++) {
+				cardBools.clear();
+				// add at least one word and image if wordmode is enabled
+				cardBools.add(true);
+				cardBools.add(false);
+				for (int i = 0; i < numImagesPerCard-2; i++) {
+					cardBools.add(rand.nextBoolean());
+				}
+				Collections.shuffle(cardBools);
+				deckBools.add(new ArrayList<>(cardBools));
 			}
 		} else {
-			for (int i = 0; i < deckSize; i++) {
-				wordBools.add(false);
+			for (int card = 0; card < deckSize; card++) {
+				cardBools.clear();
+				for (int i = 0; i < numImagesPerCard; i++) {
+					cardBools.add(false);
+				}
+				deckBools.add(new ArrayList<>(cardBools));
 			}
 		}
 
@@ -118,7 +132,8 @@ public class Deck {
 
 		// add to the drawpile a random card until there are no cards left
 		for (Integer[] card : cards) {
-			drawPile.push(new Card(Arrays.asList(card), cards.indexOf(card), wordBools));
+			int cardIndex = cards.indexOf(card);
+			drawPile.push(new Card(Arrays.asList(card), cardIndex, deckBools.get(cardIndex)));
 		}
 
 		allCards.addAll(drawPile);

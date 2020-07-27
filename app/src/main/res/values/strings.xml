@@ -41,6 +41,7 @@
     <string name="txt_content_discardimage_2">An image for the second button in the discard pile.</string>
     <string name="txt_content_discardimage_3">An image for the third button in the discard pile.</string>
     <string name="tag_btn_key">A tag for the button to know which pile it is in.</string>
+    <string name="tag_btn_bg">A tag for the button to set the default background.</string>
     <string name="txt_discard_pile">Discard Pile</string>
     <string name="txt_draw_pile">Draw Pile</string>
     <string name="txt_cards_remaining">Matches remaining: \u0020</string>
