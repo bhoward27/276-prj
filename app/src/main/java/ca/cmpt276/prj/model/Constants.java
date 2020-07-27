@@ -13,7 +13,6 @@ public final class Constants {
 	public static final int NONE_SELECTED = Integer.MAX_VALUE;
 	public static final int NUM_HIGH_SCORES = 5;
 	public static final int MAX_NAME_LENGTH = 12;
-	public static final int MAX_NUM_IMAGES = 31;
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 	// TODO: add functionality for more than 3 images (possible future iterations)
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
@@ -46,5 +45,6 @@ public final class Constants {
 	//	Orders must appear in ascending order in the below array for binary search to work on
 	//	it.
 	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };
+	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
 }

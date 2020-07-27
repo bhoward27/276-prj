@@ -16,6 +16,7 @@ import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
+import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_DEFAULT_SETS;
 import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREFS;
@@ -32,6 +33,7 @@ public class OptionSet {
     private SharedPreferences prefs;
 
     private int imageSet;
+    private int numImagesInImageSet;
     private String playerName;
     private int order;
     private int deckSize;
@@ -62,6 +64,7 @@ public class OptionSet {
         loadOrderPref();
         loadDeckSizePref();
         loadWordModePref();
+        loadNumImages();
     }
 
     private void loadImageSetPref() {
@@ -86,6 +89,15 @@ public class OptionSet {
 
     private void loadWordModePref() {
         wordMode = prefs.getBoolean(WORD_MODE_PREF_KEY, DEFAULT_WORD_MODE);
+    }
+
+    private void loadNumImages() {
+        if (imageSet != FLICKR_IMAGE_SET) {
+            numImagesInImageSet = NUM_IMAGES_IN_DEFAULT_SETS;
+        } else {
+            // TODO: get number of images from downloads folder
+            numImagesInImageSet = 31;
+        }
     }
 
     public void setImageSet(int imageSet) {
@@ -182,5 +194,9 @@ public class OptionSet {
 
     public boolean isWordMode() {
         return wordMode;
+    }
+
+    public int getNumImagesInImageSet() {
+        return numImagesInImageSet;
     }
 }

@@ -1,5 +1,7 @@
 package ca.cmpt276.prj.ui;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -8,18 +10,26 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -28,6 +38,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +59,7 @@ import ca.cmpt276.prj.model.ScoreManager;
 import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
@@ -51,11 +67,14 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  * Class for displaying the game to the player, including game over messages.
  */
 public class GameActivity extends AppCompatActivity {
-    List<Button> discPileButtons;
-    List<Button> drawPileButtons;
-    List<Button> allButtons;
+    private static final String TAG = "GameActivity";
+
+    List<PicButton> discPileButtons;
+    List<PicButton> drawPileButtons;
+    List<PicButton> allButtons;
     int buttonCount;
     int imageSet;
+    int numImagesPerCard;
 
     ImageNameMatrix imageNames;
     String imageSetPrefix;
@@ -87,8 +106,13 @@ public class GameActivity extends AppCompatActivity {
         imageNames = ImageNameMatrix.getInstance();
         resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
         globalResources = getResources();
+        numImagesPerCard = options.getOrder() + 1;
 
-        gameInstance = new Game(options.getOrder(), options.getDeckSize(), options.isWordMode());
+        if (options.getImageSet() == FLICKR_IMAGE_SET && options.isWordMode()) {
+            throw new Error("Flickr image set does not support word mode.");
+        }
+
+        gameInstance = new Game();
 
         updateRemainingCardsText();
         setupButtons();
@@ -101,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
         scoreTimer.start();
     }
 
-    private void setButtonParameters(Button button, boolean pile) {
+    private void setButtonParameters(PicButton button, boolean pile) {
         button.setVisibility(View.VISIBLE);
         button.setForegroundGravity(Gravity.CENTER);
         button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
@@ -115,13 +139,13 @@ public class GameActivity extends AppCompatActivity {
         RelativeLayout discCard = findViewById(R.id.lytDisc);
         RelativeLayout drawCard = findViewById(R.id.lytDraw);
 
-        for (int i = 0; i < options.getOrder()+1; i++) {
-            Button button = new Button(this);
+        for (int i = 0; i < numImagesPerCard; i++) {
+            PicButton button = new PicButton(this);
             setButtonParameters(button, DISCARD_PILE);
             discCard.addView(button);
             discPileButtons.add(button);
 
-            button = new Button(this);
+            button = new PicButton(this);
             setButtonParameters(button, DRAW_PILE);
             drawCard.addView(button);
             drawPileButtons.add(button);
@@ -140,7 +164,7 @@ public class GameActivity extends AppCompatActivity {
         // This function adds images and tags to the buttons
         refreshButtons();
 
-        for (Button button : drawPileButtons) {
+        for (PicButton button : drawPileButtons) {
             button.setOnTouchListener((ignored, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     tapUpdateGameState(button);
@@ -169,11 +193,11 @@ public class GameActivity extends AppCompatActivity {
         Card currDiscardCard = gameInstance.getDeck().getTopDiscard();
         Card currDrawCard = gameInstance.getDeck().getTopDraw();
 
-        for (Button button : allButtons) {
+        for (PicButton button : allButtons) {
             // this index is used for accessing the random number for this image out of all total images
             // and also for getting the image for the button from the gameInstance piles
             int index = allButtons.indexOf(button);
-            int modIndex = index % gameInstance.getNumImagesPerCard();
+            int modIndex = index % numImagesPerCard;
             boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
 
             List<Integer> currPileImages;
@@ -188,17 +212,6 @@ public class GameActivity extends AppCompatActivity {
             }
 
             int imageNum = currPileImages.get(modIndex);
-            if (!currCard.isWord.get(modIndex)) {
-                // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
-                String resourceName = resourcePrefix + imageNum;
-                int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                        getPackageName());
-                button.setText("");
-                button.setBackgroundResource(resourceID);
-            } else {
-                button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
-                button.setText(imageNames.getName(imageSet, imageNum));
-            }
 
             button.setTag(imageNum);
 
@@ -210,6 +223,24 @@ public class GameActivity extends AppCompatActivity {
 
             buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
             buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+
+            // set the image or word
+            if (!currCard.isWord.get(modIndex)) {
+                // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+                button.setText("");
+                if (imageSet != FLICKR_IMAGE_SET) {
+                    String resourceName = resourcePrefix + imageNum;
+                    int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+                            getPackageName());
+                    button.setBackgroundResource(resourceID);
+                } else {
+                    // TODO: get downloaded image from flickr here
+                    Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(button);
+                }
+            } else {
+                button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
+                button.setText(imageNames.getName(imageSet, imageNum));
+            }
         }
     }
 
@@ -239,10 +270,8 @@ public class GameActivity extends AppCompatActivity {
         // percentage of height which is the cardview, and remove the margins
         globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
         int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-        int cardRatio = cardWidth/cardHeight;
+        int cardRatio = cardWidth / cardHeight;
         // END GETTING CARDVIEW WIDTH AND HEIGHT
-
-        int numImages = gameInstance.getNumImagesPerCard();
 
         List<Card> allCards = gameInstance.getDeck().getAllCards();
         for (Card c : allCards) {
@@ -250,26 +279,30 @@ public class GameActivity extends AppCompatActivity {
             for (int i : imagesMap) {
                 double w;
                 double h;
-                if (!c.isWord.get(imagesMap.indexOf(i))) {
+                // regular, non-flickr image setup (can be dynamic width/height)
+                if (!c.isWord.get(imagesMap.indexOf(i)) && imageSet != FLICKR_IMAGE_SET) {
+                    Drawable image;
                     String resourceName = resourcePrefix + i;
                     int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
                             getPackageName());
-                    Drawable image = getDrawable(resourceID);
-                    assert image != null;
+                    image = getDrawable(resourceID);
                     double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
                     if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                        h = (double) cardHeight / Math.log(numImages*20);
-                        Log.d("h", "h: " + h);
+                        h = (double) cardHeight / Math.log(numImagesPerCard * 20);
                         w = ratio * h;
-                        Log.d("h", "w: " + w);
                     } else {
-                        w = (double) cardWidth / Math.log(numImages*20);
-                        h = (1.0/ratio) * w;
+                        w = (double) cardWidth / Math.log(numImagesPerCard * 20);
+                        h = (1.0 / ratio) * w;
                     }
+                } else if (imageSet != FLICKR_IMAGE_SET) {
+                    // make word buttons slightly bigger
+                    w = cardWidth / Math.log(numImagesPerCard * 10);
+                    h = (double) w / 1.5;
                 } else {
-                    // make non-image buttons slightly bigger
-                    w = cardWidth / Math.log(numImages*10);
-                    h = (double) w/1.5;
+                    // make flickr buttons square
+                    w = cardWidth / Math.log(numImagesPerCard * 10);
+                    h = w;
+
                 }
 
                 c.imageWidths.add(w);
@@ -286,14 +319,14 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void tapUpdateGameState(Button pressedButton) {
+    private void tapUpdateGameState(PicButton pressedButton) {
         // If there was a match
         if (gameInstance.tappedUpdateState((int) pressedButton.getTag())) {
             if (!gameInstance.isGameOver()) {
                 // Then change the images and remove all overlays to signify no card being selected
 
                 // Move index of random positions for card images
-                buttonCount += gameInstance.getNumImagesPerCard();
+                buttonCount += numImagesPerCard;
 
                 updateRemainingCardsText();
                 updateShadowsAndMargins();
@@ -311,7 +344,7 @@ public class GameActivity extends AppCompatActivity {
                 (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
         int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins)
-                            / options.getDeckSize();
+                / options.getDeckSize();
 
         discCardView.leftMargin -= shiftAmt;
         discCardView.topMargin -= shiftAmt;
@@ -328,7 +361,7 @@ public class GameActivity extends AppCompatActivity {
         scoreTimer.stop();
         int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
         int playerRank = scoreManager.addHighScore(options.getPlayerName(),
-                                                        time);
+                time);
         congratulationsDialog(time, playerRank);
     }
 
@@ -336,7 +369,7 @@ public class GameActivity extends AppCompatActivity {
         // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
         ImageView congratsImage = new ImageView(this);
         int winImageID = globalResources.getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
-                        "end", IMAGE_FOLDER_NAME, getPackageName());
+                "end", IMAGE_FOLDER_NAME, getPackageName());
         congratsImage.setImageResource(winImageID);
         congratsImage.setAdjustViewBounds(true);
         congratsImage.setMaxHeight(400);
@@ -381,4 +414,36 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         this.finish();
     }
+
+    // Adapted from https://stackoverflow.com/a/29059132
+    public class PicButton extends androidx.appcompat.widget.AppCompatButton implements Target {
+
+        public PicButton(Context context) {
+            super(context);
+        }
+
+        public PicButton(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public PicButton(Context context, AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+        }
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            setBackgroundDrawable(new BitmapDrawable(globalResources, bitmap));
+        }
+
+        @Override
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    }
+
 }
