@@ -74,9 +74,9 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
                 if (myImageFile.renameTo(destRenamedFile)) {
                     Log.d("renameImage","image " + imageName + " has been renamed");
                     index++;
-                    options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
                 }
             }
+            options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
             options.clearPossibleFlickrImageNames();
         }
     }
