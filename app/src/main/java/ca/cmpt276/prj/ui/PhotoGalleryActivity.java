@@ -71,7 +71,7 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
                 .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
         if (numUserImages > 0) {
-            int index = options.getNumImagesInImageSet();
+            int index = Objects.requireNonNull(postDirectory.listFiles()).length;
             for (String imageName : options.getPossibleFlickrImageNames()) {
                 File myImageFile = new File(preDirectory,
                         imageName);
@@ -83,9 +83,9 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
                     index++;
                 }
             }
-            options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
             options.clearPossibleFlickrImageNames();
         }
+        options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
     }
 
 }
