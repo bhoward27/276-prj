@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.ui;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -124,6 +125,15 @@ public class PhotoGalleryFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.menu_item_save_photo) {
+            Intent intent = new Intent(MainMenuActivity.this.PhotoGalleryActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.menu_item_clear:
                 QueryPreferences.setStoredQuery(getActivity(), null);
@@ -157,24 +167,10 @@ public class PhotoGalleryFragment extends Fragment {
         public void bindDrawable(Drawable drawable) {
             mItemImageView.setImageDrawable(drawable);
         }
-//
-//        itemView.setOnClickListener(new View.OnClickListener()){
-//
-//        }
-    }
-    //private class PhotoAdapter->public interface changed to private static class PhotoAdapter
+
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
         private List<GalleryItem> mGalleryItems;
-//        private OnPhotoClickListener mlistener;
-
-//        public interface OnPhotoClickListener {
-//            void onPhotoClick(int position);
-//        }
-
-//        public void setOnPhotoClickListener(OnPhotoClickListener listener){
-//            mlistener = listener;
-//        }
 
         public PhotoAdapter(List<GalleryItem> galleryItems) {
             mGalleryItems = galleryItems;
