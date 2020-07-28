@@ -31,13 +31,13 @@ import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.MINIMUM_REQUIRED_FLICKR_IMAGES;
 
 /**
  * Activity for different types of pictures and setting the player name.
  */
 public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     int imageSetPref;
+    int minimumReqImages;
     OptionSet options;
     String playerNamePlaceholder;
     ScoreManager manager;
@@ -51,6 +51,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_options_activity));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        int numImagesPerCard = options.getOrder() + 1;
+        minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
         createRadioButton();
         setupEntryBox();
@@ -72,7 +75,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
-        if(currentFlickrPhotos < Constants.MINIMUM_REQUIRED_FLICKR_IMAGES){
+        // (Total number of cards is images^2 - images + 1) ==> number of total images
+        int numImagesPerCard = options.getOrder() + 1;
+        minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
+        if (currentFlickrPhotos < minimumReqImages) {
             return false;
         }
         return true;
@@ -128,7 +134,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             chck.setChecked(true);
         }
         if (options.getImageSet() == FLICKR_IMAGE_SET) {
-            //options.setWordMode(isChecked);
+            options.setWordMode(false);
             chck.setChecked(false);
             chck.setEnabled(false);
         }
@@ -220,6 +226,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 int orderNumber = Integer.parseInt(orderName);
                 options.setOrder(orderNumber);//Save selected Order
                 createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
+                updateFlickrAmountText();
 
                 //Change prefix of score identifier
                 break;
@@ -319,7 +326,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             } else {
                 flickrPhotoCountText = String.format(getString(
                         R.string.txt_flickr_photo_amount_not_ok), currentFlickrPhotos,
-                        MINIMUM_REQUIRED_FLICKR_IMAGES);
+                        minimumReqImages);
                 currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
                         OptionsActivity.this, R.color.red));
             }
