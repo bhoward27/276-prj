@@ -71,7 +71,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         imageSetPref = options.getImageSet();
         playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
         manager = ScoreManager.getInstance();
-        //options.setNumImagesInImageSet(options.getNumImagesInImageSet());
+
     }
 
     private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
@@ -96,7 +96,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             CheckBox chck = findViewById(R.id.chckWordMode);
             button.setText(imageSetName);
             if (deckThemeNames.indexOf(imageSetName) != FLICKR_IMAGE_SET) {
-//                button.setText(imageSetName);
                 button.setOnClickListener(v -> {
                     chck.setEnabled(true);
                     options.setImageSet(indexOfButton);
@@ -108,8 +107,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 //button.setText(flickrPhotoCountText);
                 //Disable button maybe?
                 button.setOnClickListener(v -> {
-                    //currentFlickrPhotoCount.setText(flickrPhotoCountText);
-                    options.setImageSet(indexOfButton);
+                    // don't allow the user to play the game with not enough images & flickr
+                    if (areThereEnoughFlickImages(options.getNumImagesInImageSet())) {
+                        options.setImageSet(indexOfButton);
+                    }
                     chck.setChecked(false);
                     chck.setEnabled(false);
                     options.setWordMode(false);
