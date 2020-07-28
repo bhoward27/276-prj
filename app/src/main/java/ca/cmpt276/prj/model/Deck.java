@@ -97,7 +97,7 @@ public class Deck {
 		Collections.shuffle(cards);
 
 		List<List<Boolean>> deckBools = new ArrayList<>();
-
+		Log.d("num", "numImagesInImageSet: " + numImagesInImageSet);
 		// randomly choose images to be words
 		List<Boolean> cardBools = new ArrayList<>();
 		if (isWordMode) {
