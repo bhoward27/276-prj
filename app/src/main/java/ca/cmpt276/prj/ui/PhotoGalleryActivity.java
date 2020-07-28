@@ -78,7 +78,8 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
                 File destRenamedFile = new File(postDirectory,
                         FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
                 if (myImageFile.renameTo(destRenamedFile)) {
-                    Log.d("renameImage","image " + imageName + " has been renamed");
+                    Log.d("renameImage","image " + imageName + " has been renamed to " +
+                            FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
                     index++;
                 }
             }
