@@ -100,6 +100,7 @@
     <string name="clear_search">Clear Search</string>
     <string name="search">Search</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
-    <string name="txt_manage_flick_photos">Manage Flickr Photos</string>
-    <string name="txt_flick_photo_number"></string>
+    <string name="txt_manage_flick_photos">Flickr Photos</string>
+    <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
+    <string name="txt_flicker_photo_amount_not_ok">(%d photos. need >= %d photos for Flickr set)</string>
 </resources>
