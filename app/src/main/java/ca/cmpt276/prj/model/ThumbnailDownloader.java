@@ -13,6 +13,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import ca.cmpt276.prj.model.FlickrFetchr;
 
+/**
+ * This class performs the internal operations required to fetch the thumbnails from Flickr
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
+
 public class ThumbnailDownloader<T> extends HandlerThread {
     private static final String TAG = "ThumbnailDownloader";
     private static final int MESSAGE_DOWNLOAD = 0;
