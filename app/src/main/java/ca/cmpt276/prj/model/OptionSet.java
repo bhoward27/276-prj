@@ -68,7 +68,6 @@ public class OptionSet {
         loadOrderPref();
         loadDeckSizePref();
         loadWordModePref();
-        loadFlickrImageSetSizePref();
     }
 
     private void loadImageSetPref() {
@@ -93,11 +92,6 @@ public class OptionSet {
 
     private void loadWordModePref() {
         wordMode = prefs.getBoolean(WORD_MODE_PREF_KEY, DEFAULT_WORD_MODE);
-    }
-
-    private void loadFlickrImageSetSizePref() {
-        flickrImageSetSize = prefs.getInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
-                                                DEFAULT_FLICKR_IMAGE_SET_SIZE);
     }
 
     public void setImageSet(int imageSet) {
