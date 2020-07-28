@@ -56,6 +56,7 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
  */
 
+
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
 
