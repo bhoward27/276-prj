@@ -99,6 +99,7 @@
     <string name="start_polling">Start polling</string>
     <string name="clear_search">Clear Search</string>
     <string name="search">Search</string>
+    <string name="txt_toast_downloaded">%s has been downloaded.</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
     <string name="txt_manage_flick_photos">Flickr Photos</string>
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>

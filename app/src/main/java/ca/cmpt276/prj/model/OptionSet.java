@@ -1,21 +1,15 @@
 package ca.cmpt276.prj.model;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import ca.cmpt276.prj.R;
+import java.util.List;
 
 import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_NUM_IMAGES_IN_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_FLICKR_IMAGE_SET_SIZE;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_ORDER_PREF;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
@@ -25,13 +19,9 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_DEFAULT_SETS;
-import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_IMAGE_SET_PREF_KEY;
-import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_IMAGE_SET_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.PREFS;
-import static ca.cmpt276.prj.model.Constants.SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG;
-import static ca.cmpt276.prj.model.Constants.SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG;
 import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
 import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -45,12 +35,13 @@ public class OptionSet {
     private SharedPreferences prefs;
 
     private int imageSet;
-    private int numImagesInImageSet;
+    private int flickrImageSetSize;
     private String playerName;
     private int order;
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
     private ArrayList<String> validDrawPileSizes;
+    private List<String> possibleFlickrImageNames = new ArrayList<>();
 
     private static final int ASCII_OFFSET = 97;
 
@@ -77,7 +68,7 @@ public class OptionSet {
         loadOrderPref();
         loadDeckSizePref();
         loadWordModePref();
-        loadNumImages();
+        loadFlickrImageSetSizePref();
     }
 
     private void loadImageSetPref() {
@@ -104,13 +95,9 @@ public class OptionSet {
         wordMode = prefs.getBoolean(WORD_MODE_PREF_KEY, DEFAULT_WORD_MODE);
     }
 
-    private void loadNumImages() {
-        if (imageSet != FLICKR_IMAGE_SET) {
-            numImagesInImageSet = NUM_IMAGES_IN_DEFAULT_SETS;
-        } else {
-            numImagesInImageSet = prefs.getInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY,
-                                                    DEFAULT_NUM_IMAGES_IN_IMAGE_SET);
-        }
+    private void loadFlickrImageSetSizePref() {
+        flickrImageSetSize = prefs.getInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
+                                                DEFAULT_FLICKR_IMAGE_SET_SIZE);
     }
 
     public void setImageSet(int imageSet) {
@@ -256,52 +243,68 @@ public class OptionSet {
 
 
     public int getNumImagesInImageSet() {
-        return numImagesInImageSet;
+        switch(imageSet) {
+            case LANDSCAPE_IMAGE_SET:
+                //  intentional fall-through
+            case PREDATOR_IMAGE_SET:
+                return NUM_IMAGES_IN_DEFAULT_SETS;
+            case FLICKR_IMAGE_SET:
+                return flickrImageSetSize;
+            default:
+                throw new UnsupportedOperationException("Error: Invalid imageSet.");
+        }
     }
 
-    public void setNumImagesInImageSet(int numImages) {
-        if (imageSet == FLICKR_IMAGE_SET) {
-            if (numImages < 0) {
-                throw new IllegalArgumentException("Error: Cannot have a negative number of images.");
-            }
+    public void setFlickrImageSetSize(int numImages) {
+        if (numImages < 0) {
+            throw new IllegalArgumentException("Error: Cannot have a negative number of images.");
+        }
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, numImages);
-            editor.apply();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, numImages);
+        editor.apply();
 
-            this.numImagesInImageSet = numImages;
+        this.flickrImageSetSize = numImages;
+    }
+
+    public int getFlickrImageSetSize() {
+        return flickrImageSetSize;
+    }
+
+    public int incrementFlickrImageSetSize() {
+        int newValue = ++flickrImageSetSize;
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, newValue);
+        editor.apply();
+        return newValue;
+    }
+
+    public int decrementFlickrImageSetSize() {
+        if (flickrImageSetSize <= 0) {
+            return -1;
         }
         else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
-        }
-    }
-
-    public int incrementNumImagesInImageSet() {
-        if (imageSet == FLICKR_IMAGE_SET) {
-            int newValue = ++numImagesInImageSet;
+            int newValue = --flickrImageSetSize;
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, newValue);
+            editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, newValue);
             editor.apply();
             return newValue;
         }
-        else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
-        }
     }
 
-    public int decrementNumImagesInImageSet() {
-        if (imageSet == FLICKR_IMAGE_SET) {
-            if (numImagesInImageSet <= 0) {
-                return -1;
-            } else {
-                int newValue = --numImagesInImageSet;
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, newValue);
-                editor.apply();
-                return newValue;
-            }
-        } else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
-        }
+    public List<String> getPossibleFlickrImageNames() {
+        return possibleFlickrImageNames;
+    }
+
+    public void removePossibleFlickrImageNames(String name) {
+        possibleFlickrImageNames.remove(name);
+    }
+
+    public void addPossibleFlickrImageNames(String name) {
+        possibleFlickrImageNames.add(name);
+    }
+
+    public void clearPossibleFlickrImageNames() {
+        possibleFlickrImageNames.clear();
     }
 }

@@ -37,8 +37,8 @@ public final class Constants {
 	public static final String SCORE_NAME_KEY_PREFIX = "SCORE_NAME";
 	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
 	public static final String WORD_MODE_PREF_KEY = "WORD_MODE_PREF";
-	public static final String NUM_IMAGES_IN_IMAGE_SET_PREF_KEY = "NUM_IMAGES_IN_IMAGE_SET_PREF";
-	public static final int DEFAULT_NUM_IMAGES_IN_IMAGE_SET = 0;
+	public static final String FLICKR_IMAGE_SET_SIZE_PREF_KEY = "NUM_IMAGES_IN_IMAGE_SET_PREF";
+	public static final int DEFAULT_FLICKR_IMAGE_SET_SIZE = 0;
 	public static final boolean DEFAULT_WORD_MODE = false;
 	public static final String ORDER_PREF_KEY = "ORDER_PREF";
 	public static final int DEFAULT_ORDER_PREF = 2;
@@ -51,4 +51,7 @@ public final class Constants {
 	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
+	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
+	public static final String FLICKR_PENDING_DIR = "flickr_pending_images";
+	public static final String JPG_EXTENSION = ".jpg";
 }

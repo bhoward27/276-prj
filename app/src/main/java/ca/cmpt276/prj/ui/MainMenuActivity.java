@@ -25,6 +25,7 @@ import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
@@ -32,47 +33,6 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  */
 public class MainMenuActivity extends AppCompatActivity {
     OptionSet options;
-
-    //  ***This method should be deleted before merging this branch.***
-    private void testFiles() {
-        /*
-        CITATION: This IO / File related code is based off of stuff from the following links:
-            http://www.lucazanini.eu/en/2016/android/saving-reading-files-internal-storage/
-            https://developer.android.com/reference/android/content/Context.html#getDir(java.lang.String,%20int)
-            https://developer.android.com/reference/java/io/File
-            https://developer.android.com/reference/android/content/Context#MODE_PRIVATE
-            https://developer.android.com/reference/android/content/Context#MODE_APPEND
-         */
-        final String FOLDER_NAME = "FLICKR_USER_IMAGES";
-        final String FILE_NAME = "test_file.txt";
-        String stars = "\n*******\n";
-        System.out.println(stars + "Calling getDir()..." + stars);
-        File file = getDir(FOLDER_NAME, Context.MODE_PRIVATE);
-        //System.out.println(stars + "Done." + stars);
-
-        try {
-            FileOutputStream fout = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            System.out.println("File found!");
-
-            String desiredOutput = "Testing 1, 2, 3...";
-            fout.write(desiredOutput.getBytes());
-            fout.close();
-
-
-            final int NUM_BYTES = 1024;
-            byte[] bytes = new byte[NUM_BYTES];
-            FileInputStream fin = openFileInput(FILE_NAME);
-            fin.read(bytes);
-            fin.close();
-
-            String output = new String(bytes);
-            System.out.println("Output string: " + output);
-        }
-        catch (IOException e) {
-            Log.e("ERROR", e.toString());
-        }
-
-    }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, MainMenuActivity.class);
@@ -83,8 +43,8 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
         options = OptionSet.getInstance();
-        testFiles();
 
         setUpImages();
         setUpButtons();

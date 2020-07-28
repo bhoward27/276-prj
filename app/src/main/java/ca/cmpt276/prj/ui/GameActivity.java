@@ -2,22 +2,17 @@ package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -27,16 +22,12 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -54,11 +45,12 @@ import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
@@ -233,7 +225,8 @@ public class GameActivity extends AppCompatActivity {
                     button.setBackgroundResource(resourceID);
                 } else {
                     // TODO: get downloaded image from flickr here
-                    Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(button);
+                    File imageFile = new File(this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + resourcePrefix + imageNum + JPG_EXTENSION);
+                    Picasso.get().load(imageFile).into(button);
                 }
             } else {
                 button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
@@ -434,7 +427,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            e.printStackTrace();
+            Log.e(TAG, "onBitmapFailed: ", e);
         }
 
         @Override
