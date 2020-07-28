@@ -15,15 +15,15 @@ import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * This class provides an interface for the system's shared preferences and
- * allows us to interact with the high scores list.
+ * This class provides an interface for the system's shared preferences and allows us to interact
+ * with different high scores lists depending on the chosen options in OptionsActivity.
  */
-
 public class ScoreManager {
 	private List<Score> scores;
 	private List<Score> defaultScores;
-
 	private SharedPreferences prefs;
+	//private ArrayList<List> optionBasedScores;
+	private String scorePrefix;
 
 	// Singleton setup
 	private static ScoreManager instance;
@@ -31,18 +31,25 @@ public class ScoreManager {
 	//  Call instantiate on splash screen.
 	public static void instantiate(SharedPreferences prefs) {
 		if (instance == null) {
-			instance = new ScoreManager(prefs);
-		}
+		instance = new ScoreManager(prefs);
+	}
+}
+
+	//Assemble a string to identify scores by prepending it to their key
+	//This will change everytime the oeder and deck size from OptionsActivity changes.
+	public void setScorePrefix(int order, int deckSize){
+		scorePrefix = order + "_"+ deckSize + "_";
 	}
 
 	private ScoreManager(SharedPreferences prefs) {
 		this.prefs = prefs;
 		this.scores = new ArrayList<>();
 		this.defaultScores = new ArrayList<>();
-
+		//optionBasedScores = new ArrayList<>(0);
 		setDefaultScores();
 		loadScores();
 	}
+
 
 	public static ScoreManager getInstance() {
 		assertNotNull(instance);
@@ -78,6 +85,8 @@ public class ScoreManager {
 		return position+1;
 	}
 
+	//Parameters, chosen order and deckPileSize. Will then be compared to every existing list
+
 	public List<Score> getScores() {
 		return scores;
 	}
@@ -94,27 +103,27 @@ public class ScoreManager {
 		saveScores();
 	}
 
-	private void loadScores() {
+	public void loadScores() {
+		scores.clear();
 		for (Score score : defaultScores) {
 			int key = defaultScores.indexOf(score);
-
-			int currentTime = prefs.getInt(SCORE_TIME_KEY_PREFIX + key, score.getTime());
-			String currentName = prefs.getString(SCORE_NAME_KEY_PREFIX + key, score.getName());
-			String currentDate = prefs.getString(SCORE_DATE_KEY_PREFIX + key, score.getDate());
+			int currentTime = prefs.getInt(scorePrefix + SCORE_TIME_KEY_PREFIX + key, score.getTime());
+			String currentName = prefs.getString(scorePrefix + SCORE_NAME_KEY_PREFIX + key, score.getName());
+			String currentDate = prefs.getString(scorePrefix + SCORE_DATE_KEY_PREFIX + key, score.getDate());
 
 			scores.add(new Score(currentTime, currentName, currentDate));
 		}
 	}
 
-	private void saveScores() {
+	public void saveScores() {
 		SharedPreferences.Editor editPrefs = prefs.edit();
 
 		for (Score score : scores) {
 			int key = scores.indexOf(score);
 
-			editPrefs.putInt(SCORE_TIME_KEY_PREFIX + key, score.getTime());
-			editPrefs.putString(SCORE_NAME_KEY_PREFIX + key, score.getName());
-			editPrefs.putString(SCORE_DATE_KEY_PREFIX + key, score.getDate());
+			editPrefs.putInt(scorePrefix + SCORE_TIME_KEY_PREFIX + key, score.getTime());
+			editPrefs.putString(scorePrefix + SCORE_NAME_KEY_PREFIX + key, score.getName());
+			editPrefs.putString(scorePrefix + SCORE_DATE_KEY_PREFIX + key, score.getDate());
 		}
 
 		editPrefs.apply();

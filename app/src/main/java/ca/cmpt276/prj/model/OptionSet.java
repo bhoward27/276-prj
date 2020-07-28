@@ -2,8 +2,15 @@ package ca.cmpt276.prj.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import ca.cmpt276.prj.R;
 
 import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
@@ -19,9 +26,11 @@ import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_DEFAULT_SETS;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_IMAGE_SET_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_IMAGE_SET_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREFS;
+import static ca.cmpt276.prj.model.Constants.SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG;
 import static ca.cmpt276.prj.model.Constants.SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG;
 import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
 import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
@@ -41,6 +50,7 @@ public class OptionSet {
     private int order;
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
+    private ArrayList<String> validDrawPileSizes;
 
     private static final int ASCII_OFFSET = 97;
 
@@ -199,6 +209,51 @@ public class OptionSet {
         return wordMode;
     }
 
+    public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
+        //Begin with a populated array;
+        //Code for getting ArrayList from string-array adapted from
+        //@ https://stackoverflow.com/a/19127223
+        int maxDeckSize = getMaxDeckSize();
+        validDrawPileSizes = new ArrayList<>(0);
+        for (int i = 0; i < allDrawPileSizes.size(); i++) {
+            String checkedSize = allDrawPileSizes.get(i);
+            //DEBUGGING NOTE; DELETE THIS IN FINAL PRODUCT:
+            /*
+            As it turns out, I don't need to clean up all non-numerical characters in any of the
+            strings so long as they all have just numerical characters. I received a numberformat
+            exception at the parseInt line because:
+            1. I had once defined one of the elements in the array to be "All". Therefore,
+            when the for loop tried to call replaceAll on that element, the entire string was made
+            into "   " (\\D replaces all letters with the specified replacement, "" in this caee).
+            Doing parseInt on a string like that causes a NumberFormatException because there are no
+            numerical characters at all.
+
+            My (temporary) solution? Remove "All" entirely as an option in the string array and manually add it
+            to the arraylist of choosable options AFTER all the strings that actually have numbers
+            are checked... see a little below for what I mean...
+             */
+            int checkedSizeNumber = Integer.parseInt(checkedSize);
+            if (checkedSizeNumber <= maxDeckSize) {
+                validDrawPileSizes.add(allDrawPileSizes.get(i));
+            }
+
+            //all_option will be made frull in calling function via getString(R.string.all_option, maxDeckSize));
+        }
+                /*Programmer's note continued:
+        Now, the All option is added, with the added feature of showing the max number of cards!
+        This means that there is now an int in the string, so doing parseInt on it should no longer
+        cause problems. Case in point, onItemSelected() can do parseInt on this string if that
+        option is chosen, with no issues.
+         */
+        validDrawPileSizes.add(all_option);
+    }
+
+    //Return list for the ui to print
+    public ArrayList<String> getValidDrawPileSizes(){
+        return validDrawPileSizes;
+    }
+
+
     public int getNumImagesInImageSet() {
         return numImagesInImageSet;
     }
@@ -237,16 +292,14 @@ public class OptionSet {
         if (imageSet == FLICKR_IMAGE_SET) {
             if (numImagesInImageSet <= 0) {
                 return -1;
-            }
-            else {
+            } else {
                 int newValue = --numImagesInImageSet;
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, newValue);
                 editor.apply();
                 return newValue;
             }
-        }
-        else {
+        } else {
             throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
         }
     }

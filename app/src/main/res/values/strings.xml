@@ -7,7 +7,7 @@
     <string name="title_options_activity">Options</string>
     <string name="title_photo_gallery_activity">Flickr Photo Gallery</string>
     <string name="btn_high_scores">High Scores</string>
-    <string name="btn_high_scores_clear">Reset High Scores</string>
+    <string name="btn_high_scores_clear">Reset This High Scores List</string>
     <string name="btn_main_menu">Skip</string>
     <string name="btn_return_after_win">Hooray!</string>
     <string name="btn_view_credits">View Credits</string>
@@ -55,6 +55,8 @@
     <string name="txt_credits_app_icon">App Icon</string>
     <string name="txt_prompt_order">Select Order:</string>
     <string name="txt_prompt_pile_size">Select Draw Pile Size:</string>
+    <string name="txt_selected_order">Selected Order: %d</string>
+    <string name="txt_selected_pile_size">Selected Draw Pile Size: %d</string>
 
 <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
