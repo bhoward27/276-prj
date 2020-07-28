@@ -56,6 +56,7 @@ public class PhotoGalleryFragment extends Fragment {
     private OptionSet options;
     private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
+    private List<Target> targetList = new ArrayList<>();
     private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
     public static PhotoGalleryFragment newInstance() {
@@ -289,41 +290,45 @@ public class PhotoGalleryFragment extends Fragment {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
         final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        return new Target() {
+        targetList.clear();
+        targetList.add(0, new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final File myImageFile = new File(directory, imageName); // Create image file
-                        FileOutputStream fos = null;
+                new Thread(() -> {
+                    final File myImageFile = new File(directory, imageName); // Create image file
+                    FileOutputStream fos = null;
+                    int i = 0;
+                    int maxRetries = 3;
+                    while (true) {
                         try {
                             fos = new FileOutputStream(myImageFile);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            break;
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            if (++i == maxRetries) Log.e(TAG, e.getMessage());
                         } finally {
                             try {
                                 fos.close();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                Log.e(TAG, e.getMessage());
                             }
                         }
-                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
 
                     }
+                    Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
                 }).start();
             }
 
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
+                Log.e(TAG, "onBitmapFailed: ");
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
                 if (placeHolderDrawable != null) {}
             }
-        };
+        });
+        return targetList.get(0);
     }
 }
