@@ -56,6 +56,7 @@ public class PhotoGalleryFragment extends Fragment {
     private OptionSet options;
     private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
+    private List<Target> targetList = new ArrayList<>();
     private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
     public static PhotoGalleryFragment newInstance() {
@@ -71,7 +72,6 @@ public class PhotoGalleryFragment extends Fragment {
 
         options = OptionSet.getInstance();
         mContext = getContext();
-
 
         Handler responseHandler = new Handler();
         mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
@@ -268,18 +268,16 @@ public class PhotoGalleryFragment extends Fragment {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
         final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        return new Target() {
+        targetList.clear();
+        targetList.add(0, new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                Log.d(TAG, "did it even load?: ");
                 new Thread(() -> {
-                    Log.d(TAG, "beginning of thread?: ");
                     final File myImageFile = new File(directory, imageName); // Create image file
                     FileOutputStream fos = null;
                     int i = 0;
                     int maxRetries = 3;
                     while (true) {
-                        Log.d(TAG, "are we here at least?: ");
                         try {
                             fos = new FileOutputStream(myImageFile);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -295,7 +293,6 @@ public class PhotoGalleryFragment extends Fragment {
                         }
 
                     }
-                    Log.d(TAG, "Why don't we get here every time?: ");
                     Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
                 }).start();
             }
@@ -309,6 +306,7 @@ public class PhotoGalleryFragment extends Fragment {
             public void onPrepareLoad(Drawable placeHolderDrawable) {
                 if (placeHolderDrawable != null) {}
             }
-        };
+        });
+        return targetList.get(0);
     }
 }
