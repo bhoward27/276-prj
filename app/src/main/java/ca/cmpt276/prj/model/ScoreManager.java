@@ -18,34 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * This class provides an interface for the system's shared preferences and allows us to interact
  * with different high scores lists depending on the chosen options in OptionsActivity.
  */
-
-//List of scores
-
-	//Add parameters involving the user's options in the Score
-	//Now, make a new arrayList of Lists
-	//For every list:
-	//Check first element in list
-	//If that element has the same order and draw pile size,
-	//Add the new score to the list
-	//If not, go to the next list and check its first element.
-	//If the process repeats such that not list of high scores with that option configuation exists
-	//Make a new list and store the score in that list.
-	/*
-	Make a new ArrayList of Lists. These Lists hold scores
-		When the game is won:
-
-//Add parameters involving the user's options in the Score
-	//Now, make a new arrayList of Lists upon instantiating ScoreManager
-    //When saving a high score...
-	//For every list:
-	//Check first element in list
-	//If that element has the same order and draw pile size,
-	//Add the new score to the list
-	//If not, go to the next list and check its first element.
-	//If the process repeats such that no list of high scores with that option configuration exists
-	//Add a new list to the ArrayList and store the score in that list.
-	/*
-	 */
 public class ScoreManager {
 	private List<Score> scores;
 	private List<Score> defaultScores;
@@ -68,15 +40,6 @@ public class ScoreManager {
 	public void setScorePrefix(int order, int deckSize){
 		scorePrefix = order + "_"+ deckSize + "_";
 	}
-
-	//Was meant for comparing two scores together to see if their options matched
-//	private boolean areScoreOptionsSame(Score newHighScore, Score oldHighScore){
-//		if((newHighScore.getOrder() == oldHighScore.getOrder()) &&
-//		newHighScore.getDrawPileSize() == oldHighScore.getDrawPileSize()){
-//			return true;
-//		}
-//		return false;
-//	}
 
 	private ScoreManager(SharedPreferences prefs) {
 		this.prefs = prefs;
