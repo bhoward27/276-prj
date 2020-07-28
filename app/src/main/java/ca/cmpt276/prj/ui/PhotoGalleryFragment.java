@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.appcompat.widget.SearchView;
 
+import android.os.Looper;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,7 +44,8 @@ import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_DIR;
+import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
@@ -51,13 +54,13 @@ public class PhotoGalleryFragment extends Fragment {
 
     public static final String FLICKR_PREFIX = "c";
     public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
-    public static final String PNG_EXTENSION = ".png";
 
     private RecyclerView mPhotoRecyclerView;
     private OptionSet options;
     private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
     private List<Target> targetList = new ArrayList<>();
+    private SparseBooleanArray checkedItems = new SparseBooleanArray();
     private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
     public static PhotoGalleryFragment newInstance() {
@@ -171,54 +174,48 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-    //  To be implemented later. Sorry for the dead code.
-//    public void deleteImage(int itemPosition) {
-//        //  can't use get numImagesInImageSet because that returns it based on
-//        //  what imageSet pref was selected.
-//        int numUserImages = options.getFlickrImageSetSize();
-//        if (numUserImages > 0) {
-//            GalleryItem item = mItems.get(itemPosition);
-////            File directory = Objects.requireNonNull(getContext())
-////                    .getDir(FLICKR_DIR, Context.MODE_PRIVATE);
-//            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-//            File directory = cw.getDir("imageDir",
-//                                            Context.MODE_PRIVATE);
-//            File myImageFile = new File(directory, "my_image.jpeg");
-//            if (myImageFile.delete()) {
-//                Log.d("imageFileDeletion","image on the disk deleted succesffuly!");
-//            }
-//        }
-//    }
+    // citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
+    public void deleteImage(int itemPosition) {
+        File directory = Objects.requireNonNull(getContext())
+                .getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+        int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
+        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+        if (numUserImages > 0) {
+            File myImageFile = new File(directory,
+                    fileName);
+            if (myImageFile.delete()) {
+                options.removePossibleFlickrImageNames(fileName);
+                Log.d("deleteImage","image on the disk deleted successfully!");
+            }
+        }
+    }
 
     public void saveImage(int itemPosition) {
         GalleryItem item = mItems.get(itemPosition);
 
-        File directory = Objects.requireNonNull(getContext())
-                .getDir(FLICKR_DIR, Context.MODE_PRIVATE);
-        int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
-        options.setFlickrImageSetSize(numUserImages);
-
+        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
         //  What if the extension is .png for the image from Flickr? UH OH.
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-                FLICKR_DIR,
-                FLICKR_IMAGE_NAME_PREFIX + numUserImages + JPG_EXTENSION));
-        options.incrementFlickrImageSetSize();
-        Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
-                Toast.LENGTH_SHORT).show();
+                FLICKR_PENDING_DIR,
+                fileName,
+                item));
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
         private ImageView mItemImageView;
+        public CheckBox mCheckBox;
 
         public PhotoHolder(View itemView) {
             super(itemView);
 
             mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
+            mCheckBox = itemView.findViewById(R.id.checkBox);
         }
 
         public void bindDrawable(Drawable drawable) {
             mItemImageView.setImageDrawable(drawable);
         }
+
     }
 
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
@@ -235,9 +232,18 @@ public class PhotoGalleryFragment extends Fragment {
                 int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
 
                 // Save the image, mark the checkbox, and don't let user download the same image again
-                saveImage(itemPosition);
-                ((CheckBox)v.findViewById(R.id.checkBox)).setChecked(true);
-                v.setOnClickListener(null);
+                CheckBox cb = v.findViewById(R.id.checkBox);
+                checkedItems.put(itemPosition, !checkedItems.get(itemPosition));
+
+                if (checkedItems.get(itemPosition)) {
+                    cb.setChecked(true);
+                    saveImage(itemPosition);
+                } else {
+                    cb.setChecked(false);
+                    deleteImage(itemPosition);
+                }
+
+                //v.setOnClickListener(null);
             }
         };
 
@@ -254,6 +260,7 @@ public class PhotoGalleryFragment extends Fragment {
             GalleryItem galleryItem = mGalleryItems.get(position);
             Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
             photoHolder.bindDrawable(placeholder);
+            photoHolder.mCheckBox.setChecked(checkedItems.get(position));
             mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
         }
 
@@ -291,7 +298,7 @@ public class PhotoGalleryFragment extends Fragment {
 
     //
     // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
+    private Target picassoImageTarget(Context context, final String imageDir, final String imageName, GalleryItem item) {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
         final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
@@ -318,8 +325,11 @@ public class PhotoGalleryFragment extends Fragment {
                                 Log.e(TAG, e.getMessage());
                             }
                         }
-
                     }
+                    options.addPossibleFlickrImageNames(imageName);
+                    Looper.prepare();
+                    Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
+                            Toast.LENGTH_SHORT).show();
                     Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
                 }).start();
             }

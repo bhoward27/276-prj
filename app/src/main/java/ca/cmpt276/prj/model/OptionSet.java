@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
@@ -40,6 +41,7 @@ public class OptionSet {
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
     private ArrayList<String> validDrawPileSizes;
+    private List<String> possibleFlickrImageNames = new ArrayList<>();
 
     private static final int ASCII_OFFSET = 97;
 
@@ -287,5 +289,21 @@ public class OptionSet {
             editor.apply();
             return newValue;
         }
+    }
+
+    public List<String> getPossibleFlickrImageNames() {
+        return possibleFlickrImageNames;
+    }
+
+    public void removePossibleFlickrImageNames(String name) {
+        possibleFlickrImageNames.remove(name);
+    }
+
+    public void addPossibleFlickrImageNames(String name) {
+        possibleFlickrImageNames.add(name);
+    }
+
+    public void clearPossibleFlickrImageNames() {
+        possibleFlickrImageNames.clear();
     }
 }
