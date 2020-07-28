@@ -8,7 +8,7 @@ import java.util.Arrays;
 import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_NUM_IMAGES_IN_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.DEFAULT_FLICKR_IMAGE_SET_SIZE;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_ORDER_PREF;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
@@ -18,7 +18,7 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
 import static ca.cmpt276.prj.model.Constants.NAME_PREF;
 import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_DEFAULT_SETS;
-import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_IMAGE_SET_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET_SIZE_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
@@ -66,7 +66,7 @@ public class OptionSet {
         loadOrderPref();
         loadDeckSizePref();
         loadWordModePref();
-        loadNumImages();
+        loadFlickrImageSetSizePref();
     }
 
     private void loadImageSetPref() {
@@ -93,13 +93,9 @@ public class OptionSet {
         wordMode = prefs.getBoolean(WORD_MODE_PREF_KEY, DEFAULT_WORD_MODE);
     }
 
-    private void loadNumImages() {
-        if (imageSet != FLICKR_IMAGE_SET) {
-            flickrImageSetSize = NUM_IMAGES_IN_DEFAULT_SETS;
-        } else {
-            flickrImageSetSize = prefs.getInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY,
-                                                    DEFAULT_NUM_IMAGES_IN_IMAGE_SET);
-        }
+    private void loadFlickrImageSetSizePref() {
+        flickrImageSetSize = prefs.getInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
+                                                DEFAULT_FLICKR_IMAGE_SET_SIZE);
     }
 
     public void setImageSet(int imageSet) {
@@ -262,16 +258,20 @@ public class OptionSet {
         }
 
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, numImages);
+        editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, numImages);
         editor.apply();
 
         this.flickrImageSetSize = numImages;
     }
 
+    public int getFlickrImageSetSize() {
+        return flickrImageSetSize;
+    }
+
     public int incrementFlickrImageSetSize() {
         int newValue = ++flickrImageSetSize;
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, newValue);
+        editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, newValue);
         editor.apply();
         return newValue;
     }
@@ -283,7 +283,7 @@ public class OptionSet {
         else {
             int newValue = --flickrImageSetSize;
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(NUM_IMAGES_IN_IMAGE_SET_PREF_KEY, newValue);
+            editor.putInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, newValue);
             editor.apply();
             return newValue;
         }

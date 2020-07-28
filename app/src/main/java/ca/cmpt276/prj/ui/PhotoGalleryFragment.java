@@ -169,17 +169,39 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
+    //  To be implemented later. Sorry for the dead code.
+//    public void deleteImage(int itemPosition) {
+//        //  can't use get numImagesInImageSet because that returns it based on
+//        //  what imageSet pref was selected.
+//        int numUserImages = options.getFlickrImageSetSize();
+//        if (numUserImages > 0) {
+//            GalleryItem item = mItems.get(itemPosition);
+////            File directory = Objects.requireNonNull(getContext())
+////                    .getDir(FLICKR_DIR, Context.MODE_PRIVATE);
+//            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+//            File directory = cw.getDir("imageDir",
+//                                            Context.MODE_PRIVATE);
+//            File myImageFile = new File(directory, "my_image.jpeg");
+//            if (myImageFile.delete()) {
+//                Log.d("imageFileDeletion","image on the disk deleted succesffuly!");
+//            }
+//        }
+//    }
+
     public void saveImage(int itemPosition) {
         GalleryItem item = mItems.get(itemPosition);
-        File directory = Objects.requireNonNull(getContext()).getDir(FLICKR_DIR, Context.MODE_PRIVATE);
+
+        File directory = Objects.requireNonNull(getContext())
+                .getDir(FLICKR_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
         options.setFlickrImageSetSize(numUserImages);
-        //int numUserImages = options.getNumImagesInImageSet();
+
+        //  What if the extension is .png for the image from Flickr? UH OH.
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
                 FLICKR_DIR,
                 FLICKR_IMAGE_NAME_PREFIX + numUserImages + JPG_EXTENSION));
         options.incrementFlickrImageSetSize();
-        Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
