@@ -10,6 +10,11 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 
+/**
+ * This abstract class is used to load a single fragment into PhotoGalleryActivity
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 

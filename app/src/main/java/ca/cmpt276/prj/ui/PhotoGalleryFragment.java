@@ -30,6 +30,14 @@ import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
+/**
+ * This activity loads Flickr images (from the internet) into a RecyclerView.
+ * The user can select images to place in the Flickr image set from this fragment by clicking an
+ * image in the RecyclerView.
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
+
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
 
