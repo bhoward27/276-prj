@@ -43,7 +43,6 @@ import ca.cmpt276.prj.model.ThumbnailDownloader;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class PhotoGalleryFragment extends Fragment {
@@ -174,12 +173,12 @@ public class PhotoGalleryFragment extends Fragment {
         GalleryItem item = mItems.get(itemPosition);
         File directory = Objects.requireNonNull(getContext()).getDir(FLICKR_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
-        options.setNumImagesInImageSet(numUserImages);
+        options.setFlickrImageSetSize(numUserImages);
         //int numUserImages = options.getNumImagesInImageSet();
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
                 FLICKR_DIR,
                 FLICKR_IMAGE_NAME_PREFIX + numUserImages + JPG_EXTENSION));
-        options.incrementNumImagesInImageSet();
+        options.incrementFlickrImageSetSize();
         Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
     }
 
