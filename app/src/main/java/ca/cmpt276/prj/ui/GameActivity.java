@@ -439,7 +439,7 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            e.printStackTrace();
+            Log.e(TAG, "onBitmapFailed: ", e);
         }
 
         @Override

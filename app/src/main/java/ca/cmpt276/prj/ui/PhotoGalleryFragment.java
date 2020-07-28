@@ -21,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -180,7 +181,8 @@ public class PhotoGalleryFragment extends Fragment {
                 FLICKR_DIR,
                 FLICKR_IMAGE_NAME_PREFIX + numUserImages + JPG_EXTENSION));
         options.incrementFlickrImageSetSize();
-        Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
+                Toast.LENGTH_SHORT).show();
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
@@ -205,12 +207,15 @@ public class PhotoGalleryFragment extends Fragment {
             mGalleryItems = galleryItems;
         }
 
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        private View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
 
+                // Save the image, mark the checkbox, and don't let user download the same image again
                 saveImage(itemPosition);
+                ((CheckBox)v.findViewById(R.id.checkBox)).setChecked(true);
+                v.setOnClickListener(null);
             }
         };
 
