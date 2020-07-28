@@ -45,7 +45,6 @@ import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
@@ -205,7 +204,6 @@ public class PhotoGalleryFragment extends Fragment {
         String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
         //  What if the extension is .png for the image from Flickr? UH OH.
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-                FLICKR_PENDING_DIR,
                 fileName,
                 item));
     }
@@ -307,10 +305,10 @@ public class PhotoGalleryFragment extends Fragment {
 
     //
     // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    private Target picassoImageTarget(Context context, final String imageDir, final String imageName, GalleryItem item) {
+    private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
-        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
+        final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
         targetList.clear();
         targetList.add(0, new Target() {
             @Override
@@ -326,19 +324,27 @@ public class PhotoGalleryFragment extends Fragment {
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                             break;
                         } catch (IOException e) {
-                            if (++i == maxRetries) Log.e(TAG, e.getMessage());
+                            if (++i == maxRetries) Log.e(TAG, "IOException", e);
                         } finally {
                             try {
                                 fos.close();
                             } catch (IOException e) {
-                                Log.e(TAG, e.getMessage());
+                                Log.e(TAG, "IOException", e);
                             }
                         }
                     }
                     options.addPossibleFlickrImageNames(imageName);
                     Looper.prepare();
-                    Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
-                            Toast.LENGTH_SHORT).show();
+
+                    // citation: https://stackoverflow.com/a/34970752
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
                 }).start();
             }
