@@ -157,11 +157,24 @@ public class PhotoGalleryFragment extends Fragment {
         public void bindDrawable(Drawable drawable) {
             mItemImageView.setImageDrawable(drawable);
         }
+//
+//        itemView.setOnClickListener(new View.OnClickListener()){
+//
+//        }
     }
-
+    //private class PhotoAdapter->public interface changed to private static class PhotoAdapter
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
         private List<GalleryItem> mGalleryItems;
+//        private OnPhotoClickListener mlistener;
+
+//        public interface OnPhotoClickListener {
+//            void onPhotoClick(int position);
+//        }
+
+//        public void setOnPhotoClickListener(OnPhotoClickListener listener){
+//            mlistener = listener;
+//        }
 
         public PhotoAdapter(List<GalleryItem> galleryItems) {
             mGalleryItems = galleryItems;
@@ -186,6 +199,7 @@ public class PhotoGalleryFragment extends Fragment {
         public int getItemCount() {
             return mGalleryItems.size();
         }
+
     }
 
     private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>> {

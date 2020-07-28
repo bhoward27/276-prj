@@ -4,19 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_item_search"
-        android:title="@string/search"
+        android:id="@+id/add_photos"
+        android:title="@string/add_photos"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/menu_item_save_photo"
-        android:title="@string/save_photo"
+        android:id="@+id/delete_image"
+        android:title="@string/delete"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/menu_item_clear"
-        android:title="@string/clear_search"
-        app:showAsAction="never"/>
 
 </menu>

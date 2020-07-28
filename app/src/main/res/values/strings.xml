@@ -56,7 +56,7 @@
     <string name="txt_prompt_order">Select Order:</string>
     <string name="txt_prompt_pile_size">Select Draw Pile Size:</string>
 
-<!--    Links to Image Sources  -->
+    <!--    Links to Image Sources  -->
     <string name="txt_landscape_cave_source"><a href="https://quench.me/wp-content/uploads/2017/01/chalk-in-champagne.jpg">Cave</a></string>
     <string name="txt_landscape_desert_source"><a href="https://static.trulia-cdn.com/pictures/thumbs_5/zillowstatic/ISjv7m0b6f7jm90000000000.jpg">Desert</a></string>
     <string name="txt_landscape_forest_source"><a href="https://images.unsplash.com/photo-1516637236287-2de3d0ce59af?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;w=1000&amp;q=80">Forest</a></string>
@@ -98,4 +98,10 @@
     <string name="clear_search">Clear Search</string>
     <string name="search">Search</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
+    <string name="save_photo">Save</string>
+    <string name="image_set">Image Set</string>
+    <string name="delete">Delete</string>
+    <string name="add_photos">Add Photos</string>
+    <string name="title_image_set_activity">Image Set</string>
+    <string name="btn_flickr_image_set">Image Set</string>
 </resources>
