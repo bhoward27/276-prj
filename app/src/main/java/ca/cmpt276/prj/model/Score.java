@@ -11,8 +11,6 @@ public class Score {
 	private int scoreTime;
 	private String scoreName;
 	private String scoreDate;
-	private int order;
-	private int drawPileSize;
 
 	public Score(int scoreTime, String scoreName, String scoreDate) {
 		this.scoreTime = scoreTime;
@@ -31,15 +29,6 @@ public class Score {
 	public String getDate() {
 		return scoreDate;
 	}
-
-	public int getOrder(){
-		return 0;
-	}
-
-	public int getDrawPileSize(){
-		return 0;
-	}
-
 
 	@SuppressLint("DefaultLocale")
 	public static String getFormattedTime(int time) {
