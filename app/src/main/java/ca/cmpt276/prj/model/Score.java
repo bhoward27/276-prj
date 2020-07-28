@@ -32,6 +32,15 @@ public class Score {
 		return scoreDate;
 	}
 
+	public int getOrder(){
+		return 0;
+	}
+
+	public int getDrawPileSize(){
+		return 0;
+	}
+
+
 	@SuppressLint("DefaultLocale")
 	public static String getFormattedTime(int time) {
 

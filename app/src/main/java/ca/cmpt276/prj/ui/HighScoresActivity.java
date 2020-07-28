@@ -47,6 +47,9 @@ public class HighScoresActivity extends AppCompatActivity {
 
 		scoreManager = ScoreManager.getInstance();
 
+		//Updates loaded scores with the current options
+		scoreManager.loadScores();
+
 		initOptionSet();
 		setupButtons();
 		registerClickCallback();

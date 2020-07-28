@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
@@ -34,6 +35,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     OptionSet options;
     String playerNamePlaceholder;
     ArrayList<String> validDrawPileSizes;
+    ScoreManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         options = OptionSet.getInstance();
         imageSetPref = options.getImageSet();
         playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
+        manager = ScoreManager.getInstance();
     }
 
     private void createRadioButton() {
@@ -164,11 +167,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
           //@TODO: Might be nice to change default to be set to "All..." if chosen size now invalid?
           //@TODO: Or, set choice to the next biggest choice possible instead of all?
 
-        int defaultPosition = adapter.getPosition(currentDeckSize);//Is this the line?
-        //getPosition returns -1 when the specified thing (currentDeckSize) is not found in
-        //The ArrayAdapter. This can only happen if the all_option option from draw_pile_sizes.xml
-        // was selected because currentDeckSize is only a number at this point and all_option
-        //can't match with the number
+        int defaultPosition = adapter.getPosition(currentDeckSize);//Returns -1 when not found
         if(defaultPosition == -1){
             //all_option was selected; make it the parameter for a call to getPosition using
             //currentDeckSizeNumber to match the exact string value as stored in adapter.
@@ -188,6 +187,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 int orderNumber = Integer.parseInt(orderName);
                 options.setOrder(orderNumber);//Save selected Order
                 createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
+
+                //Change prefix of score identifier
                 break;
             case R.id.spn_pile_size:
                 String pileSizeName = parent.getItemAtPosition(position).toString();
@@ -196,10 +197,15 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 pileSizeName = pileSizeName.replaceAll("\\D","");
                 int pileSizeNumber = Integer.parseInt(pileSizeName);
                 options.setDeckSize(pileSizeNumber);
+
+                //Change prefix of score identifier
                 break;
             default:
                 break;
         }
+
+        //Change prefix of score identifier
+        manager.setScorePrefix(options.getOrder(), options.getDeckSize());
     }
 
     @Override
