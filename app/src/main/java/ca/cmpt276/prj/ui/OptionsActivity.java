@@ -94,6 +94,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 button.setOnClickListener(v -> {
                     chck.setEnabled(true);
                     options.setImageSet(indexOfButton);
+                    setUpFlickrButton();
+                    updateFlickrAmountText();
                 });
 
             } else {
@@ -105,6 +107,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                     chck.setChecked(false);
                     chck.setEnabled(false);
                     options.setWordMode(false);
+                    setUpFlickrButton();
+                    updateFlickrAmountText();
                 });
             }
             radioGroup.addView(button);
@@ -285,32 +289,46 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     private void setUpFlickrButton(){
         Button button = findViewById(R.id.btnFlickrPhotos);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchPhotoGalleryActivity();
-            }
-        });
+        if(options.getImageSet()==FLICKR_IMAGE_SET) {
+            button.setEnabled(true);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchPhotoGalleryActivity();
+                }
+            });
+        }else{//Cannot select Flickr button if the flickr image set is not active
+            button.setEnabled(false);
+        }
     }
 
     private void updateFlickrAmountText(){
+        //Turn on Flickr mode to see/change the number of flickr images.
         TextView currentFlickrPhotoCount = findViewById(R.id.txt_flickr_number);
-        String flickrPhotoCountText;
-        //Get the number of currently selected things; that will be displayed
-        int currentFlickrPhotos = options.getNumImagesInImageSet();
-        if(areThereEnoughFlickImages(currentFlickrPhotos)) {
-            flickrPhotoCountText = String.format(getString(
-                    R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);
+        //The user is only allowed to see/set Flickr images if the Flickr image set is selected
+        if(options.getImageSet() == FLICKR_IMAGE_SET){
+
+            String flickrPhotoCountText;
+            //Get the number of currently selected things; that will be displayed
+            int currentFlickrPhotos = options.getNumImagesInImageSet();
+            if (areThereEnoughFlickImages(currentFlickrPhotos)) {
+                flickrPhotoCountText = String.format(getString(
+                        R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);
+                currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
+                        OptionsActivity.this, R.color.blue));
+            } else {
+                flickrPhotoCountText = String.format(getString(
+                        R.string.txt_flickr_photo_amount_not_ok), currentFlickrPhotos,
+                        MINIMUM_REQUIRED_FLICKR_IMAGES);
+                currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
+                        OptionsActivity.this, R.color.red));
+            }
+            currentFlickrPhotoCount.setText(flickrPhotoCountText);
+        } else {
+            currentFlickrPhotoCount.setText(getString(R.string.txt_flickr_photo_not_set));
             currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
-                    OptionsActivity.this, R.color.blue));
-        }else{
-            flickrPhotoCountText = String.format(getString(
-                    R.string.txt_flicker_photo_amount_not_ok), currentFlickrPhotos,
-                    MINIMUM_REQUIRED_FLICKR_IMAGES);
-            currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
-                    OptionsActivity.this, R.color.red));
+                    OptionsActivity.this, R.color.grey));
         }
-        currentFlickrPhotoCount.setText(flickrPhotoCountText);
     }
 
     private void launchPhotoGalleryActivity() {

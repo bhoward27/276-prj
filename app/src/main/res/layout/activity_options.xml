@@ -155,7 +155,7 @@
         android:layout_marginStart="-1dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/btnFlickrPhotos"
-        android:text="@string/txt_flicker_photo_amount_not_ok"
+        android:text="@string/txt_flickr_photo_not_set"
         android:textAlignment="center"
         android:textSize="14sp"
         android:textStyle="bold" />
