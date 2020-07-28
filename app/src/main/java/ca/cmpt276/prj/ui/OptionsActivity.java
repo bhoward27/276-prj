@@ -71,7 +71,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         //options.setNumImagesInImageSet(options.getNumImagesInImageSet());
     }
 
-    private boolean areThereEnoughFlickImages(int currentFlickrPhotos){
+    private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
         if(currentFlickrPhotos < Constants.MINIMUM_REQUIRED_FLICKR_IMAGES){
             return false;
         }
