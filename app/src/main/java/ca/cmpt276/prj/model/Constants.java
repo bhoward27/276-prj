@@ -38,6 +38,8 @@ public final class Constants {
 	public static final String SCORE_NAME_KEY_PREFIX = "SCORE_NAME";
 	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
 	public static final String WORD_MODE_PREF_KEY = "WORD_MODE_PREF";
+	public static final String FLICKR_IMAGE_COUNT_PREF_KEY = "FLICK_IMAGE_COUNT_PREF_KEY";
+
 	public static final boolean DEFAULT_WORD_MODE = false;
 	public static final String ORDER_PREF_KEY = "ORDER_PREF";
 	public static final int DEFAULT_ORDER_PREF = 2;

@@ -137,4 +137,14 @@
         android:text="@string/txt_words_and_images"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_view_selected"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/txt_manage_flick_photos" />
+
 </RelativeLayout>

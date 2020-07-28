@@ -28,6 +28,7 @@ import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
 import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_COUNT_PREF_KEY;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -44,6 +45,7 @@ public class OptionSet {
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
     private ArrayList<String> validDrawPileSizes;
+    private int flickrImageCount;
 
     private static final int ASCII_OFFSET = 97;
 
@@ -153,6 +155,15 @@ public class OptionSet {
 
     public int getOrder() {
         return order;
+    }
+
+    public void setFlickrImageCount(int flickrImageCount){
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(FLICKR_IMAGE_COUNT_PREF_KEY, flickrImageCount);
+
+    }
+    public int getFlickrImageCount(){
+        return flickrImageCount;
     }
 
     public void setDeckSize(int deckSize) {

@@ -63,6 +63,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         imageSetPref = options.getImageSet();
         playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
         manager = ScoreManager.getInstance();
+        //flickrImages = 0;
     }
 
     private void createRadioButton() {
