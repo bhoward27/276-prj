@@ -1,7 +1,5 @@
 package ca.cmpt276.prj.ui;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,38 +20,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFetchr;
 import ca.cmpt276.prj.model.GalleryItem;
-import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
-import static ca.cmpt276.prj.model.Constants.PREFS;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+/**
+ * This activity loads Flickr images (from the internet) into a RecyclerView.
+ * The user can select images to place in the Flickr image set from this fragment by clicking an
+ * image in the RecyclerView.
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
 
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
-    public static final String FLICKR_DIR  = "flickr_user_images";
-    public static final String FLICKR_PREFIX = "flickr";
-    public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
-    public static final String JPG_EXTENSION = ".jpg";
-    public static final String PNG_EXTENSION = ".png";
 
     private RecyclerView mPhotoRecyclerView;
-    private OptionSet options;
-    private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
     private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
@@ -67,9 +55,6 @@ public class PhotoGalleryFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
         updateItems();
-
-        options = OptionSet.getInstance();
-        mContext = getContext();
 
         Handler responseHandler = new Handler();
         mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
@@ -168,16 +153,6 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-    public void saveImage(int itemPosition) {
-        GalleryItem item = mItems.get(itemPosition);
-        int numUserImages = options.getNumImagesInImageSet();
-        Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-                FLICKR_DIR,
-                FLICKR_IMAGE_NAME_PREFIX + (numUserImages + 1) + JPG_EXTENSION));
-        options.incrementNumImagesInImageSet();
-        Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
-    }
-
     private class PhotoHolder extends RecyclerView.ViewHolder {
         private ImageView mItemImageView;
 
@@ -200,30 +175,17 @@ public class PhotoGalleryFragment extends Fragment {
             mGalleryItems = galleryItems;
         }
 
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
-//                GalleryItem item = mItems.get(itemPosition);
-//                Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-//                        "flickrImages", "my_image.jpeg" + itemPosition));
-//                Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
-                saveImage(itemPosition);
-            }
-        };
-
         @Override
         public PhotoHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater.inflate(R.layout.list_item_gallery, viewGroup, false);
-            view.setOnClickListener(mOnClickListener);
             return new PhotoHolder(view);
         }
 
         @Override
         public void onBindViewHolder(PhotoHolder photoHolder, int position) {
             GalleryItem galleryItem = mGalleryItems.get(position);
-            Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
+            Drawable placeholder = getResources().getDrawable(R.drawable.a_2);
             photoHolder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
         }
@@ -260,47 +222,4 @@ public class PhotoGalleryFragment extends Fragment {
 
     }
 
-    //
-    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
-        Log.d("picassoImageTarget", " picassoImageTarget");
-        ContextWrapper cw = new ContextWrapper(context);
-        final File directory = cw.getDir(imageDir, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        return new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final File myImageFile = new File(directory, imageName); // Create image file
-                        FileOutputStream fos = null;
-                        try {
-                            fos = new FileOutputStream(myImageFile);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
-
-                    }
-                }).start();
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {}
-            }
-        };
-    }
 }

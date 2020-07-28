@@ -1,5 +1,11 @@
 package ca.cmpt276.prj.model;
 
+/**
+ * This class stores all data related to an item within the RecyclerView in the Flickr list.
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
+
 public class GalleryItem {
     private String mCaption;
     private String mId;
