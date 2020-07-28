@@ -16,6 +16,12 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.ui.PhotoGalleryFragment.FLICKR_IMAGE_NAME_PREFIX;
 
+/**
+ * This activity loads the Photo Gallery (Flickr) fragment.
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
+
 public class PhotoGalleryActivity extends SingleFragmentActivity {
     OptionSet options;
     @Override

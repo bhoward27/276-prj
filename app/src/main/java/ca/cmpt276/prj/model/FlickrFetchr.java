@@ -15,6 +15,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used for interfacing with Flickr's API to display images on the screen.
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
+
 public class FlickrFetchr {
     private static final String TAG = "FlickrFetchr";
 
