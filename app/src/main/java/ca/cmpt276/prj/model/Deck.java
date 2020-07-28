@@ -1,5 +1,6 @@
 package ca.cmpt276.prj.model;
 
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.lang.reflect.Array;
@@ -9,8 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static ca.cmpt276.prj.model.Constants.MAX_NUM_IMAGES;
 
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
@@ -22,19 +21,25 @@ public class Deck {
 	private Stack<Card> drawPile;
 	private List<Card> allCards;
 	private Integer[][] cardConfigurations;
+	private OptionSet opt;
 	private int totalNumCards;
 	private int order;
 	private int deckSize;
 	private int numImagesPerCard;
+	private int numImagesInImageSet;
 	private boolean isWordMode;
 
-	public Deck(int order, int deckSize, boolean isWordMode) {
+	public Deck() {
 		this.discardPile = new Stack<>();
 		this.drawPile = new Stack<>();
 		this.allCards = new ArrayList<>();
-		this.order = order;
-		this.isWordMode = isWordMode;
-		this.deckSize = deckSize;
+
+		this.opt = OptionSet.getInstance();
+
+		this.order = opt.getOrder();
+		this.isWordMode = opt.isWordMode();
+		this.deckSize = opt.getDeckSize();
+		this.numImagesInImageSet = opt.getNumImagesInImageSet();
 
 		this.numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1
@@ -118,8 +123,9 @@ public class Deck {
 			}
 		}
 
-		List<Integer> randMap = new ArrayList<>(MAX_NUM_IMAGES);
-		for (int i = 0; i < MAX_NUM_IMAGES; i++) {
+		// randomize images taken from imageset
+		List<Integer> randMap = new ArrayList<>(numImagesInImageSet);
+		for (int i = 0; i < numImagesInImageSet; i++) {
 			randMap.add(i);
 		}
 		Collections.shuffle(randMap);
