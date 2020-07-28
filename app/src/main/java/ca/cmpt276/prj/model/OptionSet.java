@@ -271,7 +271,7 @@ public class OptionSet {
             this.numImagesInImageSet = numImages;
         }
         else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
+            this.numImagesInImageSet = NUM_IMAGES_IN_DEFAULT_SETS;
         }
     }
 
@@ -284,7 +284,8 @@ public class OptionSet {
             return newValue;
         }
         else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
+            this.numImagesInImageSet = NUM_IMAGES_IN_DEFAULT_SETS;
+            return numImagesInImageSet;
         }
     }
 
@@ -300,7 +301,8 @@ public class OptionSet {
                 return newValue;
             }
         } else {
-            throw new UnsupportedOperationException(SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG);
+            this.numImagesInImageSet = NUM_IMAGES_IN_DEFAULT_SETS;
+            return numImagesInImageSet;
         }
     }
 }

@@ -59,6 +59,7 @@ import ca.cmpt276.prj.model.ScoreManager;
 import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
 import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
 import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
+import static ca.cmpt276.prj.model.Constants.FLICKR_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
@@ -235,7 +236,9 @@ public class GameActivity extends AppCompatActivity {
                     button.setBackgroundResource(resourceID);
                 } else {
                     // TODO: get downloaded image from flickr here
-                    Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(button);
+                    File directory = this.getDir(FLICKR_DIR, Context.MODE_PRIVATE);
+                    directory.getPath();
+                    Picasso.get().load(FLICKR_DIR).into(button);
                 }
             } else {
                 button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));

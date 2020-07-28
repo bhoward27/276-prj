@@ -50,4 +50,5 @@ public final class Constants {
 	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
+	public static final String FLICKR_DIR  = "flickr_user_images";
 }

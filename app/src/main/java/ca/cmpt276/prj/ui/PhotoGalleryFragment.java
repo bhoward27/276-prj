@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFetchr;
@@ -40,13 +41,14 @@ import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
+import static ca.cmpt276.prj.model.Constants.FLICKR_DIR;
 import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
-    public static final String FLICKR_DIR  = "flickr_user_images";
-    public static final String FLICKR_PREFIX = "flickr";
+
+    public static final String FLICKR_PREFIX = "c";
     public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
     public static final String JPG_EXTENSION = ".jpg";
     public static final String PNG_EXTENSION = ".png";
@@ -170,10 +172,13 @@ public class PhotoGalleryFragment extends Fragment {
 
     public void saveImage(int itemPosition) {
         GalleryItem item = mItems.get(itemPosition);
-        int numUserImages = options.getNumImagesInImageSet();
+        File directory = Objects.requireNonNull(getContext()).getDir(FLICKR_DIR, Context.MODE_PRIVATE);
+        int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
+        options.setNumImagesInImageSet(numUserImages);
+        //int numUserImages = options.getNumImagesInImageSet();
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
                 FLICKR_DIR,
-                FLICKR_IMAGE_NAME_PREFIX + (numUserImages + 1) + JPG_EXTENSION));
+                FLICKR_IMAGE_NAME_PREFIX + numUserImages + JPG_EXTENSION));
         options.incrementNumImagesInImageSet();
         Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
     }
@@ -276,7 +281,7 @@ public class PhotoGalleryFragment extends Fragment {
                         FileOutputStream fos = null;
                         try {
                             fos = new FileOutputStream(myImageFile);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } finally {
