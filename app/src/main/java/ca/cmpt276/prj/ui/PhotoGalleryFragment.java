@@ -52,6 +52,7 @@ public class PhotoGalleryFragment extends Fragment {
     public static final String PNG_EXTENSION = ".png";
 
     private RecyclerView mPhotoRecyclerView;
+    private OptionSet options;
     private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
     private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
@@ -67,6 +68,7 @@ public class PhotoGalleryFragment extends Fragment {
         setHasOptionsMenu(true);
         updateItems();
 
+        options = OptionSet.getInstance();
         mContext = getContext();
 
         Handler responseHandler = new Handler();
@@ -168,8 +170,6 @@ public class PhotoGalleryFragment extends Fragment {
 
     public void saveImage(int itemPosition) {
         GalleryItem item = mItems.get(itemPosition);
-        OptionSet.instantiate(SplashScreenActivity.getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-        OptionSet options = OptionSet.getInstance();
         int numUserImages = options.getNumImagesInImageSet();
         Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
                 FLICKR_DIR,
@@ -260,6 +260,8 @@ public class PhotoGalleryFragment extends Fragment {
 
     }
 
+    //
+    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
     private Target picassoImageTarget(Context context, final String imageDir, final String imageName) {
         Log.d("picassoImageTarget", " picassoImageTarget");
         ContextWrapper cw = new ContextWrapper(context);
