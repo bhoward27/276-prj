@@ -36,11 +36,15 @@ public final class Constants {
 	public static final String SCORE_NAME_KEY_PREFIX = "SCORE_NAME";
 	public static final String SCORE_DATE_KEY_PREFIX = "SCORE_DATE";
 	public static final String WORD_MODE_PREF_KEY = "WORD_MODE_PREF";
+	public static final String NUM_IMAGES_IN_IMAGE_SET_PREF_KEY = "NUM_IMAGES_IN_IMAGE_SET_PREF";
+	public static final int DEFAULT_NUM_IMAGES_IN_IMAGE_SET = 0;
 	public static final boolean DEFAULT_WORD_MODE = false;
 	public static final String ORDER_PREF_KEY = "ORDER_PREF";
 	public static final int DEFAULT_ORDER_PREF = 2;
 	public static final String DECK_SIZE_PREF_KEY = "DECK_SIZE_PREF";
 	public static final int DEFAULT_DECK_SIZE = 7;
+	public static final String SETTING_NUM_IMAGES_IN_IMAGE_SET_ERROR_MSG = "Error: Can only manually set numImagesInImageSet" +
+			" when the Flickr image set is the current image set.";
 	//	Orders must appear in ascending order in the below array for binary search to work on
 	//	it.
 	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };

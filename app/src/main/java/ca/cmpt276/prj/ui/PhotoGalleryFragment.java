@@ -36,11 +36,20 @@ import java.util.List;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFetchr;
 import ca.cmpt276.prj.model.GalleryItem;
+import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
+import static ca.cmpt276.prj.model.Constants.PREFS;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+
 public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
+    public static final String FLICKR_DIR  = "flickr_user_images";
+    public static final String FLICKR_PREFIX = "flickr";
+    public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
+    public static final String JPG_EXTENSION = ".jpg";
+    public static final String PNG_EXTENSION = ".png";
 
     private RecyclerView mPhotoRecyclerView;
     private Context mContext;
@@ -157,6 +166,18 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
+    public void saveImage(int itemPosition) {
+        GalleryItem item = mItems.get(itemPosition);
+        OptionSet.instantiate(SplashScreenActivity.getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+        OptionSet options = OptionSet.getInstance();
+        int numUserImages = options.getNumImagesInImageSet();
+        Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
+                FLICKR_DIR,
+                FLICKR_IMAGE_NAME_PREFIX + (numUserImages + 1) + JPG_EXTENSION));
+        options.incrementNumImagesInImageSet();
+        Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
+    }
+
     private class PhotoHolder extends RecyclerView.ViewHolder {
         private ImageView mItemImageView;
 
@@ -183,9 +204,11 @@ public class PhotoGalleryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
-                GalleryItem item = mItems.get(itemPosition);
-                Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext, "flickrImages", "my_image.jpeg" + itemPosition));
-                Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
+//                GalleryItem item = mItems.get(itemPosition);
+//                Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
+//                        "flickrImages", "my_image.jpeg" + itemPosition));
+//                Toast.makeText(mContext, item.getUrl(), Toast.LENGTH_LONG).show();
+                saveImage(itemPosition);
             }
         };
 
