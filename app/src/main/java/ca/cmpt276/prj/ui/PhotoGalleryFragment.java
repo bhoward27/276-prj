@@ -72,6 +72,7 @@ public class PhotoGalleryFragment extends Fragment {
         options = OptionSet.getInstance();
         mContext = getContext();
 
+
         Handler responseHandler = new Handler();
         mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
         mThumbnailDownloader.setThumbnailDownloadListener(
@@ -270,32 +271,38 @@ public class PhotoGalleryFragment extends Fragment {
         return new Target() {
             @Override
             public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final File myImageFile = new File(directory, imageName); // Create image file
-                        FileOutputStream fos = null;
+                Log.d(TAG, "did it even load?: ");
+                new Thread(() -> {
+                    Log.d(TAG, "beginning of thread?: ");
+                    final File myImageFile = new File(directory, imageName); // Create image file
+                    FileOutputStream fos = null;
+                    int i = 0;
+                    int maxRetries = 3;
+                    while (true) {
+                        Log.d(TAG, "are we here at least?: ");
                         try {
                             fos = new FileOutputStream(myImageFile);
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            break;
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            if (++i == maxRetries) Log.e(TAG, e.getMessage());
                         } finally {
                             try {
                                 fos.close();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                Log.e(TAG, e.getMessage());
                             }
                         }
-                        Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
 
                     }
+                    Log.d(TAG, "Why don't we get here every time?: ");
+                    Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
                 }).start();
             }
 
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
+                Log.e(TAG, "onBitmapFailed: ");
             }
 
             @Override
