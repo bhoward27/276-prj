@@ -41,6 +41,7 @@ public class OptionSet {
     private int deckSize;
     private boolean wordMode; // when true, some cards will have words appear instead of images.
     private ArrayList<String> validDrawPileSizes;
+    private ArrayList<String> validOrders;
     private List<String> possibleFlickrImageNames = new ArrayList<>();
 
     private static final int ASCII_OFFSET = 97;
@@ -178,6 +179,11 @@ public class OptionSet {
         return numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
     }
 
+    private int getMaxDeckSizeOfGivenOrder(int givenOrder){
+        int numImagesPerCard = givenOrder + 1;
+        return numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
+    }
+
     public void setWordMode(boolean wordMode) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(WORD_MODE_PREF_KEY, wordMode);
@@ -190,6 +196,23 @@ public class OptionSet {
         return wordMode;
     }
 
+//    public void setValidOrderSizes(ArrayList<String> allOrders){
+//        int flickrPhotos = getNumFlickrImages();
+//        //Max Deck Size is what we're looking for
+//        validOrders = new ArrayList<>(0);
+//        for(int i = 0; i < allOrders.size(); i++){
+//            String checkedOrder = allOrders.get(i);
+//            int maxDeckSizeOfOrder = getMaxDeckSizeOfGivenOrder(Integer.parseInt(checkedOrder));
+//            if(flickrPhotos >= maxDeckSizeOfOrder){
+//                validOrders.add(checkedOrder);
+//            }
+//        }
+//    }
+//
+//    public ArrayList<String> getValidOrders(){
+//        return validOrders;
+//    }
+
     public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
         //Begin with a populated array;
         //Code for getting ArrayList from string-array adapted from
@@ -200,7 +223,8 @@ public class OptionSet {
             String checkedSize = allDrawPileSizes.get(i);
             int checkedSizeNumber = Integer.parseInt(checkedSize);
             if (checkedSizeNumber <= maxDeckSize) {
-                validDrawPileSizes.add(allDrawPileSizes.get(i));
+                //validDrawPileSizes.add(allDrawPileSizes.get(i));
+                validDrawPileSizes.add(checkedSize);
             }
         }
         validDrawPileSizes.add(all_option);

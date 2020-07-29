@@ -131,6 +131,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     private void setupCheckBox() {
         CheckBox chck = findViewById(R.id.chckWordMode);
+
         if (options.isWordMode()) {
             chck.setChecked(true);
         }
@@ -139,6 +140,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             chck.setChecked(false);
             chck.setEnabled(false);
         }
+
         chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     // don't let word mode be used if flickr is the imageset
             Log.d("t", "imageSet: " + options.getImageSet());
@@ -343,12 +345,12 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         //Intent intent = ImageSetActivity.
         //startActivity(intent);
     }
-    @Override
-    public void onBackPressed() {
-        if(areThereEnoughFlickrImages(options.getFlickrImageSetSize())){
-            Toast.makeText(getApplicationContext(), getString(R.string.txt_left_options_with_flickr_photo_amount_not_okk), Toast.LENGTH_LONG).show();
-        }
-        super.onBackPressed();
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if(areThereEnoughFlickrImages(options.getFlickrImageSetSize())){
+//            Toast.makeText(getApplicationContext(), getString(R.string.txt_left_options_with_flickr_photo_amount_not_okk), Toast.LENGTH_LONG).show();
+//        }
+//        super.onBackPressed();
+//
+//    }
 }
