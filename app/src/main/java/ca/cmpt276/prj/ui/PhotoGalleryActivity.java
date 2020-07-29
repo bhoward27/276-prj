@@ -71,20 +71,21 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
                 .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
         if (numUserImages > 0) {
-            int index = options.getNumImagesInImageSet();
+            int index = Objects.requireNonNull(postDirectory.listFiles()).length;
             for (String imageName : options.getPossibleFlickrImageNames()) {
                 File myImageFile = new File(preDirectory,
                         imageName);
                 File destRenamedFile = new File(postDirectory,
                         FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
                 if (myImageFile.renameTo(destRenamedFile)) {
-                    Log.d("renameImage","image " + imageName + " has been renamed");
+                    Log.d("renameImage","image " + imageName + " has been renamed to " +
+                            FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
                     index++;
                 }
             }
-            options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
             options.clearPossibleFlickrImageNames();
         }
+        options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
     }
 
 }
