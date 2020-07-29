@@ -31,9 +31,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutResId());
 
-		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_photo_gallery_activity));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 

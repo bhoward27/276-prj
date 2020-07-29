@@ -25,6 +25,8 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET_PREFIX;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
@@ -57,7 +59,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 	private void initDeckSizeFlickr() {
 		File preDirectory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
 		int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
 		options.setFlickrImageSetSize(numUserImages);
 	}
@@ -77,9 +79,16 @@ public class MainMenuActivity extends AppCompatActivity {
 		String imageSetPrefix = options.getImageSetPrefix();
 
 		for (ImageView view : views) {
-			int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
-					+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
-			view.setImageResource(resourceID);
+			if (options.getImageSet() != FLICKR_IMAGE_SET) {
+				int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
+						+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
+				view.setImageResource(resourceID);
+			} else {
+				int resourceID = getResources().getIdentifier(DEFAULT_IMAGE_SET_PREFIX + RESOURCE_DIVIDER
+						+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
+				view.setImageResource(resourceID);
+			}
+
 		}
 	}
 
@@ -109,15 +118,6 @@ public class MainMenuActivity extends AppCompatActivity {
 			startActivity(intent);
 		});
 
-		Button btnOpenPhotoGallery = findViewById(R.id.btnOpenPhotoGallery);
-		btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
-				startActivity(intent);
-
-			}
-		});
 	}
 
 	@Override

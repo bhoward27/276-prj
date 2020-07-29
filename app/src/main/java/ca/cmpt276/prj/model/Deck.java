@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
  * The constructor takes in how many images per card and a value for the image set, allowing
@@ -37,7 +39,12 @@ public class Deck {
 		this.order = opt.getOrder();
 		this.isWordMode = opt.isWordMode();
 		this.deckSize = opt.getDeckSize();
-		this.numImagesInImageSet = opt.getNumFlickrImages();
+		if (opt.getImageSet() == FLICKR_IMAGE_SET) {
+			this.numImagesInImageSet = opt.getNumFlickrImages();
+		} else {
+			this.numImagesInImageSet = opt.getNumImagesInImageSet();
+		}
+
 
 		this.numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1

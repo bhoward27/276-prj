@@ -6,6 +6,7 @@
     <string name="title_main_menu_activity">Main Menu</string>
     <string name="title_options_activity">Options</string>
     <string name="title_photo_gallery_activity">Flickr Photo Gallery</string>
+    <string name="title_flickr_imageset_editor">Flickr Image Set Editor</string>
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">Reset This High Scores List</string>
     <string name="btn_main_menu">Skip</string>
@@ -100,6 +101,7 @@
     <string name="clear_search">Clear Search</string>
     <string name="search">Search</string>
     <string name="txt_toast_downloaded">%s has been downloaded.</string>
+    <string name="txt_toast_deleted">%s has been deleted.</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
     <string name="txt_manage_flick_photos">Flickr Photos</string>
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
@@ -107,4 +109,9 @@
     <string name="txt_flickr_photo_not_set">(Select Flickr Image Set to set/see photo count)</string>
     <string name="txt_flickr_reset_warning">Not Enough Flickr Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
     <string name="txt_left_options_with_flickr_photo_amount_not_okk">Not Enough Flickr Images; theme reset to its default (Landscape)</string>
+    <string name="txt_attempted_leave_with_flickr_photo_amount_not_ok">Not Enough Flickr Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
+    <string name="clear_all">Clear All Images</string>
+    <string name="add_flickr_image">Add Flickr Images</string>
+    <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
+    <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
 </resources>

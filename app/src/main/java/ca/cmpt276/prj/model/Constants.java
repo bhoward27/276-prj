@@ -28,6 +28,7 @@ public final class Constants {
 	public static final int PREDATOR_IMAGE_SET = 1;
 	public static final int FLICKR_IMAGE_SET = 2;
 	public static final int DEFAULT_IMAGE_SET = LANDSCAPE_IMAGE_SET;
+	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
 	//public static final int DEFAULT_DIFFERENT_CARDS_AMOUNT = 7;
 	public static final String DEFAULT_ORDER = "Order 2";
 	public static final String DEFAULT_DRAW_PILE_SIZE = "All";
@@ -54,4 +55,6 @@ public final class Constants {
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
 	public static final String FLICKR_PENDING_DIR = "flickr_pending_images";
 	public static final String JPG_EXTENSION = ".jpg";
+	public static final String FLICKR_PREFIX = "c";
+	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
 }

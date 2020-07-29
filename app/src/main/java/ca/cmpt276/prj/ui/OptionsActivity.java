@@ -3,6 +3,7 @@ package ca.cmpt276.prj.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +18,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionSet;
@@ -108,6 +111,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 					// don't allow the user to play the game with not enough images
 					if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
 						options.setImageSet(indexOfButton);
+					} else {
+						Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
 					}
 					chck.setChecked(false);
 					chck.setEnabled(false);
@@ -138,7 +143,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			// don't let word mode be used if flickr is the imageset
-			Log.d("t", "imageSet: " + options.getImageSet());
 			if (options.getImageSet() != FLICKR_IMAGE_SET) {
 				options.setWordMode(isChecked);
 			} else {
@@ -226,8 +230,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 				createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
 				updateFlickrAmountText();
 
-				if (!areThereEnoughFlickImages(options.getFlickrImageSetSize())) {
+				if (!areThereEnoughFlickImages(options.getFlickrImageSetSize()) && options.getImageSet() == FLICKR_IMAGE_SET) {
 					options.setImageSet(DEFAULT_IMAGE_SET);
+					Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
 				}
 
 				//Change prefix of score identifier
@@ -260,7 +265,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
 		String playerNamePref = options.getPlayerName();
 
-		if (!playerNamePref.matches(playerNamePlaceholder)) {
+		// match the "regex"
+		String pattern = Pattern.quote(playerNamePlaceholder);
+
+		if (!playerNamePref.matches(pattern)) {
 			playerNameEntryBox.setText(playerNamePref);
 		}
 
@@ -315,6 +323,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 			String flickrPhotoCountText;
 			//Get the number of currently selected things; that will be displayed
 			int currentFlickrPhotos = options.getNumFlickrImages();
+
 			if (areThereEnoughFlickImages(currentFlickrPhotos)) {
 				flickrPhotoCountText = String.format(getString(
 						R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);
@@ -326,6 +335,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 						minimumReqImages);
 				currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
 						OptionsActivity.this, R.color.red));
+				options.setImageSet(DEFAULT_IMAGE_SET);
 			}
 			currentFlickrPhotoCount.setText(flickrPhotoCountText);
 		} else {
@@ -336,7 +346,14 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void launchPhotoGalleryActivity() {
-		//Intent intent = ImageSetActivity.
-		//startActivity(intent);
+		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
+		startActivity(intent);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		updateFlickrAmountText();
 	}
 }

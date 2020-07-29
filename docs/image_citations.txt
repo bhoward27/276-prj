@@ -140,3 +140,5 @@ b_30-badger.jpg --- https://www.landscapetreesecology.com/wp-content/uploads/201
 APP ICON:
 ic_launcher.png --- https://www.easyicon.net/language.en/1161600-Magnifying_Glass_icon.html
 
+Placeholder image:
+https://vignette1.wikia.nocookie.net/glest/images/4/47/Placeholder.png/revision/latest?cb=20101114155552
