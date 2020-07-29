@@ -190,21 +190,21 @@ public class OptionSet {
 		return wordMode;
 	}
 
-    public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
-        //Begin with a populated array;
-        //Code for getting ArrayList from string-array adapted from
-        //@ https://stackoverflow.com/a/19127223
-        int maxDeckSize = getMaxDeckSize();
-        validDrawPileSizes = new ArrayList<>(0);
-        for (int i = 0; i < allDrawPileSizes.size(); i++) {
-            String checkedSize = allDrawPileSizes.get(i);
-            int checkedSizeNumber = Integer.parseInt(checkedSize);
-            if (checkedSizeNumber <= maxDeckSize) {
-                validDrawPileSizes.add(allDrawPileSizes.get(i));
-            }
-        }
-        validDrawPileSizes.add(all_option);
-    }
+	public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
+		//Begin with a populated array;
+		//Code for getting ArrayList from string-array adapted from
+		//@ https://stackoverflow.com/a/19127223
+		int maxDeckSize = getMaxDeckSize();
+		validDrawPileSizes = new ArrayList<>(0);
+		for (int i = 0; i < allDrawPileSizes.size(); i++) {
+			String checkedSize = allDrawPileSizes.get(i);
+			int checkedSizeNumber = Integer.parseInt(checkedSize);
+			if (checkedSizeNumber <= maxDeckSize) {
+				validDrawPileSizes.add(allDrawPileSizes.get(i));
+			}
+		}
+		validDrawPileSizes.add(all_option);
+	}
 
 	//Return list for the ui to print
 	public ArrayList<String> getValidDrawPileSizes() {
