@@ -265,6 +265,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
 		String playerNamePref = options.getPlayerName();
 
+		Log.d("t", "playerNamePref: " + playerNamePref);
 		if (!playerNamePref.matches(playerNamePlaceholder)) {
 			playerNameEntryBox.setText(playerNamePref);
 		}

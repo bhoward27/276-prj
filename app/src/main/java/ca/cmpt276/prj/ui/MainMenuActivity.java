@@ -108,16 +108,7 @@ public class MainMenuActivity extends AppCompatActivity {
 			Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
 			startActivity(intent);
 		});
-
-		Button btnOpenPhotoGallery = findViewById(R.id.btnOpenPhotoGallery);
-		btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
-				startActivity(intent);
-
-			}
-		});
+		
 	}
 
 	@Override
