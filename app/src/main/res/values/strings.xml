@@ -101,4 +101,8 @@
     <string name="search">Search</string>
     <string name="txt_toast_downloaded">%s has been downloaded.</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
+    <string name="txt_manage_flick_photos">Flickr Photos</string>
+    <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
+    <string name="txt_flickr_photo_amount_not_ok">(%d photos. need >= %d photos for Flickr set)</string>
+    <string name="txt_flickr_photo_not_set">(Select Flickr Image Set to set/see photo count)</string>
 </resources>

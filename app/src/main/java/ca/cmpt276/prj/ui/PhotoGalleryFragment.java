@@ -47,7 +47,6 @@ import ca.cmpt276.prj.model.ThumbnailDownloader;
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
-
 /**
  * This activity loads Flickr images (from the internet) into a RecyclerView.
  * The user can select images to place in the Flickr image set from this fragment by clicking an

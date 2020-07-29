@@ -234,18 +234,19 @@ public class OptionSet {
         return validDrawPileSizes;
     }
 
-
     public int getNumImagesInImageSet() {
         switch(imageSet) {
             case LANDSCAPE_IMAGE_SET:
                 //  intentional fall-through
             case PREDATOR_IMAGE_SET:
                 return NUM_IMAGES_IN_DEFAULT_SETS;
-            case FLICKR_IMAGE_SET:
-                return flickrImageSetSize;
             default:
-                throw new UnsupportedOperationException("Error: Invalid imageSet.");
+                throw new UnsupportedOperationException("Unsupported Built-In Image Set: > 1");
         }
+    }
+
+    public int getNumFlickrImages() {
+            return flickrImageSetSize;
     }
 
     public void setFlickrImageSetSize(int numImages) {

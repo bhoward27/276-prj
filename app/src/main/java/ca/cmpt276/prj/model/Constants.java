@@ -27,7 +27,7 @@ public final class Constants {
 	public static final int PREDATOR_IMAGE_SET = 1;
 	public static final int FLICKR_IMAGE_SET = 2;
 	public static final int DEFAULT_IMAGE_SET = LANDSCAPE_IMAGE_SET;
-	public static final int DEFAULT_DIFFERENT_CARDS_AMOUNT = 7;
+	//public static final int DEFAULT_DIFFERENT_CARDS_AMOUNT = 7;
 	public static final String DEFAULT_ORDER = "Order 2";
 	public static final String DEFAULT_DRAW_PILE_SIZE = "All";
 	public static final String IMAGE_FOLDER_NAME = "drawable";
