@@ -48,8 +48,8 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
- * This activity loads Flickr images (from the internet) into a RecyclerView.
- * The user can select images to place in the Flickr image set from this fragment by clicking an
+ * This activity loads Flickr images (from your locally downloaded files) into a RecyclerView.
+ * The user can add and remove images from the Flickr image set in this fragment by clicking an
  * image in the RecyclerView.
  * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
  * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
@@ -63,7 +63,6 @@ public class EditImageSetFragment extends Fragment {
     private OptionSet options;
     private Context mContext;
     private List<GalleryItem> mItems = new ArrayList<>();
-    private List<Target> targetList = new ArrayList<>();
     private SparseBooleanArray checkedItems = new SparseBooleanArray();
 
     public static EditImageSetFragment newInstance() {
@@ -86,7 +85,7 @@ public class EditImageSetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
+        View v = inflater.inflate(R.layout.fragment_flickr_editor, container, false);
 
         mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
         mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -110,7 +109,7 @@ public class EditImageSetFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
-        menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
+        menuInflater.inflate(R.menu.fragment_flickr_editor, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_item_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
 

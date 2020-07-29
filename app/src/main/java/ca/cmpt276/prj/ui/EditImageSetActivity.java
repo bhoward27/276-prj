@@ -1,21 +1,13 @@
 package ca.cmpt276.prj.ui;
 
-import android.content.Context;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 
-import java.io.File;
-import java.util.Objects;
-
+import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
-import ca.cmpt276.prj.model.OptionSet;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_NAME_PREFIX;
-import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 /**
  * This activity loads the Photo Gallery (Flickr) fragment.
@@ -24,7 +16,13 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
  */
 
 public class EditImageSetActivity extends SingleFragmentActivity {
-    OptionSet options;
+
+    @Override
+    protected void onCreate(Bundle saved) {
+        super.onCreate(saved);
+        setTitle(getString(R.string.title_flickr_imageset_editor));
+    }
+
     @Override
     protected Fragment createFragment() {
         initFlickrSettings();
