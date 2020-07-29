@@ -306,7 +306,6 @@ public class PhotoGalleryFragment extends Fragment {
 		Log.d("picassoImageTarget", " picassoImageTarget");
 		ContextWrapper cw = new ContextWrapper(context);
 		final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-		targetList.clear();
 		targetList.add(0, new Target() {
 			@Override
 			public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {

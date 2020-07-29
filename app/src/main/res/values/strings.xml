@@ -6,6 +6,7 @@
     <string name="title_main_menu_activity">Main Menu</string>
     <string name="title_options_activity">Options</string>
     <string name="title_photo_gallery_activity">Flickr Photo Gallery</string>
+    <string name="title_flickr_imageset_editor">Flickr Image Set Editor</string>
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">Reset This High Scores List</string>
     <string name="btn_main_menu">Skip</string>

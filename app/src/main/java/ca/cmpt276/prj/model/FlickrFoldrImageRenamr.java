@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,7 +50,7 @@ public class FlickrFoldrImageRenamr {
 		// create consistent increasing naming scheme
 		int index = 0;
 		List<File> fileList = Arrays.asList(Objects.requireNonNull(directory.listFiles()));
-		Collections.sort(fileList);
+		Collections.sort(fileList, new SortByFileName());
 		for (File fileName : fileList) {
 			Log.d("renameImage", "fileName: " + fileName);
 			File newFileName = new File(directory,

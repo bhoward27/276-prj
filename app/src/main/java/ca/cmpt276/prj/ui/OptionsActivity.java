@@ -331,6 +331,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 						minimumReqImages);
 				currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
 						OptionsActivity.this, R.color.red));
+				options.setImageSet(DEFAULT_IMAGE_SET);
 			}
 			currentFlickrPhotoCount.setText(flickrPhotoCountText);
 		} else {
@@ -344,4 +345,12 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
         startActivity(intent);
     }
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		// put your code here...
+
+		updateFlickrAmountText();
+	}
 }

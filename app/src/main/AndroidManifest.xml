@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.EditImageSetActivity"
-            android:label="@string/title_photo_gallery_activity"
+            android:label="@string/title_flickr_imageset_editor"
             android:parentActivityName=".ui.OptionsActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
