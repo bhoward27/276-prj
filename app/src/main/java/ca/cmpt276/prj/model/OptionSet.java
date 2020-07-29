@@ -196,23 +196,6 @@ public class OptionSet {
         return wordMode;
     }
 
-//    public void setValidOrderSizes(ArrayList<String> allOrders){
-//        int flickrPhotos = getNumFlickrImages();
-//        //Max Deck Size is what we're looking for
-//        validOrders = new ArrayList<>(0);
-//        for(int i = 0; i < allOrders.size(); i++){
-//            String checkedOrder = allOrders.get(i);
-//            int maxDeckSizeOfOrder = getMaxDeckSizeOfGivenOrder(Integer.parseInt(checkedOrder));
-//            if(flickrPhotos >= maxDeckSizeOfOrder){
-//                validOrders.add(checkedOrder);
-//            }
-//        }
-//    }
-//
-//    public ArrayList<String> getValidOrders(){
-//        return validOrders;
-//    }
-
     public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
         //Begin with a populated array;
         //Code for getting ArrayList from string-array adapted from

@@ -342,15 +342,5 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void launchPhotoGalleryActivity() {
-        //Intent intent = ImageSetActivity.
-        //startActivity(intent);
     }
-//    @Override
-//    public void onBackPressed() {
-//        if(areThereEnoughFlickrImages(options.getFlickrImageSetSize())){
-//            Toast.makeText(getApplicationContext(), getString(R.string.txt_left_options_with_flickr_photo_amount_not_okk), Toast.LENGTH_LONG).show();
-//        }
-//        super.onBackPressed();
-//
-//    }
 }
