@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageNameMatrix;
@@ -38,9 +39,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         options = OptionSet.getInstance();
 
         setUpImages();
@@ -102,6 +101,15 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, PhotoGalleryActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        Button btnOpenImageSet = findViewById(R.id.btnOpenImageSet);
+        btnOpenPhotoGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, ImageSetActivity.class);
+                startActivity(intent);
             }
         });
     }

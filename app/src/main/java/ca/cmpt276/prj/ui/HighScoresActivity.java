@@ -43,11 +43,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_high_scores);
 
-		Toolbar toolbar = findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
-		ActionBar ab = getSupportActionBar();
-		assert ab != null;
-		ab.setDisplayHomeAsUpEnabled(true);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 		scoreManager = ScoreManager.getInstance();
 

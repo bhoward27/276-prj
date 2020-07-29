@@ -46,11 +46,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
         initOptionSet();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         createRadioButton();
         setupEntryBox();

@@ -49,9 +49,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ImageSetActivity"
-            android:label="@string/image_set"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:label="@string/title_image_set_activity"
             android:parentActivityName=".ui.MainMenuActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MainMenuActivity"

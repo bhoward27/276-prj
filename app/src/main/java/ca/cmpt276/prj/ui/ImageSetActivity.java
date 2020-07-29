@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageSet;
@@ -60,13 +61,9 @@ public class ImageSetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_set);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        image_number = findViewById(R.id.image_number);
+        //image_number = findViewById(R.id.image_number);
         recyclerView = findViewById(R.id.recyclerview_gallery_images);
 
         //check for permission
@@ -94,7 +91,7 @@ public class ImageSetActivity extends AppCompatActivity {
             }
         });
         recyclerView.setAdapter(galleryAdapter);
-        image_number.setText("Image Set("+images.size()+")");
+        //image_number.setText("Image Set("+images.size()+")");
     }
 
     @Override

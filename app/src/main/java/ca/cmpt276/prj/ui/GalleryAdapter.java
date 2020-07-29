@@ -30,7 +30,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.image_set,parent,false)
+                LayoutInflater.from(context).inflate(R.layout.image_item,parent,false)
         );
     }
 
@@ -67,5 +67,5 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public interface PhotoListener{
         void onPhotoClick(String path);
     }
-
 }
+

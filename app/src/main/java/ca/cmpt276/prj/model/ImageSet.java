@@ -18,7 +18,7 @@ public class ImageSet {
         uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
         String[] projection = {MediaStore.MediaColumns.DATA,
-        MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
 
         String orderBy = MediaStore.Video.Media.DATE_TAKEN;
         cursor = context.getContentResolver().query(uri,projection,null,
