@@ -11,15 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 
+import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.PREFS;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
@@ -37,11 +46,20 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
         options = OptionSet.getInstance();
+        initDeckSizeFlickr();
 
         setUpImages();
         setUpButtons();
 
+    }
+
+    private void initDeckSizeFlickr() {
+        File preDirectory = Objects.requireNonNull(getApplicationContext())
+                .getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+        int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
+        options.setFlickrImageSetSize(numUserImages);
     }
 
     private void setUpImages() {//Images change depending on the currently selected deck in the Options screen

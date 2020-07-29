@@ -39,8 +39,8 @@ public class GenRand {
 		for (int i = 0; i < widths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(widths.get(i)),
-					(int) Math.round(heights.get(i)));
+					(int) Math.round(widths.get(i) + BUTTON_SPACING_PADDING),
+					(int) Math.round(heights.get(i) + BUTTON_SPACING_PADDING));
 			allRects.add(rect);
 		}
 
@@ -50,7 +50,7 @@ public class GenRand {
 			overlaps = false;
 			Rect currRect = allRects.get(i);
 			Rect newRect = new Rect(currRect);
-			for (int tries = 0; tries < 50; tries++) {
+			for (int tries = 0; tries < 100; tries++) {
 				overlaps = false;
 				newRect.offsetTo(rand.nextInt(0, maxX - currRect.width()),
 						rand.nextInt(0, maxY - currRect.height()));
@@ -71,7 +71,7 @@ public class GenRand {
 			// if we reached 25 tries already
 			if (overlaps) {
 				// safety: don't get stuck in infinite loop
-				if (totalRetryCount > 50) {
+				if (totalRetryCount > 100) {
 					throw new RuntimeException("GenRand: Can't find image placements");
 				}
 				rectsAdded.clear();
