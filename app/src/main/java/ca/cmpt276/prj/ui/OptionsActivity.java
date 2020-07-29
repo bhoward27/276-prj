@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,19 +106,21 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 			} else {
 				// for flickr radio button
 
-				button.setOnClickListener(v -> {
-					// don't allow the user to play the game with not enough images
-					if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
-						options.setImageSet(indexOfButton);
-					}
-					chck.setChecked(false);
-					chck.setEnabled(false);
-					options.setWordMode(false);
-					updateFlickrAmountText();
-				});
-			}
-			radioButtonList.add(button);
-			radioGroup.addView(button);
+                button.setOnClickListener(v -> {
+                    // don't allow the user to play the game with not enough images
+                    if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
+                        options.setImageSet(indexOfButton);
+                    }else{
+                        Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
+                    }
+                    chck.setChecked(false);
+                    chck.setEnabled(false);
+                    options.setWordMode(false);
+                    updateFlickrAmountText();
+                });
+            }
+            radioButtonList.add(button);
+            radioGroup.addView(button);
 
 			// Select default button:
 			if (deckThemeNames.indexOf(imageSetName) == imageSetPref) {
@@ -227,9 +230,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 				createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
 				updateFlickrAmountText();
 
-				if (!areThereEnoughFlickImages(options.getFlickrImageSetSize())) {
-					options.setImageSet(DEFAULT_IMAGE_SET);
-				}
+                if (!areThereEnoughFlickImages(options.getFlickrImageSetSize()) && options.getImageSet() == FLICKR_IMAGE_SET)  {
+                    options.setImageSet(DEFAULT_IMAGE_SET);
+                    Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
+                }
 
 				//Change prefix of score identifier
 				break;
