@@ -15,6 +15,10 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
+/**
+ * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
+ * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ */
 public class FlickrFoldrImageRenamr {
 	private FlickrFoldrImageRenamr() {
 	}
