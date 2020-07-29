@@ -350,7 +350,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	@Override
 	public void onResume(){
 		super.onResume();
-		// put your code here...
 
 		updateFlickrAmountText();
 	}

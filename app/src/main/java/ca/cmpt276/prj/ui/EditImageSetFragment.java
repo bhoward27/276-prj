@@ -103,6 +103,13 @@ public class EditImageSetFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+
+        updateItems();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "Background thread destroyed");

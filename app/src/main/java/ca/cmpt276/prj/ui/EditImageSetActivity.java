@@ -28,6 +28,8 @@ public class EditImageSetActivity extends SingleFragmentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
+
     @Override
     protected Fragment createFragment() {
         initFlickrSettings();
