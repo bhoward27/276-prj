@@ -45,7 +45,7 @@
         <activity
             android:name=".ui.PhotoGalleryActivity"
             android:label="@string/title_photo_gallery_activity"
-            android:parentActivityName=".ui.MainMenuActivity"
+            android:parentActivityName=".ui.EditImageSetActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
