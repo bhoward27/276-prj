@@ -28,9 +28,14 @@ public class HelpActivity extends AppCompatActivity {
 
 		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_help_activity));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setUpScrollableHelpDescription();
 		setupCreditsButton();
 	}
 
+	private void setUpScrollableHelpDescription(){
+		TextView helpDescription = findViewById(R.id.helpDescription);
+		helpDescription.setMovementMethod(new ScrollingMovementMethod());
+	}
 	private void setupCreditsButton() {
 		Button button = findViewById(R.id.btnCredits);
 		button.setOnClickListener(new View.OnClickListener() {

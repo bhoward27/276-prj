@@ -191,7 +191,6 @@ public class OptionSet {
 	}
 
 	public void setValidDrawPileSizes(ArrayList<String> allDrawPileSizes, String all_option) {
-		//Begin with a populated array;
 		//Code for getting ArrayList from string-array adapted from
 		//@ https://stackoverflow.com/a/19127223
 		int maxDeckSize = getMaxDeckSize();

@@ -14,18 +14,29 @@
     <string name="btn_view_credits">View Credits</string>
     <string name="txt_placeholder_score">Score goes here</string>
     <string name="txt_help_Description_Title">How To Play</string>
-    <string name="txt_help_description">In the \"Timed Solo Deck\" mode available in this game, any pair of cards
+    <string name="txt_help_description">Timed Solo Deck Mode\n\nIn the \"Timed Solo Deck\" mode, any pair of cards
         in the deck will have exactly one image in common. Your task is to find the matching image on the draw card (bottom)
         as fast as possible.\n\nTo select an image, tap that image on the card.\n\nIf you\'ve tapped the matching
         image on the draw card, good job! The game will then advance by moving the draw pile card to the discard pile and
         then revealing a new card in the draw pile. The game will continue until no cards are left.\n\nIf
         you\'re quick, you just might get a high score!
+        \n\nWords and Images Mode
+        \n\nThe \"Words and Images\" mode plays like \"Timed Solo Deck\", but pictures may be
+        replaced by a word describing them. Each card will have at least one word and last least one image. Any cards with words
+        replacing pictures will remain with the same words throughout the game. Note that in order to find a match between two cards
+        you may have to match two pictures, two words, or a picture and its associated word!
+        \n\nFlickr Functionality
+        \n\nNote that you can select "Flickr" as an image set! Click "Options" > "Flickr Photos" to turn on Flickr, allowing you to
+        search its database and get images to use in the game by clicking on the \"+\" button on the top right! You can select from the
+        already shown images by clicking on them to download them, or you can use the magnifying glass to trying searching up photos associated to
+        what you type in the nearby search bar!
+        \n\nOne you press the back button, you will see your collection of downloaded photos. Click on any of them to remove them from your set. You can
+        also undo this by tapping on the image (which would now be represented by a placeholder image)!
     </string>
     <string name="txt_heading_tips">Tips</string>
     <string name="txt_body_tips">Tip #1: To change your player name so that it shows up in your next
         high score, go to the Options screen and enter your name into the entry box.\n\nTip #2: For some visual
-        variety, head to the Options screen where you can change the deck theme to either Landscape
-        or Predator. This will change which images will appear on cards in future games.
+        variety, head to the Options screen where you can change the deck theme. This will change which images will appear on cards in future games.
     </string>
     <string name="txt_scroll_advice">(You can scroll through the help description above!)</string>
     <string name="txt_game_title_main_menu">Find daMatch\nMain Menu</string>
