@@ -12,7 +12,7 @@ import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 
 
 /**
- * This activity loads the Photo Gallery (Flickr) fragment.
+ * This activity loads the Edit Flickr Image Set fragment.
  * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
  * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
  */
