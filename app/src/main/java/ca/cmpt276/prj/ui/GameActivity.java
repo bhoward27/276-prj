@@ -224,7 +224,6 @@ public class GameActivity extends AppCompatActivity {
 							getPackageName());
 					button.setBackgroundResource(resourceID);
 				} else {
-					// TODO: get downloaded image from flickr here
 					String pathName = this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + imageNum + JPG_EXTENSION;
                     Log.d(TAG, "file: " + pathName);
                     File imageFile = new File(pathName);

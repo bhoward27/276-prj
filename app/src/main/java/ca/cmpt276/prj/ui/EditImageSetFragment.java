@@ -238,10 +238,11 @@ public class EditImageSetFragment extends Fragment {
             GalleryItem galleryItem = mGalleryItems.get(position);
             Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
             //photoHolder.bindDrawable(placeholder);
-            String file = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + position + JPG_EXTENSION;
-            Log.d(TAG, "file: " + file);
+            String pathName = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + position + JPG_EXTENSION;
+            Log.d(TAG, "file: " + pathName);
+            File imageFile = new File(pathName);
             Picasso.get()
-                    .load(file)
+                    .load(imageFile)
                     .placeholder(placeholder)
                     .error(placeholder)
                     .into(photoHolder.mItemImageView);
