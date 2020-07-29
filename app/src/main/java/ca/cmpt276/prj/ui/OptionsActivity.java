@@ -3,7 +3,6 @@ package ca.cmpt276.prj.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,10 +24,10 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.Constants;
 import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.ScoreManager;
 
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
 /**
@@ -41,6 +39,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     OptionSet options;
     String playerNamePlaceholder;
     ScoreManager manager;
+    List<RadioButton> radioButtonList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,32 +98,30 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 button.setOnClickListener(v -> {
                     chck.setEnabled(true);
                     options.setImageSet(indexOfButton);
-                    setUpFlickrButton();
                     updateFlickrAmountText();
                 });
 
             } else {
-                //button.setText(flickrPhotoCountText);
-                //Disable button maybe?
+                // for flickr radio button
+
                 button.setOnClickListener(v -> {
-                    // don't allow the user to play the game with not enough images & flickr
-                    if (areThereEnoughFlickImages(options.getNumImagesInImageSet())) {
+                    // don't allow the user to play the game with not enough images
+                    if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
                         options.setImageSet(indexOfButton);
                     }
                     chck.setChecked(false);
                     chck.setEnabled(false);
                     options.setWordMode(false);
-                    setUpFlickrButton();
                     updateFlickrAmountText();
                 });
             }
+            radioButtonList.add(button);
             radioGroup.addView(button);
 
             // Select default button:
             if (deckThemeNames.indexOf(imageSetName) == imageSetPref) {
                 button.setChecked(true);
             }
-
 
         }
     }
@@ -229,6 +226,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
                 updateFlickrAmountText();
 
+                if (!areThereEnoughFlickImages(options.getFlickrImageSetSize())) {
+                    options.setImageSet(DEFAULT_IMAGE_SET);
+                }
+
                 //Change prefix of score identifier
                 break;
             case R.id.spn_pile_size:
@@ -297,28 +298,23 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     private void setUpFlickrButton(){
         Button button = findViewById(R.id.btnFlickrPhotos);
-        if(options.getImageSet()==FLICKR_IMAGE_SET) {
-            button.setEnabled(true);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    launchPhotoGalleryActivity();
-                }
-            });
-        }else{//Cannot select Flickr button if the flickr image set is not active
-            button.setEnabled(false);
-        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchPhotoGalleryActivity();
+            }
+        });
     }
 
     private void updateFlickrAmountText(){
         //Turn on Flickr mode to see/change the number of flickr images.
         TextView currentFlickrPhotoCount = findViewById(R.id.txt_flickr_number);
         //The user is only allowed to see/set Flickr images if the Flickr image set is selected
-        if(options.getImageSet() == FLICKR_IMAGE_SET){
+        if(radioButtonList.get(FLICKR_IMAGE_SET).isChecked()){
 
             String flickrPhotoCountText;
             //Get the number of currently selected things; that will be displayed
-            int currentFlickrPhotos = options.getNumImagesInImageSet();
+            int currentFlickrPhotos = options.getNumFlickrImages();
             if (areThereEnoughFlickImages(currentFlickrPhotos)) {
                 flickrPhotoCountText = String.format(getString(
                         R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);

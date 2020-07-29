@@ -1,9 +1,7 @@
 package ca.cmpt276.prj.model;
 
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +37,7 @@ public class Deck {
 		this.order = opt.getOrder();
 		this.isWordMode = opt.isWordMode();
 		this.deckSize = opt.getDeckSize();
-		this.numImagesInImageSet = opt.getNumImagesInImageSet();
+		this.numImagesInImageSet = opt.getNumFlickrImages();
 
 		this.numImagesPerCard = order + 1;
 		// Total number of cards is images^2 - images + 1
