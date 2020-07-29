@@ -38,6 +38,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Card;
+import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ImageNameMatrix;
@@ -84,13 +85,15 @@ public class GameActivity extends AppCompatActivity {
 	}
 
 	private void initGame() {
+		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
+		options = OptionSet.getInstance();
+
 		discPileButtons = new ArrayList<>();
 		drawPileButtons = new ArrayList<>();
 		allButtons = new ArrayList<>();
 		buttonCount = 0;
 
 		scoreManager = ScoreManager.getInstance();
-		options = OptionSet.getInstance();
 		imageSet = options.getImageSet();
 		imageSetPrefix = options.getImageSetPrefix();
 		imageNames = ImageNameMatrix.getInstance();
@@ -224,8 +227,8 @@ public class GameActivity extends AppCompatActivity {
 							getPackageName());
 					button.setBackgroundResource(resourceID);
 				} else {
-					// TODO: get downloaded image from flickr here
-					File imageFile = new File(this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + resourcePrefix + imageNum + JPG_EXTENSION);
+					String pathName = this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + imageNum + JPG_EXTENSION;
+                    File imageFile = new File(pathName);
 					Picasso.get().load(imageFile).into(button);
 				}
 			} else {
@@ -434,5 +437,4 @@ public class GameActivity extends AppCompatActivity {
 
 		}
 	}
-
 }

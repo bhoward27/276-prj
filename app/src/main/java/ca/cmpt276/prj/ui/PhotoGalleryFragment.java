@@ -46,7 +46,6 @@ import ca.cmpt276.prj.model.ThumbnailDownloader;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
  * This activity loads Flickr images (from the internet) into a RecyclerView.
@@ -59,9 +58,6 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class PhotoGalleryFragment extends Fragment {
 	private static final String TAG = "PhotoGalleryFragment";
-
-	public static final String FLICKR_PREFIX = "c";
-	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
 
 	private RecyclerView mPhotoRecyclerView;
 	private OptionSet options;
@@ -108,6 +104,8 @@ public class PhotoGalleryFragment extends Fragment {
 
 		mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
 		mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+		Toast.makeText(mContext, getString(R.string.txt_please_wait), Toast.LENGTH_LONG).show();
 
 		setupAdapter();
 
@@ -193,6 +191,8 @@ public class PhotoGalleryFragment extends Fragment {
 					fileName);
 			if (myImageFile.delete()) {
 				options.removePossibleFlickrImageNames(fileName);
+				Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
+						Toast.LENGTH_SHORT).show();
 				Log.d("deleteImage", "image on the disk deleted successfully!");
 			}
 		}
@@ -265,7 +265,7 @@ public class PhotoGalleryFragment extends Fragment {
 		@Override
 		public void onBindViewHolder(PhotoHolder photoHolder, int position) {
 			GalleryItem galleryItem = mGalleryItems.get(position);
-			Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
+			Drawable placeholder = getResources().getDrawable(R.drawable.placeholder, null);
 			photoHolder.bindDrawable(placeholder);
 			photoHolder.mCheckBox.setChecked(checkedItems.get(position));
 			mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
@@ -307,10 +307,8 @@ public class PhotoGalleryFragment extends Fragment {
 	//
 	// citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
 	private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
-		Log.d("picassoImageTarget", " picassoImageTarget");
 		ContextWrapper cw = new ContextWrapper(context);
 		final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-		targetList.clear();
 		targetList.add(0, new Target() {
 			@Override
 			public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
