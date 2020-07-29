@@ -5,6 +5,8 @@ import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
+
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 
@@ -21,6 +23,9 @@ public class EditImageSetActivity extends SingleFragmentActivity {
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
         setTitle(getString(R.string.title_flickr_imageset_editor));
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_flickr_imageset_editor));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

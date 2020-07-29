@@ -3,12 +3,14 @@ package ca.cmpt276.prj.ui;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import java.io.File;
 import java.util.Objects;
 
+import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.OptionSet;
 
@@ -23,6 +25,15 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 
 public class PhotoGalleryActivity extends SingleFragmentActivity {
 	OptionSet options;
+
+	@Override
+	protected void onCreate(Bundle saved) {
+		super.onCreate(saved);
+		setTitle(getString(R.string.title_flickr_imageset_editor));
+
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_photo_gallery_activity));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
 	@Override
 	protected Fragment createFragment() {
