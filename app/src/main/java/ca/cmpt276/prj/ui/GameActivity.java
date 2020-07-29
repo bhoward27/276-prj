@@ -57,383 +57,382 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  * Class for displaying the game to the player, including game over messages.
  */
 public class GameActivity extends AppCompatActivity {
-    private static final String TAG = "GameActivity";
+	private static final String TAG = "GameActivity";
 
-    List<PicButton> discPileButtons;
-    List<PicButton> drawPileButtons;
-    List<PicButton> allButtons;
-    int buttonCount;
-    int imageSet;
-    int numImagesPerCard;
+	List<PicButton> discPileButtons;
+	List<PicButton> drawPileButtons;
+	List<PicButton> allButtons;
+	int buttonCount;
+	int imageSet;
+	int numImagesPerCard;
 
-    ImageNameMatrix imageNames;
-    String imageSetPrefix;
-    ScoreManager scoreManager;
-    OptionSet options;
-    Game gameInstance;
-    String resourcePrefix;
-    Chronometer scoreTimer;
-    Resources globalResources;
+	ImageNameMatrix imageNames;
+	String imageSetPrefix;
+	ScoreManager scoreManager;
+	OptionSet options;
+	Game gameInstance;
+	String resourcePrefix;
+	Chronometer scoreTimer;
+	Resources globalResources;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        initGame();
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_game);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+		initGame();
+	}
 
-    private void initGame() {
-        discPileButtons = new ArrayList<>();
-        drawPileButtons = new ArrayList<>();
-        allButtons = new ArrayList<>();
-        buttonCount = 0;
+	private void initGame() {
+		discPileButtons = new ArrayList<>();
+		drawPileButtons = new ArrayList<>();
+		allButtons = new ArrayList<>();
+		buttonCount = 0;
 
-        scoreManager = ScoreManager.getInstance();
-        options = OptionSet.getInstance();
-        imageSet = options.getImageSet();
-        imageSetPrefix = options.getImageSetPrefix();
-        imageNames = ImageNameMatrix.getInstance();
-        resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-        globalResources = getResources();
-        numImagesPerCard = options.getOrder() + 1;
+		scoreManager = ScoreManager.getInstance();
+		options = OptionSet.getInstance();
+		imageSet = options.getImageSet();
+		imageSetPrefix = options.getImageSetPrefix();
+		imageNames = ImageNameMatrix.getInstance();
+		resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+		globalResources = getResources();
+		numImagesPerCard = options.getOrder() + 1;
 
-        if (options.getImageSet() == FLICKR_IMAGE_SET && options.isWordMode()) {
-            throw new Error("Flickr image set does not support word mode.");
-        }
+		if (options.getImageSet() == FLICKR_IMAGE_SET && options.isWordMode()) {
+			throw new Error("Flickr image set does not support word mode.");
+		}
 
-        gameInstance = new Game();
+		gameInstance = new Game();
 
-        updateRemainingCardsText();
-        setupButtons();
-        setupTimer();
-    }
+		updateRemainingCardsText();
+		setupButtons();
+		setupTimer();
+	}
 
-    private void setupTimer() {
-        scoreTimer = findViewById(R.id.chrnTimerForScoring);
-        scoreTimer.setBase(SystemClock.elapsedRealtime());
-        scoreTimer.start();
-    }
+	private void setupTimer() {
+		scoreTimer = findViewById(R.id.chrnTimerForScoring);
+		scoreTimer.setBase(SystemClock.elapsedRealtime());
+		scoreTimer.start();
+	}
 
-    private void setButtonParameters(PicButton button, boolean pile) {
-        button.setVisibility(View.VISIBLE);
-        button.setForegroundGravity(Gravity.CENTER);
-        button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
-        button.setAllCaps(false);
+	private void setButtonParameters(PicButton button, boolean pile) {
+		button.setVisibility(View.VISIBLE);
+		button.setForegroundGravity(Gravity.CENTER);
+		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
+		button.setAllCaps(false);
 
-        button.setTag(R.string.tag_btn_bg, button.getBackground());
-        button.setTag(R.string.tag_btn_key, pile);
-    }
+		button.setTag(R.string.tag_btn_bg, button.getBackground());
+		button.setTag(R.string.tag_btn_key, pile);
+	}
 
-    private void getButtons() {
-        RelativeLayout discCard = findViewById(R.id.lytDisc);
-        RelativeLayout drawCard = findViewById(R.id.lytDraw);
+	private void getButtons() {
+		RelativeLayout discCard = findViewById(R.id.lytDisc);
+		RelativeLayout drawCard = findViewById(R.id.lytDraw);
 
-        for (int i = 0; i < numImagesPerCard; i++) {
-            PicButton button = new PicButton(this);
-            setButtonParameters(button, DISCARD_PILE);
-            discCard.addView(button);
-            discPileButtons.add(button);
+		for (int i = 0; i < numImagesPerCard; i++) {
+			PicButton button = new PicButton(this);
+			setButtonParameters(button, DISCARD_PILE);
+			discCard.addView(button);
+			discPileButtons.add(button);
 
-            button = new PicButton(this);
-            setButtonParameters(button, DRAW_PILE);
-            drawCard.addView(button);
-            drawPileButtons.add(button);
-        }
+			button = new PicButton(this);
+			setButtonParameters(button, DRAW_PILE);
+			drawCard.addView(button);
+			drawPileButtons.add(button);
+		}
 
-        allButtons.addAll(discPileButtons);
-        allButtons.addAll(drawPileButtons);
-    }
+		allButtons.addAll(discPileButtons);
+		allButtons.addAll(drawPileButtons);
+	}
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void setupButtons() {
-        // Get global access to button ids
-        getButtons();
+	@SuppressLint("ClickableViewAccessibility")
+	public void setupButtons() {
+		// Get global access to button ids
+		getButtons();
 
-        generateRandomPositions();
-        // This function adds images and tags to the buttons
-        refreshButtons();
+		generateRandomPositions();
+		// This function adds images and tags to the buttons
+		refreshButtons();
 
-        for (PicButton button : drawPileButtons) {
-            button.setOnTouchListener((ignored, motionEvent) -> {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    tapUpdateGameState(button);
-                }
+		for (PicButton button : drawPileButtons) {
+			button.setOnTouchListener((ignored, motionEvent) -> {
+				if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+					tapUpdateGameState(button);
+				}
 
-                return false;
-            });
-        }
-    }
+				return false;
+			});
+		}
+	}
 
-    @SuppressLint("SetTextI18n")
-    private void updateRemainingCardsText() {
-        TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
-        if (gameInstance.getRemainingCards() < 4) {
-            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.green));
-        } else {
-            txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.black));
-        }
-        txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
-    }
+	@SuppressLint("SetTextI18n")
+	private void updateRemainingCardsText() {
+		TextView txtRemaining = findViewById(R.id.txtCardsRemaining);
+		if (gameInstance.getRemainingCards() < 4) {
+			txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.green));
+		} else {
+			txtRemaining.setTextColor(ContextCompat.getColor(GameActivity.this, R.color.black));
+		}
+		txtRemaining.setText(getString(R.string.txt_cards_remaining) + gameInstance.getRemainingCards());
+	}
 
-    private void refreshButtons() {
-        List<Integer> discPileImages = gameInstance.getDiscardPileImages();
-        List<Integer> drawPileImages = gameInstance.getDrawPileImages();
+	private void refreshButtons() {
+		List<Integer> discPileImages = gameInstance.getDiscardPileImages();
+		List<Integer> drawPileImages = gameInstance.getDrawPileImages();
 
-        Card currDiscardCard = gameInstance.getDeck().getTopDiscard();
-        Card currDrawCard = gameInstance.getDeck().getTopDraw();
+		Card currDiscardCard = gameInstance.getDeck().getTopDiscard();
+		Card currDrawCard = gameInstance.getDeck().getTopDraw();
 
-        for (PicButton button : allButtons) {
-            // this index is used for accessing the random number for this image out of all total images
-            // and also for getting the image for the button from the gameInstance piles
-            int index = allButtons.indexOf(button);
-            int modIndex = index % numImagesPerCard;
-            boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
+		for (PicButton button : allButtons) {
+			// this index is used for accessing the random number for this image out of all total images
+			// and also for getting the image for the button from the gameInstance piles
+			int index = allButtons.indexOf(button);
+			int modIndex = index % numImagesPerCard;
+			boolean pile = (boolean) button.getTag(R.string.tag_btn_key);
 
-            List<Integer> currPileImages;
-            Card currCard;
+			List<Integer> currPileImages;
+			Card currCard;
 
-            if (pile == DISCARD_PILE) {
-                currPileImages = discPileImages;
-                currCard = currDiscardCard;
-            } else {
-                currPileImages = drawPileImages;
-                currCard = currDrawCard;
-            }
+			if (pile == DISCARD_PILE) {
+				currPileImages = discPileImages;
+				currCard = currDiscardCard;
+			} else {
+				currPileImages = drawPileImages;
+				currCard = currDrawCard;
+			}
 
-            int imageNum = currPileImages.get(modIndex);
+			int imageNum = currPileImages.get(modIndex);
 
-            button.setTag(imageNum);
+			button.setTag(imageNum);
 
-            // set size & random position
-            RelativeLayout.LayoutParams buttonLayoutParams =
-                    (RelativeLayout.LayoutParams) button.getLayoutParams();
-            buttonLayoutParams.width = (int) Math.round(currCard.imageWidths.get(modIndex));
-            buttonLayoutParams.height = (int) Math.round(currCard.imageHeights.get(modIndex));
+			// set size & random position
+			RelativeLayout.LayoutParams buttonLayoutParams =
+					(RelativeLayout.LayoutParams) button.getLayoutParams();
+			buttonLayoutParams.width = (int) Math.round(currCard.imageWidths.get(modIndex));
+			buttonLayoutParams.height = (int) Math.round(currCard.imageHeights.get(modIndex));
 
-            buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
-            buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
+			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
 
-            // set the image or word
-            if (!currCard.isWord.get(modIndex)) {
-                // creates a string such as a_0 if the imageSet is 0 and imageNum is 0
-                button.setText("");
-                if (imageSet != FLICKR_IMAGE_SET) {
-                    String resourceName = resourcePrefix + imageNum;
-                    int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                            getPackageName());
-                    button.setBackgroundResource(resourceID);
-                } else {
-                    // TODO: get downloaded image from flickr here
-                    File imageFile = new File(this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + resourcePrefix + imageNum + JPG_EXTENSION);
-                    Picasso.get().load(imageFile).into(button);
-                }
-            } else {
-                button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
-                button.setText(imageNames.getName(imageSet, imageNum));
-            }
-        }
-    }
+			// set the image or word
+			if (!currCard.isWord.get(modIndex)) {
+				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
+				button.setText("");
+				if (imageSet != FLICKR_IMAGE_SET) {
+					String resourceName = resourcePrefix + imageNum;
+					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+							getPackageName());
+					button.setBackgroundResource(resourceID);
+				} else {
+					// TODO: get downloaded image from flickr here
+					File imageFile = new File(this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + resourcePrefix + imageNum + JPG_EXTENSION);
+					Picasso.get().load(imageFile).into(button);
+				}
+			} else {
+				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
+				button.setText(imageNames.getName(imageSet, imageNum));
+			}
+		}
+	}
 
-    private void generateRandomPositions() {
-        // START GETTING CARDVIEW WIDTH AND HEIGHT
-        int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
+	private void generateRandomPositions() {
+		// START GETTING CARDVIEW WIDTH AND HEIGHT
+		int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		int height = displayMetrics.heightPixels;
+		int width = displayMetrics.widthPixels;
 
-        TypedValue tv = new TypedValue();
+		TypedValue tv = new TypedValue();
 
-        // remove the action bar size from height: https://stackoverflow.com/a/13216807
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            height -= TypedValue.complexToDimensionPixelSize(tv.data, globalResources.getDisplayMetrics());
-        }
+		// remove the action bar size from height: https://stackoverflow.com/a/13216807
+		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+			height -= TypedValue.complexToDimensionPixelSize(tv.data, globalResources.getDisplayMetrics());
+		}
 
-        // remove status bar from height: https://gist.github.com/hamakn/8939eb68a920a6d7a498
-        int resourceId = globalResources.getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            height -= globalResources.getDimensionPixelSize(resourceId);
-        }
+		// remove status bar from height: https://gist.github.com/hamakn/8939eb68a920a6d7a498
+		int resourceId = globalResources.getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			height -= globalResources.getDimensionPixelSize(resourceId);
+		}
 
-        int cardWidth = width - cardViewMarginSize;
-        // percentage of height which is the cardview, and remove the margins
-        globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
-        int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-        int cardRatio = cardWidth / cardHeight;
-        // END GETTING CARDVIEW WIDTH AND HEIGHT
+		int cardWidth = width - cardViewMarginSize;
+		// percentage of height which is the cardview, and remove the margins
+		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
+		int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
+		int cardRatio = cardWidth / cardHeight;
+		// END GETTING CARDVIEW WIDTH AND HEIGHT
 
-        List<Card> allCards = gameInstance.getDeck().getAllCards();
-        for (Card c : allCards) {
-            List<Integer> imagesMap = c.getImagesMap();
-            for (int i : imagesMap) {
-                double w;
-                double h;
-                // regular, non-flickr image setup (can be dynamic width/height)
-                if (!c.isWord.get(imagesMap.indexOf(i)) && imageSet != FLICKR_IMAGE_SET) {
-                    Drawable image;
-                    String resourceName = resourcePrefix + i;
-                    int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-                            getPackageName());
-                    image = getDrawable(resourceID);
-                    double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
-                    if (ratio > cardRatio) { // if the image is wider than the card's ratio
-                        h = (double) cardHeight / Math.log(numImagesPerCard * 20);
-                        w = ratio * h;
-                    } else {
-                        w = (double) cardWidth / Math.log(numImagesPerCard * 20);
-                        h = (1.0 / ratio) * w;
-                    }
-                } else if (imageSet != FLICKR_IMAGE_SET) {
-                    // make word buttons slightly bigger
-                    w = cardWidth / Math.log(numImagesPerCard * 10);
-                    h = (double) w / 1.5;
-                } else {
-                    // make flickr buttons square
-                    w = cardWidth / Math.log(numImagesPerCard * 10);
-                    h = w;
+		List<Card> allCards = gameInstance.getDeck().getAllCards();
+		for (Card c : allCards) {
+			List<Integer> imagesMap = c.getImagesMap();
+			for (int i : imagesMap) {
+				double w;
+				double h;
+				// regular, non-flickr image setup (can be dynamic width/height)
+				if (!c.isWord.get(imagesMap.indexOf(i)) && imageSet != FLICKR_IMAGE_SET) {
+					Drawable image;
+					String resourceName = resourcePrefix + i;
+					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+							getPackageName());
+					image = getDrawable(resourceID);
+					double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+					if (ratio > cardRatio) { // if the image is wider than the card's ratio
+						h = (double) cardHeight / Math.log(numImagesPerCard * 20);
+						w = ratio * h;
+					} else {
+						w = (double) cardWidth / Math.log(numImagesPerCard * 20);
+						h = (1.0 / ratio) * w;
+					}
+				} else if (imageSet != FLICKR_IMAGE_SET) {
+					// make word buttons slightly bigger
+					w = cardWidth / Math.log(numImagesPerCard * 10);
+					h = (double) w / 1.5;
+				} else {
+					// make flickr buttons square
+					w = cardWidth / Math.log(numImagesPerCard * 10);
+					h = w;
 
-                }
+				}
 
-                c.imageWidths.add(w);
-                c.imageHeights.add(h);
-            }
-        }
+				c.imageWidths.add(w);
+				c.imageHeights.add(h);
+			}
+		}
 
-        // generate the random positions for the images on this card
-        GenRand rand = new GenRand();
-        for (Card c : allCards) {
-            rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-            c.leftMargins.addAll(rand.getXMargins());
-            c.topMargins.addAll(rand.getYMargins());
-        }
-    }
+		// generate the random positions for the images on this card
+		GenRand rand = new GenRand();
+		for (Card c : allCards) {
+			rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
+			c.leftMargins.addAll(rand.getXMargins());
+			c.topMargins.addAll(rand.getYMargins());
+		}
+	}
 
-    private void tapUpdateGameState(PicButton pressedButton) {
-        // If there was a match
-        if (gameInstance.tappedUpdateState((int) pressedButton.getTag())) {
-            if (!gameInstance.isGameOver()) {
-                // Then change the images and remove all overlays to signify no card being selected
+	private void tapUpdateGameState(PicButton pressedButton) {
+		// If there was a match
+		if (gameInstance.tappedUpdateState((int) pressedButton.getTag())) {
+			if (!gameInstance.isGameOver()) {
+				// Then change the images and remove all overlays to signify no card being selected
 
-                // Move index of random positions for card images
-                buttonCount += numImagesPerCard;
+				// Move index of random positions for card images
+				buttonCount += numImagesPerCard;
 
-                updateRemainingCardsText();
-                updateShadowsAndMargins();
-                refreshButtons();
-            } else {
-                finishGame();
-            }
-        }
-    }
+				updateRemainingCardsText();
+				updateShadowsAndMargins();
+				refreshButtons();
+			} else {
+				finishGame();
+			}
+		}
+	}
 
-    private void updateShadowsAndMargins() {
-        ConstraintLayout.LayoutParams discCardView =
-                (ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
-        ConstraintLayout.LayoutParams drawCardView =
-                (ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
+	private void updateShadowsAndMargins() {
+		ConstraintLayout.LayoutParams discCardView =
+				(ConstraintLayout.LayoutParams) findViewById(R.id.crdDiscPile).getLayoutParams();
+		ConstraintLayout.LayoutParams drawCardView =
+				(ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
-        int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins)
-                / options.getDeckSize();
+		int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins) / options.getDeckSize();
 
-        discCardView.leftMargin -= shiftAmt;
-        discCardView.topMargin -= shiftAmt;
-        discCardView.rightMargin += shiftAmt;
-        discCardView.bottomMargin += shiftAmt;
+		discCardView.leftMargin -= shiftAmt;
+		discCardView.topMargin -= shiftAmt;
+		discCardView.rightMargin += shiftAmt;
+		discCardView.bottomMargin += shiftAmt;
 
-        drawCardView.leftMargin += shiftAmt;
-        drawCardView.topMargin += shiftAmt;
-        drawCardView.rightMargin -= shiftAmt;
-        drawCardView.bottomMargin -= shiftAmt;
-    }
+		drawCardView.leftMargin += shiftAmt;
+		drawCardView.topMargin += shiftAmt;
+		drawCardView.rightMargin -= shiftAmt;
+		drawCardView.bottomMargin -= shiftAmt;
+	}
 
-    private void finishGame() {
-        scoreTimer.stop();
-        int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
-        int playerRank = scoreManager.addHighScore(options.getPlayerName(),
-                time);
-        congratulationsDialog(time, playerRank);
-    }
+	private void finishGame() {
+		scoreTimer.stop();
+		int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
+		int playerRank = scoreManager.addHighScore(options.getPlayerName(),
+				time);
+		congratulationsDialog(time, playerRank);
+	}
 
-    private void congratulationsDialog(int time, int playerRank) {
-        // Code adapted from Miguel @ https://stackoverflow.com/a/18898412
-        ImageView congratsImage = new ImageView(this);
-        int winImageID = globalResources.getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
-                "end", IMAGE_FOLDER_NAME, getPackageName());
-        congratsImage.setImageResource(winImageID);
-        congratsImage.setAdjustViewBounds(true);
-        congratsImage.setMaxHeight(400);
-        String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
-        if (playerRank != 0) {
-            winMessage += getString(R.string.txt_player_place, playerRank);
-        }
-        String returnAfterWinMessage = getString(R.string.btn_return_after_win);
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(this).
-                        setMessage(winMessage).
-                        setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
-                            this.finish();
-                            dialog.dismiss();
-                        }).
-                        setView(congratsImage);
+	private void congratulationsDialog(int time, int playerRank) {
+		// Code adapted from Miguel @ https://stackoverflow.com/a/18898412
+		ImageView congratsImage = new ImageView(this);
+		int winImageID = globalResources.getIdentifier(imageSetPrefix + RESOURCE_DIVIDER +
+				"end", IMAGE_FOLDER_NAME, getPackageName());
+		congratsImage.setImageResource(winImageID);
+		congratsImage.setAdjustViewBounds(true);
+		congratsImage.setMaxHeight(400);
+		String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
+		if (playerRank != 0) {
+			winMessage += getString(R.string.txt_player_place, playerRank);
+		}
+		String returnAfterWinMessage = getString(R.string.btn_return_after_win);
+		AlertDialog.Builder builder =
+				new AlertDialog.Builder(this).
+						setMessage(winMessage).
+						setPositiveButton(returnAfterWinMessage, (dialog, which) -> {
+							this.finish();
+							dialog.dismiss();
+						}).
+						setView(congratsImage);
 
-        Dialog alert = builder.create();
-        alert.show();
+		Dialog alert = builder.create();
+		alert.show();
 
-        // Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
-        // With the suggestion to place it after alert.show() adapted from Cerlin
-        // @ https://stackoverflow.com/a/43536704
-        TextView dialogMessages = alert.findViewById(android.R.id.message);
-        assert dialogMessages != null;
-        dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        dialogMessages.setTextSize(26);
-        dialogMessages.setGravity(Gravity.CENTER);
+		// Changing font to casual adapted from mikeswright49 @ https://stackoverflow.com/a/13052057
+		// With the suggestion to place it after alert.show() adapted from Cerlin
+		// @ https://stackoverflow.com/a/43536704
+		TextView dialogMessages = alert.findViewById(android.R.id.message);
+		assert dialogMessages != null;
+		dialogMessages.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+		dialogMessages.setTextSize(26);
+		dialogMessages.setGravity(Gravity.CENTER);
 
-        // Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
-        Button btnReturnToMainMenu = alert.findViewById(android.R.id.button1);
-        assert btnReturnToMainMenu != null;
-        btnReturnToMainMenu.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+		// Code adapted from DimitrisCBR @ https://stackoverflow.com/a/29912304
+		Button btnReturnToMainMenu = alert.findViewById(android.R.id.button1);
+		assert btnReturnToMainMenu != null;
+		btnReturnToMainMenu.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
 
-        // Don't let user touch outside dialog box after game finished
-        alert.setCanceledOnTouchOutside(false);
-        // Don't let back button exit back to game
-        alert.setCancelable(false);
-    }
+		// Don't let user touch outside dialog box after game finished
+		alert.setCanceledOnTouchOutside(false);
+		// Don't let back button exit back to game
+		alert.setCancelable(false);
+	}
 
-    @Override
-    public void onBackPressed() {
-        this.finish();
-    }
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
 
-    // Adapted from https://stackoverflow.com/a/29059132
-    public class PicButton extends androidx.appcompat.widget.AppCompatButton implements Target {
+	// Adapted from https://stackoverflow.com/a/29059132
+	public class PicButton extends androidx.appcompat.widget.AppCompatButton implements Target {
 
-        public PicButton(Context context) {
-            super(context);
-        }
+		public PicButton(Context context) {
+			super(context);
+		}
 
-        public PicButton(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
+		public PicButton(Context context, AttributeSet attrs) {
+			super(context, attrs);
+		}
 
-        public PicButton(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-        }
+		public PicButton(Context context, AttributeSet attrs, int defStyleAttr) {
+			super(context, attrs, defStyleAttr);
+		}
 
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            setBackgroundDrawable(new BitmapDrawable(globalResources, bitmap));
-        }
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			setBackgroundDrawable(new BitmapDrawable(globalResources, bitmap));
+		}
 
-        @Override
-        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            Log.e(TAG, "onBitmapFailed: ", e);
-        }
+		@Override
+		public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+			Log.e(TAG, "onBitmapFailed: ", e);
+		}
 
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-        }
-    }
+		}
+	}
 
 }

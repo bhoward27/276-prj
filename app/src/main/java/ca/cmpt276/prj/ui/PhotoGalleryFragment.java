@@ -58,308 +58,309 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 
 public class PhotoGalleryFragment extends Fragment {
-    private static final String TAG = "PhotoGalleryFragment";
+	private static final String TAG = "PhotoGalleryFragment";
 
-    public static final String FLICKR_PREFIX = "c";
-    public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
+	public static final String FLICKR_PREFIX = "c";
+	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
 
-    private RecyclerView mPhotoRecyclerView;
-    private OptionSet options;
-    private Context mContext;
-    private List<GalleryItem> mItems = new ArrayList<>();
-    private List<Target> targetList = new ArrayList<>();
-    private SparseBooleanArray checkedItems = new SparseBooleanArray();
-    private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
+	private RecyclerView mPhotoRecyclerView;
+	private OptionSet options;
+	private Context mContext;
+	private List<GalleryItem> mItems = new ArrayList<>();
+	private List<Target> targetList = new ArrayList<>();
+	private SparseBooleanArray checkedItems = new SparseBooleanArray();
+	private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
-    public static PhotoGalleryFragment newInstance() {
-        return new PhotoGalleryFragment();
-    }
+	public static PhotoGalleryFragment newInstance() {
+		return new PhotoGalleryFragment();
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        updateItems();
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+		setHasOptionsMenu(true);
+		updateItems();
 
-        options = OptionSet.getInstance();
-        mContext = getContext();
+		options = OptionSet.getInstance();
+		mContext = getContext();
 
-        Handler responseHandler = new Handler();
-        mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
-        mThumbnailDownloader.setThumbnailDownloadListener(
-                new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
-                    @Override
-                    public void onThumbnailDownloaded(PhotoHolder photoHolder, Bitmap bitmap) {
-                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        photoHolder.bindDrawable(drawable);
-                    }
-                }
-        );
-        mThumbnailDownloader.start();
-        mThumbnailDownloader.getLooper();
-        Log.i(TAG, "Background thread started");
-    }
+		Handler responseHandler = new Handler();
+		mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
+		mThumbnailDownloader.setThumbnailDownloadListener(
+				new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
+					@Override
+					public void onThumbnailDownloaded(PhotoHolder photoHolder, Bitmap bitmap) {
+						Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+						photoHolder.bindDrawable(drawable);
+					}
+				}
+		);
+		mThumbnailDownloader.start();
+		mThumbnailDownloader.getLooper();
+		Log.i(TAG, "Background thread started");
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
 
-        mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
-        mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+		mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
+		mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        setupAdapter();
+		setupAdapter();
 
-        return v;
-    }
+		return v;
+	}
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mThumbnailDownloader.clearQueue();
-    }
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mThumbnailDownloader.clearQueue();
+	}
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mThumbnailDownloader.quit();
-        Log.i(TAG, "Background thread destroyed");
-    }
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mThumbnailDownloader.quit();
+		Log.i(TAG, "Background thread destroyed");
+	}
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        super.onCreateOptionsMenu(menu, menuInflater);
-        menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+		super.onCreateOptionsMenu(menu, menuInflater);
+		menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
+		MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+		final SearchView searchView = (SearchView) searchItem.getActionView();
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Log.d(TAG, "QueryTextSubmit: " + s);
-                QueryPreferences.setStoredQuery(getActivity(), s);
-                updateItems();
-                return true;
-            }
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String s) {
+				Log.d(TAG, "QueryTextSubmit: " + s);
+				QueryPreferences.setStoredQuery(getActivity(), s);
+				updateItems();
+				return true;
+			}
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Log.d(TAG, "QueryTextChange: " + s);
-                return false;
-            }
-        });
+			@Override
+			public boolean onQueryTextChange(String s) {
+				Log.d(TAG, "QueryTextChange: " + s);
+				return false;
+			}
+		});
 
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String query = QueryPreferences.getStoredQuery(getActivity());
-                searchView.setQuery(query, false);
-            }
-        });
-    }
+		searchView.setOnSearchClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String query = QueryPreferences.getStoredQuery(getActivity());
+				searchView.setQuery(query, false);
+			}
+		});
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_clear:
-                QueryPreferences.setStoredQuery(getActivity(), null);
-                updateItems();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_item_clear:
+				QueryPreferences.setStoredQuery(getActivity(), null);
+				updateItems();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
-    private void updateItems() {
-        String query = QueryPreferences.getStoredQuery(getActivity());
-        new FetchItemsTask(query).execute();
-    }
+	private void updateItems() {
+		String query = QueryPreferences.getStoredQuery(getActivity());
+		new FetchItemsTask(query).execute();
+	}
 
-    private void setupAdapter() {
-        if (isAdded()) {
-            mPhotoRecyclerView.setAdapter(new PhotoAdapter(mItems));
-        }
-    }
+	private void setupAdapter() {
+		if (isAdded()) {
+			mPhotoRecyclerView.setAdapter(new PhotoAdapter(mItems));
+		}
+	}
 
-    // citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    public void deleteImage(int itemPosition) {
-        File directory = Objects.requireNonNull(getContext())
-                .getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
-        int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
-        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
-        if (numUserImages > 0) {
-            File myImageFile = new File(directory,
-                    fileName);
-            if (myImageFile.delete()) {
-                options.removePossibleFlickrImageNames(fileName);
-                Log.d("deleteImage","image on the disk deleted successfully!");
-            }
-        }
-    }
+	// citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
+	public void deleteImage(int itemPosition) {
+		File directory = Objects.requireNonNull(getContext())
+				.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+		int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
+		String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+		if (numUserImages > 0) {
+			File myImageFile = new File(directory,
+					fileName);
+			if (myImageFile.delete()) {
+				options.removePossibleFlickrImageNames(fileName);
+				Log.d("deleteImage", "image on the disk deleted successfully!");
+			}
+		}
+	}
 
-    public void saveImage(int itemPosition) {
-        GalleryItem item = mItems.get(itemPosition);
+	public void saveImage(int itemPosition) {
+		GalleryItem item = mItems.get(itemPosition);
 
-        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
-        //  What if the extension is .png for the image from Flickr? UH OH.
-        Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-                fileName,
-                item));
-    }
+		String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+		//  What if the extension is .png for the image from Flickr? UH OH.
+		Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
+				fileName,
+				item));
+	}
 
-    private class PhotoHolder extends RecyclerView.ViewHolder {
-        private ImageView mItemImageView;
-        public CheckBox mCheckBox;
+	private class PhotoHolder extends RecyclerView.ViewHolder {
+		private ImageView mItemImageView;
+		public CheckBox mCheckBox;
 
-        public PhotoHolder(View itemView) {
-            super(itemView);
+		public PhotoHolder(View itemView) {
+			super(itemView);
 
-            mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
-            mCheckBox = itemView.findViewById(R.id.checkBox);
-        }
+			mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
+			mCheckBox = itemView.findViewById(R.id.checkBox);
+		}
 
-        public void bindDrawable(Drawable drawable) {
-            mItemImageView.setImageDrawable(drawable);
-        }
+		public void bindDrawable(Drawable drawable) {
+			mItemImageView.setImageDrawable(drawable);
+		}
 
-    }
+	}
 
-    private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
+	private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
-        private List<GalleryItem> mGalleryItems;
+		private List<GalleryItem> mGalleryItems;
 
-        public PhotoAdapter(List<GalleryItem> galleryItems) {
-            mGalleryItems = galleryItems;
-        }
+		public PhotoAdapter(List<GalleryItem> galleryItems) {
+			mGalleryItems = galleryItems;
+		}
 
-        private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
+		private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				int itemPosition = mPhotoRecyclerView.getChildLayoutPosition(v);
 
-                // Save the image, mark the checkbox, and don't let user download the same image again
-                CheckBox cb = v.findViewById(R.id.checkBox);
-                checkedItems.put(itemPosition, !checkedItems.get(itemPosition));
+				// Save the image, mark the checkbox, and don't let user download the same image again
+				CheckBox cb = v.findViewById(R.id.checkBox);
+				checkedItems.put(itemPosition, !checkedItems.get(itemPosition));
 
-                if (checkedItems.get(itemPosition)) {
-                    cb.setChecked(true);
-                    saveImage(itemPosition);
-                } else {
-                    cb.setChecked(false);
-                    deleteImage(itemPosition);
-                }
+				if (checkedItems.get(itemPosition)) {
+					cb.setChecked(true);
+					saveImage(itemPosition);
+				} else {
+					cb.setChecked(false);
+					deleteImage(itemPosition);
+				}
 
-                //v.setOnClickListener(null);
-            }
-        };
+				//v.setOnClickListener(null);
+			}
+		};
 
-        @Override
-        public PhotoHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View view = inflater.inflate(R.layout.list_item_gallery, viewGroup, false);
-            view.setOnClickListener(mOnClickListener);
-            return new PhotoHolder(view);
-        }
+		@Override
+		public PhotoHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+			LayoutInflater inflater = LayoutInflater.from(getActivity());
+			View view = inflater.inflate(R.layout.list_item_gallery, viewGroup, false);
+			view.setOnClickListener(mOnClickListener);
+			return new PhotoHolder(view);
+		}
 
-        @Override
-        public void onBindViewHolder(PhotoHolder photoHolder, int position) {
-            GalleryItem galleryItem = mGalleryItems.get(position);
-            Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
-            photoHolder.bindDrawable(placeholder);
-            photoHolder.mCheckBox.setChecked(checkedItems.get(position));
-            mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
-        }
+		@Override
+		public void onBindViewHolder(PhotoHolder photoHolder, int position) {
+			GalleryItem galleryItem = mGalleryItems.get(position);
+			Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
+			photoHolder.bindDrawable(placeholder);
+			photoHolder.mCheckBox.setChecked(checkedItems.get(position));
+			mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
+		}
 
-        @Override
-        public int getItemCount() {
-            return mGalleryItems.size();
-        }
-    }
+		@Override
+		public int getItemCount() {
+			return mGalleryItems.size();
+		}
+	}
 
-    private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>> {
+	private class FetchItemsTask extends AsyncTask<Void, Void, List<GalleryItem>> {
 
-        private String mQuery;
+		private String mQuery;
 
-        public FetchItemsTask(String query) {
-            mQuery = query;
-        }
+		public FetchItemsTask(String query) {
+			mQuery = query;
+		}
 
-        @Override
-        protected List<GalleryItem> doInBackground(Void... params) {
+		@Override
+		protected List<GalleryItem> doInBackground(Void... params) {
 
-            if (mQuery == null) {
-                return new FlickrFetchr().fetchRecentPhotos();
-            } else {
-                return new FlickrFetchr().searchPhotos(mQuery);
-            }
-        }
+			if (mQuery == null) {
+				return new FlickrFetchr().fetchRecentPhotos();
+			} else {
+				return new FlickrFetchr().searchPhotos(mQuery);
+			}
+		}
 
-        @Override
-        protected void onPostExecute(List<GalleryItem> items) {
-            mItems = items;
-            setupAdapter();
-            checkedItems.clear();
-        }
+		@Override
+		protected void onPostExecute(List<GalleryItem> items) {
+			mItems = items;
+			setupAdapter();
+			checkedItems.clear();
+		}
 
-    }
+	}
 
-    //
-    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
-        Log.d("picassoImageTarget", " picassoImageTarget");
-        ContextWrapper cw = new ContextWrapper(context);
-        final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        targetList.clear();
-        targetList.add(0, new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(() -> {
-                    final File myImageFile = new File(directory, imageName); // Create image file
-                    FileOutputStream fos = null;
-                    int i = 0;
-                    int maxRetries = 3;
-                    while (true) {
-                        try {
-                            fos = new FileOutputStream(myImageFile);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            break;
-                        } catch (IOException e) {
-                            if (++i == maxRetries) Log.e(TAG, "IOException", e);
-                        } finally {
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "IOException", e);
-                            }
-                        }
-                    }
-                    options.addPossibleFlickrImageNames(imageName);
-                    Looper.prepare();
+	//
+	// citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
+	private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
+		Log.d("picassoImageTarget", " picassoImageTarget");
+		ContextWrapper cw = new ContextWrapper(context);
+		final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
+		targetList.clear();
+		targetList.add(0, new Target() {
+			@Override
+			public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+				new Thread(() -> {
+					final File myImageFile = new File(directory, imageName); // Create image file
+					FileOutputStream fos = null;
+					int i = 0;
+					int maxRetries = 3;
+					while (true) {
+						try {
+							fos = new FileOutputStream(myImageFile);
+							bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+							break;
+						} catch (IOException e) {
+							if (++i == maxRetries) Log.e(TAG, "IOException", e);
+						} finally {
+							try {
+								fos.close();
+							} catch (IOException e) {
+								Log.e(TAG, "IOException", e);
+							}
+						}
+					}
+					options.addPossibleFlickrImageNames(imageName);
+					Looper.prepare();
 
-                    // citation: https://stackoverflow.com/a/34970752
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
+					// citation: https://stackoverflow.com/a/34970752
+					new Handler(Looper.getMainLooper()).post(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
+									Toast.LENGTH_SHORT).show();
+						}
+					});
 
-                    Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
-                }).start();
-            }
+					Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
+				}).start();
+			}
 
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                Log.e(TAG, "onBitmapFailed: ");
-            }
+			@Override
+			public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+				Log.e(TAG, "onBitmapFailed: ");
+			}
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {}
-            }
-        });
-        return targetList.get(0);
-    }
+			@Override
+			public void onPrepareLoad(Drawable placeHolderDrawable) {
+				if (placeHolderDrawable != null) {
+				}
+			}
+		});
+		return targetList.get(0);
+	}
 }
