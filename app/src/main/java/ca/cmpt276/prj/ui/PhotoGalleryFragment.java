@@ -189,6 +189,8 @@ public class PhotoGalleryFragment extends Fragment {
 					fileName);
 			if (myImageFile.delete()) {
 				options.removePossibleFlickrImageNames(fileName);
+				Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
+						Toast.LENGTH_SHORT).show();
 				Log.d("deleteImage", "image on the disk deleted successfully!");
 			}
 		}

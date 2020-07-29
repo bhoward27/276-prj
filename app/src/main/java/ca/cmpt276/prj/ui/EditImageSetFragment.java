@@ -38,13 +38,10 @@ import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.FlickrFetchr;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.QueryPreferences;
-import ca.cmpt276.prj.model.ThumbnailDownloader;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_PREFIX;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
@@ -178,7 +175,9 @@ public class EditImageSetFragment extends Fragment {
                     fileName);
             if (myImageFile.delete()) {
                 options.removePossibleFlickrImageNames(fileName);
-                Log.d("deleteImage","image on the disk deleted successfully!");
+                Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
+                        Toast.LENGTH_SHORT).show();
+                Log.d("deleteImage", "image on the disk deleted successfully!");
             }
         }
     }
@@ -277,22 +276,22 @@ public class EditImageSetFragment extends Fragment {
         }
     }
 
-    private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>> {
+    private class FetchItemsTask extends AsyncTask<Void, Void, List<GalleryItem>> {
 
-        private String mQuery;
 
         public FetchItemsTask(String query) {
-            mQuery = query;
+
         }
 
         @Override
         protected List<GalleryItem> doInBackground(Void... params) {
 
-            if (mQuery == null) {
-                return new FlickrFetchr().fetchRecentPhotos();
-            } else {
-                return new FlickrFetchr().searchPhotos(mQuery);
+            List<GalleryItem> gItems = new ArrayList<>();
+            for (int i = 0; i < options.getNumFlickrImages(); i++) {
+                gItems.add(new GalleryItem());
             }
+
+            return gItems;
         }
 
         @Override
@@ -301,64 +300,5 @@ public class EditImageSetFragment extends Fragment {
             setupAdapter();
         }
 
-    }
-
-    //
-    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-    private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
-        Log.d("picassoImageTarget", " picassoImageTarget");
-        ContextWrapper cw = new ContextWrapper(context);
-        final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
-        targetList.clear();
-        targetList.add(0, new Target() {
-            @Override
-            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                new Thread(() -> {
-                    final File myImageFile = new File(directory, imageName); // Create image file
-                    FileOutputStream fos = null;
-                    int i = 0;
-                    int maxRetries = 3;
-                    while (true) {
-                        try {
-                            fos = new FileOutputStream(myImageFile);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            break;
-                        } catch (IOException e) {
-                            if (++i == maxRetries) Log.e(TAG, "IOException", e);
-                        } finally {
-                            try {
-                                fos.close();
-                            } catch (IOException e) {
-                                Log.e(TAG, "IOException", e);
-                            }
-                        }
-                    }
-                    options.addPossibleFlickrImageNames(imageName);
-                    Looper.prepare();
-
-                    // citation: https://stackoverflow.com/a/34970752
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(mContext, getString(R.string.txt_toast_downloaded, item.getUrl()),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    Log.i("image", "image saved to >>>" + myImageFile.getAbsolutePath());
-                }).start();
-            }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                Log.e(TAG, "onBitmapFailed: ");
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                if (placeHolderDrawable != null) {}
-            }
-        });
-        return targetList.get(0);
     }
 }
