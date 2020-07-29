@@ -9,12 +9,11 @@ import android.view.MenuItem;
 import java.io.File;
 import java.util.Objects;
 
+import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.OptionSet;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_NAME_PREFIX;
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 /**
  * This activity loads the Photo Gallery (Flickr) fragment.
@@ -65,28 +64,9 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
 			}
 	}
 
+	// Need to "rename images" before returning so that we have no images left in the "pending" folder
 	private void renameImages() {
-		File preDirectory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
-		File postDirectory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-		int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
-		if (numUserImages > 0) {
-			int index = Objects.requireNonNull(postDirectory.listFiles()).length;
-			for (String imageName : options.getPossibleFlickrImageNames()) {
-				File myImageFile = new File(preDirectory,
-						imageName);
-				File destRenamedFile = new File(postDirectory,
-						FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
-				if (myImageFile.renameTo(destRenamedFile)) {
-					Log.d("renameImage", "image " + imageName + " has been renamed to " +
-							FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
-					index++;
-				}
-			}
-			options.clearPossibleFlickrImageNames();
-		}
-		options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
+		FlickrFoldrImageRenamr.moveAndRenameTemp(this);
 	}
 
 }

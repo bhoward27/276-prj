@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -44,6 +45,7 @@ import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
+import static ca.cmpt276.prj.model.Constants.FLICKR_PREFIX;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
@@ -165,10 +167,12 @@ public class EditImageSetFragment extends Fragment {
 
     // citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
     public void deleteImage(int itemPosition) {
+
         File directory = Objects.requireNonNull(getContext())
-                .getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+                .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
-        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+        String fileName = mItems.get(itemPosition).getId();
+        Log.d(TAG, "filename: " + fileName);
         if (numUserImages > 0) {
             File myImageFile = new File(directory,
                     fileName);
@@ -198,6 +202,7 @@ public class EditImageSetFragment extends Fragment {
 
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
+        private List<PhotoHolder> mPhotoHolders = new ArrayList<>();
         private List<GalleryItem> mGalleryItems;
 
         public PhotoAdapter(List<GalleryItem> galleryItems) {
@@ -211,17 +216,23 @@ public class EditImageSetFragment extends Fragment {
 
                 // Save the image, mark the checkbox, and don't let user download the same image again
                 CheckBox cb = v.findViewById(R.id.checkBox);
-                checkedItems.put(itemPosition, !checkedItems.get(itemPosition));
 
-                if (checkedItems.get(itemPosition)) {
-                    cb.setChecked(true);
-                    //saveImage(itemPosition);
-                } else {
+                Drawable placeholder = getResources().getDrawable(R.drawable.placeholder, null);
+                File imageFile = new File("");
+
+                Picasso.get()
+                        .load(imageFile)
+                        .placeholder(placeholder)
+                        .error(placeholder)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .into(mPhotoHolders.get(itemPosition).mItemImageView);
+
+                if (!checkedItems.get(itemPosition)) {
                     cb.setChecked(false);
-                    //deleteImage(itemPosition);
+                    deleteImage(itemPosition);
                 }
 
-                //v.setOnClickListener(null);
+                checkedItems.put(itemPosition, true);
             }
         };
 
@@ -235,18 +246,29 @@ public class EditImageSetFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(PhotoHolder photoHolder, int position) {
+            mPhotoHolders.add(photoHolder);
+
             GalleryItem galleryItem = mGalleryItems.get(position);
-            Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
+            galleryItem.setId(FLICKR_PREFIX + RESOURCE_DIVIDER + position + JPG_EXTENSION);
+            mGalleryItems.set(position, galleryItem);
+            Drawable placeholder = getResources().getDrawable(R.drawable.placeholder, null);
             //photoHolder.bindDrawable(placeholder);
-            String pathName = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + position + JPG_EXTENSION;
-            Log.d(TAG, "file: " + pathName);
+            String pathName = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" +
+                    FLICKR_PREFIX + RESOURCE_DIVIDER + position + JPG_EXTENSION;
             File imageFile = new File(pathName);
+
             Picasso.get()
                     .load(imageFile)
                     .placeholder(placeholder)
                     .error(placeholder)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .into(photoHolder.mItemImageView);
-            photoHolder.mCheckBox.setChecked(checkedItems.get(position));
+
+            photoHolder.mCheckBox.setChecked(!checkedItems.get(position));
+        }
+
+        public PhotoHolder getPhotoHolder(int position) {
+            return mPhotoHolders.get(position);
         }
 
         @Override

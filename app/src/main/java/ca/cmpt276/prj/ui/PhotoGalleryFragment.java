@@ -261,7 +261,7 @@ public class PhotoGalleryFragment extends Fragment {
 		@Override
 		public void onBindViewHolder(PhotoHolder photoHolder, int position) {
 			GalleryItem galleryItem = mGalleryItems.get(position);
-			Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
+			Drawable placeholder = getResources().getDrawable(R.drawable.placeholder, null);
 			photoHolder.bindDrawable(placeholder);
 			photoHolder.mCheckBox.setChecked(checkedItems.get(position));
 			mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());

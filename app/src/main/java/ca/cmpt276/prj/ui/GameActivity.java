@@ -38,6 +38,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Card;
+import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ImageNameMatrix;
@@ -84,13 +85,14 @@ public class GameActivity extends AppCompatActivity {
 	}
 
 	private void initGame() {
+		options = OptionSet.getInstance();
+
 		discPileButtons = new ArrayList<>();
 		drawPileButtons = new ArrayList<>();
 		allButtons = new ArrayList<>();
 		buttonCount = 0;
 
 		scoreManager = ScoreManager.getInstance();
-		options = OptionSet.getInstance();
 		imageSet = options.getImageSet();
 		imageSetPrefix = options.getImageSetPrefix();
 		imageNames = ImageNameMatrix.getInstance();
