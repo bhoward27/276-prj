@@ -125,19 +125,13 @@ public class PhotoGalleryFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if(id == R.id.menu_item_save_photo) {
-            Intent intent = new Intent(MainMenuActivity.this.PhotoGalleryActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
         switch (item.getItemId()) {
             case R.id.menu_item_clear:
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
+                return true;
+            case R.id.menu_item_save_photo:
+                //Add the code
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -167,6 +161,7 @@ public class PhotoGalleryFragment extends Fragment {
         public void bindDrawable(Drawable drawable) {
             mItemImageView.setImageDrawable(drawable);
         }
+    }
 
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
 
@@ -195,7 +190,6 @@ public class PhotoGalleryFragment extends Fragment {
         public int getItemCount() {
             return mGalleryItems.size();
         }
-
     }
 
     private class FetchItemsTask extends AsyncTask<Void,Void,List<GalleryItem>> {

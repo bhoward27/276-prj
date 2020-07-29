@@ -1,6 +1,8 @@
 package ca.cmpt276.prj.ui;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -44,8 +46,11 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
         initOptionSet();
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_options_activity));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
         createRadioButton();
         setupEntryBox();

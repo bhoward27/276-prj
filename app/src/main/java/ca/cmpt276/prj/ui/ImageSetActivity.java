@@ -1,164 +1,113 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.GalleryItem;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import ca.cmpt276.prj.model.FlickrFetchr;
-import ca.cmpt276.prj.model.QueryPreferences;
-import ca.cmpt276.prj.model.ThumbnailDownloader;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.ImageSet;
 
 public class ImageSetActivity extends AppCompatActivity {
-    private static final String TAG = "Image Set";
+    RecyclerView recyclerView;
+    GalleryAdapter galleryAdapter;
+    List<String> images;
+    TextView image_number;
 
-    private RecyclerView mPhotoRecyclerView;
-    private List<GalleryItem> mItems = new ArrayList<>();
-    private ThumbnailDownloader<.PhotoHolder> mThumbnailDownloader;
+    private static final int MY_READ_PERMISSION_CODE=101;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
-
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-
-        Handler responseHandler = new Handler();
-        mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
-        mThumbnailDownloader.setThumbnailDownloadListener(
-                new ThumbnailDownloader.ThumbnailDownloadListener<PhotoGalleryFragment.PhotoHolder>() {
-                    @Override
-                    public void onThumbnailDownloaded(PhotoGalleryFragment.PhotoHolder photoHolder, Bitmap bitmap) {
-                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        photoHolder.bindDrawable(drawable);
-                    }
-                }
-        );
-        mThumbnailDownloader.start();
-        mThumbnailDownloader.getLooper();
-        Log.i(TAG, "Background thread started");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_image_set,menu);
+        return true;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
-
-        mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
-        mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-
-        setupAdapter();
-
-        return v;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.add_photos:
+                Intent intent = new Intent(ImageSetActivity.this,PhotoGalleryActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.delete_image:
+                //Need to add it.
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        super.onCreateOptionsMenu(menu, menuInflater);
-        menuInflater.inflate(R.menu.activity_image_set, menu);
-        MenuItem addItem = menu.add(R.id.add_photos);
-        MenuItem deleteItem = menu.removeItem(R.id.delete_image);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image_set);
 
-        int id = addItem.getItemId();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
 
-        if(id == R.id.add_photos) {
-            Intent intent = new Intent(MainMenuActivity.this.PhotoGalleryActivity.class);
-            startActivity(intent);
-            return true;
+        image_number = findViewById(R.id.image_number);
+        recyclerView = findViewById(R.id.recyclerview_gallery_images);
+
+        //check for permission
+        if(ContextCompat.checkSelfPermission(ImageSetActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(ImageSetActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_READ_PERMISSION_CODE);
+
+        }else{
+            loadImages();
         }
 
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                Log.d(TAG, "QueryTextSubmit: " + s);
-//                QueryPreferences.setStoredQuery(getActivity(), s);
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                Log.d(TAG, "QueryTextChange: " + s);
-//                return false;
-//            }
+    }
+
+    private void loadImages(){
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        images = ImageSet.listOfImages(this);
+        galleryAdapter = new GalleryAdapter(this, images, new GalleryAdapter.PhotoListener() {
+            @Override
+            public void onPhotoClick(String path) {
+                //Do something with photo
+                Toast.makeText(ImageSetActivity.this,""+path,Toast.LENGTH_SHORT).show();
+
+            }
         });
+        recyclerView.setAdapter(galleryAdapter);
+        image_number.setText("Image Set("+images.size()+")");
     }
 
-    private class PhotoHolder extends RecyclerView.ViewHolder {
-        private ImageView mItemImageView;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        public PhotoHolder(View itemView) {
-            super(itemView);
-
-            mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
-        }
-
-        public void bindDrawable(Drawable drawable) {
-            mItemImageView.setImageDrawable(drawable);
+        if(requestCode == MY_READ_PERMISSION_CODE){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Read external storage permission grand", Toast.LENGTH_SHORT).show();
+                loadImages();
+            }else{
+                Toast.makeText(this, "Read external storage permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
-
-    private class PhotoAdapter extends RecyclerView.Adapter<.PhotoHolder> {
-
-        private List<GalleryItem> mGalleryItems;
-//        private OnPhotoClickListener mlistener;
-
-//        public interface OnPhotoClickListener {
-//            void onPhotoClick(int position);
-//        }
-
-//        public void setOnPhotoClickListener(OnPhotoClickListener listener){
-//            mlistener = listener;
-//        }
-
-        public PhotoAdapter(List<GalleryItem> galleryItems) {
-            mGalleryItems = galleryItems;
-        }
-
-        @Override
-        public .PhotoHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View view = inflater.inflate(R.layout.list_item_gallery, viewGroup, false);
-            return new PhotoGalleryFragment.PhotoHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(.PhotoHolder photoHolder, int position) {
-            GalleryItem galleryItem = mGalleryItems.get(position);
-            Drawable placeholder = getResources().getDrawable(R.drawable.a_2);
-            photoHolder.bindDrawable(placeholder);
-            mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
-        }
-
-        @Override
-        public int getItemCount() {
-            return mGalleryItems.size();
-        }
-
-    }
-
 }

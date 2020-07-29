@@ -4,6 +4,7 @@
     package="ca.cmpt276.prj">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,7 @@
             android:parentActivityName=".ui.HelpActivity" />
         <activity
             android:name=".ui.HighScoresActivity"
+            android:label="@string/title_high_scores_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
@@ -29,35 +31,35 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_options_activity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HelpActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_help_activity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PhotoGalleryActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_photo_gallery_activity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ImageSetActivity"
+            android:label="@string/image_set"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:label="@string/title_image_set_activity"
             android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:label="@string/title_main_menu_activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SplashScreenActivity"
+            android:label="@string/title_main_menu_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>

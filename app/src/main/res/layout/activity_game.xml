@@ -8,14 +8,18 @@
     android:backgroundTint="@color/colorGreenFilter"
     tools:context=".ui.GameActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
     <Chronometer
         android:id="@+id/chrnTimerForScoring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:textColor="@color/orange"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/orange"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,12 +37,14 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <RelativeLayout
             android:id="@+id/lytDisc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" >
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -80,7 +86,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,8 +119,8 @@
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif"
         android:text="@string/txt_discard_pile"
-        android:textSize="20sp"
         android:textColor="@color/red"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 

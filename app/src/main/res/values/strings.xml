@@ -106,4 +106,7 @@
     <string name="add_photos">Add Photos</string>
     <string name="title_image_set_activity">Image Set</string>
     <string name="btn_flickr_image_set">Image Set</string>
+<!--    <string name="image_number" type="id">Image Number</string>-->
+<!--    <string name="recyclerview_gallery_images" type="id">Image Set</string>-->
+<!--    item-->
 </resources>
