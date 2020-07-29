@@ -74,7 +74,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
+    private boolean areThereEnoughFlickrImages(int currentFlickrPhotos) {
         // (Total number of cards is images^2 - images + 1) ==> number of total images
         int numImagesPerCard = options.getOrder() + 1;
         minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
@@ -107,10 +107,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
                 button.setOnClickListener(v -> {
                     // don't allow the user to play the game with not enough images
-                    if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
+                    if (areThereEnoughFlickrImages(options.getNumFlickrImages())) {
                         options.setImageSet(indexOfButton);
                     }else{
-                        Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.txt_flickr_reset_warning), Toast.LENGTH_LONG).show();
                     }
                     chck.setChecked(false);
                     chck.setEnabled(false);
@@ -229,9 +229,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 createDeckSizeSpinner();//Spinner for pile sizes might now change possible choices
                 updateFlickrAmountText();
 
-                if (!areThereEnoughFlickImages(options.getFlickrImageSetSize()) && options.getImageSet() == FLICKR_IMAGE_SET)  {
+                if (!areThereEnoughFlickrImages(options.getFlickrImageSetSize()) && options.getImageSet() == FLICKR_IMAGE_SET)  {
                     options.setImageSet(DEFAULT_IMAGE_SET);
-                    Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.txt_flickr_reset_warning), Toast.LENGTH_LONG).show();
                 }
 
                 //Change prefix of score identifier
@@ -319,7 +319,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             String flickrPhotoCountText;
             //Get the number of currently selected things; that will be displayed
             int currentFlickrPhotos = options.getNumFlickrImages();
-            if (areThereEnoughFlickImages(currentFlickrPhotos)) {
+            if (areThereEnoughFlickrImages(currentFlickrPhotos)) {
                 flickrPhotoCountText = String.format(getString(
                         R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);
                 currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
@@ -342,5 +342,13 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     private void launchPhotoGalleryActivity() {
         //Intent intent = ImageSetActivity.
         //startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        if(areThereEnoughFlickrImages(options.getFlickrImageSetSize())){
+            Toast.makeText(getApplicationContext(), getString(R.string.txt_left_options_with_flickr_photo_amount_not_okk), Toast.LENGTH_LONG).show();
+        }
+        super.onBackPressed();
+
     }
 }
