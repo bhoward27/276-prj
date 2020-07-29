@@ -88,21 +88,6 @@
         app:layout_constraintStart_toEndOf="@+id/img_3"
         app:layout_constraintTop_toBottomOf="@+id/btnOpenHelp" />
 
-    <Button
-        android:id="@+id/btnOpenPhotoGallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="6dp"
-        android:backgroundTint="@color/white"
-        android:fontFamily="sans-serif"
-        android:text="@string/btn_flickr_photo_gallery"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/img_4"
-        app:layout_constraintStart_toEndOf="@+id/img_3"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenOptions" />
-
     <ImageView
         android:id="@+id/img_1"
         android:layout_width="118dp"
@@ -173,12 +158,12 @@
         android:id="@+id/img_6"
         android:layout_width="118dp"
         android:layout_height="56dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="@string/img_sunrise_or_snake"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOpenPhotoGallery"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenOptions"
         app:srcCompat="@drawable/a_6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
