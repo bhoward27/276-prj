@@ -123,11 +123,8 @@ public class EditImageSetFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
         switch (item.getItemId()) {
-
             case R.id.menu_item_add:
-                Log.d(TAG, "onOptionsItemSelected: ");
                 Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
                 startActivity(intent);
                 return true;
@@ -168,7 +165,6 @@ public class EditImageSetFragment extends Fragment {
             if (myImageFile.delete()) {
                 Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
                         Toast.LENGTH_SHORT).show();
-                Log.d("deleteImage", "image on the disk deleted successfully!");
             }
         }
     }

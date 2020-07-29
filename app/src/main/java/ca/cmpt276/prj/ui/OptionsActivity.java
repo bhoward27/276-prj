@@ -143,7 +143,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			// don't let word mode be used if flickr is the imageset
-			Log.d("t", "imageSet: " + options.getImageSet());
 			if (options.getImageSet() != FLICKR_IMAGE_SET) {
 				options.setWordMode(isChecked);
 			} else {

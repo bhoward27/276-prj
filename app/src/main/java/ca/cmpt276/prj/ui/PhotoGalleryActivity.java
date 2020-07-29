@@ -70,7 +70,7 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
 		if (Objects.requireNonNull(directory.listFiles()).length > 0)
 			for (File file : Objects.requireNonNull(directory.listFiles())) {
 				if (file.delete()) {
-					Log.d("clearGarbageImages", "garbage image on the disk deleted successfully!");
+
 				}
 			}
 	}

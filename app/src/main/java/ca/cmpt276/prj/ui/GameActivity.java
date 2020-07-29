@@ -228,7 +228,6 @@ public class GameActivity extends AppCompatActivity {
 					button.setBackgroundResource(resourceID);
 				} else {
 					String pathName = this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + imageNum + JPG_EXTENSION;
-                    Log.d(TAG, "file: " + pathName);
                     File imageFile = new File(pathName);
 					Picasso.get().load(imageFile).into(button);
 				}

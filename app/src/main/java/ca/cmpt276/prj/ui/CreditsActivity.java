@@ -58,7 +58,6 @@ public class CreditsActivity extends AppCompatActivity {
 			//  This makes it so that when a hyperlink is tapped, it opens the link in a
 			//  web browser.
 			link.setMovementMethod(LinkMovementMethod.getInstance());
-			Log.d("test", "setupHyperlinks: " + link);
 		}
 	}
 

@@ -307,7 +307,6 @@ public class PhotoGalleryFragment extends Fragment {
 	//
 	// citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
 	private Target picassoImageTarget(Context context, final String imageName, GalleryItem item) {
-		Log.d("picassoImageTarget", " picassoImageTarget");
 		ContextWrapper cw = new ContextWrapper(context);
 		final File directory = cw.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE); // path to /data/data/yourapp/app_imageDir
 		targetList.add(0, new Target() {
