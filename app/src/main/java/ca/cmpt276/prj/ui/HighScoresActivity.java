@@ -24,6 +24,10 @@ import ca.cmpt276.prj.model.OptionSet;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
+/**
+ * Activity for showing the High Scores for a specific set of options in the game.
+ */
+
 public class HighScoresActivity extends AppCompatActivity {
 	ScoreManager scoreManager;
 	OptionSet options;
