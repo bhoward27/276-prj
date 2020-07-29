@@ -105,5 +105,5 @@
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
     <string name="txt_flickr_photo_amount_not_ok">(%d photos. need >= %d photos for Flickr set)</string>
     <string name="txt_flickr_photo_not_set">(Select Flickr Image Set to set/see photo count)</string>
-    <string name="txt_attempted_leave_with_flickr_photo_amount_not_ok">Please add more Flickr images to the set or switch image sets to leave.</string>
+    <string name="txt_attempted_leave_with_flickr_photo_amount_not_ok">Not Enough Flickr Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
 </resources>
