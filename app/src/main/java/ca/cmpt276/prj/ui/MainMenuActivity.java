@@ -25,6 +25,8 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionSet;
 
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET_PREFIX;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
@@ -77,9 +79,16 @@ public class MainMenuActivity extends AppCompatActivity {
 		String imageSetPrefix = options.getImageSetPrefix();
 
 		for (ImageView view : views) {
-			int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
-					+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
-			view.setImageResource(resourceID);
+			if (options.getImageSet() != FLICKR_IMAGE_SET) {
+				int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
+						+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
+				view.setImageResource(resourceID);
+			} else {
+				int resourceID = getResources().getIdentifier(DEFAULT_IMAGE_SET_PREFIX + RESOURCE_DIVIDER
+						+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
+				view.setImageResource(resourceID);
+			}
+
 		}
 	}
 
