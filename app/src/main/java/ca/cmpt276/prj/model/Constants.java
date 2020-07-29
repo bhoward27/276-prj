@@ -3,10 +3,11 @@ package ca.cmpt276.prj.model;
 import android.graphics.Color;
 
 /**
- *  Code for storing constants for use by other functions.
+ * Code for storing constants for use by other functions.
  */
 public final class Constants {
-	private Constants() { }
+	private Constants() {
+	}
 
 	public static final boolean DISCARD_PILE = true;
 	public static final boolean DRAW_PILE = false;
@@ -47,7 +48,7 @@ public final class Constants {
 			" when the Flickr image set is the current image set.";
 	//	Orders must appear in ascending order in the below array for binary search to work on
 	//	it.
-	public static final int[] SUPPORTED_ORDERS = { 2, 3, 5 };
+	public static final int[] SUPPORTED_ORDERS = {2, 3, 5};
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";

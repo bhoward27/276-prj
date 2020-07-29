@@ -31,14 +31,14 @@ public class ScoreManager {
 	//  Call instantiate on splash screen.
 	public static void instantiate(SharedPreferences prefs) {
 		if (instance == null) {
-		instance = new ScoreManager(prefs);
+			instance = new ScoreManager(prefs);
+		}
 	}
-}
 
 	//Assemble a string to identify scores by prepending it to their key
 	//This will change everytime the oeder and deck size from OptionsActivity changes.
-	public void setScorePrefix(int order, int deckSize){
-		scorePrefix = order + "_"+ deckSize + "_";
+	public void setScorePrefix(int order, int deckSize) {
+		scorePrefix = order + "_" + deckSize + "_";
 	}
 
 	private ScoreManager(SharedPreferences prefs) {
@@ -65,14 +65,14 @@ public class ScoreManager {
 		String formattedDate = formatter.format(date);
 
 		int position = NUM_HIGH_SCORES;
-		for (Score score : scores){
-			if (inputScore <= score.getTime()){
+		for (Score score : scores) {
+			if (inputScore <= score.getTime()) {
 				position = scores.indexOf(score);
 				break;
 			}
 		}
 
-		if (position >= NUM_HIGH_SCORES){
+		if (position >= NUM_HIGH_SCORES) {
 			return 0;
 		}
 
@@ -82,7 +82,7 @@ public class ScoreManager {
 
 		saveScores();
 
-		return position+1;
+		return position + 1;
 	}
 
 	//Parameters, chosen order and deckPileSize. Will then be compared to every existing list

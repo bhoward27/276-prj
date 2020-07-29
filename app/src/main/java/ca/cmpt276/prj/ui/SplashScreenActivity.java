@@ -28,85 +28,88 @@ import static ca.cmpt276.prj.model.Constants.PREFS;
  */
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private boolean skipButtonPressed = false;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+	private boolean skipButtonPressed = false;
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.txt_game_title_splash_screen));
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash_screen);
 
-        ScoreManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-        OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-        constructImageNameMatrix();
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.txt_game_title_splash_screen));
 
-        setUpAnimatedIntro();
-        setUpSkipButton();
-        beginAutoSkipTimer();
-    }
+		ScoreManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+		OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+		constructImageNameMatrix();
 
-    private void setUpAnimatedIntro(){
-        ImageView animatedMagnifyingGlass = findViewById(R.id.magnifyingGlass);
-        TextView animatedIntroTitle = findViewById(R.id.textIntroTitle);
-        Animation mangifyingGlassAnimation = AnimationUtils.loadAnimation(this, R.anim.magnifying_glass_animation);
-        Animation introTitleAnimation = AnimationUtils.loadAnimation(this, R.anim.title_text_animation);
-        animatedMagnifyingGlass.startAnimation(mangifyingGlassAnimation);
+		setUpAnimatedIntro();
+		setUpSkipButton();
+		beginAutoSkipTimer();
+	}
 
-        //Code to use setAnimationListener adapted from RightHandedMonkey @ https://stackoverflow.com/questions/5731019/android-animation-one-after-another
-        mangifyingGlassAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {}
+	private void setUpAnimatedIntro() {
+		ImageView animatedMagnifyingGlass = findViewById(R.id.magnifyingGlass);
+		TextView animatedIntroTitle = findViewById(R.id.textIntroTitle);
+		Animation mangifyingGlassAnimation = AnimationUtils.loadAnimation(this, R.anim.magnifying_glass_animation);
+		Animation introTitleAnimation = AnimationUtils.loadAnimation(this, R.anim.title_text_animation);
+		animatedMagnifyingGlass.startAnimation(mangifyingGlassAnimation);
 
-            @Override
-            public void onAnimationEnd(Animation currentAnimation) {//Wait until animatedMagnifyingGlass' animation is finished before animating animatedText.
-                animatedMagnifyingGlass.setImageResource(0);
-                animatedIntroTitle.startAnimation(introTitleAnimation);
-            }
+		//Code to use setAnimationListener adapted from RightHandedMonkey @ https://stackoverflow.com/questions/5731019/android-animation-one-after-another
+		mangifyingGlassAnimation.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
+			@Override
+			public void onAnimationEnd(Animation currentAnimation) {//Wait until animatedMagnifyingGlass' animation is finished before animating animatedText.
+				animatedMagnifyingGlass.setImageResource(0);
+				animatedIntroTitle.startAnimation(introTitleAnimation);
+			}
 
-    }
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+		});
 
-    private void beginAutoSkipTimer(){
-        new CountDownTimer(10000, 1000){
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if(skipButtonPressed) {
-                    cancel();
-                }
-            }
+	}
 
-            @Override
-            public void onFinish() {
-                    goToMainMenu();
-            }
-        }.start();
-    }
+	private void beginAutoSkipTimer() {
+		new CountDownTimer(10000, 1000) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+				if (skipButtonPressed) {
+					cancel();
+				}
+			}
 
-    private void setUpSkipButton() {
-        Button btnMainMenu = findViewById(R.id.btnMainMenu);
-        btnMainMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipButtonPressed = true;
-                goToMainMenu();
-            }
-        });
-    }
+			@Override
+			public void onFinish() {
+				goToMainMenu();
+			}
+		}.start();
+	}
 
-    private void goToMainMenu(){
-        Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
-        startActivity(intent);
-        // Once Splash Screen is left, pressing back button on Main Menu should NOT return to this
-        // activity; finish() ensures Splash Screen cannot be returned to during runtime.-
-        finish();
-    }
+	private void setUpSkipButton() {
+		Button btnMainMenu = findViewById(R.id.btnMainMenu);
+		btnMainMenu.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				skipButtonPressed = true;
+				goToMainMenu();
+			}
+		});
+	}
 
-    private void constructImageNameMatrix() {
-        String names[] = getResources().getStringArray(R.array.card_image_names);
-        ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
-        imageNames.setCardImageNames(names);
-    }
+	private void goToMainMenu() {
+		Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
+		startActivity(intent);
+		// Once Splash Screen is left, pressing back button on Main Menu should NOT return to this
+		// activity; finish() ensures Splash Screen cannot be returned to during runtime.-
+		finish();
+	}
+
+	private void constructImageNameMatrix() {
+		String names[] = getResources().getStringArray(R.array.card_image_names);
+		ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
+		imageNames.setCardImageNames(names);
+	}
 }

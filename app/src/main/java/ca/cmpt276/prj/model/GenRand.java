@@ -18,7 +18,8 @@ public class GenRand {
 	private List<Rect> allRects = new ArrayList<>();
 	private List<Rect> rectsAdded = new ArrayList<>();
 
-	public GenRand() { }
+	public GenRand() {
+	}
 
 	public List<Integer> getXMargins() {
 		return xMargins;
