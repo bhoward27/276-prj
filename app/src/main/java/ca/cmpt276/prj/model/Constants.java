@@ -16,6 +16,7 @@ public final class Constants {
 	public static final int MAX_NAME_LENGTH = 12;
 	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
+	public static final String PREFIX_PREF = "SCORE_PREFIX_PREF";
 	public static final String IMAGE_SET_PREFIX_PREF = "PICTURE_TYPES_PREFIX";
 	public static final String IMAGE_SET_NAME_PREF = "PICTURE_TYPES_NAME";
 	public static final String ORDER_PREF = "ORDER_PREF";

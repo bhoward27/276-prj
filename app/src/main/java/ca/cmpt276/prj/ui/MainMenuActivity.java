@@ -50,6 +50,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 		OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
 		options = OptionSet.getInstance();
+
 		initDeckSizeFlickr();
 
 		setUpImages();

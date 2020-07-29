@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
+import static ca.cmpt276.prj.model.Constants.PREFIX_PREF;
 import static ca.cmpt276.prj.model.Constants.SCORE_DATE_KEY_PREFIX;
 import static ca.cmpt276.prj.model.Constants.SCORE_NAME_KEY_PREFIX;
 import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
@@ -35,11 +36,6 @@ public class ScoreManager {
 		}
 	}
 
-	//Assemble a string to identify scores by prepending it to their key
-	//This will change everytime the oeder and deck size from OptionsActivity changes.
-	public void setScorePrefix(int order, int deckSize) {
-		scorePrefix = order + "_" + deckSize + "_";
-	}
 
 	private ScoreManager(SharedPreferences prefs) {
 		this.prefs = prefs;
@@ -48,14 +44,29 @@ public class ScoreManager {
 		//optionBasedScores = new ArrayList<>(0);
 		setDefaultScores();
 		loadScores();
+		loadScorePrefix();
 	}
-
 
 	public static ScoreManager getInstance() {
 		assertNotNull(instance);
 		return instance;
 	}
 	// End singleton setup
+
+	//Assemble a string to identify scores by prepending it to their key
+	//This will change everytime the oeder and deck size from OptionsActivity changes.
+	public void setScorePrefix(int order, int deckSize) {
+		scorePrefix = order + "_" + deckSize + "_";
+		SharedPreferences.Editor editPrefs = prefs.edit();
+
+		editPrefs.putString(PREFIX_PREF, scorePrefix);
+
+		editPrefs.apply();
+	}
+
+	private void loadScorePrefix() {
+		scorePrefix = prefs.getString(PREFIX_PREF, "");
+	}
 
 	public int addHighScore(String name, int inputScore) {
 		@SuppressLint("SimpleDateFormat")
