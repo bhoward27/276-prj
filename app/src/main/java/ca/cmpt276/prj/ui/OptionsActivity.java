@@ -339,14 +339,14 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         //Finally, call update
     }
 
-    @Override
-    public void onBackPressed() {
-        int flickrImages = options.getFlickrImageSetSize();
-        if (options.getImageSet() != FLICKR_IMAGE_SET || (options.getImageSet() == FLICKR_IMAGE_SET
-                && areThereEnoughFlickrImages(flickrImages))) {
-            super.onBackPressed();
-        } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        int flickrImages = options.getFlickrImageSetSize();
+//        if (options.getImageSet() != FLICKR_IMAGE_SET || (options.getImageSet() == FLICKR_IMAGE_SET
+//                && areThereEnoughFlickrImages(flickrImages))) {
+//            super.onBackPressed();
+//        } else {
+//            Toast.makeText(getApplicationContext(), getString(R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok), Toast.LENGTH_LONG).show();
+//        }
+//    }
 }
