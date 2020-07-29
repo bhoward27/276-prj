@@ -10,33 +10,33 @@ import java.util.List;
  * two cards have a matching image.
  */
 public class Card {
-    private List<Integer> imagesMap = new ArrayList<>();
-    public List<Integer> leftMargins = new ArrayList<>();
-    public List<Integer> topMargins = new ArrayList<>();
-    public List<Double> imageWidths = new ArrayList<>();
-    public List<Double> imageHeights = new ArrayList<>();
-    public List<Boolean> isWord = new ArrayList<>();
+	private List<Integer> imagesMap = new ArrayList<>();
+	public List<Integer> leftMargins = new ArrayList<>();
+	public List<Integer> topMargins = new ArrayList<>();
+	public List<Double> imageWidths = new ArrayList<>();
+	public List<Double> imageHeights = new ArrayList<>();
+	public List<Boolean> isWord = new ArrayList<>();
 
-    private int cardNum;
+	private int cardNum;
 
-    public Card(List<Integer> imageOrders, int num, List<Boolean> wordBools) {
-        this.cardNum = num;
+	public Card(List<Integer> imageOrders, int num, List<Boolean> wordBools) {
+		this.cardNum = num;
 
-        isWord.addAll(wordBools);
-        imagesMap.addAll(imageOrders);
-    }
+		isWord.addAll(wordBools);
+		imagesMap.addAll(imageOrders);
+	}
 
-    public int getCardNum() {
-        return cardNum;
-    }
+	public int getCardNum() {
+		return cardNum;
+	}
 
-    public List<Integer> getImagesMap() {
-        return imagesMap;
-    }
+	public List<Integer> getImagesMap() {
+		return imagesMap;
+	}
 
-    public Integer getImagesByIndex(int index) {
-        return imagesMap.get(index);
-    }
+	public Integer getImagesByIndex(int index) {
+		return imagesMap.get(index);
+	}
 
 }
 

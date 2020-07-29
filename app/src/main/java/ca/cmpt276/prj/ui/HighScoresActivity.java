@@ -46,7 +46,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_high_scores);
 
 		Objects.requireNonNull(getSupportActionBar())
-								.setTitle(getString(R.string.title_high_scores_activity));
+				.setTitle(getString(R.string.title_high_scores_activity));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		scoreManager = ScoreManager.getInstance();
@@ -67,7 +67,7 @@ public class HighScoresActivity extends AppCompatActivity {
 		currentDrawPileSize = options.getDeckSize();
 	}
 
-	private void printChosenOptions(){
+	private void printChosenOptions() {
 		TextView textCurrentOrder = findViewById(R.id.txt_order);
 		TextView textCurrentDrawPileSize = findViewById(R.id.txt_draw_pile_size);
 		String chosenOrder = getString(R.string.txt_selected_order, currentOrder);
@@ -76,7 +76,8 @@ public class HighScoresActivity extends AppCompatActivity {
 		textCurrentOrder.setText(chosenOrder);
 		textCurrentDrawPileSize.setText(chosenDrawPileSize);
 	}
-//String.format("%s%d",R.string.txt_selected_order, currentOrder))
+
+	//String.format("%s%d",R.string.txt_selected_order, currentOrder))
 	private void setupButtons() {
 		Button btnClearHighScores = findViewById(R.id.btnClearHighScores);
 		btnClearHighScores.setOnClickListener(view -> {
@@ -88,7 +89,8 @@ public class HighScoresActivity extends AppCompatActivity {
 	// Helper function for clicking on the list to not crash
 	private void registerClickCallback() {
 		ListView list = findViewById(R.id.lstvwScores);
-		list.setOnItemClickListener((parent, viewClicked, position, id) -> { });
+		list.setOnItemClickListener((parent, viewClicked, position, id) -> {
+		});
 	}
 
 	private void populateListView() {
@@ -119,27 +121,27 @@ public class HighScoresActivity extends AppCompatActivity {
 			String placementText;
 
 			// Assigns different colour to the current text according to its spot on the list.
-			switch(scoreRank){
+			switch (scoreRank) {
 				case 1:
 					// Code for setting the color adapted from yfsx and Vasily Kabunov
 					// @ https://stackoverflow.com/a/34487328
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this,
-																		R.color.gold));
+							R.color.gold));
 					placementText = getString(R.string.txt_first_rank);
 					break;
 				case 2:
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this,
-																		R.color.silver));
+							R.color.silver));
 					placementText = getString(R.string.txt_second_rank);
 					break;
 				case 3:
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this,
-																		R.color.bronze));
+							R.color.bronze));
 					placementText = getString(R.string.txt_third_rank);
 					break;
 				default:
 					scoreText.setTextColor(ContextCompat.getColor(HighScoresActivity.this,
-																		R.color.black));
+							R.color.black));
 					placementText = getString(R.string.txt_below_top_three_rank);
 			}
 

@@ -21,28 +21,28 @@ import ca.cmpt276.prj.R;
 
 public class HelpActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_help);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_help_activity));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setupCreditsButton();
-    }
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_help_activity));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setupCreditsButton();
+	}
 
-    private void setupCreditsButton() {
-        Button button = findViewById(R.id.btnCredits);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCreditsActivity();
-            }
-        });
-    }
+	private void setupCreditsButton() {
+		Button button = findViewById(R.id.btnCredits);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				launchCreditsActivity();
+			}
+		});
+	}
 
-    private void launchCreditsActivity() {
-        Intent intent = CreditsActivity.makeIntent(HelpActivity.this);
-        startActivity(intent);
-    }
+	private void launchCreditsActivity() {
+		Intent intent = CreditsActivity.makeIntent(HelpActivity.this);
+		startActivity(intent);
+	}
 }
