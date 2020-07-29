@@ -132,7 +132,10 @@ public class EditImageSetFragment extends Fragment {
                 startActivity(intent);
                 return true;
             case R.id.menu_item_clear_images:
-                QueryPreferences.setStoredQuery(getActivity(), null);
+                for (int i = 0; i < mItems.size(); i++) {
+                    deleteImage(i);
+                }
+                options.setFlickrImageSetSize(0);
                 updateItems();
                 return true;
             default:
@@ -158,12 +161,11 @@ public class EditImageSetFragment extends Fragment {
                 .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
         String fileName = mItems.get(itemPosition).getId();
-        Log.d(TAG, "filename: " + fileName);
+
         if (numUserImages > 0) {
             File myImageFile = new File(directory,
                     fileName);
             if (myImageFile.delete()) {
-                options.removePossibleFlickrImageNames(fileName);
                 Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
                         Toast.LENGTH_SHORT).show();
                 Log.d("deleteImage", "image on the disk deleted successfully!");
