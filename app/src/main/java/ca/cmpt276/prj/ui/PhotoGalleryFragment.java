@@ -105,6 +105,8 @@ public class PhotoGalleryFragment extends Fragment {
 		mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
 		mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
+		Toast.makeText(mContext, getString(R.string.txt_please_wait), Toast.LENGTH_LONG).show();
+
 		setupAdapter();
 
 		return v;

@@ -112,4 +112,5 @@
     <string name="txt_attempted_leave_with_flickr_photo_amount_not_ok">Not Enough Flickr Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
     <string name="clear_all">Clear All Images</string>
     <string name="add_flickr_image">Add Flickr Images</string>
+    <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
 </resources>

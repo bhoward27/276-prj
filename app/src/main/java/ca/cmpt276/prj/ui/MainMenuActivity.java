@@ -108,7 +108,7 @@ public class MainMenuActivity extends AppCompatActivity {
 			Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
 			startActivity(intent);
 		});
-		
+
 	}
 
 	@Override

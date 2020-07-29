@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionSet;
@@ -265,8 +266,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
 		String playerNamePref = options.getPlayerName();
 
-		Log.d("t", "playerNamePref: " + playerNamePref);
-		if (!playerNamePref.matches(playerNamePlaceholder)) {
+		// match the "regex"
+		String pattern = Pattern.quote(playerNamePlaceholder);
+
+		if (!playerNamePref.matches(pattern)) {
 			playerNameEntryBox.setText(playerNamePref);
 		}
 
