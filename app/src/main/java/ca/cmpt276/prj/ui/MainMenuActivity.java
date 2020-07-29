@@ -57,7 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void initDeckSizeFlickr() {
         File preDirectory = Objects.requireNonNull(getApplicationContext())
-                .getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
+                .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
         int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
         options.setFlickrImageSetSize(numUserImages);
     }

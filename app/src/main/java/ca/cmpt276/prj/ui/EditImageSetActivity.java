@@ -1,10 +1,10 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.fragment.app.Fragment;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.util.Objects;
@@ -22,13 +22,13 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
  * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
  */
 
-public class PhotoGalleryActivity extends SingleFragmentActivity {
+public class EditImageSetActivity extends SingleFragmentActivity {
     OptionSet options;
     @Override
     protected Fragment createFragment() {
         initFlickrSettings();
 
-        return PhotoGalleryFragment.newInstance();
+        return EditImageSetFragment.newInstance();
     }
 
     @Override

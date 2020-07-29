@@ -3,6 +3,7 @@ package ca.cmpt276.prj.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -336,7 +337,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void launchPhotoGalleryActivity() {
-        //Intent intent = ImageSetActivity.
-        //startActivity(intent);
+        Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
+        startActivity(intent);
     }
 }

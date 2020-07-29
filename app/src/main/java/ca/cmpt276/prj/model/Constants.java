@@ -53,4 +53,6 @@ public final class Constants {
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
 	public static final String FLICKR_PENDING_DIR = "flickr_pending_images";
 	public static final String JPG_EXTENSION = ".jpg";
+	public static final String FLICKR_PREFIX = "c";
+	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
 }

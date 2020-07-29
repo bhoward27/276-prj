@@ -8,12 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.appcompat.widget.SearchView;
-
 import android.os.Looper;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -26,6 +20,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -45,7 +44,9 @@ import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
  * This activity loads Flickr images (from the internet) into a RecyclerView.
@@ -56,8 +57,8 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
  */
 
 
-public class PhotoGalleryFragment extends Fragment {
-    private static final String TAG = "PhotoGalleryFragment";
+public class EditImageSetFragment extends Fragment {
+    private static final String TAG = "EditImageSetFragment";
 
     private RecyclerView mPhotoRecyclerView;
     private OptionSet options;
@@ -65,10 +66,9 @@ public class PhotoGalleryFragment extends Fragment {
     private List<GalleryItem> mItems = new ArrayList<>();
     private List<Target> targetList = new ArrayList<>();
     private SparseBooleanArray checkedItems = new SparseBooleanArray();
-    private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
-    public static PhotoGalleryFragment newInstance() {
-        return new PhotoGalleryFragment();
+    public static EditImageSetFragment newInstance() {
+        return new EditImageSetFragment();
     }
 
     @Override
@@ -81,19 +81,6 @@ public class PhotoGalleryFragment extends Fragment {
         options = OptionSet.getInstance();
         mContext = getContext();
 
-        Handler responseHandler = new Handler();
-        mThumbnailDownloader = new ThumbnailDownloader<>(responseHandler);
-        mThumbnailDownloader.setThumbnailDownloadListener(
-                new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
-                    @Override
-                    public void onThumbnailDownloaded(PhotoHolder photoHolder, Bitmap bitmap) {
-                        Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        photoHolder.bindDrawable(drawable);
-                    }
-                }
-        );
-        mThumbnailDownloader.start();
-        mThumbnailDownloader.getLooper();
         Log.i(TAG, "Background thread started");
     }
 
@@ -113,13 +100,11 @@ public class PhotoGalleryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mThumbnailDownloader.clearQueue();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mThumbnailDownloader.quit();
         Log.i(TAG, "Background thread destroyed");
     }
 
@@ -194,24 +179,14 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-    public void saveImage(int itemPosition) {
-        GalleryItem item = mItems.get(itemPosition);
-
-        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
-        //  What if the extension is .png for the image from Flickr? UH OH.
-        Picasso.get().load(item.getUrl()).into(picassoImageTarget(mContext,
-                fileName,
-                item));
-    }
-
     private class PhotoHolder extends RecyclerView.ViewHolder {
-        private ImageView mItemImageView;
+        public ImageView mItemImageView;
         public CheckBox mCheckBox;
 
         public PhotoHolder(View itemView) {
             super(itemView);
 
-            mItemImageView = (ImageView) itemView.findViewById(R.id.item_image_view);
+            mItemImageView = itemView.findViewById(R.id.item_image_view);
             mCheckBox = itemView.findViewById(R.id.checkBox);
         }
 
@@ -240,10 +215,10 @@ public class PhotoGalleryFragment extends Fragment {
 
                 if (checkedItems.get(itemPosition)) {
                     cb.setChecked(true);
-                    saveImage(itemPosition);
+                    //saveImage(itemPosition);
                 } else {
                     cb.setChecked(false);
-                    deleteImage(itemPosition);
+                    //deleteImage(itemPosition);
                 }
 
                 //v.setOnClickListener(null);
@@ -262,9 +237,15 @@ public class PhotoGalleryFragment extends Fragment {
         public void onBindViewHolder(PhotoHolder photoHolder, int position) {
             GalleryItem galleryItem = mGalleryItems.get(position);
             Drawable placeholder = getResources().getDrawable(R.drawable.a_2, null);
-            photoHolder.bindDrawable(placeholder);
+            //photoHolder.bindDrawable(placeholder);
+            String file = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + position + JPG_EXTENSION;
+            Log.d(TAG, "file: " + file);
+            Picasso.get()
+                    .load(file)
+                    .placeholder(placeholder)
+                    .error(placeholder)
+                    .into(photoHolder.mItemImageView);
             photoHolder.mCheckBox.setChecked(checkedItems.get(position));
-            mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
         }
 
         @Override
