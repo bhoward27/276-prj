@@ -55,12 +55,12 @@ public class MainMenuActivity extends AppCompatActivity {
 
 	}
 
-    private void initDeckSizeFlickr() {
-        File preDirectory = Objects.requireNonNull(getApplicationContext())
-                .getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-        int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
-        options.setFlickrImageSetSize(numUserImages);
-    }
+	private void initDeckSizeFlickr() {
+		File preDirectory = Objects.requireNonNull(getApplicationContext())
+				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
+		int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
+		options.setFlickrImageSetSize(numUserImages);
+	}
 
 	private void setUpImages() {//Images change depending on the currently selected deck in the Options screen
 		List<ImageView> views = new ArrayList<>();

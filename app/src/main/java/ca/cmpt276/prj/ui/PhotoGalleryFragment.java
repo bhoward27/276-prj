@@ -60,12 +60,12 @@ public class PhotoGalleryFragment extends Fragment {
 	private static final String TAG = "PhotoGalleryFragment";
 
 	private RecyclerView mPhotoRecyclerView;
-    private OptionSet options;
-    private Context mContext;
-    private List<GalleryItem> mItems = new ArrayList<>();
-    private List<Target> targetList = new ArrayList<>();
-    private SparseBooleanArray checkedItems = new SparseBooleanArray();
-    private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
+	private OptionSet options;
+	private Context mContext;
+	private List<GalleryItem> mItems = new ArrayList<>();
+	private List<Target> targetList = new ArrayList<>();
+	private SparseBooleanArray checkedItems = new SparseBooleanArray();
+	private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
 	public static PhotoGalleryFragment newInstance() {
 		return new PhotoGalleryFragment();

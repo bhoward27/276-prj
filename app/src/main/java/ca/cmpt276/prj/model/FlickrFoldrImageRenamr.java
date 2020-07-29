@@ -16,7 +16,8 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 public class FlickrFoldrImageRenamr {
-	private FlickrFoldrImageRenamr() {}
+	private FlickrFoldrImageRenamr() {
+	}
 
 	public static void moveAndRenameTemp(Context ctx) {
 		OptionSet options = OptionSet.getInstance();
@@ -33,7 +34,7 @@ public class FlickrFoldrImageRenamr {
 				File destRenamedFile = new File(postDirectory,
 						FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
 				if (myImageFile.renameTo(destRenamedFile)) {
-					Log.d("renameImage","image " + imageName + " has been renamed to " +
+					Log.d("renameImage", "image " + imageName + " has been renamed to " +
 							destRenamedFile);
 					index++;
 				}
@@ -56,8 +57,8 @@ public class FlickrFoldrImageRenamr {
 			File newFileName = new File(directory,
 					FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
 			if (fileName.renameTo(newFileName)) {
-				Log.d("renameImage","image " + fileName + " has been renamed to " +
-							newFileName);
+				Log.d("renameImage", "image " + fileName + " has been renamed to " +
+						newFileName);
 			}
 			index++;
 		}

@@ -19,47 +19,45 @@ import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 
 public class EditImageSetActivity extends SingleFragmentActivity {
 
-    @Override
-    protected void onCreate(Bundle saved) {
-        super.onCreate(saved);
-        setTitle(getString(R.string.title_flickr_imageset_editor));
+	@Override
+	protected void onCreate(Bundle saved) {
+		super.onCreate(saved);
+		setTitle(getString(R.string.title_flickr_imageset_editor));
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_flickr_imageset_editor));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_flickr_imageset_editor));
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
+	@Override
+	protected Fragment createFragment() {
+		initFlickrSettings();
 
+		return EditImageSetFragment.newInstance();
+	}
 
-    @Override
-    protected Fragment createFragment() {
-        initFlickrSettings();
+	@Override
+	public void onBackPressed() {
+		renameImages();
+		this.finish();
+	}
 
-        return EditImageSetFragment.newInstance();
-    }
+	// make action bar button behave like regular back button, for renaming images
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			onBackPressed();
+			return true;
+		}
+		return false;
+	}
 
-    @Override
-    public void onBackPressed() {
-        renameImages();
-        this.finish();
-    }
+	private void initFlickrSettings() {
+		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
+	}
 
-    // make action bar button behave like regular back button, for renaming images
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return false;
-    }
-
-    private void initFlickrSettings() {
-        FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
-    }
-
-    // Need to "rename images" before returning so that we have no images left in the "pending" folder
-    private void renameImages() {
-        FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
-    }
+	// Need to "rename images" before returning so that we have no images left in the "pending" folder
+	private void renameImages() {
+		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
+	}
 
 }
