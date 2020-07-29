@@ -2,6 +2,7 @@ package ca.cmpt276.prj.ui;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -110,38 +112,19 @@ public class EditImageSetFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.fragment_flickr_editor, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                Log.d(TAG, "QueryTextSubmit: " + s);
-                QueryPreferences.setStoredQuery(getActivity(), s);
-                updateItems();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                Log.d(TAG, "QueryTextChange: " + s);
-                return false;
-            }
-        });
-
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String query = QueryPreferences.getStoredQuery(getActivity());
-                searchView.setQuery(query, false);
-            }
-        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
         switch (item.getItemId()) {
-            case R.id.menu_item_clear:
+
+            case R.id.menu_item_add:
+                Log.d(TAG, "onOptionsItemSelected: ");
+                Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.menu_item_clear_images:
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
                 return true;

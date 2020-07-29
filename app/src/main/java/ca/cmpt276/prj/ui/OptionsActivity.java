@@ -320,6 +320,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 			String flickrPhotoCountText;
 			//Get the number of currently selected things; that will be displayed
 			int currentFlickrPhotos = options.getNumFlickrImages();
+
 			if (areThereEnoughFlickImages(currentFlickrPhotos)) {
 				flickrPhotoCountText = String.format(getString(
 						R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);

@@ -85,6 +85,7 @@ public class GameActivity extends AppCompatActivity {
 	}
 
 	private void initGame() {
+		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
 		options = OptionSet.getInstance();
 
 		discPileButtons = new ArrayList<>();
