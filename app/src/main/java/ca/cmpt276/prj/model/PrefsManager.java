@@ -2,6 +2,10 @@ package ca.cmpt276.prj.model;
 
 import android.content.SharedPreferences;
 
+/**
+ * This class slightly simplifies working with SharedPreferences, just specify a key and pref.
+ */
+
 public class PrefsManager {
 	SharedPreferences prefs;
 
