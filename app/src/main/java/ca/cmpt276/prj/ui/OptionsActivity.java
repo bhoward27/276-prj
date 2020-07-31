@@ -106,7 +106,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 				button.setOnClickListener(v -> {
 					// don't allow the user to play the game with not enough images
-					if (areThereEnoughFlickImages(optionsManager.getNumFlickrImages())) {
+					if (areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())) {
 						optionsManager.setImageSet(indexOfButton);
 					} else {
 						Toast.makeText(getApplicationContext(), getString(
@@ -234,6 +234,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 					Toast.makeText(getApplicationContext(), getString(
 							R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok),
 							Toast.LENGTH_LONG).show();
+				} else if (areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())
+						&& radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
+					optionsManager.setImageSet(FLICKR_IMAGE_SET);
 				}
 				break;
 			case R.id.spn_pile_size:
@@ -316,7 +319,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 			String flickrPhotoCountText;
 			// get the number of currently selected things; that will be displayed
-			int currentFlickrPhotos = optionsManager.getNumFlickrImages();
+			int currentFlickrPhotos = optionsManager.getFlickrImageSetSize();
 
 			if (areThereEnoughFlickImages(currentFlickrPhotos)) {
 				flickrPhotoCountText = String.format(getString(

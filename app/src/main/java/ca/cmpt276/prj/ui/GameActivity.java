@@ -10,13 +10,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -42,10 +41,10 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.Card;
-import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ImageNameMatrix;
+import ca.cmpt276.prj.model.LocalFiles;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
@@ -56,6 +55,8 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
+import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 /**
@@ -85,6 +86,7 @@ public class GameActivity extends AppCompatActivity {
 	String resourcePrefix;
 	Chronometer scoreTimer;
 	Resources globalResources;
+	LocalFiles localFiles;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +135,6 @@ public class GameActivity extends AppCompatActivity {
 	}
 
 	private void initGame() {
-		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
 		optionsManager = OptionsManager.getInstance();
 
 		discPileButtons = new ArrayList<>();
@@ -148,6 +149,9 @@ public class GameActivity extends AppCompatActivity {
 		resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 		globalResources = getResources();
 		numImagesPerCard = optionsManager.getOrder() + 1;
+
+		// TODO: get imageset directory from options
+		localFiles = new LocalFiles(this, FLICKR_SAVED_DIR);
 
 		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET && optionsManager.isWordMode()) {
 			throw new Error("Flickr image set does not support word mode.");
@@ -275,9 +279,7 @@ public class GameActivity extends AppCompatActivity {
 							getPackageName());
 					button.setBackgroundResource(resourceID);
 				} else {
-					String pathName = this.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" + "c_" + imageNum + JPG_EXTENSION;
-                    File imageFile = new File(pathName);
-					Picasso.get().load(imageFile).into(button);
+					Picasso.get().load(localFiles.getFile(imageNum)).into(button);
 				}
 			} else {
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
@@ -321,13 +323,23 @@ public class GameActivity extends AppCompatActivity {
 				double w;
 				double h;
 				// regular, non-flickr image setup (can be dynamic width/height)
-				if (!c.isWord.get(imagesMap.indexOf(i)) && imageSet != FLICKR_IMAGE_SET) {
-					Drawable image;
-					String resourceName = resourcePrefix + i;
-					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-							getPackageName());
-					image = getDrawable(resourceID);
-					double ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+				if (!c.isWord.get(imagesMap.indexOf(i))) {
+					double ratio;
+					if (optionsManager.getImageSet() == LANDSCAPE_IMAGE_SET || optionsManager.getImageSet() == PREDATOR_IMAGE_SET) {
+						Drawable image;
+						String resourceName = resourcePrefix + i;
+						int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+								getPackageName());
+						image = getDrawable(resourceID);
+						ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+					} else {
+						File image = localFiles.getFile(i);
+						BitmapFactory.Options options = new BitmapFactory.Options();
+						options.inJustDecodeBounds = true;
+						BitmapFactory.decodeFile(image.getAbsolutePath(), options);
+						ratio = (double) options.outWidth / options.outHeight;
+					}
+
 					if (ratio > cardRatio) { // if the image is wider than the card's ratio
 						h = (double) cardHeight / Math.log(numImagesPerCard * 20);
 						w = ratio * h;
@@ -335,15 +347,10 @@ public class GameActivity extends AppCompatActivity {
 						w = (double) cardWidth / Math.log(numImagesPerCard * 20);
 						h = (1.0 / ratio) * w;
 					}
-				} else if (imageSet != FLICKR_IMAGE_SET) {
+				} else {
 					// make word buttons slightly bigger
 					w = cardWidth / Math.log(numImagesPerCard * 10);
 					h = (double) w / 1.5;
-				} else {
-					// make flickr buttons square
-					w = cardWidth / Math.log(numImagesPerCard * 10);
-					h = w;
-
 				}
 
 				c.imageWidths.add(w);
@@ -375,7 +382,7 @@ public class GameActivity extends AppCompatActivity {
 			} else {
 				finishGame();
 			}
-		}else{
+		} else {
 			playSound(GameSoundEffects.INCORRECT_CHOICE);
 		}
 	}
