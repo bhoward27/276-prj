@@ -45,7 +45,6 @@ public final class Constants {
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
-	public static final String FLICKR_PENDING_DIR = "flickr_pending_images";
 	public static final String JPG_EXTENSION = ".jpg";
 	public static final String FLICKR_PREFIX = "c";
 	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;

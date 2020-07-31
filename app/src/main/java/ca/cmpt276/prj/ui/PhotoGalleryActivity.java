@@ -10,11 +10,7 @@ import java.io.File;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.OptionsManager;
-
-import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 
 /**
  * This activity loads the Photo Gallery (Flickr) fragment.
@@ -23,8 +19,6 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
  */
 
 public class PhotoGalleryActivity extends SingleFragmentActivity {
-	OptionsManager optionsManager;
-
 	@Override
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
@@ -36,14 +30,11 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
-		initFlickrSettings();
-
 		return PhotoGalleryFragment.newInstance();
 	}
 
 	@Override
 	public void onBackPressed() {
-		renameImages();
 		this.finish();
 	}
 
@@ -56,27 +47,4 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
 		}
 		return false;
 	}
-
-	private void initFlickrSettings() {
-		optionsManager = OptionsManager.getInstance();
-		File directory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-		optionsManager.setFlickrImageSetSize(Objects.requireNonNull(directory.listFiles()).length);
-
-		// also clear garbage out of pending dir, possible if app crashed
-		directory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
-		if (Objects.requireNonNull(directory.listFiles()).length > 0)
-			for (File file : Objects.requireNonNull(directory.listFiles())) {
-				if (file.delete()) {
-
-				}
-			}
-	}
-
-	// Need to "rename images" before returning so that we have no images left in the "pending" folder
-	private void renameImages() {
-		FlickrFoldrImageRenamr.moveAndRenameTemp(this);
-	}
-
 }
