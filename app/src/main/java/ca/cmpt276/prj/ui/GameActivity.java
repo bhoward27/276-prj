@@ -13,6 +13,10 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -42,7 +46,7 @@ import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ImageNameMatrix;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -59,6 +63,12 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
  */
 public class GameActivity extends AppCompatActivity {
 	private static final String TAG = "GameActivity";
+	private SoundPool soundPool;
+	private int startGameSound, winSound, winHighScoreSound, correctChoiceSound, incorrectChoiceSound;
+
+	public enum GameSoundEffects{
+		BEGIN_GAME, WIN, WIN_WITH_HIGH_SCORE, CORRECT_CHOICE, INCORRECT_CHOICE
+	}
 
 	List<PicButton> discPileButtons;
 	List<PicButton> drawPileButtons;
@@ -70,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
 	ImageNameMatrix imageNames;
 	String imageSetPrefix;
 	ScoreManager scoreManager;
-	OptionSet options;
+	OptionsManager optionsManager;
 	Game gameInstance;
 	String resourcePrefix;
 	Chronometer scoreTimer;
@@ -81,12 +91,50 @@ public class GameActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-		initGame();
+
+
+			// Code for playing songs via soundpool adapted from Coding In Flow
+			// @ https://www.youtube.com/watch?v=fIWPSni7kUk&t=347s
+			// This includes playSound(), onDestroy(), and use of AudioAttributes/SoundPool
+
+			AudioAttributes audioAttributes = new AudioAttributes.Builder()
+					.setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+					.setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+					.build();
+
+			soundPool = new SoundPool.Builder()
+					.setMaxStreams(5)
+							.setAudioAttributes(audioAttributes)
+							.build();
+
+		loadSounds();
+
+		// without waiting for startGameSound to load, it will not play when the game starts.
+		// therefore, setOnLoadCompleteListener is used to ensure that the game starts when
+		// startGameSound is loaded and startGameSound plays.
+		// code NOT from Coding In Flow; instead adapted from Jason and BT643
+		// @https://stackoverflow.com/a/3908804
+		soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+			@Override
+			public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+				if(sampleId == startGameSound && status == 0) {
+					initGame();
+				}
+			}
+		});
+	}
+
+	private void loadSounds(){
+		startGameSound = soundPool.load(this, R.raw.startgame, 1);
+		winSound = soundPool.load(this, R.raw.win,1);
+		winHighScoreSound = soundPool.load(this, R.raw.winhighscore,1);
+		correctChoiceSound = soundPool.load(this, R.raw.correct,1);
+		incorrectChoiceSound = soundPool.load(this, R.raw.incorrect,1);
 	}
 
 	private void initGame() {
 		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
-		options = OptionSet.getInstance();
+		optionsManager = OptionsManager.getInstance();
 
 		discPileButtons = new ArrayList<>();
 		drawPileButtons = new ArrayList<>();
@@ -94,19 +142,19 @@ public class GameActivity extends AppCompatActivity {
 		buttonCount = 0;
 
 		scoreManager = ScoreManager.getInstance();
-		imageSet = options.getImageSet();
-		imageSetPrefix = options.getImageSetPrefix();
+		imageSet = optionsManager.getImageSet();
+		imageSetPrefix = optionsManager.getImageSetPrefix();
 		imageNames = ImageNameMatrix.getInstance();
 		resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 		globalResources = getResources();
-		numImagesPerCard = options.getOrder() + 1;
+		numImagesPerCard = optionsManager.getOrder() + 1;
 
-		if (options.getImageSet() == FLICKR_IMAGE_SET && options.isWordMode()) {
+		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET && optionsManager.isWordMode()) {
 			throw new Error("Flickr image set does not support word mode.");
 		}
 
 		gameInstance = new Game();
-
+		playSound(GameSoundEffects.BEGIN_GAME);
 		updateRemainingCardsText();
 		setupButtons();
 		setupTimer();
@@ -320,13 +368,15 @@ public class GameActivity extends AppCompatActivity {
 
 				// Move index of random positions for card images
 				buttonCount += numImagesPerCard;
-
+				playSound(GameSoundEffects.CORRECT_CHOICE);
 				updateRemainingCardsText();
 				updateShadowsAndMargins();
 				refreshButtons();
 			} else {
 				finishGame();
 			}
+		}else{
+			playSound(GameSoundEffects.INCORRECT_CHOICE);
 		}
 	}
 
@@ -336,7 +386,7 @@ public class GameActivity extends AppCompatActivity {
 		ConstraintLayout.LayoutParams drawCardView =
 				(ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
-		int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins) / options.getDeckSize();
+		int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins) / optionsManager.getDeckSize();
 
 		discCardView.leftMargin -= shiftAmt;
 		discCardView.topMargin -= shiftAmt;
@@ -352,7 +402,7 @@ public class GameActivity extends AppCompatActivity {
 	private void finishGame() {
 		scoreTimer.stop();
 		int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
-		int playerRank = scoreManager.addHighScore(options.getPlayerName(),
+		int playerRank = scoreManager.addHighScore(optionsManager.getPlayerName(),
 				time);
 		congratulationsDialog(time, playerRank);
 	}
@@ -366,9 +416,13 @@ public class GameActivity extends AppCompatActivity {
 		congratsImage.setAdjustViewBounds(true);
 		congratsImage.setMaxHeight(400);
 		String winMessage = getString(R.string.txt_win_message, Score.getFormattedTime(time));
-		if (playerRank != 0) {
+		if (playerRank != 0) {// different win sound depending on if player got a high score
 			winMessage += getString(R.string.txt_player_place, playerRank);
+			playSound(GameSoundEffects.WIN_WITH_HIGH_SCORE);
+		}else{
+			playSound(GameSoundEffects.WIN);
 		}
+
 		String returnAfterWinMessage = getString(R.string.btn_return_after_win);
 		AlertDialog.Builder builder =
 				new AlertDialog.Builder(this).
@@ -437,4 +491,32 @@ public class GameActivity extends AppCompatActivity {
 
 		}
 	}
+
+	public void playSound(GameSoundEffects soundEffect){
+		switch(soundEffect){
+			case BEGIN_GAME:
+				soundPool.play(startGameSound, 1, 1, 0, 0, 1);
+				break;
+			case CORRECT_CHOICE:
+				soundPool.play(correctChoiceSound, 1, 1, 0, 0, 1);
+				break;
+			case INCORRECT_CHOICE:
+				soundPool.play(incorrectChoiceSound, 1, 1, 0, 0, 1);
+				break;
+			case WIN:
+				soundPool.play(winSound, 1, 1, 0, 0, 1);
+				break;
+			case WIN_WITH_HIGH_SCORE:
+				soundPool.play(winHighScoreSound, 1, 1, 0, 0, 1);
+				break;
+		}
+	}
+
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		soundPool.release();
+		soundPool = null;
+	}
+
 }

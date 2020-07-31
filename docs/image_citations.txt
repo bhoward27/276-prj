@@ -142,3 +142,21 @@ ic_launcher.png --- https://www.easyicon.net/language.en/1161600-Magnifying_Glas
 
 Placeholder image:
 https://vignette1.wikia.nocookie.net/glest/images/4/47/Placeholder.png/revision/latest?cb=20101114155552
+
+**********************
+**********************
+
+SOUND EFFECTS:
+
+*NOTE* ALL SOUND FILES WERE RENAMED TO WORK IN ANDROID STUDIO (i.e filenames must start wiht a lowercase letter),
+AND/OR TO BETTER FIT WITH WITH THE INTENDED USE OF SAID SOUNDS IN THIS PROJECT.
+
+incorrect.ogg --- https://freesound.org/people/MortisBlack/sounds/385047/
+
+correct.ogg --- https://freesound.org/people/unadamlar/sounds/476178/#comments
+
+startgame.ogg --- https://wingless-seraph.net/en/material-se.html
+
+win.ogg --- https://wingless-seraph.net/en/material-se.html
+
+winhighscore--- https://wingless-seraph.net/en/material-se.html

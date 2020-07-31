@@ -36,7 +36,6 @@ public class ScoreManager {
 		}
 	}
 
-
 	private ScoreManager(SharedPreferences prefs) {
 		this.prefs = prefs;
 		this.scores = new ArrayList<>();
