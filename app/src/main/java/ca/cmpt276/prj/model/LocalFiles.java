@@ -50,6 +50,19 @@ public class LocalFiles {
 		}
 	}
 
+	public LocalFiles(String directory) {
+		options = OptionsManager.getInstance();
+		
+		files = new ArrayList<>();
+		try {
+			files.addAll(Arrays.asList(Objects.requireNonNull(
+					filesDir.listFiles())));
+		} catch (NullPointerException e) {
+			Log.d(TAG, "LocalFiles: filesDir: " + filesDir);
+			Log.d(TAG, "LocalFiles: files is null");
+		}
+	}
+
 	public List<File> getFilesList() {
 		return files;
 	}
