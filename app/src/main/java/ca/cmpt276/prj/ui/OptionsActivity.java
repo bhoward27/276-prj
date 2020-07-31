@@ -312,6 +312,16 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		});
 	}
 
+	private void setUpCustomButton() {
+		Button button = findViewById(R.id.btnCustomImageSet);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				launchPhotoActivity();
+			}
+		});
+	}
+
 	private void updateFlickrAmountText() {
 		// turn on Flickr mode to see/change the number of flickr images.
 		TextView currentFlickrPhotoCount = findViewById(R.id.txt_flickr_number);
@@ -345,6 +355,11 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private void launchPhotoGalleryActivity() {
 		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
+		startActivity(intent);
+	}
+
+	private void launchPhotoActivity() {
+		Intent intent = new Intent(OptionsActivity.this, CustomImageSetActivity.class);
 		startActivity(intent);
 	}
 

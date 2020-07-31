@@ -125,4 +125,9 @@
     <string name="add_flickr_image">Add Flickr Images</string>
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
+    <string name="add_photo_image">AddPhotoImage</string>
+    <string name="txt_custom_image_set">Custom Image</string>
+    <string name="txt_custom_image_photo_not_set">(Select Custom Image Set to set/see photo count)</string>
+    <string name="title_custom_image_set">Custom Image</string>
+    <string name="title_photo_activity">Photo</string>
 </resources>

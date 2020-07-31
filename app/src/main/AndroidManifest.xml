@@ -49,6 +49,18 @@
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.CustomImageSetActivity"
+            android:label="@string/title_custom_image_set"
+            android:parentActivityName=".ui.OptionsActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.PhotoActivity"
+            android:label="@string/title_photo_activity"
+            android:parentActivityName=".ui.CustomImageSetActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.MainMenuActivity"
             android:label="@string/title_main_menu_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
