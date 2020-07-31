@@ -21,7 +21,7 @@ public class Deck {
 	private Stack<Card> drawPile;
 	private List<Card> allCards;
 	private Integer[][] cardConfigurations;
-	private OptionSet opt;
+	private OptionsManager opt;
 	private int totalNumCards;
 	private int order;
 	private int deckSize;
@@ -34,7 +34,7 @@ public class Deck {
 		this.drawPile = new Stack<>();
 		this.allCards = new ArrayList<>();
 
-		this.opt = OptionSet.getInstance();
+		this.opt = OptionsManager.getInstance();
 
 		this.order = opt.getOrder();
 		this.isWordMode = opt.isWordMode();

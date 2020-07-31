@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.ImageNameMatrix;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.PREFS;
@@ -38,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.txt_game_title_splash_screen));
 
 		ScoreManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-		OptionSet.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+		OptionsManager.instantiate(this);
 		constructImageNameMatrix();
 
 		setUpAnimatedIntro();

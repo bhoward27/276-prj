@@ -20,7 +20,7 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -30,7 +30,7 @@ import ca.cmpt276.prj.model.ScoreManager;
 
 public class HighScoresActivity extends AppCompatActivity {
 	ScoreManager scoreManager;
-	OptionSet options;
+	OptionsManager optionsManager;
 	int currentOrder;
 	int currentDrawPileSize;
 
@@ -62,9 +62,9 @@ public class HighScoresActivity extends AppCompatActivity {
 	}
 
 	private void initOptionSet() {
-		options = OptionSet.getInstance();
-		currentOrder = options.getOrder();
-		currentDrawPileSize = options.getDeckSize();
+		optionsManager = OptionsManager.getInstance();
+		currentOrder = optionsManager.getOrder();
+		currentDrawPileSize = optionsManager.getDeckSize();
 	}
 
 	private void printChosenOptions() {

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +26,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
@@ -39,7 +38,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 	int imageSetPref;
 	int minimumReqImages;
-	OptionSet options;
+	OptionsManager optionsManager;
 	String playerNamePlaceholder;
 	ScoreManager manager;
 	List<RadioButton> radioButtonList = new ArrayList<>();
@@ -55,7 +54,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 				R.string.title_options_activity));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		int numImagesPerCard = options.getOrder() + 1;
+		int numImagesPerCard = optionsManager.getOrder() + 1;
 		minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
 		createRadioButton();
@@ -68,15 +67,15 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void initOptionSet() {
-		options = OptionSet.getInstance();
-		imageSetPref = options.getImageSet();
+		optionsManager = OptionsManager.getInstance();
+		imageSetPref = optionsManager.getImageSet();
 		playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
 		manager = ScoreManager.getInstance();
 	}
 
 	private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
 		// (Total number of cards is images^2 - images + 1) ==> number of total images
-		int numImagesPerCard = options.getOrder() + 1;
+		int numImagesPerCard = optionsManager.getOrder() + 1;
 		minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 		if (currentFlickrPhotos < minimumReqImages) {
 			return false;
@@ -98,7 +97,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 			if (deckThemeNames.indexOf(imageSetName) != FLICKR_IMAGE_SET) {
 				button.setOnClickListener(v -> {
 					chck.setEnabled(true);
-					options.setImageSet(indexOfButton);
+					optionsManager.setImageSet(indexOfButton);
 					updateFlickrAmountText();
 				});
 
@@ -107,8 +106,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 				button.setOnClickListener(v -> {
 					// don't allow the user to play the game with not enough images
-					if (areThereEnoughFlickImages(options.getNumFlickrImages())) {
-						options.setImageSet(indexOfButton);
+					if (areThereEnoughFlickImages(optionsManager.getNumFlickrImages())) {
+						optionsManager.setImageSet(indexOfButton);
 					} else {
 						Toast.makeText(getApplicationContext(), getString(
 								R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok),
@@ -116,7 +115,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 					}
 					chck.setChecked(false);
 					chck.setEnabled(false);
-					options.setWordMode(false);
+					optionsManager.setWordMode(false);
 					updateFlickrAmountText();
 				});
 			}
@@ -133,20 +132,20 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private void setupCheckBox() {
 		CheckBox chck = findViewById(R.id.chckWordMode);
-		if (options.isWordMode()) {
+		if (optionsManager.isWordMode()) {
 			chck.setChecked(true);
 		}
-		if (options.getImageSet() == FLICKR_IMAGE_SET) {
-			options.setWordMode(false);
+		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET) {
+			optionsManager.setWordMode(false);
 			chck.setChecked(false);
 			chck.setEnabled(false);
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			// don't let word mode be used if flickr is the image set
-			if (options.getImageSet() != FLICKR_IMAGE_SET) {
-				options.setWordMode(isChecked);
+			if (optionsManager.getImageSet() != FLICKR_IMAGE_SET) {
+				optionsManager.setWordMode(isChecked);
 			} else {
-				options.setWordMode(false);
+				optionsManager.setWordMode(false);
 				buttonView.setEnabled(false);
 				buttonView.setChecked(false);
 			}
@@ -157,7 +156,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		Spinner orderSpinner = findViewById(R.id.spn_order);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 				R.array.str_deck_order, android.R.layout.simple_spinner_item);
-		int currentOrderNumber = options.getOrder();//Pre-select an option based on saved prefs
+		int currentOrderNumber = optionsManager.getOrder();//Pre-select an option based on saved prefs
 		// code for setting default selected option in Spinner as below adapted from itzhar
 		// @ https://stackoverflow.com/a/29129817
 		// conversion from int to string necessary to use with adapter.getPosition
@@ -181,21 +180,21 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	private void sendPileSizesToOptionSet() {
 		ArrayList<String> allDrawPileSizes = new ArrayList<String>
 				(Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
-		int maxDeckSize = options.getMaxDeckSize();
+		int maxDeckSize = optionsManager.getMaxDeckSize();
 		String allOption = getString(R.string.all_option, maxDeckSize);
 		// because options has no access to resources, use the UI class to get the resource and
 		// pass it as a string
-		options.setValidDrawPileSizes(allDrawPileSizes, allOption);
+		//optionsManager.setValidDrawPileSizes(allDrawPileSizes, allOption);
 	}
 
 	private void updateDeckSizeSpinner() {
 		Spinner deckSizeSpinner = findViewById(R.id.spn_pile_size);
 		// ArrayList of valid pile sizes are stored; just get them from options now.
-		ArrayList<String> drawPileSizesOptions = options.getValidDrawPileSizes();
+		ArrayList<String> drawPileSizesOptions = optionsManager.getValidDrawPileSizes();
 
 		// code for setting default selected option in Spinner as below adapted from itzhar
 		// @ https://stackoverflow.com/a/29129817
-		int currentDeckSizeNumber = options.getDeckSize();
+		int currentDeckSizeNumber = optionsManager.getDeckSize();
 		String currentDeckSize = Integer.toString(currentDeckSizeNumber);
 
 		// dynamic allocation of ArrayAdapter via ArrayLists adapted from Hiral Vadodaria
@@ -225,13 +224,13 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 			case R.id.spn_order:
 				String orderName = parent.getItemAtPosition(position).toString();
 				int orderNumber = Integer.parseInt(orderName);
-				options.setOrder(orderNumber);// save selected Order
+				optionsManager.setOrder(orderNumber);// save selected Order
 				createDeckSizeSpinner();// spinner for pile sizes might now change possible choices
 				updateFlickrAmountText();
 
-				if (!areThereEnoughFlickImages(options.getFlickrImageSetSize())
-						&& options.getImageSet() == FLICKR_IMAGE_SET) {
-					options.setImageSet(DEFAULT_IMAGE_SET);
+				if (!areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())
+						&& optionsManager.getImageSet() == FLICKR_IMAGE_SET) {
+					optionsManager.setImageSet(DEFAULT_IMAGE_SET);
 					Toast.makeText(getApplicationContext(), getString(
 							R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok),
 							Toast.LENGTH_LONG).show();
@@ -243,14 +242,14 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 				// so parseInt works with just blank spaces and numbers
 				pileSizeName = pileSizeName.replaceAll("\\D", "");
 				int pileSizeNumber = Integer.parseInt(pileSizeName);
-				options.setDeckSize(pileSizeNumber);
+				optionsManager.setDeckSize(pileSizeNumber);
 				break;
 			default:
 				break;
 		}
 
 		// change prefix which identifies options associated with a score
-		manager.setScorePrefix(options.getOrder(), options.getDeckSize());
+		manager.setScorePrefix(optionsManager.getOrder(), optionsManager.getDeckSize());
 	}
 
 	@Override
@@ -261,7 +260,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private void setupEntryBox() {
 		EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
-		String playerNamePref = options.getPlayerName();
+		String playerNamePref = optionsManager.getPlayerName();
 
 		// match the "regex"
 		String pattern = Pattern.quote(playerNamePlaceholder);
@@ -295,11 +294,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		EditText playerNameEntryBox = findViewById(R.id.editTextPlayerNameEntryBox);
 		String enteredPlayerName = playerNameEntryBox.getText().toString();
 
-		if (enteredPlayerName.matches("")) {
-			options.setPlayerName(playerNamePlaceholder);
-		} else {
-			options.setPlayerName(enteredPlayerName);
-		}
+		optionsManager.setPlayerName(enteredPlayerName);
+
 	}
 
 	private void setUpFlickrButton() {
@@ -320,7 +316,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 			String flickrPhotoCountText;
 			// get the number of currently selected things; that will be displayed
-			int currentFlickrPhotos = options.getNumFlickrImages();
+			int currentFlickrPhotos = optionsManager.getNumFlickrImages();
 
 			if (areThereEnoughFlickImages(currentFlickrPhotos)) {
 				flickrPhotoCountText = String.format(getString(
@@ -333,7 +329,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 						minimumReqImages);
 				currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
 						OptionsActivity.this, R.color.red));
-				options.setImageSet(DEFAULT_IMAGE_SET);
+				optionsManager.setImageSet(DEFAULT_IMAGE_SET);
 			}
 			currentFlickrPhotoCount.setText(flickrPhotoCountText);
 		} else {

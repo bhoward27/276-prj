@@ -1,15 +1,10 @@
 package ca.cmpt276.prj.ui;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -18,30 +13,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.QueryPreferences;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PREFIX;
@@ -62,7 +52,7 @@ public class EditImageSetFragment extends Fragment {
 	private static final String TAG = "EditImageSetFragment";
 
 	private RecyclerView mPhotoRecyclerView;
-	private OptionSet options;
+	private OptionsManager optionsManager;
 	private Context mContext;
 	private List<GalleryItem> mItems = new ArrayList<>();
 	private SparseBooleanArray checkedItems = new SparseBooleanArray();
@@ -78,7 +68,7 @@ public class EditImageSetFragment extends Fragment {
 		setHasOptionsMenu(true);
 		updateItems();
 
-		options = OptionSet.getInstance();
+		optionsManager = OptionsManager.getInstance();
 		mContext = getContext();
 
 		Log.i(TAG, "Background thread started");
@@ -132,7 +122,7 @@ public class EditImageSetFragment extends Fragment {
 				for (int i = 0; i < mItems.size(); i++) {
 					deleteImage(i);
 				}
-				options.setFlickrImageSetSize(0);
+				optionsManager.setFlickrImageSetSize(0);
 				updateItems();
 				return true;
 			default:
@@ -274,7 +264,7 @@ public class EditImageSetFragment extends Fragment {
 		protected List<GalleryItem> doInBackground(Void... params) {
 
 			List<GalleryItem> gItems = new ArrayList<>();
-			for (int i = 0; i < options.getNumFlickrImages(); i++) {
+			for (int i = 0; i < optionsManager.getNumFlickrImages(); i++) {
 				gItems.add(new GalleryItem());
 			}
 

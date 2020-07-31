@@ -6,13 +6,12 @@ import android.annotation.SuppressLint;
  * This class contains all the functionality of a Score object and a couple helper functions for
  * beautiful formatted output of the score.
  */
-
 public class Score {
-	private int scoreTime;
-	private String scoreName;
-	private String scoreDate;
+	int scoreTime;
+	String scoreName;
+	String scoreDate;
 
-	public Score(int scoreTime, String scoreName, String scoreDate) {
+	Score(int scoreTime, String scoreName, String scoreDate) {
 		this.scoreTime = scoreTime;
 		this.scoreName = scoreName;
 		this.scoreDate = scoreDate;
@@ -30,6 +29,7 @@ public class Score {
 		return scoreDate;
 	}
 
+
 	@SuppressLint("DefaultLocale")
 	public static String getFormattedTime(int time) {
 
@@ -38,3 +38,4 @@ public class Score {
 		return String.format("%d:%02d", minutes, seconds);
 	}
 }
+
