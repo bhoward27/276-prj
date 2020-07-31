@@ -40,7 +40,7 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFetchr;
 import ca.cmpt276.prj.model.GalleryItem;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.QueryPreferences;
 import ca.cmpt276.prj.model.ThumbnailDownloader;
 
@@ -60,11 +60,12 @@ public class PhotoGalleryFragment extends Fragment {
 	private static final String TAG = "PhotoGalleryFragment";
 
 	private RecyclerView mPhotoRecyclerView;
-	private OptionSet options;
+	private OptionsManager optionsManager;
 	private Context mContext;
 	private List<GalleryItem> mItems = new ArrayList<>();
 	private List<Target> targetList = new ArrayList<>();
 	private SparseBooleanArray checkedItems = new SparseBooleanArray();
+	private List<String> possibleFlickrImageNames = new ArrayList<>();
 	private ThumbnailDownloader<PhotoHolder> mThumbnailDownloader;
 
 	public static PhotoGalleryFragment newInstance() {
@@ -78,7 +79,7 @@ public class PhotoGalleryFragment extends Fragment {
 		setHasOptionsMenu(true);
 		updateItems();
 
-		options = OptionSet.getInstance();
+		optionsManager = OptionsManager.getInstance();
 		mContext = getContext();
 
 		Handler responseHandler = new Handler();
@@ -190,7 +191,7 @@ public class PhotoGalleryFragment extends Fragment {
 			File myImageFile = new File(directory,
 					fileName);
 			if (myImageFile.delete()) {
-				options.removePossibleFlickrImageNames(fileName);
+				possibleFlickrImageNames.remove(fileName);
 				Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
 						Toast.LENGTH_SHORT).show();
 				Log.d("deleteImage", "image on the disk deleted successfully!");
@@ -332,7 +333,7 @@ public class PhotoGalleryFragment extends Fragment {
 							}
 						}
 					}
-					options.addPossibleFlickrImageNames(imageName);
+					possibleFlickrImageNames.add(imageName);
 					Looper.prepare();
 
 					// citation: https://stackoverflow.com/a/34970752

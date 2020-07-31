@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import java.io.File;
@@ -12,7 +11,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_PENDING_DIR;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
@@ -24,7 +23,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
  */
 
 public class PhotoGalleryActivity extends SingleFragmentActivity {
-	OptionSet options;
+	OptionsManager optionsManager;
 
 	@Override
 	protected void onCreate(Bundle saved) {
@@ -59,10 +58,10 @@ public class PhotoGalleryActivity extends SingleFragmentActivity {
 	}
 
 	private void initFlickrSettings() {
-		options = OptionSet.getInstance();
+		optionsManager = OptionsManager.getInstance();
 		File directory = Objects.requireNonNull(getApplicationContext())
 				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-		options.setFlickrImageSetSize(Objects.requireNonNull(directory.listFiles()).length);
+		optionsManager.setFlickrImageSetSize(Objects.requireNonNull(directory.listFiles()).length);
 
 		// also clear garbage out of pending dir, possible if app crashed
 		directory = Objects.requireNonNull(getApplicationContext())

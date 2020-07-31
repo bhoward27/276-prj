@@ -42,7 +42,7 @@ import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 import ca.cmpt276.prj.model.Game;
 import ca.cmpt276.prj.model.GenRand;
 import ca.cmpt276.prj.model.ImageNameMatrix;
-import ca.cmpt276.prj.model.OptionSet;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
 	ImageNameMatrix imageNames;
 	String imageSetPrefix;
 	ScoreManager scoreManager;
-	OptionSet options;
+	OptionsManager optionsManager;
 	Game gameInstance;
 	String resourcePrefix;
 	Chronometer scoreTimer;
@@ -86,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
 
 	private void initGame() {
 		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
-		options = OptionSet.getInstance();
+		optionsManager = OptionsManager.getInstance();
 
 		discPileButtons = new ArrayList<>();
 		drawPileButtons = new ArrayList<>();
@@ -94,14 +94,14 @@ public class GameActivity extends AppCompatActivity {
 		buttonCount = 0;
 
 		scoreManager = ScoreManager.getInstance();
-		imageSet = options.getImageSet();
-		imageSetPrefix = options.getImageSetPrefix();
+		imageSet = optionsManager.getImageSet();
+		imageSetPrefix = optionsManager.getImageSetPrefix();
 		imageNames = ImageNameMatrix.getInstance();
 		resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
 		globalResources = getResources();
-		numImagesPerCard = options.getOrder() + 1;
+		numImagesPerCard = optionsManager.getOrder() + 1;
 
-		if (options.getImageSet() == FLICKR_IMAGE_SET && options.isWordMode()) {
+		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET && optionsManager.isWordMode()) {
 			throw new Error("Flickr image set does not support word mode.");
 		}
 
@@ -336,7 +336,7 @@ public class GameActivity extends AppCompatActivity {
 		ConstraintLayout.LayoutParams drawCardView =
 				(ConstraintLayout.LayoutParams) findViewById(R.id.crdDrawPile).getLayoutParams();
 
-		int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins) / options.getDeckSize();
+		int shiftAmt = globalResources.getDimensionPixelSize(R.dimen.cardview_margins) / optionsManager.getDeckSize();
 
 		discCardView.leftMargin -= shiftAmt;
 		discCardView.topMargin -= shiftAmt;
@@ -352,7 +352,7 @@ public class GameActivity extends AppCompatActivity {
 	private void finishGame() {
 		scoreTimer.stop();
 		int time = (int) (SystemClock.elapsedRealtime() - scoreTimer.getBase()) / 1000;
-		int playerRank = scoreManager.addHighScore(options.getPlayerName(),
+		int playerRank = scoreManager.addHighScore(optionsManager.getPlayerName(),
 				time);
 		congratulationsDialog(time, playerRank);
 	}

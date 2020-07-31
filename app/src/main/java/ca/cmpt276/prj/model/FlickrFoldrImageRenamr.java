@@ -6,7 +6,6 @@ import android.util.Log;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +23,7 @@ public class FlickrFoldrImageRenamr {
 	}
 
 	public static void moveAndRenameTemp(Context ctx) {
-		OptionSet options = OptionSet.getInstance();
+		OptionsManager optionsManager = OptionsManager.getInstance();
 		File preDirectory = Objects.requireNonNull(ctx)
 				.getDir(FLICKR_PENDING_DIR, Context.MODE_PRIVATE);
 		File postDirectory = Objects.requireNonNull(ctx)
@@ -32,24 +31,21 @@ public class FlickrFoldrImageRenamr {
 		int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
 		if (numUserImages > 0) {
 			int index = Objects.requireNonNull(postDirectory.listFiles()).length;
-			for (String imageName : options.getPossibleFlickrImageNames()) {
-				File myImageFile = new File(preDirectory,
-						imageName);
+			for (File preFile : Objects.requireNonNull(preDirectory.listFiles())) {
 				File destRenamedFile = new File(postDirectory,
 						FLICKR_IMAGE_NAME_PREFIX + index + JPG_EXTENSION);
-				if (myImageFile.renameTo(destRenamedFile)) {
-					Log.d("renameImage", "image " + imageName + " has been renamed to " +
+				if (preFile.renameTo(destRenamedFile)) {
+					Log.d("renameImage", "image " + preFile.getName() + " has been renamed to " +
 							destRenamedFile);
 					index++;
 				}
 			}
-			options.clearPossibleFlickrImageNames();
 		}
-		options.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
+		optionsManager.setFlickrImageSetSize(Objects.requireNonNull(postDirectory.listFiles()).length);
 	}
 
 	public static void makeFileNamesConsistent(Context ctx) {
-		OptionSet options = OptionSet.getInstance();
+		OptionsManager optionsManager = OptionsManager.getInstance();
 		File directory = Objects.requireNonNull(ctx)
 				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
 		// create consistent increasing naming scheme
@@ -66,6 +62,6 @@ public class FlickrFoldrImageRenamr {
 			}
 			index++;
 		}
-		options.setFlickrImageSetSize(Objects.requireNonNull(directory.listFiles()).length);
+		optionsManager.setFlickrImageSetSize(Objects.requireNonNull(directory.listFiles()).length);
 	}
 }
