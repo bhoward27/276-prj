@@ -21,6 +21,8 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+
 /**
  * Makes interacting with our local images easier by adding methods to easily save, delete, and read
  * images
@@ -125,7 +127,11 @@ public class LocalFiles {
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "remove: image on the disk deleted successfully!");
 			files.remove(file);
-			options.setFlickrImageSetSize(files.size());
+			if (options.getImageSet() <= FLICKR_IMAGE_SET) {
+				options.setFlickrImageSetSize(files.size());
+			}//TODO: else {
+			// options.setCustomImageSetSize(imageSet, files.size());
+			//}
 			return true;
 		}
 		return false;
@@ -135,7 +141,11 @@ public class LocalFiles {
 	// to update the list of files that this class knows about
 	public void add(File file) {
 		files.add(file);
-		options.setFlickrImageSetSize(files.size());
+		if (options.getImageSet() <= FLICKR_IMAGE_SET) {
+			options.setFlickrImageSetSize(files.size());
+		}//TODO: else {
+		// options.setCustomImageSetSize(imageSet, files.size());
+		//}
 	}
 
 }
