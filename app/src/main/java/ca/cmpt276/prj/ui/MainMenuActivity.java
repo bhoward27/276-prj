@@ -42,18 +42,9 @@ public class MainMenuActivity extends AppCompatActivity {
 		OptionsManager.instantiate(this);
 		optionsManager = OptionsManager.getInstance();
 
-		initDeckSizeFlickr();
-
 		setUpImages();
 		setUpButtons();
 
-	}
-
-	private void initDeckSizeFlickr() {
-		File preDirectory = Objects.requireNonNull(getApplicationContext())
-				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-		int numUserImages = Objects.requireNonNull(preDirectory.listFiles()).length;
-		optionsManager.setFlickrImageSetSize(numUserImages);
 	}
 
 	private void setUpImages() {//Images change depending on the currently selected deck in the Options screen

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static ca.cmpt276.prj.model.Constants.ASCII_OFFSET;
@@ -16,6 +18,7 @@ import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_ORDER_PREF;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
@@ -41,7 +44,7 @@ public class OptionsManager {
 	 */
 	private class Option {
 		int imageSet;
-		int flickrImageSetSize;
+		int numFlickrImages;
 		int order;
 		int deckSize;
 		boolean wordMode; // when true, some cards will have words appear instead of images.
@@ -50,7 +53,7 @@ public class OptionsManager {
 		Option(){
 			this.imageSet = prefsManager.loadInt(IMAGE_SET_INT_PREF, // key
 					DEFAULT_IMAGE_SET); // default key
-			this.flickrImageSetSize = prefsManager.loadInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
+			this.numFlickrImages = prefsManager.loadInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
 					DEFAULT_FLICKR_IMAGE_SET_SIZE);
 			this.order = prefsManager.loadInt(ORDER_PREF_KEY,
 					DEFAULT_ORDER_PREF);
@@ -77,6 +80,7 @@ public class OptionsManager {
 	private OptionsManager(Context ctx) {
 		this.prefsManager = new PrefsManager(ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE));
 		this.options = new Option();
+
 	}
 
 	public static OptionsManager getInstance() {
@@ -180,16 +184,13 @@ public class OptionsManager {
 		}
 	}
 
-	public int getNumFlickrImages() {
-		return options.flickrImageSetSize;
-	}
-
-	public void setFlickrImageSetSize(int numImages) {
-		options.flickrImageSetSize = numImages;
-		prefsManager.saveInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, numImages);
+	public void setFlickrImageSetSize(int size) {
+		options.numFlickrImages = size;
+		prefsManager.saveInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY, size);
 	}
 
 	public int getFlickrImageSetSize() {
-		return options.flickrImageSetSize;
+		return options.numFlickrImages;
 	}
+
 }

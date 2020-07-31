@@ -40,7 +40,7 @@ public class Deck {
 		this.isWordMode = opt.isWordMode();
 		this.deckSize = opt.getDeckSize();
 		if (opt.getImageSet() == FLICKR_IMAGE_SET) {
-			this.numImagesInImageSet = opt.getNumFlickrImages();
+			this.numImagesInImageSet = opt.getFlickrImageSetSize();
 		} else {
 			this.numImagesInImageSet = opt.getNumImagesInImageSet();
 		}

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,10 +26,10 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
+import ca.cmpt276.prj.model.LocalFiles;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.QueryPreferences;
 
@@ -56,6 +55,7 @@ public class EditImageSetFragment extends Fragment {
 	private Context mContext;
 	private List<GalleryItem> mItems = new ArrayList<>();
 	private SparseBooleanArray checkedItems = new SparseBooleanArray();
+	private LocalFiles localFiles;
 
 	public static EditImageSetFragment newInstance() {
 		return new EditImageSetFragment();
@@ -66,10 +66,12 @@ public class EditImageSetFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
-		updateItems();
 
 		optionsManager = OptionsManager.getInstance();
 		mContext = getContext();
+		localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
+
+		updateItems();
 
 		Log.i(TAG, "Background thread started");
 	}
@@ -96,6 +98,7 @@ public class EditImageSetFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
+		localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
 		updateItems();
 	}
 
@@ -122,7 +125,6 @@ public class EditImageSetFragment extends Fragment {
 				for (int i = 0; i < mItems.size(); i++) {
 					deleteImage(i);
 				}
-				optionsManager.setFlickrImageSetSize(0);
 				updateItems();
 				return true;
 			default:
@@ -131,8 +133,7 @@ public class EditImageSetFragment extends Fragment {
 	}
 
 	private void updateItems() {
-		String query = QueryPreferences.getStoredQuery(getActivity());
-		new FetchItemsTask(query).execute();
+		new FetchItemsTask().execute();
 	}
 
 	private void setupAdapter() {
@@ -143,20 +144,9 @@ public class EditImageSetFragment extends Fragment {
 
 	// citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
 	public void deleteImage(int itemPosition) {
-
-		File directory = Objects.requireNonNull(getContext())
-				.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE);
-		int numUserImages = Objects.requireNonNull(directory.listFiles()).length;
-		String fileName = mItems.get(itemPosition).getId();
-
-		if (numUserImages > 0) {
-			File myImageFile = new File(directory,
-					fileName);
-			if (myImageFile.delete()) {
-				Toast.makeText(mContext, getString(R.string.txt_toast_deleted, fileName),
-						Toast.LENGTH_SHORT).show();
-			}
-		}
+		// the ID is the filename here
+		Log.d(TAG, "deleteImage: " + mItems.get(itemPosition).getId());
+		localFiles.remove(mContext, mItems.get(itemPosition).getId());
 	}
 
 	private class PhotoHolder extends RecyclerView.ViewHolder {
@@ -225,16 +215,11 @@ public class EditImageSetFragment extends Fragment {
 			mPhotoHolders.add(photoHolder);
 
 			GalleryItem galleryItem = mGalleryItems.get(position);
-			galleryItem.setId(FLICKR_PREFIX + RESOURCE_DIVIDER + position + JPG_EXTENSION);
 			mGalleryItems.set(position, galleryItem);
 			Drawable placeholder = getResources().getDrawable(R.drawable.placeholder, null);
-			//photoHolder.bindDrawable(placeholder);
-			String pathName = mContext.getDir(FLICKR_SAVED_DIR, Context.MODE_PRIVATE) + "/" +
-					FLICKR_PREFIX + RESOURCE_DIVIDER + position + JPG_EXTENSION;
-			File imageFile = new File(pathName);
 
 			Picasso.get()
-					.load(imageFile)
+					.load(localFiles.getFile(position))
 					.placeholder(placeholder)
 					.error(placeholder)
 					.memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -256,16 +241,14 @@ public class EditImageSetFragment extends Fragment {
 	private class FetchItemsTask extends AsyncTask<Void, Void, List<GalleryItem>> {
 
 
-		public FetchItemsTask(String query) {
-
-		}
+		public FetchItemsTask() { }
 
 		@Override
 		protected List<GalleryItem> doInBackground(Void... params) {
 
 			List<GalleryItem> gItems = new ArrayList<>();
-			for (int i = 0; i < optionsManager.getNumFlickrImages(); i++) {
-				gItems.add(new GalleryItem());
+			for (File file : localFiles.getFilesList()) {
+				gItems.add(new GalleryItem(file));
 			}
 
 			return gItems;

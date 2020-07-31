@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.FlickrFoldrImageRenamr;
 
 
 /**
@@ -30,14 +29,11 @@ public class EditImageSetActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
-		initFlickrSettings();
-
 		return EditImageSetFragment.newInstance();
 	}
 
 	@Override
 	public void onBackPressed() {
-		renameImages();
 		this.finish();
 	}
 
@@ -49,15 +45,6 @@ public class EditImageSetActivity extends SingleFragmentActivity {
 			return true;
 		}
 		return false;
-	}
-
-	private void initFlickrSettings() {
-		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
-	}
-
-	// Need to "rename images" before returning so that we have no images left in the "pending" folder
-	private void renameImages() {
-		FlickrFoldrImageRenamr.makeFileNamesConsistent(this);
 	}
 
 }
