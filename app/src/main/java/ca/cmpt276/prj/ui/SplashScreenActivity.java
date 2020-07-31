@@ -38,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.txt_game_title_splash_screen));
 
 		ScoreManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
-		OptionsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+		OptionsManager.instantiate(this);
 		constructImageNameMatrix();
 
 		setUpAnimatedIntro();

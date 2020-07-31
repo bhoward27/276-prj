@@ -39,7 +39,7 @@ public class MainMenuActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 
-		OptionsManager.instantiate(getSharedPreferences(PREFS, Context.MODE_PRIVATE));
+		OptionsManager.instantiate(this);
 		optionsManager = OptionsManager.getInstance();
 
 		initDeckSizeFlickr();
