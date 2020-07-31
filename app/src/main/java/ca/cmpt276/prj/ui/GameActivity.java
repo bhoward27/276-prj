@@ -125,7 +125,7 @@ public class GameActivity extends AppCompatActivity {
 	}
 
 	private void loadSounds(){
-		startGameSound = soundPool.load(this, R.raw.load, 1);
+		startGameSound = soundPool.load(this, R.raw.startgame, 1);
 		winSound = soundPool.load(this, R.raw.win,1);
 		winHighScoreSound = soundPool.load(this, R.raw.winhighscore,1);
 		correctChoiceSound = soundPool.load(this, R.raw.correct,1);
