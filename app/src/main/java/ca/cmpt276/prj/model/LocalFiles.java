@@ -52,7 +52,7 @@ public class LocalFiles {
 
 	public LocalFiles(String directory) {
 		options = OptionsManager.getInstance();
-		
+
 		files = new ArrayList<>();
 		try {
 			files.addAll(Arrays.asList(Objects.requireNonNull(
@@ -131,6 +131,8 @@ public class LocalFiles {
 		return false;
 	}
 
+	// Call this after adding an image to the folder through means other than writeImage
+	// to update the list of files that this class knows about
 	public void add(File file) {
 		files.add(file);
 		options.setFlickrImageSetSize(files.size());
