@@ -125,4 +125,5 @@
     <string name="add_flickr_image">Add Flickr Images</string>
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
+    <string name="txt_generate_card_photos">Generate Card Photos</string>
 </resources>

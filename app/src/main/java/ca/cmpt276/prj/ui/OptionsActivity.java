@@ -64,7 +64,14 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		setupCheckBox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
+		setUpExportPictureButton();
 	}
+
+
+	private void setUpExportPictureButton(){
+		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
+	}
+
 
 	private void initOptionSet() {
 		optionsManager = OptionsManager.getInstance();

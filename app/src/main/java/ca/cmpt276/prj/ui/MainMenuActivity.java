@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -44,6 +46,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 		setUpImages();
 		setUpButtons();
+		setUpStorageFolder();
 
 	}
 
@@ -101,6 +104,20 @@ public class MainMenuActivity extends AppCompatActivity {
 			startActivity(intent);
 		});
 
+	}
+
+	// code for creating new folder in internal storage from Android Geek
+	// @ https://stackoverflow.com/a/54528830
+	private void setUpStorageFolder(){
+		File cardPhotoStorage = new File(Environment.getExternalStorageDirectory(), "FindDaMatchCards");
+
+		//If the folder doesn't exist, make it.
+		if(!cardPhotoStorage.exists()){
+			cardPhotoStorage.mkdirs();
+		}
+
+		//Testing
+		Log.e("check_path", "" + cardPhotoStorage.getAbsolutePath());
 	}
 
 	@Override
