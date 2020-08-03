@@ -1,12 +1,18 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,22 +41,23 @@ import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 /**
  * Activity for different types of pictures and setting the player name.
  */
-public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-	int imageSetPref;
-	int minimumReqImages;
-	OptionsManager optionsManager;
-	String playerNamePlaceholder;
-	ScoreManager manager;
-	List<RadioButton> radioButtonList = new ArrayList<>();
+		public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+			int imageSetPref;
+			int minimumReqImages;
+			OptionsManager optionsManager;
+			String playerNamePlaceholder;
+			ScoreManager manager;
+			List<RadioButton> radioButtonList = new ArrayList<>();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_options);
+			@Override
+			protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				setContentView(R.layout.activity_options);
 
 		initOptionSet();
 
@@ -64,14 +75,79 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		setupCheckBox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
-		setUpExportPictureButton();
+		setUpExportCardsButton();
 	}
 
 
-	private void setUpExportPictureButton(){
+
+	private void setUpExportCardsButton(){
 		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
+
+		exportPhotos.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				exportCards(v);
+			}
+		});
 	}
 
+	// General code for exporting files to a folder adapted from Coding In Flow
+	// @ https://www.youtube.com/watch?v=EcfUkjlL9RI&t=182s
+	private void exportCards(View v){
+
+		//getCacheDir() as first parameter?
+
+		// code for creating new folder in internal storage from Android Geek
+		//---
+		//RunTimeException is thrown when tested... why?
+		// @ https://stackoverflow.com/a/54528830
+//		File cardPhotoStorage = new File(Environment.getExternalStorageDirectory(), "FindDaMatchCards");
+//
+//		//If the folder doesn't exist, make it.
+//		if(!cardPhotoStorage.exists()) {
+//			if (!cardPhotoStorage.mkdirs()) {
+//				throw new RuntimeException("ERROR: COULD NOT MAKE DIRECTORY!");
+//			}
+//		}
+//		//Testing
+//		Log.e("check_path", "" + cardPhotoStorage.getAbsolutePath());
+		//---
+		//String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+
+		//In order to write to storage, permissions defined in AndroidManifest
+		// need to be asked for; code for doing this is adapted from Meta Snarf and Atif Mahmood
+		// @ https://stackoverflow.com/a/33162451
+		if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+			Log.v("Permission status:","Permission is granted");
+			//File write logic here
+		} else {
+			Log.v("Permission status:","Permission NOT granted. Trying to alleviate...");
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+		}
+
+		File cardPhotoStorageDir = new File(Environment.getExternalStorageDirectory(), "FindDaMatch");
+
+		if (!cardPhotoStorageDir.exists()) {
+			if (!cardPhotoStorageDir.mkdirs()) {
+				Log.d("App", "failed to create directory");
+			}
+		}else{
+			Log.d("App", "Wow, the directory was created!");
+		}
+
+//		String text = "OKAY!";
+//		FileOutputStream fos = null;
+//		String fileName = "Example" + JPG_EXTENSION;
+//		try {
+//			fos = openFileOutput(text, MODE_PRIVATE);
+//			fos.write(text.getBytes());
+//			Toast.makeText(this, "Successfully saved! Find your photos at: " + getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
+//		} catch (FileNotFoundException e){
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	}
 
 	private void initOptionSet() {
 		optionsManager = OptionsManager.getInstance();
@@ -80,6 +156,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		manager = ScoreManager.getInstance();
 	}
 
+	//https://stackoverflow.com/a/37496736
 	private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
 		// (Total number of cards is images^2 - images + 1) ==> number of total images
 		int numImagesPerCard = optionsManager.getOrder() + 1;
