@@ -130,4 +130,5 @@
     <string name="txt_custom_image_photo_not_set">(Select Custom Image Set to set/see photo count)</string>
     <string name="title_custom_image_set">Custom Image</string>
     <string name="title_photo_activity">Photo</string>
+    <string name="title_image_set">Image Set</string>
 </resources>

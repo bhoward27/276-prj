@@ -358,7 +358,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void launchPhotoActivity() {
-		Intent intent = new Intent(OptionsActivity.this, CustomImageSetActivity.class);
+		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
 		startActivity(intent);
 	}
 

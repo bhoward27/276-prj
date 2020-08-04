@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.EditImageSetActivity"
-            android:label="@string/title_flickr_imageset_editor"
+            android:label="@string/title_image_set"
             android:parentActivityName=".ui.OptionsActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
@@ -49,15 +49,9 @@
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.CustomImageSetActivity"
-            android:label="@string/title_custom_image_set"
-            android:parentActivityName=".ui.OptionsActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.PhotoActivity"
             android:label="@string/title_photo_activity"
-            android:parentActivityName=".ui.CustomImageSetActivity"
+            android:parentActivityName=".ui.EditImageSetActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

@@ -6,6 +6,12 @@
     <item
         android:id="@+id/menu_item_add"
         android:icon="@android:drawable/ic_input_add"
+        android:title="@string/add_flickr_image"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_item_add_photo"
+        android:icon="@android:drawable/ic_menu_gallery"
         android:title="@string/add_photo_image"
         app:showAsAction="ifRoom" />
 
