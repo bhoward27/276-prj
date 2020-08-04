@@ -51,4 +51,5 @@ public final class Constants {
 	public static final int ASCII_OFFSET = 97;
 	public static final int DEFAULT_DIFFICULTY = 0;
 	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
+	public static final int[] SUPPORTED_DIFFICULTIES = {0, 1, 2};
 }

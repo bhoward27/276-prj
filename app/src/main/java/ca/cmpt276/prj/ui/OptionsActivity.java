@@ -84,7 +84,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
 	private void createRadioButton() {
 
-		RadioGroup radioGroup = findViewById(R.id.radioGroup);
+		RadioGroup radioGroup = findViewById(R.id.rgImageSet);
 		List<String> deckThemeNames = new ArrayList<>(Arrays.asList(getResources()
 				.getStringArray(R.array.str_pic_types)));
 		for (String imageSetName : deckThemeNames) {

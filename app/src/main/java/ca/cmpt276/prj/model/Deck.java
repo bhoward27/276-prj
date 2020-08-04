@@ -2,6 +2,7 @@ package ca.cmpt276.prj.model;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,6 +26,7 @@ public class Deck {
 	private int totalNumCards;
 	private int order;
 	private int deckSize;
+	private int difficulty;
 	private int numImagesPerCard;
 	private int numImagesInImageSet;
 	private boolean isWordMode;
@@ -39,6 +41,7 @@ public class Deck {
 		this.order = opt.getOrder();
 		this.isWordMode = opt.isWordMode();
 		this.deckSize = opt.getDeckSize();
+		this.difficulty = opt.getDifficulty();
 		if (opt.getImageSet() == FLICKR_IMAGE_SET) {
 			this.numImagesInImageSet = opt.getFlickrImageSetSize();
 		} else {
@@ -97,16 +100,16 @@ public class Deck {
 
 	// Convert hardcoded 2d array to list/stack and shuffle the order of cards
 	private void initializePiles() {
+		ThreadLocalRandom rand = ThreadLocalRandom.current();
+
 		List<Integer[]> cards = new ArrayList<>(Arrays.asList(cardConfigurations));
 		// shuffle card orders
 		Collections.shuffle(cards);
 
 		List<List<Boolean>> deckBools = new ArrayList<>();
-		Log.d("num", "numImagesInImageSet: " + numImagesInImageSet);
 		// randomly choose images to be words
 		List<Boolean> cardBools = new ArrayList<>();
 		if (isWordMode) {
-			ThreadLocalRandom rand = ThreadLocalRandom.current();
 			for (int card = 0; card < deckSize; card++) {
 				cardBools.clear();
 				// add at least one word and image if wordmode is enabled
@@ -141,13 +144,40 @@ public class Deck {
 				card[i] = randMap.get(card[i]);
 			}
 		}
+		List<List<Double>> deckRotations = new ArrayList<>();
+		List<List<Double>> deckScales = new ArrayList<>();
+
+		// add random rotations and scaling, for difficulty
+		double rotateBound = 0.000000000001;
+		double scaleLowerBound = 0.999999999999;
+		double scaleUpperBound = 1.000000000001;
+
+		if (difficulty > 0) {
+			rotateBound = 360;
+			if (difficulty > 1) {
+				scaleLowerBound = 0.6;
+				scaleUpperBound = 1.25;
+			}
+		}
+
+		for (Integer[] card : cards) {
+			List<Double> cardRotations = new ArrayList<>();
+			List<Double> cardScales = new ArrayList<>();
+			for (int i = 0; i < card.length; i++) {
+				cardRotations.add(rand.nextDouble(0, rotateBound));
+				cardScales.add(rand.nextDouble(scaleLowerBound, scaleUpperBound));
+			}
+			deckRotations.add(new ArrayList<>(cardRotations));
+			deckScales.add(new ArrayList<>(cardScales));
+		}
 
 		// add to the drawpile a random card until there are no cards left
 		int cardNum = 0;
 		for (Integer[] card : cards) {
 			if (cardNum >= deckSize) break;
 			int cardIndex = cards.indexOf(card);
-			drawPile.push(new Card(Arrays.asList(card), cardIndex, deckBools.get(cardIndex)));
+			drawPile.push(new Card(Arrays.asList(card), deckBools.get(cardIndex),
+					deckRotations.get(cardIndex), deckScales.get(cardIndex), cardIndex));
 			cardNum++;
 		}
 

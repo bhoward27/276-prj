@@ -174,4 +174,18 @@ public class OptionsManager {
 		return options.numFlickrImages;
 	}
 
+	public void setDifficulty(int difficulty) {
+		if (IntStream.of(SUPPORTED_DIFFICULTIES).noneMatch(x -> x == difficulty)) {
+			Log.d(TAG, String.format("setOrder: order %d not supported", difficulty));
+			return;
+		}
+
+		options.difficulty = difficulty;
+		prefsManager.saveInt(DIFFICULTY_PREF, difficulty);
+	}
+
+	public int getDifficulty() {
+		return options.difficulty;
+	}
+
 }
