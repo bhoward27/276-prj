@@ -148,9 +148,9 @@ public class Deck {
 		List<List<Double>> deckScales = new ArrayList<>();
 
 		// add random rotations and scaling, for difficulty
-		double rotateBound = 0.000000000001;
-		double scaleLowerBound = 0.999999999999;
-		double scaleUpperBound = 1.000000000001;
+		double rotateBound = 0;
+		double scaleLowerBound = 1;
+		double scaleUpperBound = 1;
 
 		if (difficulty > EASY) {
 			rotateBound = 360;
@@ -164,8 +164,17 @@ public class Deck {
 			List<Double> cardRotations = new ArrayList<>();
 			List<Double> cardScales = new ArrayList<>();
 			for (int i = 0; i < card.length; i++) {
-				cardRotations.add(rand.nextDouble(0, rotateBound));
-				cardScales.add(rand.nextDouble(scaleLowerBound, scaleUpperBound));
+				if (rotateBound == 0) {
+					cardRotations.add((double) 0);
+				} else {
+					cardRotations.add(rand.nextDouble(0, rotateBound));
+				}
+				if (scaleLowerBound == scaleUpperBound) {
+					cardScales.add((double) 1);
+				} else {
+					cardScales.add(rand.nextDouble(scaleLowerBound, scaleUpperBound));
+				}
+
 			}
 			deckRotations.add(new ArrayList<>(cardRotations));
 			deckScales.add(new ArrayList<>(cardScales));
