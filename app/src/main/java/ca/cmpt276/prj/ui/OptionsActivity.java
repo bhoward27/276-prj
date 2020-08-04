@@ -56,11 +56,12 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		int numImagesPerCard = optionsManager.getOrder() + 1;
 		minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
-		createRadioButton();
+		setupImageSetRadioButtons();
+		setupDifficultyRadioButtons();
 		setupEntryBox();
 		createOrderSpinner();
 		createDeckSizeSpinner();
-		setupCheckBox();
+		setupWordModeCheckbox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
 	}
@@ -82,7 +83,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		return true;
 	}
 
-	private void createRadioButton() {
+	private void setupImageSetRadioButtons() {
 
 		RadioGroup radioGroup = findViewById(R.id.rgImageSet);
 		List<String> deckThemeNames = new ArrayList<>(Arrays.asList(getResources()
@@ -129,7 +130,33 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 	}
 
-	private void setupCheckBox() {
+	private void setupDifficultyRadioButtons() {
+		RadioGroup radioGroup = findViewById(R.id.rgDifficulty);
+		List<String> difficultyNames = new ArrayList<>(Arrays.asList(getResources()
+				.getStringArray(R.array.str_difficulty_names)));
+		for (String difficultyName : difficultyNames) {
+			int indexOfButton = difficultyNames.indexOf(difficultyName);
+
+			RadioButton button = new RadioButton(this);
+			CheckBox chck = findViewById(R.id.chckWordMode);
+			button.setText(difficultyName);
+			button.setOnClickListener(v -> {
+				chck.setEnabled(true);
+				optionsManager.setDifficulty(indexOfButton);
+			});
+
+			radioButtonList.add(button);
+			radioGroup.addView(button);
+
+			// select default button:
+			if (difficultyNames.indexOf(difficultyName) == optionsManager.getDifficulty()) {
+				button.setChecked(true);
+			}
+
+		}
+	}
+
+	private void setupWordModeCheckbox() {
 		CheckBox chck = findViewById(R.id.chckWordMode);
 		if (optionsManager.isWordMode()) {
 			chck.setChecked(true);

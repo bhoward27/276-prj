@@ -11,10 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnFlickrPhotos"
-        android:layout_marginStart="98dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="7dp"
-        android:layout_toEndOf="@+id/text_order"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/spn_order"
         android:text="@string/txt_prompt_pile_size"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -62,7 +60,7 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:text="@string/txt_prompt_order"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -105,15 +103,24 @@
         android:inputType="textPersonName"
         android:maxLength="@integer/max_name_length" />
 
+    <TextView
+        android:id="@+id/text_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spn_order"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/txt_prompt_difficulty"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
     <RadioGroup
         android:id="@+id/rgDifficulty"
-        android:layout_width="14dp"
-        android:layout_height="15dp"
-        android:layout_below="@+id/spn_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_difficulty"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="11dp" />
+        android:layout_marginTop="10dp" />
 
     <Spinner
         android:id="@+id/spn_order"

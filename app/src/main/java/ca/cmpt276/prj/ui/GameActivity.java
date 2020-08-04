@@ -128,8 +128,6 @@ public class GameActivity extends AppCompatActivity {
 
 	private void initGame() {
 		optionsManager = OptionsManager.getInstance();
-		// TODO: move to OptionsActivity
-		optionsManager.setDifficulty(2);
 
 		discPileButtons = new ArrayList<>();
 		drawPileButtons = new ArrayList<>();
