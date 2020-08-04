@@ -114,27 +114,53 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 		//---
 		//String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
 
-		//In order to write to storage, permissions defined in AndroidManifest
+		// In order to write to storage, permissions defined in AndroidManifest
 		// need to be asked for; code for doing this is adapted from Meta Snarf and Atif Mahmood
 		// @ https://stackoverflow.com/a/33162451
-		if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-			Log.v("Permission status:","Permission is granted");
-			//File write logic here
-		} else {
+		while(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 			Log.v("Permission status:","Permission NOT granted. Trying to alleviate...");
 			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 		}
 
-		File cardPhotoStorageDir = new File(Environment.getExternalStorageDirectory(), "FindDaMatch");
+		Log.v("Permission status:","Permission is granted");
+
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		//Using
+		//In doing this, a copy accessible in the sdcard folder is created.
+		//File cardPhotoStorageDir = new File (Environment.getExternalStorageDirectory(), "FindDaMatchPhotos");
+		//File cardPhotoStorageDir = new File(getExternalFilesDir(null), "FindDaMatch3");
+
+		// Adapted form Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
+		// Prodev @ https://stackoverflow.com/a/37496736
+		// Use of getFilesDir() suggested by raddevus, from
+		// @ https://stackoverflow.com/a/29404440
+
+		// File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "testthing");
+		// File cardPhotoStorageDir = new File("/storage", "FindDaMatch");
+		File cardPhotoStorageDir = new File(getFilesDir(), "Exported Photos");
+
+		Log.d("App:", "See your files in " + cardPhotoStorageDir.getPath());
+
+		String exportedDeckFolder = cardPhotoStorageDir.getPath();
 
 		if (!cardPhotoStorageDir.exists()) {
-			if (!cardPhotoStorageDir.mkdirs()) {
-				Log.d("App", "failed to create directory");
+			Log.d("App: ", "Hey, the directory doesn't exist! Let's try making it...");
+			if (!cardPhotoStorageDir.mkdir()) {
+				Log.d("App", "failed to create directory!");
+			}else{
+				Log.d("App", "Wow, the directory is NOW created atL" + cardPhotoStorageDir.getAbsolutePath());
 			}
 		}else{
-			Log.d("App", "Wow, the directory was created!");
+			Log.d("App", "Wow, the directory was already created atL" + cardPhotoStorageDir.getAbsolutePath());
 		}
 
+		Toast.makeText(getApplicationContext(), getString(
+				R.string.tst_show_exported_card_photos_directory) + cardPhotoStorageDir,
+				Toast.LENGTH_LONG).show();
+
+		// creating text file to store files in directory of app adapted from Coding in Flow
+		// @
 //		String text = "OKAY!";
 //		FileOutputStream fos = null;
 //		String fileName = "Example" + JPG_EXTENSION;
