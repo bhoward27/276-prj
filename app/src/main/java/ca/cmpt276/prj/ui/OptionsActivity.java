@@ -29,8 +29,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Activity for different types of pictures and setting the player name.

@@ -49,4 +49,6 @@ public final class Constants {
 	public static final String FLICKR_PREFIX = "c";
 	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
 	public static final int ASCII_OFFSET = 97;
+	public static final int DEFAULT_DIFFICULTY = 0;
+	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
 }

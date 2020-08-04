@@ -20,7 +20,7 @@ import ca.cmpt276.prj.model.ImageNameMatrix;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.PREFS;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Activity for showing the animated intro preceding an automatic change to the Main Menu Activity. Also includes a button to skip the intro

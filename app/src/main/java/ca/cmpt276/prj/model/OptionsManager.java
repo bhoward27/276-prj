@@ -2,34 +2,12 @@ package ca.cmpt276.prj.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
-import static ca.cmpt276.prj.model.Constants.ASCII_OFFSET;
-import static ca.cmpt276.prj.model.Constants.DECK_SIZE_PREF_KEY;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_DECK_SIZE;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_FLICKR_IMAGE_SET_SIZE;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_ORDER_PREF;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_PLAYER_NAME;
-import static ca.cmpt276.prj.model.Constants.DEFAULT_WORD_MODE;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.IMAGE_SET_INT_PREF;
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.MINIMUM_DECK_SIZE;
-import static ca.cmpt276.prj.model.Constants.NAME_PREF;
-import static ca.cmpt276.prj.model.Constants.NUM_IMAGES_IN_DEFAULT_SETS;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET_SIZE_PREF_KEY;
-import static ca.cmpt276.prj.model.Constants.ORDER_PREF_KEY;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.PREFS;
-import static ca.cmpt276.prj.model.Constants.SUPPORTED_ORDERS;
-import static ca.cmpt276.prj.model.Constants.WORD_MODE_PREF_KEY;
+import static ca.cmpt276.prj.model.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -44,6 +22,7 @@ public class OptionsManager {
 	 */
 	private class Option {
 		int imageSet;
+		int difficulty;
 		int numFlickrImages;
 		int order;
 		int deckSize;
@@ -53,6 +32,8 @@ public class OptionsManager {
 		Option(){
 			this.imageSet = prefsManager.loadInt(IMAGE_SET_INT_PREF, // key
 					DEFAULT_IMAGE_SET); // default key
+			this.difficulty = prefsManager.loadInt(DIFFICULTY_PREF,
+					DEFAULT_DIFFICULTY);
 			this.numFlickrImages = prefsManager.loadInt(FLICKR_IMAGE_SET_SIZE_PREF_KEY,
 					DEFAULT_FLICKR_IMAGE_SET_SIZE);
 			this.order = prefsManager.loadInt(ORDER_PREF_KEY,

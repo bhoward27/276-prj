@@ -49,15 +49,7 @@ import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
-import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Class for displaying the game to the player, including game over messages.
@@ -426,7 +418,7 @@ public class GameActivity extends AppCompatActivity {
 		if (playerRank != 0) {// different win sound depending on if player got a high score
 			winMessage += getString(R.string.txt_player_place, playerRank);
 			playSound(GameSoundEffects.WIN_WITH_HIGH_SCORE);
-		}else{
+		} else {
 			playSound(GameSoundEffects.WIN);
 		}
 

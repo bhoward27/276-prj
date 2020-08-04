@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import ca.cmpt276.prj.model.FlickrFetchr;
-
 /**
  * This class performs the internal operations required to fetch the thumbnails from Flickr
  * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)

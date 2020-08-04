@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * The Deck class handles the interfacing of the two card piles which will be used by the Game Instance class.
