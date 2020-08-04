@@ -152,9 +152,9 @@ public class Deck {
 		double scaleLowerBound = 0.999999999999;
 		double scaleUpperBound = 1.000000000001;
 
-		if (difficulty > 0) {
+		if (difficulty > EASY) {
 			rotateBound = 360;
-			if (difficulty > 1) {
+			if (difficulty > MEDIUM) {
 				scaleLowerBound = 0.6;
 				scaleUpperBound = 1.25;
 			}
