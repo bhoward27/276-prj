@@ -258,6 +258,8 @@ public class GameActivity extends AppCompatActivity {
 			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
 			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
 
+			button.setRotation(0);
+
 			// set the image or word
 			if (!currCard.isWord.get(modIndex)) {
 				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
