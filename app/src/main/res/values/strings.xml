@@ -114,10 +114,10 @@
     <string name="txt_toast_downloaded">%s has been downloaded.</string>
     <string name="txt_toast_deleted">%s has been deleted.</string>
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
-    <string name="txt_manage_flick_photos">Flickr Photos</string>
+    <string name="txt_manage_custom_photos">Custom Image</string>
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
     <string name="txt_flickr_photo_amount_not_ok">(%d photos. need >= %d photos for Custom Image set)</string>
-    <string name="txt_flickr_photo_not_set">(Select Custom Image Set to set/see photo count)</string>
+    <string name="txt_custom_image_photo_not_set">(Select Custom Image Set to set/see photo count)</string>
     <string name="txt_flickr_reset_warning">Not Enough Custom Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
     <string name="txt_left_options_with_flickr_photo_amount_not_okk">Not Enough Custom Images; theme reset to its default (Landscape)</string>
     <string name="txt_attempted_leave_with_flickr_photo_amount_not_ok">Not Enough Custom Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
@@ -126,4 +126,8 @@
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
     <string name="txt_prompt_difficulty">Select difficulty:</string>
+    <string name="title_image_set">Image Set</string>
+    <string name="title_photo_activity">Photo</string>
+    <string name="txt_custom_image_set">Custom Image</string>
+    <string name="add_photo_image">Add Photo Images</string>
 </resources>
