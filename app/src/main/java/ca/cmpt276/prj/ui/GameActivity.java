@@ -322,9 +322,9 @@ public class GameActivity extends AppCompatActivity {
 		// END GETTING CARDVIEW WIDTH AND HEIGHT
 
 		// generate the random positions for the images on each card
-		GenRand rand = new GenRand();
+		GenRand rand = new GenRand(this, cardWidth, cardHeight);
 		for (Card c : gameInstance.getDeck().getAllCards()) {
-			rand.gen(this, c, cardWidth, cardHeight);
+			rand.gen(c);
 		}
 	}
 

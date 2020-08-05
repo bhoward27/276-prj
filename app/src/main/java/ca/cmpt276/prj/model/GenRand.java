@@ -23,21 +23,35 @@ public class GenRand {
 	private List<Integer> yMargins = new ArrayList<>();
 	private List<Rect> allRects = new ArrayList<>();
 	private List<Rect> rectsAdded = new ArrayList<>();
+	int maxX;
+	int maxY;
+	LocalFiles localFiles;
+	Context ctx;
+	OptionsManager optionsManager;
+	Resources res;
 
-	public GenRand() {
+	public GenRand(Context context, int maxX, int maxY) {
+		this.ctx = context;
+		this.maxX = maxX;
+		this.maxY = maxY;
+
+		localFiles = new LocalFiles(ctx, FLICKR_SAVED_DIR);
+		optionsManager = OptionsManager.getInstance();
+		res = ctx.getResources();
 	}
 
-	public void gen(Context ctx, Card card, int maxX, int maxY) {
+	public void gen(Card card) {
+		imageSizes(card);
+		imagePlacements(card);
+	}
+
+	private void imageSizes(Card card) {
 		if (!(card.imageHeights.isEmpty() || card.imageWidths.isEmpty() ||
 				card.topMargins.isEmpty() || card.leftMargins.isEmpty())) {
 			Log.d("GenRand", "gen: you are trying to write to a card that has already" +
 					" been written to.");
 			throw new Error("rewriting to card in GenRand");
 		}
-
-		LocalFiles localFiles = new LocalFiles(ctx, FLICKR_SAVED_DIR);
-		OptionsManager optionsManager = OptionsManager.getInstance();
-		Resources res = ctx.getResources();
 
 		double outputRatio = (double) maxX / maxY;
 		List<Integer> imagesMap = card.getImagesMap();
@@ -83,7 +97,9 @@ public class GenRand {
 			card.imageWidths.add(w);
 			card.imageHeights.add(h);
 		}
+	}
 
+	private void imagePlacements(Card card) {
 		xMargins.clear();
 		yMargins.clear();
 		allRects.clear();
