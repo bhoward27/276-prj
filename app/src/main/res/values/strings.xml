@@ -66,7 +66,7 @@
     <string name="txt_player_place">\nYou earned rank %d on the leaderboard!</string>
     <string name="txt_credits_app_icon">App Icon</string>
     <string name="txt_prompt_order">Select Order:</string>
-    <string name="txt_prompt_pile_size">Select Draw Pile Size:</string>
+    <string name="txt_prompt_pile_size">Select draw pile size:</string>
     <string name="txt_selected_order">Selected Order: %d</string>
     <string name="txt_selected_pile_size">Selected Draw Pile Size: %d</string>
 
@@ -125,6 +125,7 @@
     <string name="add_flickr_image">Add Flickr Images</string>
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
+    <string name="txt_prompt_difficulty">Select difficulty:</string>
     <string name="txt_generate_card_photos">Generate Card Photos</string>
     <string name="tst_show_exported_card_photos_directory">Your deck of cards formed with the selected rules can be found in:\u0020</string>
 </resources>

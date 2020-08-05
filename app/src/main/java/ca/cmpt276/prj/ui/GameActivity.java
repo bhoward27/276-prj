@@ -49,15 +49,7 @@ import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
-import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Class for displaying the game to the player, including game over messages.
@@ -175,6 +167,7 @@ public class GameActivity extends AppCompatActivity {
 		button.setForegroundGravity(Gravity.CENTER);
 		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
 		button.setAllCaps(false);
+		button.setStateListAnimator(null);
 
 		button.setTag(R.string.tag_btn_bg, button.getBackground());
 		button.setTag(R.string.tag_btn_key, pile);
@@ -261,10 +254,17 @@ public class GameActivity extends AppCompatActivity {
 			button.setTag(imageNum);
 
 			// set size & random position
+			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
+			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
+			if (!currCard.isWord.get(modIndex)) {
+				currButtonWidth *= currCard.randScales.get(modIndex);
+				currButtonHeight *= currCard.randScales.get(modIndex);
+			}
+
 			RelativeLayout.LayoutParams buttonLayoutParams =
 					(RelativeLayout.LayoutParams) button.getLayoutParams();
-			buttonLayoutParams.width = (int) Math.round(currCard.imageWidths.get(modIndex));
-			buttonLayoutParams.height = (int) Math.round(currCard.imageHeights.get(modIndex));
+			buttonLayoutParams.width = currButtonWidth;
+			buttonLayoutParams.height = currButtonHeight;
 
 			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
 			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
@@ -277,9 +277,15 @@ public class GameActivity extends AppCompatActivity {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
 							getPackageName());
-					button.setBackgroundResource(resourceID);
+					Picasso.get()
+							.load(resourceID)
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.into(button);
 				} else {
-					Picasso.get().load(localFiles.getFile(imageNum)).into(button);
+					Picasso.get()
+							.load(localFiles.getFile(imageNum))
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.into(button);
 				}
 			} else {
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
@@ -313,57 +319,12 @@ public class GameActivity extends AppCompatActivity {
 		// percentage of height which is the cardview, and remove the margins
 		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
 		int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-		int cardRatio = cardWidth / cardHeight;
 		// END GETTING CARDVIEW WIDTH AND HEIGHT
 
-		List<Card> allCards = gameInstance.getDeck().getAllCards();
-		for (Card c : allCards) {
-			List<Integer> imagesMap = c.getImagesMap();
-			for (int i : imagesMap) {
-				double w;
-				double h;
-				// regular, non-flickr image setup (can be dynamic width/height)
-				if (!c.isWord.get(imagesMap.indexOf(i))) {
-					double ratio;
-					if (optionsManager.getImageSet() == LANDSCAPE_IMAGE_SET || optionsManager.getImageSet() == PREDATOR_IMAGE_SET) {
-						Drawable image;
-						String resourceName = resourcePrefix + i;
-						int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-								getPackageName());
-						image = getDrawable(resourceID);
-						ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
-					} else {
-						File image = localFiles.getFile(i);
-						BitmapFactory.Options options = new BitmapFactory.Options();
-						options.inJustDecodeBounds = true;
-						BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-						ratio = (double) options.outWidth / options.outHeight;
-					}
-
-					if (ratio > cardRatio) { // if the image is wider than the card's ratio
-						h = (double) cardHeight / Math.log(numImagesPerCard * 20);
-						w = ratio * h;
-					} else {
-						w = (double) cardWidth / Math.log(numImagesPerCard * 20);
-						h = (1.0 / ratio) * w;
-					}
-				} else {
-					// make word buttons slightly bigger
-					w = cardWidth / Math.log(numImagesPerCard * 10);
-					h = (double) w / 1.5;
-				}
-
-				c.imageWidths.add(w);
-				c.imageHeights.add(h);
-			}
-		}
-
-		// generate the random positions for the images on this card
+		// generate the random positions for the images on each card
 		GenRand rand = new GenRand();
-		for (Card c : allCards) {
-			rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-			c.leftMargins.addAll(rand.getXMargins());
-			c.topMargins.addAll(rand.getYMargins());
+		for (Card c : gameInstance.getDeck().getAllCards()) {
+			rand.gen(this, c, cardWidth, cardHeight);
 		}
 	}
 
@@ -426,7 +387,7 @@ public class GameActivity extends AppCompatActivity {
 		if (playerRank != 0) {// different win sound depending on if player got a high score
 			winMessage += getString(R.string.txt_player_place, playerRank);
 			playSound(GameSoundEffects.WIN_WITH_HIGH_SCORE);
-		}else{
+		} else {
 			playSound(GameSoundEffects.WIN);
 		}
 

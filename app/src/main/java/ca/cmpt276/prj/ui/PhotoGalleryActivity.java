@@ -2,15 +2,12 @@ package ca.cmpt276.prj.ui;
 
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import java.io.File;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.OptionsManager;
 
 /**
  * This activity loads the Photo Gallery (Flickr) fragment.

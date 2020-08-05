@@ -1,16 +1,22 @@
 package ca.cmpt276.prj.model;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
- * This class returns arrays of points which can construct non-overlapping rectangles (at random
- * positions)
+ * This class calculates the widths/heights and random placements for the images on a card and
+ * writes them to the card.
  */
 public class GenRand {
 	private List<Integer> xMargins = new ArrayList<>();
@@ -21,15 +27,63 @@ public class GenRand {
 	public GenRand() {
 	}
 
-	public List<Integer> getXMargins() {
-		return xMargins;
-	}
+	public void gen(Context ctx, Card card, int maxX, int maxY) {
+		if (!(card.imageHeights.isEmpty() || card.imageWidths.isEmpty() ||
+				card.topMargins.isEmpty() || card.leftMargins.isEmpty())) {
+			Log.d("GenRand", "gen: you are trying to write to a card that has already" +
+					" been written to.");
+			throw new Error("rewriting to card in GenRand");
+		}
 
-	public List<Integer> getYMargins() {
-		return yMargins;
-	}
+		LocalFiles localFiles = new LocalFiles(ctx, FLICKR_SAVED_DIR);
+		OptionsManager optionsManager = OptionsManager.getInstance();
+		Resources res = ctx.getResources();
 
-	public void gen(List<Double> widths, List<Double> heights, int maxX, int maxY) {
+		double outputRatio = (double) maxX / maxY;
+		List<Integer> imagesMap = card.getImagesMap();
+		int numImagesPerCard = imagesMap.size();
+		for (int i : imagesMap) {
+			double w;
+			double h;
+			// regular, non-flickr image setup (can be dynamic width/height)
+			if (!card.isWord.get(imagesMap.indexOf(i))) {
+				double ratio;
+				if (optionsManager.getImageSet() < FLICKR_IMAGE_SET) {
+					Drawable image;
+					String resourceName = optionsManager.getImageSetPrefix() + RESOURCE_DIVIDER + i;
+					Log.d("GenRand", "gen: " + resourceName);
+					int resourceID = res.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+							ctx.getPackageName());
+					image = ctx.getDrawable(resourceID);
+					if (image == null) {
+						throw new Error("The image was null.");
+					}
+					ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+				} else {
+					File image = localFiles.getFile(i);
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.inJustDecodeBounds = true;
+					BitmapFactory.decodeFile(image.getAbsolutePath(), options);
+					ratio = (double) options.outWidth / options.outHeight;
+				}
+
+				if (ratio > outputRatio) { // if the image is wider than the card's ratio
+					h = (double) maxY / Math.log(numImagesPerCard * 20);
+					w = ratio * h;
+				} else {
+					w = (double) maxX / Math.log(numImagesPerCard * 20);
+					h = (1.0 / ratio) * w;
+				}
+			} else {
+				// make word buttons slightly bigger
+				w = maxX / Math.log(numImagesPerCard * 10);
+				h = (double) w / 1.5;
+			}
+
+			card.imageWidths.add(w);
+			card.imageHeights.add(h);
+		}
+
 		xMargins.clear();
 		yMargins.clear();
 		allRects.clear();
@@ -37,11 +91,11 @@ public class GenRand {
 
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-		for (int i = 0; i < widths.size(); i++) {
+		for (int i = 0; i < card.imageWidths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(widths.get(i) + BUTTON_SPACING_PADDING),
-					(int) Math.round(heights.get(i) + BUTTON_SPACING_PADDING));
+					(int) Math.round(card.imageWidths.get(i) + BUTTON_SPACING_PADDING),
+					(int) Math.round(card.imageHeights.get(i) + BUTTON_SPACING_PADDING));
 			allRects.add(rect);
 		}
 
@@ -82,5 +136,8 @@ public class GenRand {
 				totalRetryCount++;
 			}
 		}
+
+		card.leftMargins.addAll(xMargins);
+		card.topMargins.addAll(yMargins);
 	}
 }

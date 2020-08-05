@@ -31,12 +31,8 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.LocalFiles;
 import ca.cmpt276.prj.model.OptionsManager;
-import ca.cmpt276.prj.model.QueryPreferences;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_PREFIX;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * This activity loads Flickr images (from your locally downloaded files) into a RecyclerView.

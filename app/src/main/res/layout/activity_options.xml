@@ -10,11 +10,9 @@
         android:id="@+id/text_deck_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spn_order"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/btnFlickrPhotos"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/spn_order"
         android:text="@string/txt_prompt_pile_size"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -57,13 +55,12 @@
         android:id="@+id/text_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_selected"
+        android:layout_below="@+id/btnFlickrPhotos"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="false"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="false"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:text="@string/txt_prompt_order"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -82,7 +79,7 @@
         android:textSize="20sp" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/rgImageSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtName"
@@ -106,34 +103,48 @@
         android:inputType="textPersonName"
         android:maxLength="@integer/max_name_length" />
 
+    <TextView
+        android:id="@+id/text_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spn_order"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/txt_prompt_difficulty"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:id="@+id/rgDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_difficulty"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
     <Spinner
         android:id="@+id/spn_order"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_order"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="0dp" />
+        android:layout_marginTop="10dp" />
 
     <Spinner
         android:id="@+id/spn_pile_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_deck_size"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
+        android:layout_below="@+id/text_order"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="0dp" />
+        android:layout_toEndOf="@+id/spn_order" />
 
     <CheckBox
         android:id="@+id/chckWordMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spn_pile_size"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/rgDifficulty"
+        android:layout_marginTop="25dp"
         android:text="@string/txt_words_and_images"
         android:textSize="20sp" />
 

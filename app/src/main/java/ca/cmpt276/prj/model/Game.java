@@ -2,7 +2,7 @@ package ca.cmpt276.prj.model;
 
 import java.util.List;
 
-import static ca.cmpt276.prj.model.Constants.NONE_SELECTED;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * The Game class interfaces with Deck to keep the game state.

@@ -3,7 +3,7 @@ package ca.cmpt276.prj.model;
 import java.io.File;
 import java.util.Comparator;
 
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * This is a helper class used for sorting in ascending order of downloaded Flickr file names
