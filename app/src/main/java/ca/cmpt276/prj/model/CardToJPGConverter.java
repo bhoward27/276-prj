@@ -12,6 +12,7 @@ package ca.cmpt276.prj.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardToJPGConverter {
@@ -19,17 +20,71 @@ public class CardToJPGConverter {
     private Game game; //   Not sure if this should be member or just a local variable in a function.
     private GenRand rand; //    Not sure if should be member.
     private List<Card> cards; //    not sure if should be a member.
+    private List<Bitmap> bitmaps;
+
+    /*
+    Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
+    Stuff from William's code:
+
+    // START GETTING CARDVIEW WIDTH AND HEIGHT
+		int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins); // 10 dp
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		int heightInPx = displayMetrics.heightPixels;
+		int widthInPx = displayMetrics.widthPixels;
+
+		TypedValue tv = new TypedValue();
+
+		// remove the action bar size from height: https://stackoverflow.com/a/13216807
+		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+			heightInPx -= TypedValue.complexToDimensionPixelSize(tv.data, globalResources.getDisplayMetrics());
+		}
+
+		// remove status bar from height: https://gist.github.com/hamakn/8939eb68a920a6d7a498
+		int resourceId = globalResources.getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			heightInPx -= globalResources.getDimensionPixelSize(resourceId);
+		}
+
+		int cardWidthInPx = widthInPx - cardViewMarginSize;
+		// percentage of height which is the cardview, and remove the margins
+		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
+		int cardHeightInPx = (int) Math.round(heightInPx * tv.getFloat() - cardViewMarginSize);
+		// END GETTING CARDVIEW WIDTH AND HEIGHT
+     */
+
+    //  Should the above commented out code be made into separate methods
+    //  that can be used by the card converter? Perhaps method could be put
+    //  in Game or Deck and then GameActivity and CardConverter uses it however necessary?
+    //  Talk to William about this if need be.
+
+    /*
+    Card bitmap should be the aspect ratio of an actual card.
+    What resolution should it be then?
+     */
 
     CardToJPGConverter(Context context) {
         options = options.getInstance();
         game = new Game();
         //rand = new GenRand(context, maxX, maxY);
         setupCards();
+        createBitmaps();
     }
 
-//    public Bitmap getBitmapsss() {
+//    private Bitmap toBitmap(Card c) {
 //
 //    }
+
+    private void createBitmaps() {
+        bitmaps = new ArrayList<>();
+        for (Card c : cards) {
+            //bitmaps.add(toBitmap(c));
+        }
+    }
+
+    public List<Bitmap> getBitmaps() {
+        return bitmaps;
+    }
 
     private void setupCards() {
         cards = game.getDeck().getAllCards();
