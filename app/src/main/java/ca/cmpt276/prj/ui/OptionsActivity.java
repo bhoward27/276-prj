@@ -109,7 +109,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 
 
 		// Prodev @ https://stackoverflow.com/a/37496736
-		// Adapted form Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
+		// Adapted from Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
 		// Use of getFilesDir() suggested by raddevus, from
 		// @ https://stackoverflow.com/a/29404440
 
