@@ -126,4 +126,6 @@
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
     <string name="txt_prompt_difficulty">Select difficulty:</string>
+    <string name="txt_generate_card_photos">Generate Card Photos</string>
+    <string name="tst_show_exported_card_photos_directory">Your deck of cards formed with the selected rules can be found in:\u0020</string>
 </resources>

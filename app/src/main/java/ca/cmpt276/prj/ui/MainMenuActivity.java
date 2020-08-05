@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -37,6 +39,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
 		setUpImages();
 		setUpButtons();
+		//setUpStorageFolder();
 
 	}
 

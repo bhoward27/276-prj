@@ -171,4 +171,13 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btnGenerateCardPhotos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:text="@string/txt_generate_card_photos" />
+
 </RelativeLayout>
