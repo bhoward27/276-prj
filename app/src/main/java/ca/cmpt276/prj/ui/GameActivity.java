@@ -319,57 +319,12 @@ public class GameActivity extends AppCompatActivity {
 		// percentage of height which is the cardview, and remove the margins
 		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
 		int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-		int cardRatio = cardWidth / cardHeight;
 		// END GETTING CARDVIEW WIDTH AND HEIGHT
 
-		List<Card> allCards = gameInstance.getDeck().getAllCards();
-		for (Card c : allCards) {
-			List<Integer> imagesMap = c.getImagesMap();
-			for (int i : imagesMap) {
-				double w;
-				double h;
-				// regular, non-flickr image setup (can be dynamic width/height)
-				if (!c.isWord.get(imagesMap.indexOf(i))) {
-					double ratio;
-					if (optionsManager.getImageSet() == LANDSCAPE_IMAGE_SET || optionsManager.getImageSet() == PREDATOR_IMAGE_SET) {
-						Drawable image;
-						String resourceName = resourcePrefix + i;
-						int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-								getPackageName());
-						image = getDrawable(resourceID);
-						ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
-					} else {
-						File image = localFiles.getFile(i);
-						BitmapFactory.Options options = new BitmapFactory.Options();
-						options.inJustDecodeBounds = true;
-						BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-						ratio = (double) options.outWidth / options.outHeight;
-					}
-
-					if (ratio > cardRatio) { // if the image is wider than the card's ratio
-						h = (double) cardHeight / Math.log(numImagesPerCard * 20);
-						w = ratio * h;
-					} else {
-						w = (double) cardWidth / Math.log(numImagesPerCard * 20);
-						h = (1.0 / ratio) * w;
-					}
-				} else {
-					// make word buttons slightly bigger
-					w = cardWidth / Math.log(numImagesPerCard * 10);
-					h = (double) w / 1.5;
-				}
-
-				c.imageWidths.add(w);
-				c.imageHeights.add(h);
-			}
-		}
-
-		// generate the random positions for the images on this card
+		// generate the random positions for the images on each card
 		GenRand rand = new GenRand();
-		for (Card c : allCards) {
-			rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-			c.leftMargins.addAll(rand.getXMargins());
-			c.topMargins.addAll(rand.getYMargins());
+		for (Card c : gameInstance.getDeck().getAllCards()) {
+			rand.gen(this, c, cardWidth, cardHeight);
 		}
 	}
 
