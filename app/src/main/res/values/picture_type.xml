@@ -3,8 +3,7 @@
     <string-array name="str_pic_types">
         <item>Landscape</item>
         <item>Predator</item>
-        <item>Flickr</item>
-        <item>Photo</item>
+        <item>Custom Image</item>
     </string-array>
 
     <string name="default_picture_type">Landscape</string>

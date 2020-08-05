@@ -29,6 +29,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
+
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
@@ -119,6 +120,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 					updateFlickrAmountText();
 				});
 			}
+
 			radioButtonList.add(button);
 			radioGroup.addView(button);
 
@@ -238,6 +240,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 						&& radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
 					optionsManager.setImageSet(FLICKR_IMAGE_SET);
 				}
+
 				break;
 			case R.id.spn_pile_size:
 				String pileSizeName = parent.getItemAtPosition(position).toString();
@@ -302,7 +305,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 	}
 
 	private void setUpFlickrButton() {
-		Button button = findViewById(R.id.btnFlickrPhotos);
+		Button button = findViewById(R.id.btnCustomImageSet);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -311,19 +314,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		});
 	}
 
-	private void setUpCustomButton() {
-		Button button = findViewById(R.id.btnCustomImageSet);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				launchPhotoActivity();
-			}
-		});
-	}
 
 	private void updateFlickrAmountText() {
 		// turn on Flickr mode to see/change the number of flickr images.
-		TextView currentFlickrPhotoCount = findViewById(R.id.txt_flickr_number);
+		TextView currentFlickrPhotoCount = findViewById(R.id.txt_custom_image_number);
 		// the user is only allowed to see/set Flickr images if the Flickr image set is selected
 		if (radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
 
@@ -352,15 +346,12 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 	}
 
+
 	private void launchPhotoGalleryActivity() {
 		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
 		startActivity(intent);
 	}
 
-	private void launchPhotoActivity() {
-		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
-		startActivity(intent);
-	}
 
 	@Override
 	public void onResume() {
