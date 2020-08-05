@@ -2,26 +2,22 @@ package ca.cmpt276.prj.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Makes interacting with our local images easier by adding methods to easily save, delete, and read

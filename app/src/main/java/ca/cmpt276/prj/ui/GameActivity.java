@@ -49,15 +49,7 @@ import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.Score;
 import ca.cmpt276.prj.model.ScoreManager;
 
-import static ca.cmpt276.prj.model.Constants.DISCARD_PILE;
-import static ca.cmpt276.prj.model.Constants.DRAW_PILE;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Class for displaying the game to the player, including game over messages.
@@ -175,6 +167,7 @@ public class GameActivity extends AppCompatActivity {
 		button.setForegroundGravity(Gravity.CENTER);
 		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
 		button.setAllCaps(false);
+		button.setStateListAnimator(null);
 
 		button.setTag(R.string.tag_btn_bg, button.getBackground());
 		button.setTag(R.string.tag_btn_key, pile);
@@ -261,10 +254,17 @@ public class GameActivity extends AppCompatActivity {
 			button.setTag(imageNum);
 
 			// set size & random position
+			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
+			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
+			if (!currCard.isWord.get(modIndex)) {
+				currButtonWidth *= currCard.randScales.get(modIndex);
+				currButtonHeight *= currCard.randScales.get(modIndex);
+			}
+
 			RelativeLayout.LayoutParams buttonLayoutParams =
 					(RelativeLayout.LayoutParams) button.getLayoutParams();
-			buttonLayoutParams.width = (int) Math.round(currCard.imageWidths.get(modIndex));
-			buttonLayoutParams.height = (int) Math.round(currCard.imageHeights.get(modIndex));
+			buttonLayoutParams.width = currButtonWidth;
+			buttonLayoutParams.height = currButtonHeight;
 
 			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
 			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
@@ -277,9 +277,15 @@ public class GameActivity extends AppCompatActivity {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
 							getPackageName());
-					button.setBackgroundResource(resourceID);
+					Picasso.get()
+							.load(resourceID)
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.into(button);
 				} else {
-					Picasso.get().load(localFiles.getFile(imageNum)).into(button);
+					Picasso.get()
+							.load(localFiles.getFile(imageNum))
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.into(button);
 				}
 			} else {
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
@@ -426,7 +432,7 @@ public class GameActivity extends AppCompatActivity {
 		if (playerRank != 0) {// different win sound depending on if player got a high score
 			winMessage += getString(R.string.txt_player_place, playerRank);
 			playSound(GameSoundEffects.WIN_WITH_HIGH_SCORE);
-		}else{
+		} else {
 			playSound(GameSoundEffects.WIN);
 		}
 

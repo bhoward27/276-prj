@@ -8,11 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static ca.cmpt276.prj.model.Constants.NUM_HIGH_SCORES;
-import static ca.cmpt276.prj.model.Constants.PREFIX_PREF;
-import static ca.cmpt276.prj.model.Constants.SCORE_DATE_KEY_PREFIX;
-import static ca.cmpt276.prj.model.Constants.SCORE_NAME_KEY_PREFIX;
-import static ca.cmpt276.prj.model.Constants.SCORE_TIME_KEY_PREFIX;
+import static ca.cmpt276.prj.model.Constants.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**

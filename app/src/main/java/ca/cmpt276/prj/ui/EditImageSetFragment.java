@@ -31,7 +31,9 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.LocalFiles;
 import ca.cmpt276.prj.model.OptionsManager;
+import ca.cmpt276.prj.model.QueryPreferences;
 
+import static ca.cmpt276.prj.model.Constants.*;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 
 /**

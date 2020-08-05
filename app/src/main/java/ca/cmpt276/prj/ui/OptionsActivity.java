@@ -29,6 +29,7 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
+import static ca.cmpt276.prj.model.Constants.*;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
@@ -58,11 +59,12 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		int numImagesPerCard = optionsManager.getOrder() + 1;
 		minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
-		createRadioButton();
+		setupImageSetRadioButtons();
+		setupDifficultyRadioButtons();
 		setupEntryBox();
 		createOrderSpinner();
 		createDeckSizeSpinner();
-		setupCheckBox();
+		setupWordModeCheckbox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
 	}
@@ -84,9 +86,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		return true;
 	}
 
-	private void createRadioButton() {
+	private void setupImageSetRadioButtons() {
 
-		RadioGroup radioGroup = findViewById(R.id.radioGroup);
+		RadioGroup radioGroup = findViewById(R.id.rgImageSet);
 		List<String> deckThemeNames = new ArrayList<>(Arrays.asList(getResources()
 				.getStringArray(R.array.str_pic_types)));
 		for (String imageSetName : deckThemeNames) {
@@ -120,7 +122,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 					updateFlickrAmountText();
 				});
 			}
-
 			radioButtonList.add(button);
 			radioGroup.addView(button);
 
@@ -132,7 +133,33 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 	}
 
-	private void setupCheckBox() {
+	private void setupDifficultyRadioButtons() {
+		RadioGroup radioGroup = findViewById(R.id.rgDifficulty);
+		List<String> difficultyNames = new ArrayList<>(Arrays.asList(getResources()
+				.getStringArray(R.array.str_difficulty_names)));
+		for (String difficultyName : difficultyNames) {
+			int indexOfButton = difficultyNames.indexOf(difficultyName);
+
+			RadioButton button = new RadioButton(this);
+			CheckBox chck = findViewById(R.id.chckWordMode);
+			button.setText(difficultyName);
+			button.setOnClickListener(v -> {
+				chck.setEnabled(true);
+				optionsManager.setDifficulty(indexOfButton);
+			});
+
+			radioButtonList.add(button);
+			radioGroup.addView(button);
+
+			// select default button:
+			if (difficultyNames.indexOf(difficultyName) == optionsManager.getDifficulty()) {
+				button.setChecked(true);
+			}
+
+		}
+	}
+
+	private void setupWordModeCheckbox() {
 		CheckBox chck = findViewById(R.id.chckWordMode);
 		if (optionsManager.isWordMode()) {
 			chck.setChecked(true);
@@ -240,7 +267,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 						&& radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
 					optionsManager.setImageSet(FLICKR_IMAGE_SET);
 				}
-
 				break;
 			case R.id.spn_pile_size:
 				String pileSizeName = parent.getItemAtPosition(position).toString();
@@ -314,7 +340,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		});
 	}
 
-
 	private void updateFlickrAmountText() {
 		// turn on Flickr mode to see/change the number of flickr images.
 		TextView currentFlickrPhotoCount = findViewById(R.id.txt_custom_image_number);
@@ -346,12 +371,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		}
 	}
 
-
 	private void launchPhotoGalleryActivity() {
 		Intent intent = new Intent(OptionsActivity.this, EditImageSetActivity.class);
 		startActivity(intent);
 	}
-
 
 	@Override
 	public void onResume() {

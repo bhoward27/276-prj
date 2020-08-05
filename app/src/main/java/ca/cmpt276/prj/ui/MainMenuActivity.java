@@ -8,21 +8,14 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionsManager;
 
-import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET_PREFIX;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
-import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
-import static ca.cmpt276.prj.model.Constants.PREFS;
-import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Activity for showing the Game's Main Menu, where players can click buttons to go to a variety of Activities

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static ca.cmpt276.prj.model.Constants.BUTTON_SPACING_PADDING;
+import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * This class returns arrays of points which can construct non-overlapping rectangles (at random
