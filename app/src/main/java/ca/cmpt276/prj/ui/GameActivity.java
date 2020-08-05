@@ -253,6 +253,8 @@ public class GameActivity extends AppCompatActivity {
 
 			button.setTag(imageNum);
 
+			/*	DELETE this comment before merging --- start of code to pay attention to.
+				**************************************************************** */
 			// set size & random position
 			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
 			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
@@ -289,6 +291,8 @@ public class GameActivity extends AppCompatActivity {
 				}
 			} else {
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
+				/*	****************************************************************
+					DELETE this comment before merging --- end of code to pay attention to. */
 				button.setText(imageNames.getName(imageSet, imageNum));
 			}
 		}

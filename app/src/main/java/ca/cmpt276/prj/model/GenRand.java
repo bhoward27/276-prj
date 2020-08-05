@@ -45,6 +45,7 @@ public class GenRand {
 		imagePlacements(card);
 	}
 
+	//	methods should have verbs in their name.
 	private void imageSizes(Card card) {
 		if (!(card.imageHeights.isEmpty() || card.imageWidths.isEmpty() ||
 				card.topMargins.isEmpty() || card.leftMargins.isEmpty())) {
@@ -99,6 +100,7 @@ public class GenRand {
 		}
 	}
 
+	//	methods should have verbs in their name.
 	private void imagePlacements(Card card) {
 		xMargins.clear();
 		yMargins.clear();
