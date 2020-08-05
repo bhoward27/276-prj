@@ -278,6 +278,8 @@ public class GameActivity extends AppCompatActivity {
 							.into(button);
 				}
 			} else {
+				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
+						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
 				button.setText(imageNames.getName(imageSet, imageNum));
 				// rotating text isn't supported, button bg may overlap with buttons with images on them
