@@ -168,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
 		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
 		button.setAllCaps(false);
 		button.setStateListAnimator(null);
+		button.setBackground(null);
 
 		button.setTag(R.string.tag_btn_bg, button.getBackground());
 		button.setTag(R.string.tag_btn_key, pile);
