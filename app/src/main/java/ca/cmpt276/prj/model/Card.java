@@ -16,14 +16,18 @@ public class Card {
 	public List<Double> imageWidths = new ArrayList<>();
 	public List<Double> imageHeights = new ArrayList<>();
 	public List<Boolean> isWord = new ArrayList<>();
+	public List<Double> randRotations = new ArrayList<>();
+	public List<Double> randScales = new ArrayList<>();
 
 	private int cardNum;
 
-	public Card(List<Integer> imageOrders, int num, List<Boolean> wordBools) {
+	public Card(List<Integer> imageOrders, List<Boolean> wordBools, List<Double> randRotations, List<Double> randScales, int num) {
 		this.cardNum = num;
 
-		isWord.addAll(wordBools);
-		imagesMap.addAll(imageOrders);
+		this.randRotations.addAll(randRotations);
+		this.randScales.addAll(randScales);
+		this.isWord.addAll(wordBools);
+		this.imagesMap.addAll(imageOrders);
 	}
 
 	public int getCardNum() {
