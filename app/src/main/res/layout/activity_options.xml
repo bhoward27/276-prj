@@ -171,4 +171,16 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/btnGenerateCardPhotos"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chckWordMode"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="98dp"
+        android:layout_toEndOf="@+id/chckWordMode"
+        android:text="@string/txt_generate_card_photos" />
+
 </RelativeLayout>
