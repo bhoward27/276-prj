@@ -21,6 +21,11 @@ public class CardToJPGConverter {
     private GenRand rand; //    Not sure if should be member.
     private List<Card> cards; //    not sure if should be a member.
     private List<Bitmap> bitmaps;
+    private static final double HEIGHT_IN_INCHES = 3.5;
+    private static final double WIDTH_IN_INCHES = 2.5;
+    private static final int PPI = 200;
+    private static final int HEIGHT_IN_PX = (int) (HEIGHT_IN_INCHES * PPI);
+    private static final int WIDTH_IN_PX = (int) (WIDTH_IN_INCHES * PPI);
 
     /*
     Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
@@ -59,7 +64,9 @@ public class CardToJPGConverter {
     //  Talk to William about this if need be.
 
     /*
-    Card bitmap should be the aspect ratio of an actual card.
+    Card bitmap should be the aspect ratio of an actual card in real life.
+    (can have it in millimetres to use ints instaed)
+    A playing card is approximately 6.4 x 8.9 cm. So aspect ratio = 6.4/8.9 ~ 0.719 ~ 7:10 = 7/10
     What resolution should it be then?
      */
 
@@ -76,6 +83,7 @@ public class CardToJPGConverter {
 //    }
 
     private void createBitmaps() {
+        //  would be neat to have the last image in bitmaps be an image for the back of a card.
         bitmaps = new ArrayList<>();
         for (Card c : cards) {
             //bitmaps.add(toBitmap(c));
