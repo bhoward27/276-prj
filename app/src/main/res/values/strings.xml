@@ -126,4 +126,9 @@
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
     <string name="txt_prompt_difficulty">Select difficulty:</string>
+    <string name="txt_generate_card_photos">Generate Deck Photos</string>
+    <string name="tst_show_new_exported_card_photos_directory">A new folder for your deck photos formed with the selected rules can be found in:\u0020</string>
+    <string name="tst_show_existing_exported_card_photos_directory">View your deck photos in the already existing storage folder, found in:\u0020</string>
+    <string name="txt_generate_card_photos_permission_not_granted">Generate Deck Photos (Requires Storage Access Permissions)</string>
+    <string name="tst_user_refused_storage_permission">Deck not exported. Permission for the app to access storage required; selecting \"Don\'t ask again\" and denying the next permission prompt will completely block you from exporting images! Wipe this app\'s data in your phone\'s Settings to unblock.</string>
 </resources>
