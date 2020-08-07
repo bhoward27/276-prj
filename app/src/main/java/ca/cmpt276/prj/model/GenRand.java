@@ -21,6 +21,8 @@ import static ca.cmpt276.prj.model.Constants.*;
 public class GenRand {
 	private final String TAG = "GenRand";
 
+	private List<Double> rotatedWidths = new ArrayList<>();
+	private List<Double> rotatedHeights = new ArrayList<>();
 	private List<Integer> xMargins = new ArrayList<>();
 	private List<Integer> yMargins = new ArrayList<>();
 	private List<Rect> allRects = new ArrayList<>();
@@ -61,10 +63,10 @@ public class GenRand {
 		int numImagesPerCard = imagesMap.size();
 		int imageIndex = 0;
 		for (int i : imagesMap) {
-			double tempW;
-			double tempH;
-			double w;
-			double h;
+			double realW;
+			double realH;
+			double rotatedW;
+			double rotatedH;
 			// regular, non-flickr image setup (can be dynamic width/height)
 			if (!card.isWord.get(imagesMap.indexOf(i))) {
 				if (optionsManager.getImageSet() < FLICKR_IMAGE_SET) {
@@ -76,35 +78,48 @@ public class GenRand {
 					if (image == null) {
 						throw new Error("The image was null.");
 					}
-					tempW = image.getIntrinsicWidth();
-					tempH = image.getIntrinsicHeight();
+					realW = image.getIntrinsicWidth();
+					realH = image.getIntrinsicHeight();
 				} else {
 					File image = localFiles.getFile(i);
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inJustDecodeBounds = true;
 					BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-					tempW = options.outWidth;
-					tempH = options.outHeight;
+					realW = options.outWidth;
+					realH = options.outHeight;
 				}
 
-				double[] dimens = getRotatedWH(tempW, tempH, card.randRotations.get(imageIndex));
-				double ratio = dimens[0] / dimens[1];
-				if (ratio > outputRatio) { // if the image is wider than the card's ratio
-					h = (double) maxY / Math.log(numImagesPerCard * 20);
-					w = ratio * h;
+				double[] dimens = getRotatedWH(realW, realH, card.randRotations.get(imageIndex));
+				double rotatedRatio = dimens[0] / dimens[1];
+				double realRatio = realW / realH;
+				if (rotatedRatio > outputRatio) { // if the image is wider than the card's rotatedRatio
+					realH = (double) maxY / Math.log(numImagesPerCard * 20);
+					realW = realRatio * realH;
+
+					rotatedH = (double) maxY / Math.log(numImagesPerCard * 20);
+					rotatedW = rotatedRatio * rotatedH;
 				} else {
-					w = (double) maxX / Math.log(numImagesPerCard * 20);
-					h = (1.0 / ratio) * w;
+					realW = (double) maxX / Math.log(numImagesPerCard * 20);
+					realH = (1.0 / realRatio) * realW;
+
+					rotatedW = (double) maxX / Math.log(numImagesPerCard * 20);
+					rotatedH = (1.0 / rotatedRatio) * rotatedW;
 				}
 
 			} else {
 				// make word buttons slightly bigger
-				w = maxX / Math.log(numImagesPerCard * 10);
-				h = (double) w / 1.5;
+				realW = (double) maxX / Math.log(numImagesPerCard * 20);
+				realH = (double) realW / 1.5;
+
+				rotatedW = maxX / Math.log(numImagesPerCard * 10);
+				rotatedH = (double) rotatedW / 1.5;
 			}
 
-			card.imageWidths.add(w);
-			card.imageHeights.add(h);
+			rotatedWidths.add(rotatedW);
+			rotatedHeights.add(rotatedH);
+
+			card.imageWidths.add(realW);
+			card.imageHeights.add(realH);
 			imageIndex++;
 		}
 	}
@@ -117,11 +132,11 @@ public class GenRand {
 
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-		for (int i = 0; i < card.imageWidths.size(); i++) {
+		for (int i = 0; i < rotatedWidths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(card.imageWidths.get(i) + BUTTON_SPACING_PADDING),
-					(int) Math.round(card.imageHeights.get(i) + BUTTON_SPACING_PADDING));
+					(int) Math.round(rotatedWidths.get(i) + BUTTON_SPACING_PADDING),
+					(int) Math.round(rotatedHeights.get(i) + BUTTON_SPACING_PADDING));
 			allRects.add(rect);
 		}
 

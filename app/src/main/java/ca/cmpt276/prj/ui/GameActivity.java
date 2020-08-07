@@ -272,13 +272,14 @@ public class GameActivity extends AppCompatActivity {
 							getPackageName());
 					Picasso.get()
 							.load(resourceID)
-							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							//.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
 				} else {
 					Picasso.get()
 							.load(localFiles.getFile(imageNum))
-							.rotate(currCard.randRotations.get(modIndex).floatValue())
+							//.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
+
 				}
 			} else {
 				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
@@ -286,8 +287,10 @@ public class GameActivity extends AppCompatActivity {
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
 				button.setText(imageNames.getName(imageSet, imageNum));
 				// rotating text isn't supported, button bg may overlap with buttons with images on them
-				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
+				//button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 			}
+
+			button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 
 			RelativeLayout.LayoutParams buttonLayoutParams =
 					(RelativeLayout.LayoutParams) button.getLayoutParams();
