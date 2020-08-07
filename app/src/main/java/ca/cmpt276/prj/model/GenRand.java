@@ -21,8 +21,6 @@ import static ca.cmpt276.prj.model.Constants.*;
 public class GenRand {
 	private final String TAG = "GenRand";
 
-	private List<Double> rotatedWidths = new ArrayList<>();
-	private List<Double> rotatedHeights = new ArrayList<>();
 	private List<Integer> xMargins = new ArrayList<>();
 	private List<Integer> yMargins = new ArrayList<>();
 	private List<Rect> allRects = new ArrayList<>();
@@ -90,42 +88,27 @@ public class GenRand {
 				}
 
 				double rotatedRatio = getRotatedWHRatio(realW, realH, card.randRotations.get(imageIndex));
-				double realRatio = realW / realH;
 
 				if (rotatedRatio > outputRatio) { // if the image is wider than the card's rotatedRatio
-					realH = (double) maxY / Math.log(numImagesPerCard * 20);
-					realW = realRatio * realH;
-
 					rotatedH = (double) maxY / Math.log(numImagesPerCard * 20);
 					rotatedW = rotatedRatio * rotatedH;
 				} else {
-					realW = (double) maxX / Math.log(numImagesPerCard * 20);
-					realH = (1.0 / realRatio) * realW;
-
 					rotatedW = (double) maxX / Math.log(numImagesPerCard * 20);
 					rotatedH = (1.0 / rotatedRatio) * rotatedW;
 				}
-				// scale image size (hard mode)
-				realW *= card.randScales.get(imageIndex);
-				realH *= card.randScales.get(imageIndex);
 
+				// scale image size (hard mode)
 				rotatedW *= card.randScales.get(imageIndex);
 				rotatedH *= card.randScales.get(imageIndex);
 
 			} else {
 				// make word buttons slightly bigger
-				realW = (double) maxX / Math.log(numImagesPerCard * 10);
-				realH = (double) realW / 1.5;
-
 				rotatedW = maxX / Math.log(numImagesPerCard * 10);
 				rotatedH = (double) rotatedW / 1.5;
 			}
 
-			rotatedWidths.add(rotatedW);
-			rotatedHeights.add(rotatedH);
-
-			card.imageWidths.add(realW);
-			card.imageHeights.add(realH);
+			card.imageWidths.add(rotatedW);
+			card.imageHeights.add(rotatedH);
 			imageIndex++;
 		}
 	}
@@ -138,11 +121,11 @@ public class GenRand {
 
 		ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-		for (int i = 0; i < rotatedWidths.size(); i++) {
+		for (int i = 0; i < card.imageWidths.size(); i++) {
 			Rect rect = new Rect(0,
 					0,
-					(int) Math.round(rotatedWidths.get(i) + BUTTON_SPACING_PADDING),
-					(int) Math.round(rotatedHeights.get(i) + BUTTON_SPACING_PADDING));
+					(int) Math.round(card.imageWidths.get(i) + BUTTON_SPACING_PADDING),
+					(int) Math.round(card.imageHeights.get(i) + BUTTON_SPACING_PADDING));
 			allRects.add(rect);
 		}
 
@@ -185,9 +168,6 @@ public class GenRand {
 				totalRetryCount++;
 			}
 		}
-
-		rotatedWidths.clear();
-		rotatedHeights.clear();
 
 		card.leftMargins.addAll(xMargins);
 		card.topMargins.addAll(yMargins);

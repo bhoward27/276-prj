@@ -270,14 +270,13 @@ public class GameActivity extends AppCompatActivity {
 							getPackageName());
 					Picasso.get()
 							.load(resourceID)
-							//.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
 				} else {
 					Picasso.get()
 							.load(localFiles.getFile(imageNum))
-							//.rotate(currCard.randRotations.get(modIndex).floatValue())
+							.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
-
 				}
 			} else {
 				// scale text size (hard mode)
@@ -285,9 +284,8 @@ public class GameActivity extends AppCompatActivity {
 						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
 				button.setText(imageNames.getName(imageSet, imageNum));
+				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 			}
-
-			button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 
 			RelativeLayout.LayoutParams buttonLayoutParams =
 					(RelativeLayout.LayoutParams) button.getLayoutParams();
