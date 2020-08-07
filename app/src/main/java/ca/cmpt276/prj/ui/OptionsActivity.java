@@ -161,11 +161,12 @@ import static ca.cmpt276.prj.model.Constants.*;
 		// Prodev @ https://stackoverflow.com/a/37496736 (General File Declaration)
 		// Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
 		// raddevus @ https://stackoverflow.com/a/29404440 (use of getFilesDir())
-		File cardPhotoStorageDir = new File(getFilesDir(), "Exported Deck");
-
+		//File cardPhotoStorageDir = new File(getFilesDir(), "Exported Deck");
+		File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Exported Deck");
+		//File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), "Exported Deck");
 		//Log.d("App:", "See your files in " + cardPhotoStorageDir.getPath());
 
-		String exportedDeckFolder = cardPhotoStorageDir.getPath();
+		String exportedDeckFolder = cardPhotoStorageDir.getAbsolutePath();
 			// Not only is mkdir() actually attempting to make the directory
 			// but the program will also crash if the directory could not be made.
 			// theoretically, this should never happen since the user would have given permission
@@ -220,10 +221,8 @@ import static ca.cmpt276.prj.model.Constants.*;
 					optionsManager.setImageSet(indexOfButton);
 					updateFlickrAmountText();
 				});
-
 			} else {
 				// for flickr radio button
-
 				button.setOnClickListener(v -> {
 					// don't allow the user to play the game with not enough images
 					if (areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())) {
