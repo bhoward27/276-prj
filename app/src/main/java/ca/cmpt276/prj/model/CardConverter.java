@@ -15,17 +15,32 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardToJPGConverter {
+public class CardConverter {
     private OptionsManager options; //  do I need options?
     private Game game; //   Not sure if this should be member or just a local variable in a function.
     private GenRand rand; //    Not sure if should be member.
     private List<Card> cards; //    not sure if should be a member.
     private List<Bitmap> bitmaps;
-    private static final double HEIGHT_IN_INCHES = 3.5;
-    private static final double WIDTH_IN_INCHES = 2.5;
-    private static final int PPI = 200;
-    private static final int HEIGHT_IN_PX = (int) (HEIGHT_IN_INCHES * PPI);
+
+    //  Values of height and width would be reversed for a typical playing card; however,
+    //  this would cause a lot of extra work for me because the in-game cards are in a landscape
+    //  orientation. So I am keeping the cards at that orientation (i.e., the exported card
+    //  will be wider than it is tall, like in the actual game).
+
+    //  Dimensions of a card in pixels and inches:
+    private static final double HEIGHT_IN_INCHES = 2.5;
+    private static final double WIDTH_IN_INCHES = 3.5;
+    private static final double MARGIN_IN_INCHES = 3.0 / 8;
+    private static final int PPI = 200; //  pixels per inch
+    private static final int HEIGHT_IN_PX = (int) (HEIGHT_IN_INCHES * PPI); //  px = pixels
     private static final int WIDTH_IN_PX = (int) (WIDTH_IN_INCHES * PPI);
+    private static final int MARGIN_IN_PX = (int) (MARGIN_IN_INCHES * PPI);
+
+    //  the inner height and width is referring to the smaller space in the card where
+    //  images can go. It's the space "inside the margins".
+    private static final int INNER_HEIGHT_IN_PX = HEIGHT_IN_PX - (2 * MARGIN_IN_PX);
+    private static final int INNER_WIDTH_IN_PX = WIDTH_IN_PX - (2 * MARGIN_IN_PX);
+
 
     /*
     Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
@@ -63,21 +78,15 @@ public class CardToJPGConverter {
     //  in Game or Deck and then GameActivity and CardConverter uses it however necessary?
     //  Talk to William about this if need be.
 
-    /*
-    Card bitmap should be the aspect ratio of an actual card in real life.
-    (can have it in millimetres to use ints instaed)
-    A playing card is approximately 6.4 x 8.9 cm. So aspect ratio = 6.4/8.9 ~ 0.719 ~ 7:10 = 7/10
-    What resolution should it be then?
-     */
-
-    CardToJPGConverter(Context context) {
+    CardConverter(Context context) {
         options = options.getInstance();
         game = new Game();
-        //rand = new GenRand(context, maxX, maxY);
+        rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
         setupCards();
         createBitmaps();
     }
 
+    //  Under construction
 //    private Bitmap toBitmap(Card c) {
 //
 //    }
@@ -86,7 +95,8 @@ public class CardToJPGConverter {
         //  would be neat to have the last image in bitmaps be an image for the back of a card.
         bitmaps = new ArrayList<>();
         for (Card c : cards) {
-            //bitmaps.add(toBitmap(c));
+            //  Under construction
+//            bitmaps.add(toBitmap(c));
         }
     }
 

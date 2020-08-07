@@ -20,8 +20,8 @@ public class Card {
 	private int cardNum;
 
 	public Card(List<Integer> imageOrders, List<Boolean> wordBools, List<Double> randRotations,
-					List<Double> randScales, int num) {
-		this.cardNum = num;
+					List<Double> randScales, int cardNum) {
+		this.cardNum = cardNum;
 
 		this.randRotations.addAll(randRotations);
 		this.randScales.addAll(randScales);
@@ -40,6 +40,5 @@ public class Card {
 	public Integer getImagesByIndex(int index) {
 		return imagesMap.get(index);
 	}
-
 }
 
