@@ -89,9 +89,9 @@ public class GenRand {
 					realH = options.outHeight;
 				}
 
-				double[] dimens = getRotatedWH(realW, realH, card.randRotations.get(imageIndex));
-				double rotatedRatio = dimens[0] / dimens[1];
+				double rotatedRatio = getRotatedWHRatio(realW, realH, card.randRotations.get(imageIndex));
 				double realRatio = realW / realH;
+
 				if (rotatedRatio > outputRatio) { // if the image is wider than the card's rotatedRatio
 					realH = (double) maxY / Math.log(numImagesPerCard * 20);
 					realW = realRatio * realH;
@@ -105,10 +105,16 @@ public class GenRand {
 					rotatedW = (double) maxX / Math.log(numImagesPerCard * 20);
 					rotatedH = (1.0 / rotatedRatio) * rotatedW;
 				}
+				// scale image size (hard mode)
+				realW *= card.randScales.get(imageIndex);
+				realH *= card.randScales.get(imageIndex);
+
+				rotatedW *= card.randScales.get(imageIndex);
+				rotatedH *= card.randScales.get(imageIndex);
 
 			} else {
 				// make word buttons slightly bigger
-				realW = (double) maxX / Math.log(numImagesPerCard * 20);
+				realW = (double) maxX / Math.log(numImagesPerCard * 10);
 				realH = (double) realW / 1.5;
 
 				rotatedW = maxX / Math.log(numImagesPerCard * 10);
@@ -167,8 +173,10 @@ public class GenRand {
 			// if we reached 25 tries already
 			if (overlaps) {
 				// safety: don't get stuck in infinite loop
-				if (totalRetryCount > 100) {
-					throw new RuntimeException("GenRand: Can't find image placements");
+				if (totalRetryCount > 500) {
+					Log.d(TAG, "Couldn't find image placements");
+					break;
+					//throw new RuntimeException("GenRand: Can't find image placements");
 				}
 				rectsAdded.clear();
 				xMargins.clear();
@@ -178,6 +186,9 @@ public class GenRand {
 			}
 		}
 
+		rotatedWidths.clear();
+		rotatedHeights.clear();
+
 		card.leftMargins.addAll(xMargins);
 		card.topMargins.addAll(yMargins);
 	}
@@ -185,7 +196,7 @@ public class GenRand {
 	// used to create a button that bounds the image with the right proportions
 	// so that the rotated image isn't distorted at the end result
 	// citation: https://stackoverflow.com/a/3869160
-	private double[] getRotatedWH(double width, double height, Double angleDeg) {
+	private double getRotatedWHRatio(double width, double height, Double angleDeg) {
 		double theta = angleDeg * (Math.PI/180);
 		double x1 = -width/2,
 				x2 = width/2,
@@ -211,6 +222,6 @@ public class GenRand {
 				y_max = Math.max(Math.max(y11,y21), Math.max(y31,y41));
 
 		// return ratio
-		return new double[]{(x_max - x_min), (y_max - y_min)};
+		return (x_max - x_min) / (y_max - y_min);
 	}
 }

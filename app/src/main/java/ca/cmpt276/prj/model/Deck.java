@@ -155,8 +155,8 @@ public class Deck {
 		if (difficulty > EASY) {
 			rotateBound = 360;
 			if (difficulty > MEDIUM) {
-				scaleLowerBound = 0.6;
-				scaleUpperBound = 1.25;
+				scaleLowerBound = SCALE_LOWER_BOUND;
+				scaleUpperBound = SCALE_UPPER_BOUND;
 			}
 		}
 
