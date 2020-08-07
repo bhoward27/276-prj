@@ -19,6 +19,8 @@ import static ca.cmpt276.prj.model.Constants.*;
  * writes them to the card.
  */
 public class GenRand {
+	private final String TAG = "GenRand";
+
 	private List<Integer> xMargins = new ArrayList<>();
 	private List<Integer> yMargins = new ArrayList<>();
 	private List<Rect> allRects = new ArrayList<>();
@@ -49,39 +51,45 @@ public class GenRand {
 	private void imageSizes(Card card) {
 		if (!(card.imageHeights.isEmpty() || card.imageWidths.isEmpty() ||
 				card.topMargins.isEmpty() || card.leftMargins.isEmpty())) {
-			Log.d("GenRand", "gen: you are trying to write to a card that has already" +
+			Log.d(TAG, "gen: you are trying to write to a card that has already" +
 					" been written to.");
 			throw new Error("rewriting to card in GenRand");
 		}
 
 		double outputRatio = (double) maxX / maxY;
+
 		List<Integer> imagesMap = card.getImagesMap();
 		int numImagesPerCard = imagesMap.size();
+		int imageIndex = 0;
 		for (int i : imagesMap) {
+			double tempW;
+			double tempH;
 			double w;
 			double h;
 			// regular, non-flickr image setup (can be dynamic width/height)
 			if (!card.isWord.get(imagesMap.indexOf(i))) {
-				double ratio;
 				if (optionsManager.getImageSet() < FLICKR_IMAGE_SET) {
 					Drawable image;
 					String resourceName = optionsManager.getImageSetPrefix() + RESOURCE_DIVIDER + i;
-					Log.d("GenRand", "gen: " + resourceName);
 					int resourceID = res.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
 							ctx.getPackageName());
 					image = ctx.getDrawable(resourceID);
 					if (image == null) {
 						throw new Error("The image was null.");
 					}
-					ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
+					tempW = image.getIntrinsicWidth();
+					tempH = image.getIntrinsicHeight();
 				} else {
 					File image = localFiles.getFile(i);
 					BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inJustDecodeBounds = true;
 					BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-					ratio = (double) options.outWidth / options.outHeight;
+					tempW = options.outWidth;
+					tempH = options.outHeight;
 				}
 
+				double[] dimens = getRotatedWH(tempW, tempH, card.randRotations.get(imageIndex));
+				double ratio = dimens[0] / dimens[1];
 				if (ratio > outputRatio) { // if the image is wider than the card's ratio
 					h = (double) maxY / Math.log(numImagesPerCard * 20);
 					w = ratio * h;
@@ -89,6 +97,7 @@ public class GenRand {
 					w = (double) maxX / Math.log(numImagesPerCard * 20);
 					h = (1.0 / ratio) * w;
 				}
+
 			} else {
 				// make word buttons slightly bigger
 				w = maxX / Math.log(numImagesPerCard * 10);
@@ -97,6 +106,7 @@ public class GenRand {
 
 			card.imageWidths.add(w);
 			card.imageHeights.add(h);
+			imageIndex++;
 		}
 	}
 
@@ -157,5 +167,37 @@ public class GenRand {
 
 		card.leftMargins.addAll(xMargins);
 		card.topMargins.addAll(yMargins);
+	}
+
+	// used to create a button that bounds the image with the right proportions
+	// so that the rotated image isn't distorted at the end result
+	// citation: https://stackoverflow.com/a/3869160
+	private double[] getRotatedWH(double width, double height, Double angleDeg) {
+		double theta = angleDeg * (Math.PI/180);
+		double x1 = -width/2,
+				x2 = width/2,
+				x3 = width/2,
+				x4 = -width/2,
+				y1 = height/2,
+				y2 = height/2,
+				y3 = -height/2,
+				y4 = -height/2;
+
+		double x11 = x1 * Math.cos(theta) + y1 * Math.sin(theta),
+				y11 = -x1 * Math.sin(theta) + y1 * Math.cos(theta),
+				x21 = x2 * Math.cos(theta) + y2 * Math.sin(theta),
+				y21 = -x2 * Math.sin(theta) + y2 * Math.cos(theta),
+				x31 = x3 * Math.cos(theta) + y3 * Math.sin(theta),
+				y31 = -x3 * Math.sin(theta) + y3 * Math.cos(theta),
+				x41 = x4 * Math.cos(theta) + y4 * Math.sin(theta),
+				y41 = -x4 * Math.sin(theta) + y4 * Math.cos(theta);
+		double x_min = Math.min(Math.min(x11,x21), Math.min(x31,x41)),
+				x_max = Math.max(Math.max(x11,x21), Math.max(x31,x41));
+
+		double y_min = Math.min(Math.min(y11,y21), Math.min(y31,y41)),
+				y_max = Math.max(Math.max(y11,y21), Math.max(y31,y41));
+
+		// return ratio
+		return new double[]{(x_max - x_min), (y_max - y_min)};
 	}
 }

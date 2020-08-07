@@ -168,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
 		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
 		button.setAllCaps(false);
 		button.setStateListAnimator(null);
+		button.setBackground(null);
 
 		button.setTag(R.string.tag_btn_bg, button.getBackground());
 		button.setTag(R.string.tag_btn_key, pile);
@@ -258,23 +259,15 @@ public class GameActivity extends AppCompatActivity {
 			// set size & random position
 			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
 			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
-			if (!currCard.isWord.get(modIndex)) {
-				currButtonWidth *= currCard.randScales.get(modIndex);
-				currButtonHeight *= currCard.randScales.get(modIndex);
-			}
 
-			RelativeLayout.LayoutParams buttonLayoutParams =
-					(RelativeLayout.LayoutParams) button.getLayoutParams();
-			buttonLayoutParams.width = currButtonWidth;
-			buttonLayoutParams.height = currButtonHeight;
-
-			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
-			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+			button.setRotation(0);
 
 			// set the image or word
 			if (!currCard.isWord.get(modIndex)) {
 				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
 				button.setText("");
+				currButtonWidth *= currCard.randScales.get(modIndex);
+				currButtonHeight *= currCard.randScales.get(modIndex);
 				if (imageSet != FLICKR_IMAGE_SET) {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
@@ -290,11 +283,25 @@ public class GameActivity extends AppCompatActivity {
 							.into(button);
 				}
 			} else {
+				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
+						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
 				/*	****************************************************************
 					DELETE this comment before merging --- end of code to pay attention to. */
 				button.setText(imageNames.getName(imageSet, imageNum));
+				// rotating text isn't supported, button bg may overlap with buttons with images on them
+				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 			}
+
+			RelativeLayout.LayoutParams buttonLayoutParams =
+					(RelativeLayout.LayoutParams) button.getLayoutParams();
+			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
+			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+
+			buttonLayoutParams.width = currButtonWidth;
+			buttonLayoutParams.height = currButtonHeight;
+
+			button.setLayoutParams(buttonLayoutParams);
 		}
 	}
 
