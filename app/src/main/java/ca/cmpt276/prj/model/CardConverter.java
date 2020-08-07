@@ -1,6 +1,7 @@
 package ca.cmpt276.prj.model;
 
-/*  May want to rename to CardToJPGExporter (or simply CardExporter) depending on whether it
+/*
+    May want to rename to CardToJPGExporter (or simply CardExporter) depending on whether it
     actually handles the saving itself or if it merely converts to jpg and then hands the JPG off to
     somewhere else to be saved.
     Or maybe there should be a  third class, CardExporter, and it basically interacts with
@@ -15,12 +16,20 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
+import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
+
 public class CardConverter {
     private OptionsManager options; //  do I need options?
     private Game game; //   Not sure if this should be member or just a local variable in a function.
     private GenRand rand; //    Not sure if should be member.
     private List<Card> cards; //    not sure if should be a member.
     private List<Bitmap> bitmaps;
+
+    //  names of the image files which can be passed to a LocalFiles object for saving.
+    private List<String> fileNames;
+    public static final String EXPORTED_CARD_PREFIX = "card" + RESOURCE_DIVIDER;
+
 
     //  Values of height and width would be reversed for a typical playing card; however,
     //  this would cause a lot of extra work for me because the in-game cards are in a landscape
@@ -78,15 +87,24 @@ public class CardConverter {
     //  in Game or Deck and then GameActivity and CardConverter uses it however necessary?
     //  Talk to William about this if need be.
 
+    //  probably shouldn't be instantiated unless user has clicked on the export button.
     CardConverter(Context context) {
         options = options.getInstance();
         game = new Game();
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
         setupCards();
+        initFileNames();
         createBitmaps();
     }
 
-    //  Under construction
+    private void initFileNames() {
+        fileNames = new ArrayList<>();
+        for (int i = 0; i < cards.size(); ++i) {
+            fileNames.add(EXPORTED_CARD_PREFIX + i + JPG_EXTENSION);
+        }
+    }
+
+    //  Code under construction
 //    private Bitmap toBitmap(Card c) {
 //
 //    }
@@ -95,9 +113,12 @@ public class CardConverter {
         //  would be neat to have the last image in bitmaps be an image for the back of a card.
         bitmaps = new ArrayList<>();
         for (Card c : cards) {
-            //  Under construction
 //            bitmaps.add(toBitmap(c));
         }
+    }
+
+    public List<String> getFileNames() {
+        return fileNames;
     }
 
     public List<Bitmap> getBitmaps() {
