@@ -36,7 +36,7 @@
         \n\nYou can change the difficulty to Easy, Medium and Hard to change the way the images (and words for them, if any) look in-game!
         \nEasy: Images/words are right-way-up and all the same size
         \nNormal: Images/words in both decks may be rotated a random amount of degrees; a match between two decks can have a different rotation in both!
-        \nHard: Images/words may rotate like in the Normal diffculty, but may now also appear bigger or smaller than their sizes in the two other diifculties.
+        \nHard: Images/words may rotate like in the Normal difficulty, but may now also appear bigger or smaller than their sizes in the two other diifculties.
         \n\nNote that no matter the difficulty, the appearance of images/words on a particular card will stay the same even if the card is moved from the draw
         pile to the discard pile!
         \n\nExporting cards based on deck settings
