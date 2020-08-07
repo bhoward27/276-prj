@@ -25,13 +25,24 @@
         replaced by a word describing them. Each card will have at least one word and last least one image. Any cards with words
         replacing pictures will remain with the same words throughout the game. Note that in order to find a match between two cards
         you may have to match two pictures, two words, or a picture and its associated word!
-        \n\nFlickr Functionality
+        \n\nCustom Image Functionality
         \n\nNote that you can select "Flickr" as an image set! Click "Options" > "Flickr Photos" to turn on Flickr, allowing you to
         search its database and get images to use in the game by clicking on the \"+\" button on the top right! You can select from the
         already shown images by clicking on them to download them, or you can use the magnifying glass to trying searching up photos associated to
         what you type in the nearby search bar!
         \n\nOne you press the back button, you will see your collection of downloaded photos. Click on any of them to remove them from your set. You can
         also undo this by tapping on the image (which would now be represented by a placeholder image)!
+        \n\nDifficulty Settings
+        \n\nYou can change the difficulty to Easy, Medium and Hard to change the way the images (and words for them, if any) look in-game!
+        \nEasy: Images/words are right-way-up and all the same size
+        \nNormal: Images/words in both decks may be rotated a random amount of degrees; a match between two decks can have a different rotation in both!
+        \nHard: Images/words may rotate like in the Normal diffculty, but may now also appear bigger or smaller than their sizes in the two other diifculties.
+        \n\nNote that no matter the difficulty, the appearance of images/words on a particulay card will stay the same even if the card is moved from the draw
+        pile to the discard pile!
+        \n\nExporting cards based on deck settings
+        \n\nTap on the "Generate Deck Photos" button in the Options to generate a collection of photos based on your current choices in the Options, with each
+        photo representing an individual card as it would appear in-game! You will need to grant permissions to allow the app to store this in your phone's
+        Picture folder!
     </string>
     <string name="txt_heading_tips">Tips</string>
     <string name="txt_body_tips">Tip #1: To change your player name so that it shows up in your next
@@ -44,7 +55,7 @@
     <string name="txt_help">Help</string>
     <string name="txt_options">Options</string>
     <string name="btn_flickr_photo_gallery">Flickr Photo Gallery</string>
-    <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 2) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
+    <string name="txt_authors">CMPT 276 Summer 2020 Project (Iteration 3) By Group Eleven:\nBenjamin Howard\nWilliam Horvath\nYuyang Li\nMichael Mora</string>
     <string name="txt_game_title_splash_screen">Find daMatch</string>
     <string name="txt_content_drawimage_1">An image for the first button in the draw pile.</string>
     <string name="txt_content_drawimage_2">An image for the second button in the draw pile.</string>
