@@ -254,6 +254,8 @@ public class GameActivity extends AppCompatActivity {
 
 			button.setTag(imageNum);
 
+			/*	DELETE this comment before merging --- start of code to pay attention to.
+				**************************************************************** */
 			// set size & random position
 			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
 			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
@@ -284,6 +286,8 @@ public class GameActivity extends AppCompatActivity {
 				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
 						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
+				/*	****************************************************************
+					DELETE this comment before merging --- end of code to pay attention to. */
 				button.setText(imageNames.getName(imageSet, imageNum));
 				// rotating text isn't supported, button bg may overlap with buttons with images on them
 				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
