@@ -1,16 +1,23 @@
 package ca.cmpt276.prj.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,6 +102,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 			@Override
 			public void onClick(View v) {
 				if(storagePermissionGranted){
+					//saveImage();
 					setUpCardPhotoStorageDir();
 					exportCards();
 				}else{
@@ -128,6 +137,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 						grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					// Permission is granted. Continue the action or workflow
 					// in your app.
+					//saveImage();
 					setUpCardPhotoStorageDir();
 					exportCards();
 					// Possibly use https://stackoverflow.com/a/31925748
@@ -141,7 +151,87 @@ import static ca.cmpt276.prj.model.Constants.*;
 		}
 	}
 
-	private void exportCards(){
+
+	//Code adapted from Rachit Vohera
+	// @ https://stackoverflow.com/a/59536115
+	//This should be called on every image
+	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
+		OutputStream fos;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			ContentResolver resolver = getContentResolver();
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
+			contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+			contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+			Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+			fos = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+		} else {
+			String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+			File image = new File(imagesDir, name + ".jpg");
+			fos = new FileOutputStream(image);
+		}
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+		Objects.requireNonNull(fos).close();
+	}
+
+	//
+//
+//	private void saveBitmap(@NonNull final Context context, @NonNull final Bitmap bitmap,
+//							@NonNull final Bitmap.CompressFormat format, @NonNull final String mimeType,
+//							@NonNull final String displayName) throws IOException {
+//				final String relativeLocation = Environment.DIRECTORY_PICTURES;
+//
+//				final ContentValues contentValues = new ContentValues();
+//				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName);
+//				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation);
+//
+//				final ContentResolver resolver = context.getContentResolver();
+//
+//				OutputStream stream = null;
+//				Uri uri = null;
+//
+//		try
+//		{
+//			final Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//			uri = resolver.insert(contentUri, contentValues);
+//
+//			if (uri == null)
+//			{
+//				throw new IOException("Failed to create new MediaStore record.");
+//			}
+//
+//			stream = resolver.openOutputStream(uri);
+//
+//			if (stream == null)
+//			{
+//				throw new IOException("Failed to get output stream.");
+//			}
+//
+//			if (bitmap.compress(format, 95, stream) == false)
+//			{
+//				throw new IOException("Failed to save bitmap.");
+//			}
+//		}
+//		catch (IOException e)
+//		{
+//			if (uri != null)
+//			{
+//				// Don't leave an orphan entry in the MediaStore
+//				resolver.delete(uri, null, null);
+//			}
+//
+//			throw e;
+//		}
+//		finally
+//		{
+//			if (stream != null)
+//			{
+//				stream.close();
+//			}
+//		}
+//	}
+
+		private void exportCards(){
 		Log.v("Ya got to exportCards!","Woohoo!");
 	}
 
