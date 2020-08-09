@@ -146,10 +146,20 @@ import static ca.cmpt276.prj.model.Constants.*;
 					// Possibly use https://stackoverflow.com/a/31925748
 					// for else if case where user denied and selected "Don't ask again"?
 				} else {
-					//Tell user they can't save unless they give permission.
-					Toast.makeText(getApplicationContext(),
-							getString(R.string.tst_user_refused_storage_permission),
-							Toast.LENGTH_LONG).show();
+					// user of shouldShowRequestPermissionRationale to check if the user
+					// selected "Never Ask Again" and denied permssion adapted from Emanuel Moecklin
+					// @ https://stackoverflow.com/a/31925748
+					boolean showRationale = shouldShowRequestPermissionRationale(permissions[0]);
+					if (!showRationale) {
+						Toast.makeText(getApplicationContext(),
+								getString(R.string.tst_user_refused_storage_permission_with_never_ask_again),
+								Toast.LENGTH_LONG).show();
+					} else {
+						//Tell user they can't save unless they give permission.
+						Toast.makeText(getApplicationContext(),
+								getString(R.string.tst_user_refused_storage_permission),
+								Toast.LENGTH_LONG).show();
+					}
 				}
 		}
 	}
