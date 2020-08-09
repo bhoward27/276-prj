@@ -80,29 +80,30 @@ public class CardToBitmapConverter {
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
         setupCards();
         initFileNames();
-        createBitmaps();
+//        createBitmaps();
     }
 
     private void initFileNames() {
-        //  hopefully this isn't too many digits for a filename
+        /*
+            Admittedly, getting the system time and appending to a filename is an odd thing to do,
+            and it's not 100% fool proof. The "correct" way of doing it would simply be to have
+            the converter keep track of how many times it's exported stuff.
+            However, then the converter would have to be a singleton and bla bla.
+            I figured, it's easier for us as programmers to just do it this way.
+         */
         String lastDigitsOfCurrentTime = toLastDigits(getSystemTime(), 6);
-        String postfix = RESOURCE_DIVIDER + lastDigitsOfCurrentTime;
+        String postfix = RESOURCE_DIVIDER + "t" + lastDigitsOfCurrentTime;
         fileNames = new ArrayList<>();
         for (int i = 0; i < cards.size(); ++i) {
             fileNames.add(EXPORTED_CARD_PREFIX + i + postfix);
         }
     }
 
-    /**
-     * @return the current time in seconds.
-     */
     private long getSystemTime() {
         //  CITATION: the code for this method is based off various sources:
         //  -   https://stackoverflow.com/a/5369753/10752685
         //  -   https://developer.android.com/reference/java/util/Calendar.html
-
-        //  not sure if this should be a long or if int is good enough.
-       return Calendar.getInstance().get(Calendar.SECOND);
+        return Calendar.getInstance().getTimeInMillis();
     }
 
     /**
@@ -112,6 +113,10 @@ public class CardToBitmapConverter {
         if (numDigits < 1 || numDigits > 100) {
             throw new IllegalArgumentException("Error: Invalid numDigits argument." +
                     " numDigits must be in range [1, 100]");
+        }
+        if (n < Math.pow(10, numDigits - 1)) {
+            throw new IllegalArgumentException("Error: Invalid numDigits argument." +
+                    " numDigits must not be greater than the amount of digits in n.");
         }
         String lastDigits = "";
         int digit;
