@@ -40,6 +40,8 @@ public class CardToBitmapConverter {
     private static final int INNER_HEIGHT_IN_PX = HEIGHT_IN_PX - (2 * MARGIN_IN_PX);
     private static final int INNER_WIDTH_IN_PX = WIDTH_IN_PX - (2 * MARGIN_IN_PX);
 
+    private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
+
 
     /*
     Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
@@ -89,6 +91,9 @@ public class CardToBitmapConverter {
             the converter keep track of how many times it's exported stuff.
             However, then the converter would have to be a singleton and bla bla.
             I figured, it's easier for us as programmers to just do it this way.
+            I guess one fix would be to ENSURE uniqueness by actually checking the file names
+            on the system and generating a new name if one's already taken.
+            But I would say this is low priority right now.
          */
         String lastDigitsOfCurrentTime = toLastDigits(getSystemTime(), 6);
         String postfix = RESOURCE_DIVIDER + "t" + lastDigitsOfCurrentTime;
@@ -151,7 +156,24 @@ public class CardToBitmapConverter {
 //                    -create the correct coordinates
 //                        Does/should rotation affect the coordinates???
 //             */
+//            List<Double> heights = c.getImageHeights();
+//            List<Double> widths = c.getImageWidths();
 //
+//            /*
+//                CITATION - I didn't know how to cast a Double (the wrapper class) to int before
+//                reading this:
+//                https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+//             */
+//            int height = heights.get(i).intValue();
+//            int width = widths.get(i).intValue();
+//
+//            /*
+//                CITATION - The code below for setting up the bitmap and canvas is based off
+//                this: https://stackoverflow.com/a/11437439/10752685
+//             */
+//            Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
+//            //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
+//            //  or do that with the canvas?
 //        }
 //
 //        return createComposite(subImages);
