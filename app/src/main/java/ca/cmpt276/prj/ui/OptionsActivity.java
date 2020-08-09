@@ -158,8 +158,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 	// code for save image function heavily adapted from Rachit Vohera
 	// with changes to exception handling (from checked handling to unchecked handling)
 	// @ https://stackoverflow.com/a/59536115
-	//This should be called on every image
-//	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
+    //	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
 	private void saveImage(Bitmap bitmap, @NonNull String name){
 		OutputStream fos = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -200,7 +199,9 @@ import static ca.cmpt276.prj.model.Constants.*;
 				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
 						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
 				}
-
+				Toast.makeText(getApplicationContext(), getString(
+				R.string.tst_show_exported_card_photos_directory)
+						, Toast.LENGTH_LONG).show();
 	}
 
 //	private void setUpCardPhotoStorageDir(){
