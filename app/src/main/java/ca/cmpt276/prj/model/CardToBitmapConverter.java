@@ -1,15 +1,25 @@
 package ca.cmpt276.prj.model;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ca.cmpt276.prj.R;
+
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class CardToBitmapConverter {
+    private Context context;
     private OptionsManager options; //  do I need options?
     private Game game; //   Not sure if this should be member or just a local variable in a function.
     private GenRand rand; //    Not sure if should be member.
@@ -19,7 +29,7 @@ public class CardToBitmapConverter {
     //  names of the image files which can be passed to Michael's file manager.
     private List<String> fileNames;
     public static final String EXPORTED_CARD_PREFIX = "card" + RESOURCE_DIVIDER;
-
+    public static final String DRAWABLE_FOLDER_PATH = "prj\\app\\src\\main\\res\\drawable";
 
     //  Values of height and width would be reversed for a typical playing card; however,
     //  this would cause a lot of extra work for me because the in-game cards are in a landscape
@@ -78,6 +88,7 @@ public class CardToBitmapConverter {
     public CardToBitmapConverter(Context context) {
         options = options.getInstance(); // probably unneeded. Assuming that Game has the options.
         game = new Game();
+        this.context = context;
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
         setupCards();
         initFileNames();
@@ -146,6 +157,9 @@ public class CardToBitmapConverter {
 //        int numImages = imagesMap.size();
 //        //  Construct list of subImages.
 //        //  Constructs each subimage based on the specifications from the Card c.
+//        List<Double> heights = c.getImageHeights();
+//        List<Double> widths = c.getImageWidths();
+//        List<Boolean> wordConditions = c.getIsWord();
 //        for (int i = 0; i < numImages; ++i) {
 //            /*
 //                Some things that would make sense to do here:
@@ -156,24 +170,61 @@ public class CardToBitmapConverter {
 //                    -create the correct coordinates
 //                        Does/should rotation affect the coordinates???
 //             */
-//            List<Double> heights = c.getImageHeights();
-//            List<Double> widths = c.getImageWidths();
+//            boolean isWord = wordConditions.get(i);
+//            if (isWord) {
+//                //  yet to implement.
+//            }
+//            else {
+//                /*
+//                    CITATION - I didn't know how to cast a Double (the wrapper class) to int before
+//                    reading this:
+//                    https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+//                */
+//                int height = heights.get(i).intValue();
+//                int width = widths.get(i).intValue();
 //
-//            /*
-//                CITATION - I didn't know how to cast a Double (the wrapper class) to int before
-//                reading this:
-//                https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
-//             */
-//            int height = heights.get(i).intValue();
-//            int width = widths.get(i).intValue();
+//                /*
+//                    CITATIONS:
+//                        -   https://stackoverflow.com/a/11437439/10752685
+//                        -   https://stackoverflow.com/a/9531548/10752685
+//                        -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
+//                */
+//                String path;
+//                Bitmap bitmap;
+//                int imageNum = imagesMap.get(i);
+//                int imageSet = options.getImageSet();
+//                switch(imageSet) {
+//                    case LANDSCAPE_IMAGE_SET:
+//                        //  fall-through intentional
+//                    case PREDATOR_IMAGE_SET:
+//                        //  Get the resource ID of the picture
+//                        //  (copied from GameActivity code)
+//                        String imageSetPrefix = options.getImageSetPrefix();
+//                        String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+//                        String resourceName = resourcePrefix + imageNum;
+//                        Resources globalResources = context.getResources();
+//                        int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
+//                                context.getPackageName());
 //
-//            /*
-//                CITATION - The code below for setting up the bitmap and canvas is based off
-//                this: https://stackoverflow.com/a/11437439/10752685
-//             */
-//            Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
-//            //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
-//            //  or do that with the canvas?
+//                        //  load the picture into a bitmap.
+//                        bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
+//                        break;
+//                    case FLICKR_IMAGE_SET:
+//
+//                        break;
+//                    default:
+//                        //  throw an exception
+//                        throw new UnsupportedOperationException("Error: Invalid imageSet. " +
+//                                "imageSet must be in the" +
+//                                " following range: [" + LANDSCAPE_IMAGE_SET + ", "
+//                                + FLICKR_IMAGE_SET + "].");
+//                }
+//                //Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
+//                //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
+//                //  or do that with the canvas?
+//                Canvas canvas = new Canvas();
+//                canvas.setBitmap(bitmap);
+//            }
 //        }
 //
 //        return createComposite(subImages);
