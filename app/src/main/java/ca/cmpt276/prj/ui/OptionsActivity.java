@@ -45,6 +45,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.CardConverter;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -58,6 +59,7 @@ import static ca.cmpt276.prj.model.Constants.*;
  */
 		public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 			public static final int STORAGE_PERMISSION_REQUEST_CODE = 1;
+			CardConverter converter; //Only instantiated when export button works
 			int imageSetPref;
 			int minimumReqImages;
 			OptionsManager optionsManager;
@@ -65,6 +67,8 @@ import static ca.cmpt276.prj.model.Constants.*;
 			ScoreManager manager;
 			List<RadioButton> radioButtonList = new ArrayList<>();
 			Boolean storagePermissionGranted;
+			List<Bitmap>exportedDeckBitmaps;
+			List<String>exportedfileNames;
 
 			@Override
 			protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +107,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 			public void onClick(View v) {
 				if(storagePermissionGranted){
 					//saveImage();
-					setUpCardPhotoStorageDir();
+//					setUpCardPhotoStorageDir();
 					exportCards();
 				}else{
 					//RequestPermissions to export cards
@@ -137,8 +141,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 						grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 					// Permission is granted. Continue the action or workflow
 					// in your app.
-					//saveImage();
-					setUpCardPhotoStorageDir();
+//					setUpCardPhotoStorageDir();
 					exportCards();
 					// Possibly use https://stackoverflow.com/a/31925748
 					// for else if case where user denied and selected "Don't ask again"?
@@ -152,130 +155,97 @@ import static ca.cmpt276.prj.model.Constants.*;
 	}
 
 
-	//Code adapted from Rachit Vohera
+	// code for save image function heavily adapted from Rachit Vohera
+	// with changes to exception handling (from checked handling to unchecked handling)
 	// @ https://stackoverflow.com/a/59536115
 	//This should be called on every image
-	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
-		OutputStream fos;
+//	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
+	private void saveImage(Bitmap bitmap, @NonNull String name){
+		OutputStream fos = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-			ContentResolver resolver = getContentResolver();
-			ContentValues contentValues = new ContentValues();
-			contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
-			contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-			contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-			Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-			fos = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+			try {
+				ContentResolver resolver = getContentResolver();
+				ContentValues contentValues = new ContentValues();
+				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
+				contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+				Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+				fos = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+			} catch(FileNotFoundException e){
+				e.printStackTrace();
+			}
 		} else {
 			String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
 			File image = new File(imagesDir, name + ".jpg");
-			fos = new FileOutputStream(image);
+			try {
+				fos = new FileOutputStream(image);
+			}catch(FileNotFoundException e){
+				e.printStackTrace();
+			}
 		}
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-		Objects.requireNonNull(fos).close();
+		try {
+			Objects.requireNonNull(fos).close();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
-	//
+		private void exportCards(){
+			Log.v("Ya got to exportCards!","Woohoo!");
+				Context context = OptionsActivity.this;
+				converter = new CardConverter(context);
+				exportedDeckBitmaps = converter.getBitmaps();
+				exportedfileNames = converter.getFileNames();
+				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
+						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
+				}
+
+	}
+
+//	private void setUpCardPhotoStorageDir(){
 //
-//	private void saveBitmap(@NonNull final Context context, @NonNull final Bitmap bitmap,
-//							@NonNull final Bitmap.CompressFormat format, @NonNull final String mimeType,
-//							@NonNull final String displayName) throws IOException {
-//				final String relativeLocation = Environment.DIRECTORY_PICTURES;
+//		// Programmer's note (can delete for final submission:
+//		// getExternalStorageDirectory has deprecated, alternative is...
+//		// File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "testthing");
+//		// First parameter can be set to a variety of things within Environment,
+//		// But according to the Android Developers site,
+//		// https://developer.android.com/reference/android/content/Context#getExternalFilesDirs(java.lang.String)
+//		// files created with it are typically not seen to the user. So, I decided to use
+//		// getFilesDir() in the end, to place the pictures in a folder where other pictures for the
+//		// app (i.e downloaded Flickr pictures) are stored.
 //
-//				final ContentValues contentValues = new ContentValues();
-//				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName);
-//				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation);
+//		// Variety of sources used for following code,
+//		// Prodev @ https://stackoverflow.com/a/37496736 (General File Declaration)
+//		// Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
+//		// raddevus @ https://stackoverflow.com/a/29404440 (use of getFilesDir())
+//		//File cardPhotoStorageDir = new File(getFilesDir(), "Exported Deck");
+//		File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Exported Deck");
+//		//File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), "Exported Deck");
+//		//Log.d("App:", "See your files in " + cardPhotoStorageDir.getPath());
 //
-//				final ContentResolver resolver = context.getContentResolver();
-//
-//				OutputStream stream = null;
-//				Uri uri = null;
-//
-//		try
-//		{
-//			final Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-//			uri = resolver.insert(contentUri, contentValues);
-//
-//			if (uri == null)
-//			{
-//				throw new IOException("Failed to create new MediaStore record.");
+//		String exportedDeckFolder = cardPhotoStorageDir.getAbsolutePath();
+//			// Not only is mkdir() actually attempting to make the directory
+//			// but the program will also crash if the directory could not be made.
+//			// theoretically, this should never happen since the user would have given permission
+//			// for the app to access storage at this point.
+//		if (!cardPhotoStorageDir.exists()) {
+//			//Log.d("App: ", "Hey, the directory doesn't exist! Let's try making it...");
+//			if (!cardPhotoStorageDir.mkdir()) {
+//				//Log.d("App", "failed to create directory!");
+//				throw new RuntimeException("FAILED TO CREATE DIRECTORY.");
+//			} else {
+//				//Log.d("App", "The directory was JUST created atL" +exportedDeckFolder);
+//				Toast.makeText(getApplicationContext(), getString(
+//						R.string.tst_show_new_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
 //			}
-//
-//			stream = resolver.openOutputStream(uri);
-//
-//			if (stream == null)
-//			{
-//				throw new IOException("Failed to get output stream.");
-//			}
-//
-//			if (bitmap.compress(format, 95, stream) == false)
-//			{
-//				throw new IOException("Failed to save bitmap.");
-//			}
-//		}
-//		catch (IOException e)
-//		{
-//			if (uri != null)
-//			{
-//				// Don't leave an orphan entry in the MediaStore
-//				resolver.delete(uri, null, null);
-//			}
-//
-//			throw e;
-//		}
-//		finally
-//		{
-//			if (stream != null)
-//			{
-//				stream.close();
-//			}
+//		} else {
+//			Toast.makeText(getApplicationContext(), getString(
+//					R.string.tst_show_existing_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
 //		}
 //	}
 
-		private void exportCards(){
-		Log.v("Ya got to exportCards!","Woohoo!");
-	}
 
-	private void setUpCardPhotoStorageDir(){
-
-		// Programmer's note (can delete for final submission:
-		// getExternalStorageDirectory has deprecated, alternative is...
-		// File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "testthing");
-		// First parameter can be set to a variety of things within Environment,
-		// But according to the Android Developers site,
-		// https://developer.android.com/reference/android/content/Context#getExternalFilesDirs(java.lang.String)
-		// files created with it are typically not seen to the user. So, I decided to use
-		// getFilesDir() in the end, to place the pictures in a folder where other pictures for the
-		// app (i.e downloaded Flickr pictures) are stored.
-
-		// Variety of sources used for following code,
-		// Prodev @ https://stackoverflow.com/a/37496736 (General File Declaration)
-		// Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
-		// raddevus @ https://stackoverflow.com/a/29404440 (use of getFilesDir())
-		//File cardPhotoStorageDir = new File(getFilesDir(), "Exported Deck");
-		File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Exported Deck");
-		//File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM), "Exported Deck");
-		//Log.d("App:", "See your files in " + cardPhotoStorageDir.getPath());
-
-		String exportedDeckFolder = cardPhotoStorageDir.getAbsolutePath();
-			// Not only is mkdir() actually attempting to make the directory
-			// but the program will also crash if the directory could not be made.
-			// theoretically, this should never happen since the user would have given permission
-			// for the app to access storage at this point.
-		if (!cardPhotoStorageDir.exists()) {
-			//Log.d("App: ", "Hey, the directory doesn't exist! Let's try making it...");
-			if (!cardPhotoStorageDir.mkdir()) {
-				//Log.d("App", "failed to create directory!");
-				throw new RuntimeException("FAILED TO CREATE DIRECTORY.");
-			} else {
-				//Log.d("App", "The directory was JUST created atL" +exportedDeckFolder);
-				Toast.makeText(getApplicationContext(), getString(
-						R.string.tst_show_new_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
-			}
-		} else {
-			Toast.makeText(getApplicationContext(), getString(
-					R.string.tst_show_existing_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
-		}
-	}
 	private void initOptionSet() {
 		optionsManager = OptionsManager.getInstance();
 		imageSetPref = optionsManager.getImageSet();
@@ -589,3 +559,61 @@ import static ca.cmpt276.prj.model.Constants.*;
 		updateFlickrAmountText();
 	}
 }
+
+
+//
+//
+//	private void saveBitmap(@NonNull final Context context, @NonNull final Bitmap bitmap,
+//							@NonNull final Bitmap.CompressFormat format, @NonNull final String mimeType,
+//							@NonNull final String displayName) throws IOException {
+//				final String relativeLocation = Environment.DIRECTORY_PICTURES;
+//
+//				final ContentValues contentValues = new ContentValues();
+//				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName);
+//				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation);
+//
+//				final ContentResolver resolver = context.getContentResolver();
+//
+//				OutputStream stream = null;
+//				Uri uri = null;
+//
+//		try
+//		{
+//			final Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//			uri = resolver.insert(contentUri, contentValues);
+//
+//			if (uri == null)
+//			{
+//				throw new IOException("Failed to create new MediaStore record.");
+//			}
+//
+//			stream = resolver.openOutputStream(uri);
+//
+//			if (stream == null)
+//			{
+//				throw new IOException("Failed to get output stream.");
+//			}
+//
+//			if (bitmap.compress(format, 95, stream) == false)
+//			{
+//				throw new IOException("Failed to save bitmap.");
+//			}
+//		}
+//		catch (IOException e)
+//		{
+//			if (uri != null)
+//			{
+//				// Don't leave an orphan entry in the MediaStore
+//				resolver.delete(uri, null, null);
+//			}
+//
+//			throw e;
+//		}
+//		finally
+//		{
+//			if (stream != null)
+//			{
+//				stream.close();
+//			}
+//		}
+//	}

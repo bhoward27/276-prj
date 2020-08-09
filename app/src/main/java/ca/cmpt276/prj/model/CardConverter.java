@@ -88,7 +88,7 @@ public class CardConverter {
     //  Talk to William about this if need be.
 
     //  probably shouldn't be instantiated unless user has clicked on the export button.
-    CardConverter(Context context) {
+    public CardConverter(Context context) {
         options = options.getInstance();
         game = new Game();
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
