@@ -52,5 +52,33 @@ public class Card {
 	public Integer getImagesByIndex(int index) {
 		return imagesMap.get(index);
 	}
+
+	public List<Integer> getLeftMargins() {
+		return leftMargins;
+	}
+
+	public List<Integer> getTopMargins() {
+		return topMargins;
+	}
+
+	public List<Double> getImageWidths() {
+		return imageWidths;
+	}
+
+	public List<Double> getImageHeights() {
+		return imageHeights;
+	}
+
+	public List<Boolean> getIsWord() {
+		return isWord;
+	}
+
+	public List<Double> getRandRotations() {
+		return randRotations;
+	}
+
+	public List<Double> getRandScales() {
+		return randScales;
+	}
 }
 

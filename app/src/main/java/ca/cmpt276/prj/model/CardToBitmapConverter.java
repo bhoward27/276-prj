@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class CardToBitmapConverter {
@@ -107,7 +106,7 @@ public class CardToBitmapConverter {
     }
 
     /**
-     * @return the last ten digits of a number, as a string.
+     * @return the last/rightmost digits of a number, as a string.
      */
     private String toLastDigits(long n, int numDigits) {
         if (numDigits < 1 || numDigits > 100) {
@@ -134,24 +133,55 @@ public class CardToBitmapConverter {
 
     //  Code under construction
 //    private Bitmap toBitmap(Card c) {
-//        //  construct list of subImages.
-//        //  Constructs each subimage based on the specifications from the Card c.
 //        List<Bitmap> subImages = new ArrayList();
 //        List<Integer> imagesMap = c.getImagesMap();
 //
 //        //  using the imagesMap ArrayList is relatively arbitrary, but it creates a
 //        //  for loop that will iterate the correct number of times. May want to refactor.
-//        for (Integer imageFileIndex : imagesMap) {
+//        int numImages = imagesMap.size();
+//        //  Construct list of subImages.
+//        //  Constructs each subimage based on the specifications from the Card c.
+//        for (int i = 0; i < numImages; ++i) {
+//            /*
+//                Some things that would make sense to do here:
+//                    -load the correct image into a bitmap (WHAT IF IT'S A WORD AND NOT AN IMAGE?)
+//                    -scale the bitmap
+//                    -apply rotations. how does this work for the bitmap? will it create empty
+//                        space / enlarge the dimensions to accomodate the rotation?
+//                    -create the correct coordinates
+//                        Does/should rotation affect the coordinates???
+//             */
 //
 //        }
 //
 //        return createComposite(subImages);
 //    }
 
+    private void scale(Card c, Bitmap image, int imageNum) {
+        List<Double> scalars = c.getRandScales();
+        List<Double> heights = c.getImageHeights();
+        List<Double> widths = c.getImageWidths();
+        double scalar = scalars.get(imageNum);
+
+        int height = scale(scalar, heights.get(imageNum));
+        int width = scale(scalar, widths.get(imageNum));
+        //  Not sure if this is necessary at all. Should probs just get started on this bitmap stuff!
+    }
+
+    private int scale(double scalar, double length) {
+        return (int) (scalar * length);
+    }
+
+    private void rotate(Bitmap image) {
+
+    }
+
     //  Code under construction
     //  puts the sub images into a composite image to make the full card picture.
 //    private Bitmap createComposite(List<Bitmap> subImages) {
+//        /*
 //
+//         */
 //    }
 
     private void createBitmaps() {
