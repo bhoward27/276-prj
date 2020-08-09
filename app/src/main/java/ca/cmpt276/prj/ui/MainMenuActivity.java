@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.CardToBitmapConverter;
 import ca.cmpt276.prj.model.OptionsManager;
 
 import static ca.cmpt276.prj.model.Constants.*;
@@ -25,6 +26,11 @@ import static ca.cmpt276.prj.model.Constants.*;
 public class MainMenuActivity extends AppCompatActivity {
 	OptionsManager optionsManager;
 
+	//	***	DELETE	***
+	private void testToBitmap() {
+		CardToBitmapConverter converter = new CardToBitmapConverter(this);
+	}
+
 	public static Intent makeIntent(Context context) {
 		return new Intent(context, MainMenuActivity.class);
 	}
@@ -33,6 +39,9 @@ public class MainMenuActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
+
+		//	***	DELETE	***
+		testToBitmap();
 
 		OptionsManager.instantiate(this);
 		optionsManager = OptionsManager.getInstance();

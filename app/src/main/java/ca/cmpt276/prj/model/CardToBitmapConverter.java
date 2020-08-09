@@ -6,13 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import ca.cmpt276.prj.R;
-
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
@@ -92,7 +94,7 @@ public class CardToBitmapConverter {
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
         setupCards();
         initFileNames();
-//        createBitmaps();
+        createBitmaps();
     }
 
     private void initFileNames() {
@@ -148,87 +150,105 @@ public class CardToBitmapConverter {
     }
 
     //  Code under construction
-//    private Bitmap toBitmap(Card c) {
-//        List<Bitmap> subImages = new ArrayList();
-//        List<Integer> imagesMap = c.getImagesMap();
-//
-//        //  using the imagesMap ArrayList is relatively arbitrary, but it creates a
-//        //  for loop that will iterate the correct number of times. May want to refactor.
-//        int numImages = imagesMap.size();
-//        //  Construct list of subImages.
-//        //  Constructs each subimage based on the specifications from the Card c.
-//        List<Double> heights = c.getImageHeights();
-//        List<Double> widths = c.getImageWidths();
-//        List<Boolean> wordConditions = c.getIsWord();
-//        for (int i = 0; i < numImages; ++i) {
-//            /*
-//                Some things that would make sense to do here:
-//                    -load the correct image into a bitmap (WHAT IF IT'S A WORD AND NOT AN IMAGE?)
-//                    -scale the bitmap
-//                    -apply rotations. how does this work for the bitmap? will it create empty
-//                        space / enlarge the dimensions to accomodate the rotation?
-//                    -create the correct coordinates
-//                        Does/should rotation affect the coordinates???
-//             */
-//            boolean isWord = wordConditions.get(i);
-//            if (isWord) {
-//                //  yet to implement.
-//            }
-//            else {
-//                /*
-//                    CITATION - I didn't know how to cast a Double (the wrapper class) to int before
-//                    reading this:
-//                    https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
-//                */
-//                int height = heights.get(i).intValue();
-//                int width = widths.get(i).intValue();
-//
-//                /*
-//                    CITATIONS:
-//                        -   https://stackoverflow.com/a/11437439/10752685
-//                        -   https://stackoverflow.com/a/9531548/10752685
-//                        -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
-//                */
-//                String path;
-//                Bitmap bitmap;
-//                int imageNum = imagesMap.get(i);
-//                int imageSet = options.getImageSet();
-//                switch(imageSet) {
-//                    case LANDSCAPE_IMAGE_SET:
-//                        //  fall-through intentional
-//                    case PREDATOR_IMAGE_SET:
-//                        //  Get the resource ID of the picture
-//                        //  (copied from GameActivity code)
-//                        String imageSetPrefix = options.getImageSetPrefix();
-//                        String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-//                        String resourceName = resourcePrefix + imageNum;
-//                        Resources globalResources = context.getResources();
-//                        int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-//                                context.getPackageName());
-//
-//                        //  load the picture into a bitmap.
-//                        bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
-//                        break;
-//                    case FLICKR_IMAGE_SET:
-//
-//                        break;
-//                    default:
-//                        //  throw an exception
-//                        throw new UnsupportedOperationException("Error: Invalid imageSet. " +
-//                                "imageSet must be in the" +
-//                                " following range: [" + LANDSCAPE_IMAGE_SET + ", "
-//                                + FLICKR_IMAGE_SET + "].");
-//                }
-//                //Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
-//                //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
-//                //  or do that with the canvas?
+    private Bitmap toBitmap(Card c) {
+        List<Bitmap> subImages = new ArrayList();
+        List<Integer> imagesMap = c.getImagesMap();
+
+        //  using the imagesMap ArrayList is relatively arbitrary, but it creates a
+        //  for loop that will iterate the correct number of times. May want to refactor.
+        int numImages = imagesMap.size();
+        //  Construct list of subImages.
+        //  Constructs each subimage based on the specifications from the Card c.
+        List<Double> heights = c.getImageHeights();
+        List<Double> widths = c.getImageWidths();
+        List<Boolean> wordConditions = c.getIsWord();
+        for (int i = 0; i < numImages; ++i) {
+            /*
+                Some things that would make sense to do here:
+                    -load the correct image into a bitmap (WHAT IF IT'S A WORD AND NOT AN IMAGE?)
+                    -scale the bitmap
+                    -apply rotations. how does this work for the bitmap? will it create empty
+                        space / enlarge the dimensions to accomodate the rotation?
+                    -create the correct coordinates
+                        Does/should rotation affect the coordinates???
+             */
+            boolean isWord = wordConditions.get(i);
+            if (isWord) {
+                //  yet to implement.
+            }
+            else {
+                /*
+                    CITATION - I didn't know how to cast a Double (the wrapper class) to int before
+                    reading this:
+                    https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+                */
+                int height = heights.get(i).intValue();
+                int width = widths.get(i).intValue();
+
+                /*
+                    CITATIONS:
+                        -   https://stackoverflow.com/a/11437439/10752685
+                        -   https://stackoverflow.com/a/9531548/10752685
+                        -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
+                */
+                int imageNum = imagesMap.get(i);
+                int imageSet = options.getImageSet();
+                Bitmap bitmap = createBitmapFromFile(imageSet, imageNum);
+                //Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
+                //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
+                //  or do that with the canvas?
+
+                //  Below code is necessary but caused an IllegalStateException (second line).
 //                Canvas canvas = new Canvas();
 //                canvas.setBitmap(bitmap);
-//            }
-//        }
-//
-//        return createComposite(subImages);
-//    }
+            }
+        }
+        //  DELETE --- only for testing.
+        return createBitmapFromFile(0, 0);
+        //return createComposite(subImages);
+    }
+
+    private Bitmap createBitmapFromFile(int imageSet, int imageNum) {
+        Bitmap bitmap;
+        switch(imageSet) {
+            case LANDSCAPE_IMAGE_SET:
+                //  fall-through intentional
+            case PREDATOR_IMAGE_SET:
+                //  Get the resource ID of the picture
+                //  (copied from GameActivity code)
+                String imageSetPrefix = options.getImageSetPrefix();
+                String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+                String resourceName = resourcePrefix + imageNum;
+                Resources globalResources = context.getResources();
+                int resourceID = globalResources.getIdentifier(resourceName,
+                        IMAGE_FOLDER_NAME, context.getPackageName());
+
+                //  load the picture into a bitmap.
+                bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
+                break;
+            case FLICKR_IMAGE_SET:
+                //  Not sure if I should use the other constructor since I'm not actually
+                //  in an activity.
+                LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
+                File file = localFiles.getFile(imageNum);
+                bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                break;
+            default:
+                throw new UnsupportedOperationException("Error: Invalid imageSet. " +
+                        "imageSet must be in the" +
+                        " following range: [" + LANDSCAPE_IMAGE_SET + ", "
+                        + FLICKR_IMAGE_SET + "].");
+        }
+        //  Seems to have worked for landscape and predator set, but on Flickr set, it made a null bitmap!
+        verifyNotNull(bitmap);
+        return bitmap;
+    }
+
+    private void verifyNotNull(Bitmap bitmap) {
+        if (bitmap == null) {
+            throw new IOError(new IOException("Error: Failed to decode the file into a bitmap."));
+        }
+    }
 
     private void scale(Card c, Bitmap image, int imageNum) {
         List<Double> scalars = c.getRandScales();
@@ -261,7 +281,7 @@ public class CardToBitmapConverter {
         //  would be neat to have the last image in bitmaps be an image for the back of a card.
         bitmaps = new ArrayList<>();
         for (Card c : cards) {
-//            bitmaps.add(toBitmap(c));
+            bitmaps.add(toBitmap(c));
         }
     }
 
