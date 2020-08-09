@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
@@ -73,7 +74,7 @@ public class CardToBitmapConverter {
      */
 
     //  probably shouldn't be instantiated unless user has clicked on the export button.
-    CardToBitmapConverter(Context context) {
+    public CardToBitmapConverter(Context context) {
         options = options.getInstance(); // probably unneeded. Assuming that Game has the options.
         game = new Game();
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
@@ -83,14 +84,68 @@ public class CardToBitmapConverter {
     }
 
     private void initFileNames() {
+        //  hopefully this isn't too many digits for a filename
+        String lastDigitsOfCurrentTime = toLastDigits(getSystemTime(), 6);
+        String postfix = RESOURCE_DIVIDER + lastDigitsOfCurrentTime;
         fileNames = new ArrayList<>();
         for (int i = 0; i < cards.size(); ++i) {
-            fileNames.add(EXPORTED_CARD_PREFIX + i + JPG_EXTENSION);
+            fileNames.add(EXPORTED_CARD_PREFIX + i + postfix);
         }
+    }
+
+    /**
+     * @return the current time in seconds.
+     */
+    private long getSystemTime() {
+        //  CITATION: the code for this method is based off various sources:
+        //  -   https://stackoverflow.com/a/5369753/10752685
+        //  -   https://developer.android.com/reference/java/util/Calendar.html
+
+        //  not sure if this should be a long or if int is good enough.
+       return Calendar.getInstance().get(Calendar.SECOND);
+    }
+
+    /**
+     * @return the last ten digits of a number, as a string.
+     */
+    private String toLastDigits(long n, int numDigits) {
+        if (numDigits < 1 || numDigits > 100) {
+            throw new IllegalArgumentException("Error: Invalid numDigits argument." +
+                    " numDigits must be in range [1, 100]");
+        }
+        String lastDigits = "";
+        int digit;
+        int reverseDigits[] = new int[numDigits];
+        for (int i = 0; i < numDigits; ++i) {
+            digit = (int) n % 10;
+            reverseDigits[i] = digit;
+            n /= 10;
+        }
+        for (int i = numDigits - 1; i >= 0; --i) {
+            lastDigits += reverseDigits[i];
+        }
+        return lastDigits;
     }
 
     //  Code under construction
 //    private Bitmap toBitmap(Card c) {
+//        //  construct list of subImages.
+//        //  Constructs each subimage based on the specifications from the Card c.
+//        List<Bitmap> subImages = new ArrayList();
+//        List<Integer> imagesMap = c.getImagesMap();
+//
+//        //  using the imagesMap ArrayList is relatively arbitrary, but it creates a
+//        //  for loop that will iterate the correct number of times. May want to refactor.
+//        for (Integer imageFileIndex : imagesMap) {
+//
+//        }
+//
+//        return createComposite(subImages);
+//    }
+
+    //  Code under construction
+    //  puts the sub images into a composite image to make the full card picture.
+//    private Bitmap createComposite(List<Bitmap> subImages) {
 //
 //    }
 
