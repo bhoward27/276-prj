@@ -213,7 +213,7 @@ public class CardToBitmapConverter {
                 bitmap = getMutableCopy(bitmap);
                 canvas.setBitmap(bitmap);
 
-                //  Make all modifications to the image.
+                //  Make all canvas-related modifications to the bitmap.
 
                 subImages.add(bitmap);
             }
