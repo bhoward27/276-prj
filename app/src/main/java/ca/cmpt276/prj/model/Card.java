@@ -21,11 +21,9 @@ public class Card {
 
 	private int cardNum;
 
-	public Card(List<Integer> imageOrders, List<Boolean> wordBools, List<Double> randRotations, List<Double> randScales, int num) {
+	public Card(List<Integer> imageOrders, List<Boolean> wordBools, int num) {
 		this.cardNum = num;
 
-		this.randRotations.addAll(randRotations);
-		this.randScales.addAll(randScales);
 		this.isWord.addAll(wordBools);
 		this.imagesMap.addAll(imageOrders);
 	}
