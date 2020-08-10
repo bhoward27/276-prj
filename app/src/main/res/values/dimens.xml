@@ -5,6 +5,6 @@
     <dimen name="button_width">131dp</dimen>
     <dimen name="button_height">62.5dp</dimen>
     <dimen name="button_padding">3dp</dimen>
-    <dimen name="button_text_size">4sp</dimen>
+    <dimen name="button_text_size">5sp</dimen>
     <dimen name="button_selected_padding">5dp</dimen>
 </resources>

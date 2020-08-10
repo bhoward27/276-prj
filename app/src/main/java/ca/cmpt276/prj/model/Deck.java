@@ -144,49 +144,13 @@ public class Deck {
 				card[i] = randMap.get(card[i]);
 			}
 		}
-		List<List<Double>> deckRotations = new ArrayList<>();
-		List<List<Double>> deckScales = new ArrayList<>();
-
-		// add random rotations and scaling, for difficulty
-		double rotateBound = 0;
-		double scaleLowerBound = 1;
-		double scaleUpperBound = 1;
-
-		if (difficulty > EASY) {
-			rotateBound = 360;
-			if (difficulty > MEDIUM) {
-				scaleLowerBound = SCALE_LOWER_BOUND;
-				scaleUpperBound = SCALE_UPPER_BOUND;
-			}
-		}
-
-		for (Integer[] card : cards) {
-			List<Double> cardRotations = new ArrayList<>();
-			List<Double> cardScales = new ArrayList<>();
-			for (int i = 0; i < card.length; i++) {
-				if (rotateBound == 0) {
-					cardRotations.add((double) 0);
-				} else {
-					cardRotations.add(rand.nextDouble(0, rotateBound));
-				}
-				if (scaleLowerBound == scaleUpperBound) {
-					cardScales.add((double) 1);
-				} else {
-					cardScales.add(rand.nextDouble(scaleLowerBound, scaleUpperBound));
-				}
-
-			}
-			deckRotations.add(new ArrayList<>(cardRotations));
-			deckScales.add(new ArrayList<>(cardScales));
-		}
 
 		// add to the drawpile a random card until there are no cards left
 		int cardNum = 0;
 		for (Integer[] card : cards) {
 			if (cardNum >= deckSize) break;
 			int cardIndex = cards.indexOf(card);
-			drawPile.push(new Card(Arrays.asList(card), deckBools.get(cardIndex),
-					deckRotations.get(cardIndex), deckScales.get(cardIndex), cardIndex));
+			drawPile.push(new Card(Arrays.asList(card), deckBools.get(cardIndex), cardIndex));
 			cardNum++;
 		}
 
