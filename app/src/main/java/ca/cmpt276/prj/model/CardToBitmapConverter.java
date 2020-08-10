@@ -1,17 +1,30 @@
 package ca.cmpt276.prj.model;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOError;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
@@ -219,9 +232,56 @@ public class CardToBitmapConverter {
             }
         }
         //  DELETE --- only for testing.
+        testSubBitmaps(c, subImages);
         Bitmap compositeBitmap = null;
         return compositeBitmap;
         //return createComposite(subImages);
+    }
+
+    private void testSubBitmaps(Card c, List<Bitmap> subImages) {
+        int numBitmaps = subImages.size();
+        List<Integer> imageIndices = c.getImagesMap();
+        for (int i = 0; i < numBitmaps; ++i) {
+            testSaveImage(subImages.get(i), testGetName(imageIndices.get(i)));
+        }
+    }
+
+    private String testGetName(int imageIndex) {
+        String imageSetPrefix = options.getImageSetPrefix();
+        String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+        return resourcePrefix + imageIndex;
+    }
+
+    private void testSaveImage(Bitmap bitmap, @NonNull String name) {
+        OutputStream fos = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            try {
+                ContentResolver resolver = context.getContentResolver();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
+                contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+                Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                fos = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+            } catch(FileNotFoundException e){
+                e.printStackTrace();
+            }
+        } else {
+            String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+            File image = new File(imagesDir, name + ".jpg");
+            try {
+                fos = new FileOutputStream(image);
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        try {
+            Objects.requireNonNull(fos).close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        Log.e("SUCCESS?", "YES!");
     }
 
     private List<Integer> makeOffsetCoordinates(List<Integer> coordinates) {
