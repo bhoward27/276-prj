@@ -54,6 +54,10 @@ public class CardToBitmapConverter {
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
 
+    //  Enabling bilinear filtering will make for prettier images, but at an apparently small
+    //  cost to performance.
+    private static final boolean BILINEAR_FILTER_MODE = true;
+
 
     /*
     Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
@@ -159,6 +163,8 @@ public class CardToBitmapConverter {
         List<Double> heights = c.getImageHeights();
         List<Double> widths = c.getImageWidths();
         List<Boolean> wordConditions = c.getIsWord();
+        List<Integer> xCoordinates = makeOffsetCoordinates(c.getLeftMargins());
+        List<Integer> yCoordinates = makeOffsetCoordinates(c.getTopMargins());
         for (int i = 0; i < numImages; ++i) {
             /*
                 Some things that would make sense to do here:
@@ -181,8 +187,6 @@ public class CardToBitmapConverter {
                     reading this:
                     https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
                 */
-                int height = heights.get(i).intValue();
-                int width = widths.get(i).intValue();
 
                 /*
                     CITATIONS:
@@ -193,22 +197,47 @@ public class CardToBitmapConverter {
                 int imageIndex = imagesMap.get(i);
                 System.out.println("Iteration " + (i + 1) + ":");
                 Bitmap bitmap = createBitmapFromFile(imageIndex);
+
+                /*
+                    CITATION - The following line of code for adjusting the size of the bitmap
+                    came from here: https://gamedev.stackexchange.com/a/59483
+                 */
+                //  -   Change the width and height
+                int height = heights.get(i).intValue();
+                int width = widths.get(i).intValue();
+                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, BILINEAR_FILTER_MODE);
+
+                //  At the moment the canvas is useless, but it may be needed in future code
+                //  especially for the word + images mode.
                 Canvas canvas = new Canvas();
+                bitmap = getMutableCopy(bitmap);
                 canvas.setBitmap(bitmap);
+
+                //  Make all modifications to the image.
+
+                subImages.add(bitmap);
             }
         }
         //  DELETE --- only for testing.
-        Bitmap bitmap = null;
-        return bitmap;
+        Bitmap compositeBitmap = null;
+        return compositeBitmap;
         //return createComposite(subImages);
+    }
+
+    private List<Integer> makeOffsetCoordinates(List<Integer> coordinates) {
+        List<Integer> adjustedCoordinates = new ArrayList<>();
+        for (Integer coordinate : coordinates) {
+            Integer offsetCoordinate = coordinate + MARGIN_IN_PX;
+            adjustedCoordinates.add(offsetCoordinate);
+        }
+        return adjustedCoordinates;
     }
 
     /**
      * @param imageIndex the index of the image as it corresponds to the particular folder
      *                 (e.g., if it's landscape set and imageNum = 2, then this corresponds with
      *                 the file a_2.jpg.)
-     * @return a mutable bitmap that is a copy of the jpg image. This will later be modified
-     *          using a canvas (outside this method).
+     * @return an immutable bitmap that is a copy of the jpg image.
      */
     private Bitmap createBitmapFromFile(int imageIndex) {
         int imageSet = options.getImageSet();
@@ -245,7 +274,10 @@ public class CardToBitmapConverter {
                         + FLICKR_IMAGE_SET + "].");
         }
         verifyNotNull(bitmap);
+        return bitmap;
+    }
 
+    private Bitmap getMutableCopy(Bitmap bitmap) {
         /*
             CITATION - The line of code immediately below comes from here:
                 https://stackoverflow.com/a/19325732/10752685
@@ -253,8 +285,7 @@ public class CardToBitmapConverter {
             The bitmap must be mutable in order to be set to the Canvas (because the canvas will
             modify the bitmap as its drawn to) else an IllegalStateException will be thrown.
          */
-        bitmap = bitmap.copy(BITMAP_CONFIG, true);
-        return bitmap;
+        return bitmap.copy(BITMAP_CONFIG, true);
     }
 
     private void verifyNotNull(Bitmap bitmap) {
