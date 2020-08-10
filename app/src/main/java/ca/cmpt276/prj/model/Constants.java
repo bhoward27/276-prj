@@ -6,15 +6,14 @@ import android.graphics.Color;
  * Code for storing constants for use by other functions.
  */
 public final class Constants {
-
-    private Constants() {
+	private Constants() {
 	}
 
 	public static final boolean DISCARD_PILE = true;
 	public static final boolean DRAW_PILE = false;
 	public static final int NONE_SELECTED = Integer.MAX_VALUE;
 	public static final int NUM_HIGH_SCORES = 5;
-	public static final String PREFS = "ca.cmt276.prj.Eleven";
+	public static final String PREFS = "ca.cmpt276.prj.Eleven";
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
 	public static final String PREFIX_PREF = "SCORE_PREFIX_PREF";
 	public static final String DRAW_PILE_SIZE_PREF = "DRAW_PILE_SIZE_PREF";
@@ -59,4 +58,6 @@ public final class Constants {
 	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
 	public static final int[] SUPPORTED_DIFFICULTIES = {EASY, MEDIUM, HARD};
 	public static final int SELECT_PHOTO_CODE = 2;
+	public static final double SCALE_LOWER_BOUND = 0.6;
+	public static final double SCALE_UPPER_BOUND = 1.25;
 }
