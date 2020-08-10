@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This model has data about the images on a particular card, including what images or words are
- * on it, and the location of them on the card.
+ * This model has data about the three images on a particular card. Its constructor ensures that a
+ * card does not have any duplicate images on it, and that its images are all from the same image
+ * set / theme (either all predators or all landscapes). It has public methods for determining if
+ * two cards have a matching image.
  */
 public class Card {
 	private List<Integer> imagesMap = new ArrayList<>();
@@ -19,12 +21,9 @@ public class Card {
 
 	private int cardNum;
 
-	public Card(List<Integer> imageOrders, List<Boolean> wordBools, List<Double> randRotations,
-					List<Double> randScales, int cardNum) {
-		this.cardNum = cardNum;
+	public Card(List<Integer> imageOrders, List<Boolean> wordBools, int num) {
+		this.cardNum = num;
 
-		this.randRotations.addAll(randRotations);
-		this.randScales.addAll(randScales);
 		this.isWord.addAll(wordBools);
 		this.imagesMap.addAll(imageOrders);
 	}
@@ -40,5 +39,6 @@ public class Card {
 	public Integer getImagesByIndex(int index) {
 		return imagesMap.get(index);
 	}
+
 }
 
