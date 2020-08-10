@@ -44,13 +44,13 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 public class PhotoActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
-//    private static final String TAG = "PhotoActivity";
+    private static final String TAG = "PhotoActivity";
     private static final int REQUEST_PERMISSION_CODE = 2;
-//
-//    private Context mContext;
-//    private List<GalleryItem> mItems = new ArrayList<>();
-//    private List<Target> targetList = new ArrayList<>();
-//    private LocalFiles localFiles;
+
+    private Context mContext;
+    private List<GalleryItem> mItems = new ArrayList<>();
+    private List<Target> targetList = new ArrayList<>();
+    private LocalFiles localFiles;
     Boolean storagePermissionGranted;
 
     @Override
@@ -59,8 +59,8 @@ public class PhotoActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_photo);
 
         //mContext = getContext();
-//        mContext = PhotoActivity.this;
-//        localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
+        mContext = PhotoActivity.this;
+        localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
 
 //        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(
 //                R.string.title_photo_activity));
@@ -77,16 +77,13 @@ public class PhotoActivity extends AppCompatActivity {
                             .countable(true)
                             .maxSelectable(9)
                             .theme(R.style.Matisse_Dracula)
-                            //.gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .imageEngine(new PicassoImageEngine())
-                            .gridExpectedSize(120)
+                            .gridExpectedSize(360)
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             //.thumbnailScale(0.8f)
                             .forResult(REQUEST_CODE_CHOOSE);
 
         }else{
-            //RequestPermissions to export cards
-            //		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             ActivityCompat.requestPermissions(PhotoActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION_CODE);
@@ -131,41 +128,41 @@ public class PhotoActivity extends AppCompatActivity {
         }
     }
 
-////    // citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-//    public void deleteImage(int itemPosition) {
-//        localFiles.remove(mContext, mItems.get(itemPosition).getId() + JPG_EXTENSION);
-//    }
-//
-//    public void saveImage(int itemPosition) {
-//        GalleryItem item = mItems.get(itemPosition);
-//
-//        // Note: all Flickr images are .JPG
-//        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
-//        Picasso.get().load(item.getUrl()).into(picassoImageTarget(fileName));
-//    }
-//
-//    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
-//    private Target picassoImageTarget(final String imageName) {
-//        // add to array to keep reference in memory
-//        targetList.add(0, new Target() {
-//            @Override
-//            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-//                localFiles.writeImage(mContext, bitmap, imageName);
-//            }
-//
-//            @Override
-//            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                Log.e(TAG, "onBitmapFailed: ");
-//            }
-//
-//            @Override
-//            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                if (placeHolderDrawable != null) {
-//                }
-//            }
-//        });
-//        return targetList.get(0);
-//    }
+    // citation: https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
+    public void deleteImage(int itemPosition) {
+        localFiles.remove(mContext, mItems.get(itemPosition).getId() + JPG_EXTENSION);
+    }
+
+    public void saveImage(int itemPosition) {
+        GalleryItem item = mItems.get(itemPosition);
+
+        // Note: all Flickr images are .JPG
+        String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
+        Picasso.get().load(item.getUrl()).into(picassoImageTarget(fileName));
+    }
+
+    // citation https://www.codexpedia.com/android/android-download-and-save-image-through-picasso/
+    private Target picassoImageTarget(final String imageName) {
+        // add to array to keep reference in memory
+        targetList.add(0, new Target() {
+            @Override
+            public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                localFiles.writeImage(mContext, bitmap, imageName);
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                Log.e(TAG, "onBitmapFailed: ");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                if (placeHolderDrawable != null) {
+                }
+            }
+        });
+        return targetList.get(0);
+    }
 
 }
 
