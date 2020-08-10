@@ -30,6 +30,7 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.LocalFiles;
+import ca.cmpt276.prj.model.PicassoImageEngine;
 
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
@@ -43,27 +44,27 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 public class PhotoActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
-    private static final String TAG = "PhotoActivity";
+//    private static final String TAG = "PhotoActivity";
     private static final int REQUEST_PERMISSION_CODE = 2;
-
-    private Context mContext;
-    private List<GalleryItem> mItems = new ArrayList<>();
-    private List<Target> targetList = new ArrayList<>();
-    private LocalFiles localFiles;
+//
+//    private Context mContext;
+//    private List<GalleryItem> mItems = new ArrayList<>();
+//    private List<Target> targetList = new ArrayList<>();
+//    private LocalFiles localFiles;
     Boolean storagePermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo);
+        //setContentView(R.layout.activity_photo);
 
         //mContext = getContext();
 //        mContext = PhotoActivity.this;
 //        localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(
-                R.string.title_photo_activity));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Objects.requireNonNull(getSupportActionBar()).setTitle(getString(
+//                R.string.title_photo_activity));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //True if Permission was granted
         storagePermissionGranted = checkSelfPermission(
@@ -77,10 +78,10 @@ public class PhotoActivity extends AppCompatActivity {
                             .maxSelectable(9)
                             .theme(R.style.Matisse_Dracula)
                             //.gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                            .imageEngine(new PicassoEngine())
+                            .imageEngine(new PicassoImageEngine())
                             .gridExpectedSize(120)
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                            .thumbnailScale(0.8f)
+                            //.thumbnailScale(0.8f)
                             .forResult(REQUEST_CODE_CHOOSE);
 
         }else{
