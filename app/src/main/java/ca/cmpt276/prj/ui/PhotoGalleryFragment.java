@@ -184,7 +184,7 @@ public class PhotoGalleryFragment extends Fragment {
 		// Note: all Flickr images are .JPG
 		String fileName = mItems.get(itemPosition).getId() + JPG_EXTENSION;
 		Picasso.get().load(item.getUrl()).into(picassoImageTarget(fileName));
-	}
+}
 
 	private class PhotoHolder extends RecyclerView.ViewHolder {
 		private ImageView mItemImageView;

@@ -1,12 +1,19 @@
 package ca.cmpt276.prj.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +26,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +40,9 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.*;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
@@ -37,18 +51,20 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 /**
  * Activity for different types of pictures and setting the player name.
  */
-public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-	int imageSetPref;
-	int minimumReqImages;
-	OptionsManager optionsManager;
-	String playerNamePlaceholder;
-	ScoreManager manager;
-	List<RadioButton> radioButtonList = new ArrayList<>();
+		public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+			public static final int STORAGE_PERMISSION_REQUEST_CODE = 1;
+			int imageSetPref;
+			int minimumReqImages;
+			OptionsManager optionsManager;
+			String playerNamePlaceholder;
+			ScoreManager manager;
+			List<RadioButton> radioButtonList = new ArrayList<>();
+			Boolean storagePermissionGranted;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_options);
+			@Override
+			protected void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				setContentView(R.layout.activity_options);
 
 		initOptionSet();
 
@@ -59,6 +75,11 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		int numImagesPerCard = optionsManager.getOrder() + 1;
 		minimumReqImages = numImagesPerCard * numImagesPerCard - numImagesPerCard + 1;
 
+		//True if Permission was granted
+		storagePermissionGranted = checkSelfPermission(
+				android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				== PackageManager.PERMISSION_GRANTED;
+
 		setupImageSetRadioButtons();
 		setupDifficultyRadioButtons();
 		setupEntryBox();
@@ -67,8 +88,106 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		setupWordModeCheckbox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
+		setUpExportCardsButton();
 	}
 
+	private void setUpExportCardsButton(){
+		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
+		exportPhotos.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(storagePermissionGranted){
+					setUpCardPhotoStorageDir();
+					exportCards();
+				}else{
+					//RequestPermissions to export cards
+					//		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+					ActivityCompat.requestPermissions(OptionsActivity.this,
+							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+							STORAGE_PERMISSION_REQUEST_CODE);
+				}
+			}
+		});
+	}
+
+//	private void updateExportCardsButton(){
+//		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
+//		if(storagePermissionGranted){
+//			exportPhotos.setText(getString(R.string.txt_generate_card_photos));
+//		}else{
+//			exportPhotos.setText(getString(R.string.txt_generate_card_photos_permission_not_granted));
+//		}
+//	}
+
+	// Code adapted from Android Developer's site
+	// @ https://developer.android.com/training/permissions/requesting#java
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+										   String[] permissions,
+										   int[] grantResults) {
+		 if(requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0 &&
+						grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// Permission is granted. Continue the action or workflow
+					// in your app.
+					setUpCardPhotoStorageDir();
+					exportCards();
+					// Possibly use https://stackoverflow.com/a/31925748
+					// for else if case where user denied and selected "Don't ask again"?
+				} else {
+					//Tell user they can't save unless they give permission.
+					Toast.makeText(getApplicationContext(),
+							getString(R.string.tst_user_refused_storage_permission),
+							Toast.LENGTH_LONG).show();
+				}
+		}
+	}
+
+	private void exportCards(){
+		Log.v("Ya got to exportCards!","Woohoo!");
+	}
+
+	private void setUpCardPhotoStorageDir(){
+
+		// Programmer's note (can delete for final submission:
+		// getExternalStorageDirectory has deprecated, alternative is...
+		// File cardPhotoStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + File.separator + "testthing");
+		// First parameter can be set to a variety of things within Environment,
+		// But according to the Android Developers site,
+		// https://developer.android.com/reference/android/content/Context#getExternalFilesDirs(java.lang.String)
+		// files created with it are typically not seen to the user. So, I decided to use
+		// getFilesDir() in the end, to place the pictures in a folder where other pictures for the
+		// app (i.e downloaded Flickr pictures) are stored.
+
+		// Variety of sources used for following code,
+		// Prodev @ https://stackoverflow.com/a/37496736 (General File Declaration)
+		// Meet @ https://stackoverflow.com/a/59966753 (General File Declaration)
+		// raddevus @ https://stackoverflow.com/a/29404440 (use of getFilesDir())
+		File cardPhotoStorageDir = new File(getFilesDir(), "Exported Deck");
+
+		//Log.d("App:", "See your files in " + cardPhotoStorageDir.getPath());
+
+		String exportedDeckFolder = cardPhotoStorageDir.getPath();
+			// Not only is mkdir() actually attempting to make the directory
+			// but the program will also crash if the directory could not be made.
+			// theoretically, this should never happen since the user would have given permission
+			// for the app to access storage at this point.
+		if (!cardPhotoStorageDir.exists()) {
+			//Log.d("App: ", "Hey, the directory doesn't exist! Let's try making it...");
+			if (!cardPhotoStorageDir.mkdir()) {
+				//Log.d("App", "failed to create directory!");
+				throw new RuntimeException("FAILED TO CREATE DIRECTORY.");
+			} else {
+				//Log.d("App", "The directory was JUST created atL" +exportedDeckFolder);
+				Toast.makeText(getApplicationContext(), getString(
+						R.string.tst_show_new_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getString(
+					R.string.tst_show_existing_exported_card_photos_directory) + exportedDeckFolder, Toast.LENGTH_LONG).show();
+		}
+	}
 	private void initOptionSet() {
 		optionsManager = OptionsManager.getInstance();
 		imageSetPref = optionsManager.getImageSet();
@@ -76,6 +195,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 		manager = ScoreManager.getInstance();
 	}
 
+	// Adapted from https://stackoverflow.com/a/37496736
 	private boolean areThereEnoughFlickImages(int currentFlickrPhotos) {
 		// (Total number of cards is images^2 - images + 1) ==> number of total images
 		int numImagesPerCard = optionsManager.getOrder() + 1;

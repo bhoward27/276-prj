@@ -168,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
 		button.setTextSize(globalResources.getDimensionPixelSize(R.dimen.button_text_size));
 		button.setAllCaps(false);
 		button.setStateListAnimator(null);
+		button.setBackground(null);
 
 		button.setTag(R.string.tag_btn_bg, button.getBackground());
 		button.setTag(R.string.tag_btn_key, pile);
@@ -256,23 +257,15 @@ public class GameActivity extends AppCompatActivity {
 			// set size & random position
 			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
 			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
-			if (!currCard.isWord.get(modIndex)) {
-				currButtonWidth *= currCard.randScales.get(modIndex);
-				currButtonHeight *= currCard.randScales.get(modIndex);
-			}
 
-			RelativeLayout.LayoutParams buttonLayoutParams =
-					(RelativeLayout.LayoutParams) button.getLayoutParams();
-			buttonLayoutParams.width = currButtonWidth;
-			buttonLayoutParams.height = currButtonHeight;
-
-			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
-			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+			button.setRotation(0);
 
 			// set the image or word
 			if (!currCard.isWord.get(modIndex)) {
 				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
 				button.setText("");
+				currButtonWidth *= currCard.randScales.get(modIndex);
+				currButtonHeight *= currCard.randScales.get(modIndex);
 				if (imageSet != FLICKR_IMAGE_SET) {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
@@ -288,9 +281,23 @@ public class GameActivity extends AppCompatActivity {
 							.into(button);
 				}
 			} else {
+				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
+						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
 				button.setText(imageNames.getName(imageSet, imageNum));
+				// rotating text isn't supported, button bg may overlap with buttons with images on them
+				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 			}
+
+			RelativeLayout.LayoutParams buttonLayoutParams =
+					(RelativeLayout.LayoutParams) button.getLayoutParams();
+			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
+			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+
+			buttonLayoutParams.width = currButtonWidth;
+			buttonLayoutParams.height = currButtonHeight;
+
+			button.setLayoutParams(buttonLayoutParams);
 		}
 	}
 
@@ -319,57 +326,12 @@ public class GameActivity extends AppCompatActivity {
 		// percentage of height which is the cardview, and remove the margins
 		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
 		int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-		int cardRatio = cardWidth / cardHeight;
 		// END GETTING CARDVIEW WIDTH AND HEIGHT
 
-		List<Card> allCards = gameInstance.getDeck().getAllCards();
-		for (Card c : allCards) {
-			List<Integer> imagesMap = c.getImagesMap();
-			for (int i : imagesMap) {
-				double w;
-				double h;
-				// regular, non-flickr image setup (can be dynamic width/height)
-				if (!c.isWord.get(imagesMap.indexOf(i))) {
-					double ratio;
-					if (optionsManager.getImageSet() == LANDSCAPE_IMAGE_SET || optionsManager.getImageSet() == PREDATOR_IMAGE_SET) {
-						Drawable image;
-						String resourceName = resourcePrefix + i;
-						int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
-								getPackageName());
-						image = getDrawable(resourceID);
-						ratio = (double) image.getIntrinsicWidth() / image.getIntrinsicHeight();
-					} else {
-						File image = localFiles.getFile(i);
-						BitmapFactory.Options options = new BitmapFactory.Options();
-						options.inJustDecodeBounds = true;
-						BitmapFactory.decodeFile(image.getAbsolutePath(), options);
-						ratio = (double) options.outWidth / options.outHeight;
-					}
-
-					if (ratio > cardRatio) { // if the image is wider than the card's ratio
-						h = (double) cardHeight / Math.log(numImagesPerCard * 20);
-						w = ratio * h;
-					} else {
-						w = (double) cardWidth / Math.log(numImagesPerCard * 20);
-						h = (1.0 / ratio) * w;
-					}
-				} else {
-					// make word buttons slightly bigger
-					w = cardWidth / Math.log(numImagesPerCard * 10);
-					h = (double) w / 1.5;
-				}
-
-				c.imageWidths.add(w);
-				c.imageHeights.add(h);
-			}
-		}
-
-		// generate the random positions for the images on this card
-		GenRand rand = new GenRand();
-		for (Card c : allCards) {
-			rand.gen(c.imageWidths, c.imageHeights, cardWidth, cardHeight);
-			c.leftMargins.addAll(rand.getXMargins());
-			c.topMargins.addAll(rand.getYMargins());
+		// generate the random positions for the images on each card
+		GenRand rand = new GenRand(this, cardWidth, cardHeight);
+		for (Card c : gameInstance.getDeck().getAllCards()) {
+			rand.gen(c);
 		}
 	}
 
