@@ -151,7 +151,7 @@ public class EditImageSetFragment extends Fragment {
 		localFiles.remove(mContext, mItems.get(itemPosition).getId());
 	}
 
-	public static class PhotoHolder extends RecyclerView.ViewHolder {
+	private class PhotoHolder extends RecyclerView.ViewHolder {
 		public ImageView mItemImageView;
 		public CheckBox mCheckBox;
 
