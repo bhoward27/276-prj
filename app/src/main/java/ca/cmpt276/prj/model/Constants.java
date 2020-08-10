@@ -6,14 +6,15 @@ import android.graphics.Color;
  * Code for storing constants for use by other functions.
  */
 public final class Constants {
-	private Constants() {
+
+    private Constants() {
 	}
 
 	public static final boolean DISCARD_PILE = true;
 	public static final boolean DRAW_PILE = false;
 	public static final int NONE_SELECTED = Integer.MAX_VALUE;
 	public static final int NUM_HIGH_SCORES = 5;
-	public static final String PREFS = "ca.cmpt276.prj.Eleven";
+	public static final String PREFS = "ca.cmt276.prj.Eleven";
 	public static final String IMAGE_SET_INT_PREF = "PICTURE_TYPES_INT";
 	public static final String PREFIX_PREF = "SCORE_PREFIX_PREF";
 	public static final String DRAW_PILE_SIZE_PREF = "DRAW_PILE_SIZE_PREF";
@@ -45,6 +46,7 @@ public final class Constants {
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
+	public static final String PHOTO_SAVED_DIR = "photo_user_images";
 	public static final String JPG_EXTENSION = ".jpg";
 	public static final String FLICKR_PREFIX = "c";
 	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
@@ -55,4 +57,5 @@ public final class Constants {
 	public static final int DEFAULT_DIFFICULTY = EASY;
 	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
 	public static final int[] SUPPORTED_DIFFICULTIES = {EASY, MEDIUM, HARD};
+	public static final int SELECT_PHOTO_CODE = 2;
 }

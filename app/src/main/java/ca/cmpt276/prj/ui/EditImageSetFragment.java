@@ -119,6 +119,10 @@ public class EditImageSetFragment extends Fragment {
 				Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
 				startActivity(intent);
 				return true;
+			case R.id.menu_item_add_photo:
+				Intent intent1 = new Intent(getActivity(), PhotoActivity.class);
+				startActivity(intent1);
+				return true;
 			case R.id.menu_item_clear_images:
 				for (int i = 0; i < mItems.size(); i++) {
 					deleteImage(i);
@@ -147,7 +151,7 @@ public class EditImageSetFragment extends Fragment {
 		localFiles.remove(mContext, mItems.get(itemPosition).getId());
 	}
 
-	private class PhotoHolder extends RecyclerView.ViewHolder {
+	public static class PhotoHolder extends RecyclerView.ViewHolder {
 		public ImageView mItemImageView;
 		public CheckBox mCheckBox;
 

@@ -200,7 +200,6 @@ public class PhotoGalleryFragment extends Fragment {
 		public void bindDrawable(Drawable drawable) {
 			mItemImageView.setImageDrawable(drawable);
 		}
-
 	}
 
 	private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder> {
