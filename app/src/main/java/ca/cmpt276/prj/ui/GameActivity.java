@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -34,7 +33,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -199,7 +197,9 @@ public class GameActivity extends AppCompatActivity {
 		// Get global access to button ids
 		getButtons();
 
-		generateRandomPositions();
+		// randomize the images' placements, rotations, and sizes
+		randomize();
+
 		// This function adds images and tags to the buttons
 		refreshButtons();
 
@@ -254,59 +254,57 @@ public class GameActivity extends AppCompatActivity {
 
 			button.setTag(imageNum);
 
-			/*	DELETE this comment before merging --- start of code to pay attention to.
-				**************************************************************** */
-			// set size & random position
-			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex));
-			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex));
-
-			button.setRotation(0);
-
 			// set the image or word
 			if (!currCard.isWord.get(modIndex)) {
 				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
 				button.setText("");
-				currButtonWidth *= currCard.randScales.get(modIndex);
-				currButtonHeight *= currCard.randScales.get(modIndex);
+				// load image from drawable or folder (if flickr/custom)
 				if (imageSet != FLICKR_IMAGE_SET) {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
 							getPackageName());
 					Picasso.get()
 							.load(resourceID)
-							.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
 				} else {
 					Picasso.get()
 							.load(localFiles.getFile(imageNum))
-							.rotate(currCard.randRotations.get(modIndex).floatValue())
 							.into(button);
 				}
 			} else {
+				// scale text size (hard mode) since the text doesn't care about the button size
 				button.setTextSize(globalResources.getDimension(R.dimen.button_text_size) *
 						currCard.randScales.get(modIndex).floatValue());
 				button.setBackground((Drawable) button.getTag(R.string.tag_btn_bg));
-				/*	****************************************************************
-					DELETE this comment before merging --- end of code to pay attention to. */
 				button.setText(imageNames.getName(imageSet, imageNum));
-				// rotating text isn't supported, button bg may overlap with buttons with images on them
-				button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 			}
+
+			// get size (scaled)
+			int currButtonWidth = (int) Math.round(currCard.imageWidths.get(modIndex) *
+					currCard.randScales.get(modIndex));
+			int currButtonHeight = (int) Math.round(currCard.imageHeights.get(modIndex) *
+					currCard.randScales.get(modIndex));
 
 			RelativeLayout.LayoutParams buttonLayoutParams =
 					(RelativeLayout.LayoutParams) button.getLayoutParams();
-			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
-			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
 
+			// set size
 			buttonLayoutParams.width = currButtonWidth;
 			buttonLayoutParams.height = currButtonHeight;
 
+			// set random position
+			buttonLayoutParams.leftMargin = currCard.leftMargins.get(modIndex);
+			buttonLayoutParams.topMargin = currCard.topMargins.get(modIndex);
+
+			// save the layout params to the button
 			button.setLayoutParams(buttonLayoutParams);
+
+			// set random rotation
+			button.setRotation(currCard.randRotations.get(modIndex).floatValue());
 		}
 	}
 
-	private void generateRandomPositions() {
-		// START GETTING CARDVIEW WIDTH AND HEIGHT
+	private int[] calculateCardViewDimens() {
 		int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -330,10 +328,15 @@ public class GameActivity extends AppCompatActivity {
 		// percentage of height which is the cardview, and remove the margins
 		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
 		int cardHeight = (int) Math.round(height * tv.getFloat() - cardViewMarginSize);
-		// END GETTING CARDVIEW WIDTH AND HEIGHT
+
+		return new int[]{cardWidth, cardHeight};
+	}
+
+	private void randomize() {
+		int[] cardViewDimens = calculateCardViewDimens();
 
 		// generate the random positions for the images on each card
-		GenRand rand = new GenRand(this, cardWidth, cardHeight);
+		GenRand rand = new GenRand(this, cardViewDimens[0], cardViewDimens[1]);
 		for (Card c : gameInstance.getDeck().getAllCards()) {
 			rand.gen(c);
 		}

@@ -56,4 +56,6 @@ public final class Constants {
 	public static final int DEFAULT_DIFFICULTY = EASY;
 	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
 	public static final int[] SUPPORTED_DIFFICULTIES = {EASY, MEDIUM, HARD};
+	public static final double SCALE_LOWER_BOUND = 0.6;
+	public static final double SCALE_UPPER_BOUND = 1.25;
 }
