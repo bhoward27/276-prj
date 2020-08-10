@@ -172,9 +172,15 @@ public class CardToBitmapConverter {
                     -create the correct coordinates
                         Does/should rotation affect the coordinates???
              */
+//            if (i == 2) {
+//                System.out.println("****BREAK");
+//                break;
+//            }
             boolean isWord = wordConditions.get(i);
             if (isWord) {
                 //  yet to implement.
+                System.out.println("isWord == true");
+                System.out.println("Iteration " + (i + 1) + ":");
             }
             else {
                 /*
@@ -192,8 +198,9 @@ public class CardToBitmapConverter {
                         -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
                 */
                 int imageNum = imagesMap.get(i);
-                int imageSet = options.getImageSet();
-                Bitmap bitmap = createBitmapFromFile(imageSet, imageNum);
+                //int imageSet = options.getImageSet();
+                System.out.println("Iteration " + (i + 1) + ":");
+                Bitmap bitmap = createBitmapFromFile(imageNum);
                 //Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
                 //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
                 //  or do that with the canvas?
@@ -204,11 +211,13 @@ public class CardToBitmapConverter {
             }
         }
         //  DELETE --- only for testing.
-        return createBitmapFromFile(0, 0);
+        Bitmap bitmap = null;
+        return bitmap;
         //return createComposite(subImages);
     }
 
-    private Bitmap createBitmapFromFile(int imageSet, int imageNum) {
+    private Bitmap createBitmapFromFile(int imageNum) {
+        int imageSet = options.getImageSet();
         Bitmap bitmap;
         switch(imageSet) {
             case LANDSCAPE_IMAGE_SET:
@@ -232,7 +241,7 @@ public class CardToBitmapConverter {
                 LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
                 File file = localFiles.getFile(imageNum);
                 String path = file.getAbsolutePath();
-                System.out.println("******* PATH = " + path);
+                System.out.println("******* imageNum = " + imageNum + "; PATH = " + path);
                 bitmap = BitmapFactory.decodeFile(path);
                 break;
             default:
