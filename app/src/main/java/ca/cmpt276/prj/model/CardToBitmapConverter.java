@@ -71,41 +71,9 @@ public class CardToBitmapConverter {
     //  cost to performance.
     private static final boolean BILINEAR_FILTER_MODE = true;
 
-
-    /*
-    Not sure if this is even relevant to what I'm doing. Maybe what I need is in GenRand already.
-    Stuff from William's code:
-
-    // START GETTING CARDVIEW WIDTH AND HEIGHT
-		int cardViewMarginSize = globalResources.getDimensionPixelSize(R.dimen.cardview_margins); // 10 dp
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		int heightInPx = displayMetrics.heightPixels;
-		int widthInPx = displayMetrics.widthPixels;
-
-		TypedValue tv = new TypedValue();
-
-		// remove the action bar size from height: https://stackoverflow.com/a/13216807
-		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-			heightInPx -= TypedValue.complexToDimensionPixelSize(tv.data, globalResources.getDisplayMetrics());
-		}
-
-		// remove status bar from height: https://gist.github.com/hamakn/8939eb68a920a6d7a498
-		int resourceId = globalResources.getIdentifier("status_bar_height", "dimen", "android");
-		if (resourceId > 0) {
-			heightInPx -= globalResources.getDimensionPixelSize(resourceId);
-		}
-
-		int cardWidthInPx = widthInPx - cardViewMarginSize;
-		// percentage of height which is the cardview, and remove the margins
-		globalResources.getValue(R.fraction.disc_guideline_pct, tv, true);
-		int cardHeightInPx = (int) Math.round(heightInPx * tv.getFloat() - cardViewMarginSize);
-		// END GETTING CARDVIEW WIDTH AND HEIGHT
-     */
-
     //  probably shouldn't be instantiated unless user has clicked on the export button.
     public CardToBitmapConverter(Context context) {
-        options = options.getInstance(); // probably unneeded. Assuming that Game has the options.
+        options = options.getInstance();
         game = new Game();
         this.context = context;
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
