@@ -22,10 +22,10 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
 public class CardToBitmapConverter {
     private Context context;
-    private OptionsManager options; //  do I need options?
+    private OptionsManager options;
     private Game game; //   Not sure if this should be member or just a local variable in a function.
     private GenRand rand; //    Not sure if should be member.
-    private List<Card> cards; //    not sure if should be a member.
+    private List<Card> cards;
     private List<Bitmap> bitmaps; //    these bitmaps must be the final bitmaps of the entire card.
 
     //  names of the image files which can be passed to Michael's file manager.
@@ -153,9 +153,6 @@ public class CardToBitmapConverter {
     private Bitmap toBitmap(Card c) {
         List<Bitmap> subImages = new ArrayList();
         List<Integer> imagesMap = c.getImagesMap();
-
-        //  using the imagesMap ArrayList is relatively arbitrary, but it creates a
-        //  for loop that will iterate the correct number of times. May want to refactor.
         int numImages = imagesMap.size();
         //  Construct list of subImages.
         //  Constructs each subimage based on the specifications from the Card c.
@@ -172,10 +169,6 @@ public class CardToBitmapConverter {
                     -create the correct coordinates
                         Does/should rotation affect the coordinates???
              */
-//            if (i == 2) {
-//                System.out.println("****BREAK");
-//                break;
-//            }
             boolean isWord = wordConditions.get(i);
             if (isWord) {
                 //  yet to implement.
@@ -197,15 +190,9 @@ public class CardToBitmapConverter {
                         -   https://stackoverflow.com/a/9531548/10752685
                         -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
                 */
-                int imageNum = imagesMap.get(i);
-                //int imageSet = options.getImageSet();
+                int imageIndex = imagesMap.get(i);
                 System.out.println("Iteration " + (i + 1) + ":");
-                Bitmap bitmap = createBitmapFromFile(imageNum);
-                //Bitmap bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG);
-                //  Am I supposed to do this though? Shouldn't I be reading in the image to the bitmap???
-                //  or do that with the canvas?
-
-                //  Below code is necessary but caused an IllegalStateException (second line).
+                Bitmap bitmap = createBitmapFromFile(imageIndex);
                 Canvas canvas = new Canvas();
                 canvas.setBitmap(bitmap);
             }
@@ -216,7 +203,14 @@ public class CardToBitmapConverter {
         //return createComposite(subImages);
     }
 
-    private Bitmap createBitmapFromFile(int imageNum) {
+    /**
+     * @param imageIndex the index of the image as it corresponds to the particular folder
+     *                 (e.g., if it's landscape set and imageNum = 2, then this corresponds with
+     *                 the file a_2.jpg.)
+     * @return a mutable bitmap that is a copy of the jpg image. This will later be modified
+     *          using a canvas (outside this method).
+     */
+    private Bitmap createBitmapFromFile(int imageIndex) {
         int imageSet = options.getImageSet();
         Bitmap bitmap;
         switch(imageSet) {
@@ -227,7 +221,7 @@ public class CardToBitmapConverter {
                 //  (copied from GameActivity code)
                 String imageSetPrefix = options.getImageSetPrefix();
                 String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-                String resourceName = resourcePrefix + imageNum;
+                String resourceName = resourcePrefix + imageIndex;
                 Resources globalResources = context.getResources();
                 int resourceID = globalResources.getIdentifier(resourceName,
                         IMAGE_FOLDER_NAME, context.getPackageName());
@@ -239,9 +233,9 @@ public class CardToBitmapConverter {
                 //  Not sure if I should use the other constructor since I'm not actually
                 //  in an activity.
                 LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
-                File file = localFiles.getFile(imageNum);
+                File file = localFiles.getFile(imageIndex);
                 String path = file.getAbsolutePath();
-                System.out.println("******* imageNum = " + imageNum + "; PATH = " + path);
+                System.out.println("******* imageNum = " + imageIndex + "; PATH = " + path);
                 bitmap = BitmapFactory.decodeFile(path);
                 break;
             default:
@@ -250,7 +244,6 @@ public class CardToBitmapConverter {
                         " following range: [" + LANDSCAPE_IMAGE_SET + ", "
                         + FLICKR_IMAGE_SET + "].");
         }
-        //  Seems to have worked for landscape and predator set, but on Flickr set, it made a null bitmap!
         verifyNotNull(bitmap);
 
         /*
@@ -278,7 +271,7 @@ public class CardToBitmapConverter {
 
         int height = scale(scalar, heights.get(imageNum));
         int width = scale(scalar, widths.get(imageNum));
-        //  Not sure if this is necessary at all. Should probs just get started on this bitmap stuff!
+        //  Not sure if this is necessary at all.
     }
 
     private int scale(double scalar, double length) {
