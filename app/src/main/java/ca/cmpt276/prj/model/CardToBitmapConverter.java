@@ -206,8 +206,8 @@ public class CardToBitmapConverter {
                 //  or do that with the canvas?
 
                 //  Below code is necessary but caused an IllegalStateException (second line).
-//                Canvas canvas = new Canvas();
-//                canvas.setBitmap(bitmap);
+                Canvas canvas = new Canvas();
+                canvas.setBitmap(bitmap);
             }
         }
         //  DELETE --- only for testing.
@@ -252,6 +252,15 @@ public class CardToBitmapConverter {
         }
         //  Seems to have worked for landscape and predator set, but on Flickr set, it made a null bitmap!
         verifyNotNull(bitmap);
+
+        /*
+            CITATION - The line of code immediately below comes from here:
+                https://stackoverflow.com/a/19325732/10752685
+
+            The bitmap must be mutable in order to be set to the Canvas (because the canvas will
+            modify the bitmap as its drawn to) else an IllegalStateException will be thrown.
+         */
+        bitmap = bitmap.copy(BITMAP_CONFIG, true);
         return bitmap;
     }
 
