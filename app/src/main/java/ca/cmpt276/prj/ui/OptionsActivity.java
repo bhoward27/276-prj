@@ -12,7 +12,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -198,22 +200,55 @@ import static ca.cmpt276.prj.model.Constants.*;
 		} catch (IOException e){
 			e.printStackTrace();
 		}
+		Log.e("SUCCESS?", "YES!");
 	}
 
-		private void exportCards(){
-			Log.v("Ya got to exportCards!","Woohoo!");
-				Context context = OptionsActivity.this;
-				converter = new CardConverter(context);
-				exportedDeckBitmaps = converter.getBitmaps();
-				exportedfileNames = converter.getFileNames();
-				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
-						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
-				}
-				Toast.makeText(getApplicationContext(), getString(
+	//Acutual
+//		private void exportCards(){
+//			Log.v("Ya got to exportCards!","Woohoo!");
+//				Context context = OptionsActivity.this;
+//				converter = new CardConverter(context);
+//				exportedDeckBitmaps = converter.getBitmaps();
+//				exportedfileNames = converter.getFileNames();
+//				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
+//						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
+//				}
+//				Toast.makeText(getApplicationContext(), getString(
+//				R.string.tst_show_exported_card_photos_directory)
+//						, Toast.LENGTH_LONG).show();
+//	}
+
+	//TEST
+	private void exportCards(){
+		Log.v("Ya got to exportCards!","Woohoo!");
+		Context context = OptionsActivity.this;
+		converter = new CardConverter(context);
+		String imageSetPrefix = "a";
+		String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+		String resourceName = resourcePrefix + "1";
+		Resources globalResources = context.getResources();
+		int resourceID = globalResources.getIdentifier(resourceName,
+				IMAGE_FOLDER_NAME, context.getPackageName());
+//  load the picture into a bitmap.
+		Bitmap bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
+		saveImage(bitmap, resourceName);
+		Toast.makeText(getApplicationContext(), getString(
 				R.string.tst_show_exported_card_photos_directory)
-						, Toast.LENGTH_LONG).show();
+				, Toast.LENGTH_LONG).show();
 	}
 
+	/*
+	//  Get the resource ID of the picture
+//  (copied from GameActivity code)
+String imageSetPrefix = options.getImageSetPrefix();
+String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+String resourceName = resourcePrefix + imageNum;
+Resources globalResources = context.getResources();
+int resourceID = globalResources.getIdentifier(resourceName,
+        IMAGE_FOLDER_NAME, context.getPackageName());
+//  load the picture into a bitmap.
+bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
+	 */
 //	private void setUpCardPhotoStorageDir(){
 //
 //		// Programmer's note (can delete for final submission:
