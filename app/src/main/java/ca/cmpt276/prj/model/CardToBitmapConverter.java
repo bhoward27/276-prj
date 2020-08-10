@@ -231,10 +231,12 @@ public class CardToBitmapConverter {
                 //  in an activity.
                 LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
                 File file = localFiles.getFile(imageNum);
-                bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                String path = file.getAbsolutePath();
+                System.out.println("******* PATH = " + path);
+                bitmap = BitmapFactory.decodeFile(path);
                 break;
             default:
-                throw new UnsupportedOperationException("Error: Invalid imageSet. " +
+                throw new IllegalArgumentException("Error: Invalid imageSet. " +
                         "imageSet must be in the" +
                         " following range: [" + LANDSCAPE_IMAGE_SET + ", "
                         + FLICKR_IMAGE_SET + "].");
