@@ -110,7 +110,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 				if(storagePermissionGranted){
 					//saveImage();
 //					setUpCardPhotoStorageDir();
-					exportCards();
+					//exportCards();
 				}else{
 					//RequestPermissions to export cards
 					//		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -144,7 +144,7 @@ import static ca.cmpt276.prj.model.Constants.*;
 					// Permission is granted. Continue the action or workflow
 					// in your app.
 //					setUpCardPhotoStorageDir();
-					exportCards();
+					//exportCards();
 					// Possibly use https://stackoverflow.com/a/31925748
 					// for else if case where user denied and selected "Don't ask again"?
 				} else {
@@ -219,23 +219,23 @@ import static ca.cmpt276.prj.model.Constants.*;
 //	}
 
 	//TEST
-	private void exportCards(){
-		Log.v("Ya got to exportCards!","Woohoo!");
-		Context context = OptionsActivity.this;
-		converter = new CardConverter(context);
-		String imageSetPrefix = "a";
-		String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-		String resourceName = resourcePrefix + "1";
-		Resources globalResources = context.getResources();
-		int resourceID = globalResources.getIdentifier(resourceName,
-				IMAGE_FOLDER_NAME, context.getPackageName());
-//  load the picture into a bitmap.
-		Bitmap bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
-		saveImage(bitmap, resourceName);
-		Toast.makeText(getApplicationContext(), getString(
-				R.string.tst_show_exported_card_photos_directory)
-				, Toast.LENGTH_LONG).show();
-	}
+//	private void exportCards(){
+//		Log.v("Ya got to exportCards!","Woohoo!");
+//		Context context = OptionsActivity.this;
+//		converter = new CardConverter(context);
+//		String imageSetPrefix = "a";
+//		String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
+//		String resourceName = resourcePrefix + "1";
+//		Resources globalResources = context.getResources();
+//		int resourceID = globalResources.getIdentifier(resourceName,
+//				IMAGE_FOLDER_NAME, context.getPackageName());
+////  load the picture into a bitmap.
+//		Bitmap bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
+//		saveImage(bitmap, resourceName);
+//		Toast.makeText(getApplicationContext(), getString(
+//				R.string.tst_show_exported_card_photos_directory)
+//				, Toast.LENGTH_LONG).show();
+//	}
 
 	/*
 	//  Get the resource ID of the picture
