@@ -18,4 +18,10 @@ F. ALA @: https://stackoverflow.com/a/48669304
 followed all previous steps right after clicking the Export Photos button), there should be an
 option to setup the Emulator's SD card in the notifications bar. IF you haven't done the set up, do
 so and then unmount and mount the SDcard at Settings -> Storage
+
+I noticed that while for any subsequent additions to the Pictures folder after the first deck export
+is updated in the Internal Storage, it does not automatically update in SD Card Storage (that is,
+the Gallery app does not automatically see the new pictures). To update the SD Card Storage,
+you must eject (unmount) and then mount the SD Card to see the new pictures.
+
 - Michael Mora, Group 11
