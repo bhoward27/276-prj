@@ -65,16 +65,25 @@ public class PhotoActivity extends AppCompatActivity {
 				== PackageManager.PERMISSION_GRANTED;
 
 		if (storagePermissionGranted) {
-			Matisse.from(PhotoActivity.this)
-					.choose(MimeType.ofImage())
-					.countable(true)
-					.maxSelectable(9)
-					.theme(R.style.Matisse_Dracula)
-					.imageEngine(new PicassoImageEngine())
-					.gridExpectedSize(360)
-					.restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-					//.thumbnailScale(0.8f)
-					.forResult(REQUEST_CODE_CHOOSE);
+			try {
+				Matisse.from(PhotoActivity.this)
+						.choose(MimeType.ofImage())
+						.countable(true)
+						.maxSelectable(9)
+						.theme(R.style.Matisse_Dracula)
+						.imageEngine(new PicassoImageEngine())
+						.gridExpectedSize(360)
+						.restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+						//.thumbnailScale(0.8f)
+						.forResult(REQUEST_CODE_CHOOSE);
+			} catch (IllegalArgumentException e) {
+				Log.d(TAG, "Failed to load images. That's unfortunate.");
+				this.finish();
+			} catch (RuntimeException e) {
+				Log.d(TAG, "Failed to load images. That's unfortunate.");
+				this.finish();
+			}
+			
 
 		} else {
 			ActivityCompat.requestPermissions(PhotoActivity.this,
