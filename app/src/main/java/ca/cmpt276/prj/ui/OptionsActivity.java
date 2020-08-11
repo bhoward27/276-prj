@@ -51,6 +51,9 @@ import ca.cmpt276.prj.model.ScoreManager;
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
+import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+
 /**
  * Activity for different types of pictures and setting the player name.
  */
@@ -525,7 +528,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 	}
 
 	private void setUpFlickrButton() {
-		Button button = findViewById(R.id.btnFlickrPhotos);
+		Button button = findViewById(R.id.btnCustomImageSet);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -536,7 +539,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 
 	private void updateFlickrAmountText() {
 		// turn on Flickr mode to see/change the number of flickr images.
-		TextView currentFlickrPhotoCount = findViewById(R.id.txt_flickr_number);
+		TextView currentFlickrPhotoCount = findViewById(R.id.txt_custom_image_number);
 		// the user is only allowed to see/set Flickr images if the Flickr image set is selected
 		if (radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
 

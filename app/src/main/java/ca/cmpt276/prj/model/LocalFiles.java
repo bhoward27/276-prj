@@ -8,8 +8,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +104,8 @@ public class LocalFiles {
 						}
 					});
 
-					add(imageFile);
+					files.add(imageFile);
+					options.setFlickrImageSetSize(files.size());
 
 					break;
 				} catch (IOException e) {
@@ -137,15 +142,46 @@ public class LocalFiles {
 		return false;
 	}
 
-	// Call this after adding an image to the folder through means other than writeImage
-	// to update the list of files that this class knows about
-	public void add(File file) {
-		files.add(file);
-		if (options.getImageSet() <= FLICKR_IMAGE_SET) {
-			options.setFlickrImageSetSize(files.size());
-		}//TODO: else {
-		// options.setCustomImageSetSize(imageSet, files.size());
-		//}
+	// Citation: https://www.baeldung.com/convert-input-stream-to-a-file
+	public void add(InputStream fileIS, String name) {
+		File destFile = new File(filesDir, name);
+
+		byte[] buffer = new byte[0];
+		try {
+			buffer = new byte[fileIS.available()];
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(TAG, "add: Failed!");
+			return;
+		}
+		try {
+			fileIS.read(buffer);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(TAG, "add: Failed!");
+			return;
+		}
+
+		OutputStream outStream;
+		try {
+			outStream = new FileOutputStream(destFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(TAG, "add: Failed!");
+			return;
+		}
+		try {
+			outStream.write(buffer);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(TAG, "add: Failed!");
+			return;
+		}
+
+		// if we got here then all the try catch blocks succeeded.
+		files.add(destFile);
+		options.setFlickrImageSetSize(files.size());
+		Log.d(TAG, "add: Added!");
 	}
 
 }

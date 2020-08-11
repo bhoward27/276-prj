@@ -45,6 +45,7 @@ public final class Constants {
 	public static final int NUM_IMAGES_IN_DEFAULT_SETS = 31;
 	public static final int MINIMUM_DECK_SIZE = 5;
 	public static final String FLICKR_SAVED_DIR = "flickr_user_images";
+	public static final String PHOTO_SAVED_DIR = "photo_user_images";
 	public static final String JPG_EXTENSION = ".jpg";
 	public static final String FLICKR_PREFIX = "c";
 	public static final String FLICKR_IMAGE_NAME_PREFIX = FLICKR_PREFIX + RESOURCE_DIVIDER;
@@ -56,6 +57,7 @@ public final class Constants {
 	public static final int DEFAULT_DIFFICULTY = EASY;
 	public static final String DIFFICULTY_PREF = "DIFFICULTY_PREF";
 	public static final int[] SUPPORTED_DIFFICULTIES = {EASY, MEDIUM, HARD};
+	public static final int SELECT_PHOTO_CODE = 2;
 	public static final double SCALE_LOWER_BOUND = 0.6;
 	public static final double SCALE_UPPER_BOUND = 1.25;
 }

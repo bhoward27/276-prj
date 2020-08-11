@@ -31,8 +31,10 @@ import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.LocalFiles;
 import ca.cmpt276.prj.model.OptionsManager;
+import ca.cmpt276.prj.model.QueryPreferences;
 
 import static ca.cmpt276.prj.model.Constants.*;
+import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 
 /**
  * This activity loads Flickr images (from your locally downloaded files) into a RecyclerView.
@@ -107,7 +109,7 @@ public class EditImageSetFragment extends Fragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
 		super.onCreateOptionsMenu(menu, menuInflater);
-		menuInflater.inflate(R.menu.fragment_flickr_editor, menu);
+		menuInflater.inflate(R.menu.fragment_flickr_and_custom_editor, menu);
 	}
 
 	@Override
@@ -116,6 +118,10 @@ public class EditImageSetFragment extends Fragment {
 			case R.id.menu_item_add:
 				Intent intent = new Intent(getActivity(), PhotoGalleryActivity.class);
 				startActivity(intent);
+				return true;
+			case R.id.menu_item_add_photo:
+				Intent intent1 = new Intent(getActivity(), PhotoActivity.class);
+				startActivity(intent1);
 				return true;
 			case R.id.menu_item_clear_images:
 				for (int i = 0; i < mItems.size(); i++) {

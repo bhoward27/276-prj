@@ -138,9 +138,15 @@
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
     <string name="txt_prompt_difficulty">Select difficulty:</string>
+    <string name="title_image_set">Image Set</string>
+    <string name="title_photo_activity">Photo</string>
+    <string name="txt_custom_image_set">Custom Image</string>
+    <string name="add_photo_image">Add Photo Images</string>
     <string name="txt_generate_card_photos">Generate Deck Photos</string>
     <string name="tst_show_exported_card_photos_directory">Deck exported! View your deck photos in your device\'s \"Pictures\" folder, either through a file explorer or your phone\'s Gallery App!\u0020</string>
     <string name="txt_generate_card_photos_permission_not_granted">Generate Deck Photos (Requires Storage Access Permissions)</string>
     <string name="tst_user_refused_storage_permission">Permission for the app to access storage required; allow it here or in the Permissions found in your device\'s settings.</string>
     <string name="tst_user_refused_storage_permission_with_never_ask_again">Permission for app to access storage blocked due to Never Ask Again being selected. Grant the Permission in your device\'s settings to save deck photos.</string>
+    <string name="button_sure_default">Save</string>
+    <string name="button_sure">Save (%d)</string>
 </resources>
