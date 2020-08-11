@@ -64,8 +64,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			ScoreManager manager;
 			List<RadioButton> radioButtonList = new ArrayList<>();
 			Boolean storagePermissionGranted;
-			List<Bitmap>exportedDeckBitmaps;
-			List<String>exportedfileNames;
 
 			@Override
 			protected void onCreate(Bundle savedInstanceState) {
