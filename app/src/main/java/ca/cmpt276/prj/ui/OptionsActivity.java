@@ -519,6 +519,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 						R.string.txt_flickr_photo_amount_ok), currentFlickrPhotos);
 				currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
 						OptionsActivity.this, R.color.blue));
+				optionsManager.setImageSet(CUSTOM_IMAGE_SET);
 			} else {
 				flickrPhotoCountText = String.format(getString(
 						R.string.txt_flickr_photo_amount_not_ok), currentFlickrPhotos,
@@ -543,6 +544,8 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 	@Override
 	public void onResume() {
 		super.onResume();
+
+
 
 		updateFlickrAmountText();
 	}
