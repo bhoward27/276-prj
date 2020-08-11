@@ -7,6 +7,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -105,7 +108,7 @@ public class CardToBitmapConverter {
 
     //  probably shouldn't be instantiated unless user has clicked on the export button.
     public CardToBitmapConverter(Context context) {
-        options = options.getInstance(); // probably unneeded. Assuming that Game has the options.
+        options = OptionsManager.getInstance(); // probably unneeded. Assuming that Game has the options.
         game = new Game();
         this.context = context;
         rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
@@ -176,8 +179,7 @@ public class CardToBitmapConverter {
         List<Double> heights = c.getImageHeights();
         List<Double> widths = c.getImageWidths();
         List<Boolean> wordConditions = c.getIsWord();
-        List<Integer> xCoordinates = makeOffsetCoordinates(c.getLeftMargins());
-        List<Integer> yCoordinates = makeOffsetCoordinates(c.getTopMargins());
+
         for (int i = 0; i < numImages; ++i) {
             /*
                 Some things that would make sense to do here:
@@ -215,9 +217,9 @@ public class CardToBitmapConverter {
                     CITATION - The following line of code for adjusting the size of the bitmap
                     came from here: https://gamedev.stackexchange.com/a/59483
                  */
-                //  -   Change the width and height
-                int height = heights.get(i).intValue();
+                //  -   Change the width and height (to difficulty scaled version)
                 int width = widths.get(i).intValue();
+                int height = heights.get(i).intValue();
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, BILINEAR_FILTER_MODE);
 
                 //  At the moment the canvas is useless, but it may be needed in future code
@@ -232,10 +234,43 @@ public class CardToBitmapConverter {
             }
         }
         //  DELETE --- only for testing.
-        testSubBitmaps(c, subImages);
-        Bitmap compositeBitmap = null;
-        return compositeBitmap;
-        //return createComposite(subImages);
+        //testSubBitmaps(c, subImages);
+        return createComposite(subImages, c);
+    }
+
+    private Bitmap createComposite(List<Bitmap> subImages, Card card) {
+        List<Double> rotations = card.getRandRotations();
+        List<Double> scalars = card.getRandScales();
+        List<Integer> xPosList = makeOffsetCoordinates(card.getLeftMargins());
+        List<Integer> yPosList = makeOffsetCoordinates(card.getTopMargins());
+
+        Bitmap bgBitmap = Bitmap.createBitmap(WIDTH_IN_PX, HEIGHT_IN_PX, Bitmap.Config.ARGB_8888);
+        bgBitmap.eraseColor(Color.WHITE);
+        Canvas canvas = new Canvas(bgBitmap);
+
+        int i = 0;
+        for (Bitmap bmp : subImages) {
+
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+
+             // matrix: rotate, scale, then translate
+            Matrix imageMatrix = new Matrix();
+            imageMatrix.preTranslate(xPosList.get(i), yPosList.get(i));
+            imageMatrix.preScale(scalars.get(i).floatValue(), scalars.get(i).floatValue());
+            imageMatrix.preRotate(rotations.get(i).floatValue(),
+                    (float) bmp.getWidth()/2,
+                    (float) bmp.getHeight()/2);
+
+            // draw with matrix operations
+            canvas.drawBitmap(bmp, imageMatrix, paint);
+
+            // free up memory
+            bmp.recycle();
+            i++;
+        }
+
+        return bgBitmap;
     }
 
     private void testSubBitmaps(Card c, List<Bitmap> subImages) {
@@ -387,6 +422,12 @@ public class CardToBitmapConverter {
         for (Card c : cards) {
             bitmaps.add(toBitmap(c));
         }
+
+        // save
+        for (Bitmap bmp : bitmaps) {
+            testSaveImage(bmp, testGetName(bitmaps.indexOf(bmp)));
+        }
+
     }
 
     public List<String> getFileNames() {
@@ -399,6 +440,7 @@ public class CardToBitmapConverter {
 
     private void setupCards() {
         cards = game.getDeck().getAllCards();
+        // randomize
         for (Card c : cards) {
             rand.gen(c);
         }
