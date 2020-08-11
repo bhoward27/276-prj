@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/menu_item_add"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/flickr_icon_ok"
         android:title="@string/add_flickr_image"
         app:showAsAction="ifRoom" />
 
