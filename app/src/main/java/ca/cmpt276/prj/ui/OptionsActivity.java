@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -43,6 +44,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
+import ca.cmpt276.prj.model.CardToBitmapConverter;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
@@ -54,7 +56,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
  */
 		public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 			public static final int STORAGE_PERMISSION_REQUEST_CODE = 1;
-			//CardConverter converter; //Only instantiated when export button works
+			CardToBitmapConverter converter; //Only instantiated when export button works
 			int imageSetPref;
 			int minimumReqImages;
 			OptionsManager optionsManager;
@@ -103,7 +105,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 				if(storagePermissionGranted){
 					//saveImage();
 //					setUpCardPhotoStorageDir();
-					//exportCards();
+					exportCards();
 				}else{
 					//RequestPermissions to export cards
 					//		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -137,7 +139,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 					// Permission is granted. Continue the action or workflow
 					// in your app.
 //					setUpCardPhotoStorageDir();
-					//exportCards();
+					exportCards();
 					// Possibly use https://stackoverflow.com/a/31925748
 					// for else if case where user denied and selected "Don't ask again"?
 				} else {
@@ -197,19 +199,19 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 	}
 
 	//Acutual
-//		private void exportCards(){
-//			Log.v("Ya got to exportCards!","Woohoo!");
-//				Context context = OptionsActivity.this;
-//				converter = new CardConverter(context);
-//				exportedDeckBitmaps = converter.getBitmaps();
-//				exportedfileNames = converter.getFileNames();
-//				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
-//						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
-//				}
-//				Toast.makeText(getApplicationContext(), getString(
-//				R.string.tst_show_exported_card_photos_directory)
-//						, Toast.LENGTH_LONG).show();
-//	}
+		private void exportCards(){
+			Log.v("Ya got to exportCards!","Woohoo!");
+				Context context = OptionsActivity.this;
+				converter = new CardToBitmapConverter(context);
+				exportedDeckBitmaps = converter.getBitmaps();
+				exportedfileNames = converter.getFileNames();
+				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
+						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
+				}
+				Toast.makeText(getApplicationContext(), getString(
+				R.string.tst_show_exported_card_photos_directory)
+						, Toast.LENGTH_LONG).show();
+	}
 
 	//TEST
 //	private void exportCards(){
