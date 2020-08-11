@@ -64,6 +64,9 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			ScoreManager manager;
 			List<RadioButton> radioButtonList = new ArrayList<>();
 			Boolean storagePermissionGranted;
+			List<Bitmap>exportedDeckBitmaps;
+			List<String>exportedfileNames;
+			Boolean isWordsModeDisabled;
 
 			@Override
 			protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 				android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				== PackageManager.PERMISSION_GRANTED;
 
+		updateDisablingWordMode();
 		setupImageSetRadioButtons();
 		setupDifficultyRadioButtons();
 		setupEntryBox();
@@ -93,6 +97,14 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 		setUpFlickrButton();
 		updateFlickrAmountText();
 		setUpExportCardsButton();
+	}
+
+	private void updateDisablingWordMode(){
+		if(optionsManager.getImageSet()==FLICKR_IMAGE_SET){
+			isWordsModeDisabled = true;
+		}else{
+			isWordsModeDisabled = false;
+		}
 	}
 
 	private void setUpExportCardsButton(){
@@ -263,17 +275,25 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			button.setText(imageSetName);
 			if (deckThemeNames.indexOf(imageSetName) != CUSTOM_IMAGE_SET) {
 				button.setOnClickListener(v -> {
+					isWordsModeDisabled = false;
 					chck.setEnabled(true);
 					optionsManager.setImageSet(indexOfButton);
 					updateFlickrAmountText();
 				});
 			} else {
 				// for flickr radio button
+
+				//Must disable words and images mode
 				button.setOnClickListener(v -> {
+
+					isWordsModeDisabled = true;
+
 					// don't allow the user to play the game with not enough images
 					if (areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())) {
 						optionsManager.setImageSet(indexOfButton);
+						optionsManager.setWordMode(false);
 					} else {
+						//Still have to tell difficulty to prevent words mode from happening
 						Toast.makeText(getApplicationContext(), getString(
 								R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok),
 								Toast.LENGTH_LONG).show();
@@ -306,8 +326,10 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			CheckBox chck = findViewById(R.id.chckWordMode);
 			button.setText(difficultyName);
 			button.setOnClickListener(v -> {
+				Log.d("THe thing is:", optionsManager.getImageSet() + "");
 				chck.setEnabled(true);
 				optionsManager.setDifficulty(indexOfButton);
+				setupWordModeCheckbox();
 			});
 
 			radioButtonList.add(button);
@@ -317,10 +339,8 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			if (difficultyNames.indexOf(difficultyName) == optionsManager.getDifficulty()) {
 				button.setChecked(true);
 			}
-
-			setupWordModeCheckbox();
-
 		}
+		setupWordModeCheckbox();
 	}
 
 	private void setupWordModeCheckbox() {
@@ -330,17 +350,27 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 		}
 		if (optionsManager.getImageSet() == CUSTOM_IMAGE_SET) {
 			optionsManager.setWordMode(false);
-			chck.setChecked(false);
 			chck.setEnabled(false);
+			chck.setChecked(false);
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			// don't let word mode be used if flickr is the image set
 			if (optionsManager.getImageSet() != CUSTOM_IMAGE_SET) {
 				optionsManager.setWordMode(isChecked);
-			} else {
+			}
+//			else {
+//				optionsManager.setWordMode(false);
+//				buttonView.setEnabled(false);
+//				buttonView.setChecked(false);
+//			}
+			//For if Custom IS checked; disable the button entirely
+			if (isWordsModeDisabled == true){
 				optionsManager.setWordMode(false);
 				buttonView.setEnabled(false);
 				buttonView.setChecked(false);
+			}else{
+				buttonView.setEnabled(true);
+
 			}
 		});
 	}
