@@ -80,6 +80,10 @@ public class LocalFiles {
 
 			int i = 0;
 			int maxRetries = 3;
+
+			//	*******Below code should be changed before branch 69 or 70 is merged to master (whichever comes first).
+			//	Instead of using break and "while (true)", it should probably update a flag variable / sentinel
+			//	and the condition should be related to that variable.
 			while (true) {
 				try {
 					fos = new FileOutputStream(imageFile);
