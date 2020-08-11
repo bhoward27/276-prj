@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.cmpt276.prj">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,29 +15,29 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.CreditsActivity"
-            android:parentActivityName=".ui.HelpActivity"
-            android:label="@string/title_credits_activity"/>
+            android:label="@string/title_credits_activity"
+            android:parentActivityName=".ui.HelpActivity" />
         <activity
             android:name=".ui.HighScoresActivity"
-            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.GameActivity"
-            android:parentActivityName=".ui.MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".ui.MainMenuActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.OptionsActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_options_activity"
             android:parentActivityName=".ui.MainMenuActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HelpActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_help_activity"
             android:parentActivityName=".ui.MainMenuActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.EditImageSetActivity"
@@ -46,20 +47,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PhotoGalleryActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:label="@string/title_photo_gallery_activity"
             android:parentActivityName=".ui.EditImageSetActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PhotoActivity"
             android:label="@string/title_photo_activity"
             android:parentActivityName=".ui.EditImageSetActivity"
-            android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MainMenuActivity"
-            android:label="@string/title_main_menu_activity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
+            android:label="@string/title_main_menu_activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.SplashScreenActivity"
