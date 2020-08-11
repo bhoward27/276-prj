@@ -94,7 +94,7 @@ public class PhotoActivity extends AppCompatActivity {
 
 				try {
 					localFiles.add(Objects.requireNonNull(getContentResolver().openInputStream(uri)),
-							unixTime + JPG_EXTENSION);
+							unixTime + "_" + mSelected.indexOf(uri) + JPG_EXTENSION);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 					Log.d(TAG, "onActivityResult: Failed to add this uri:" + uri);
@@ -105,6 +105,7 @@ public class PhotoActivity extends AppCompatActivity {
 			}
 			Log.d("Matisse", "mSelected: " + mSelected);
 		}
+		this.finish();
 	}
 
 }
