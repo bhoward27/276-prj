@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,12 +79,18 @@ public class PhotoActivity extends AppCompatActivity {
 						.forResult(REQUEST_CODE_CHOOSE);
 			} catch (IllegalArgumentException e) {
 				Log.d(TAG, "Failed to load images. That's unfortunate.");
+				Toast.makeText(getApplicationContext(),
+						"This bug shouldn't happen.",
+						Toast.LENGTH_LONG).show();
 				this.finish();
 			} catch (RuntimeException e) {
-				Log.d(TAG, "Failed to load images. That's unfortunate.");
+				Log.d(TAG, "Failed to load images. That's unfortunate. This error should not occur.");
+				Toast.makeText(getApplicationContext(),
+						"This bug shouldn't happen.",
+						Toast.LENGTH_LONG).show();
 				this.finish();
 			}
-			
+
 
 		} else {
 			ActivityCompat.requestPermissions(PhotoActivity.this,
