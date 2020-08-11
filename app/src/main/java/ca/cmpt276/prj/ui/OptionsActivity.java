@@ -64,8 +64,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			ScoreManager manager;
 			List<RadioButton> radioButtonList = new ArrayList<>();
 			Boolean storagePermissionGranted;
-			List<Bitmap>exportedDeckBitmaps;
-			List<String>exportedfileNames;
 			Boolean isWordsModeDisabled;
 
 			@Override
@@ -92,7 +90,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 		setupDifficultyRadioButtons();
 		setupEntryBox();
 		createOrderSpinner();
-		createDeckSizeSpinner();
+		updateDeckSizeSpinner();
 		setupWordModeCheckbox();
 		setUpFlickrButton();
 		updateFlickrAmountText();
@@ -100,7 +98,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 	}
 
 	private void updateDisablingWordMode(){
-		if(optionsManager.getImageSet() == CUSTOM_IMAGE_SET){
+		if(optionsManager.getImageSet()==CUSTOM_IMAGE_SET){
 			isWordsModeDisabled = true;
 		}else{
 			isWordsModeDisabled = false;
@@ -113,12 +111,9 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			@Override
 			public void onClick(View v) {
 				if(storagePermissionGranted){
-					//saveImage();
-//					setUpCardPhotoStorageDir();
 					exportCards();
 				}else{
 					//RequestPermissions to export cards
-					//		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 					ActivityCompat.requestPermissions(OptionsActivity.this,
 							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
 							STORAGE_PERMISSION_REQUEST_CODE);
@@ -126,15 +121,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			}
 		});
 	}
-
-//	private void updateExportCardsButton(){
-//		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
-//		if(storagePermissionGranted){
-//			exportPhotos.setText(getString(R.string.txt_generate_card_photos));
-//		}else{
-//			exportPhotos.setText(getString(R.string.txt_generate_card_photos_permission_not_granted));
-//		}
-//	}
 
 	// Code adapted from Android Developer's site
 	// @ https://developer.android.com/training/permissions/requesting#java
@@ -146,12 +132,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0 &&
 						grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// Permission is granted. Continue the action or workflow
-					// in your app.
-//					setUpCardPhotoStorageDir();
 					exportCards();
-					// Possibly use https://stackoverflow.com/a/31925748
-					// for else if case where user denied and selected "Don't ask again"?
 				} else {
 					// user of shouldShowRequestPermissionRationale to check if the user
 					// selected "Never Ask Again" and denied permssion adapted from Emanuel Moecklin
@@ -224,25 +205,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 						, Toast.LENGTH_LONG).show();
 	}
 
-	//TEST
-//	private void exportCards(){
-//		Log.v("Ya got to exportCards!","Woohoo!");
-//		Context context = OptionsActivity.this;
-//		converter = new CardConverter(context);
-//		String imageSetPrefix = "a";
-//		String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-//		String resourceName = resourcePrefix + "1";
-//		Resources globalResources = context.getResources();
-//		int resourceID = globalResources.getIdentifier(resourceName,
-//				IMAGE_FOLDER_NAME, context.getPackageName());
-////  load the picture into a bitmap.
-//		Bitmap bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
-//		saveImage(bitmap, resourceName);
-//		Toast.makeText(getApplicationContext(), getString(
-//				R.string.tst_show_exported_card_photos_directory)
-//				, Toast.LENGTH_LONG).show();
-//	}
-
 	private void initOptionsManager() {
 		OptionsManager.instantiate(this);
 		optionsManager = OptionsManager.getInstance();
@@ -281,9 +243,8 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 					updateFlickrAmountText();
 				});
 			} else {
-				// for flickr radio button
 
-				//Must disable words and images mode
+				// for flickr radio button
 				button.setOnClickListener(v -> {
 
 					isWordsModeDisabled = true;
@@ -354,15 +315,11 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 			chck.setChecked(false);
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			// don't let word mode be used if flickr is the image set
+			// don't let word mode be used if custom is the image set
 			if (optionsManager.getImageSet() != CUSTOM_IMAGE_SET) {
 				optionsManager.setWordMode(isChecked);
 			}
-//			else {
-//				optionsManager.setWordMode(false);
-//				buttonView.setEnabled(false);
-//				buttonView.setChecked(false);
-//			}
+
 			//For if Custom IS checked; disable the button entirely
 			if (isWordsModeDisabled == true){
 				optionsManager.setWordMode(false);
@@ -370,7 +327,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 				buttonView.setChecked(false);
 			}else{
 				buttonView.setEnabled(true);
-
 			}
 		});
 	}
@@ -391,23 +347,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 
 		orderSpinner.setSelection(defaultPosition);
 		orderSpinner.setOnItemSelectedListener(this);
-	}
-
-
-	private void createDeckSizeSpinner() {
-		sendPileSizesToOptionSet();
-		updateDeckSizeSpinner();
-	}
-
-	// send resource of draw pile options as an ArrayList to options to store.
-	private void sendPileSizesToOptionSet() {
-		ArrayList<String> allDrawPileSizes = new ArrayList<String>
-				(Arrays.asList(getResources().getStringArray(R.array.str_draw_pile_sizes)));
-		int maxDeckSize = optionsManager.getMaxDeckSize();
-		String allOption = getString(R.string.all_option, maxDeckSize);
-		// because options has no access to resources, use the UI class to get the resource and
-		// pass it as a string
-		//optionsManager.setValidDrawPileSizes(allDrawPileSizes, allOption);
 	}
 
 	private void updateDeckSizeSpinner() {
@@ -448,7 +387,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 				String orderName = parent.getItemAtPosition(position).toString();
 				int orderNumber = Integer.parseInt(orderName);
 				optionsManager.setOrder(orderNumber);// save selected Order
-				createDeckSizeSpinner();// spinner for pile sizes might now change possible choices
+				updateDeckSizeSpinner();// spinner for pile sizes might now change possible choices
 				updateFlickrAmountText();
 
 				if (!areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())
@@ -580,61 +519,3 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 		updateFlickrAmountText();
 	}
 }
-
-
-//
-//
-//	private void saveBitmap(@NonNull final Context context, @NonNull final Bitmap bitmap,
-//							@NonNull final Bitmap.CompressFormat format, @NonNull final String mimeType,
-//							@NonNull final String displayName) throws IOException {
-//				final String relativeLocation = Environment.DIRECTORY_PICTURES;
-//
-//				final ContentValues contentValues = new ContentValues();
-//				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName);
-//				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation);
-//
-//				final ContentResolver resolver = context.getContentResolver();
-//
-//				OutputStream stream = null;
-//				Uri uri = null;
-//
-//		try
-//		{
-//			final Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-//			uri = resolver.insert(contentUri, contentValues);
-//
-//			if (uri == null)
-//			{
-//				throw new IOException("Failed to create new MediaStore record.");
-//			}
-//
-//			stream = resolver.openOutputStream(uri);
-//
-//			if (stream == null)
-//			{
-//				throw new IOException("Failed to get output stream.");
-//			}
-//
-//			if (bitmap.compress(format, 95, stream) == false)
-//			{
-//				throw new IOException("Failed to save bitmap.");
-//			}
-//		}
-//		catch (IOException e)
-//		{
-//			if (uri != null)
-//			{
-//				// Don't leave an orphan entry in the MediaStore
-//				resolver.delete(uri, null, null);
-//			}
-//
-//			throw e;
-//		}
-//		finally
-//		{
-//			if (stream != null)
-//			{
-//				stream.close();
-//			}
-//		}
-//	}
