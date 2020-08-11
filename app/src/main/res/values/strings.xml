@@ -42,7 +42,7 @@
         pile to the discard pile!
         \n\nExporting cards based on deck settings
         \n\nTap on the "Generate Deck Photos" button in the Options to generate a collection of photos based on your current choices in the Options, with each
-        photo representing an individual card as it would appear in-game! You will need to grant permissions to allow the app to store this in your phone's
+        photo representing an individual card as it would appear in-game! You will need to grant permissions to allow the app to store this in your phone\'s
         Picture folder!
     </string>
     <string name="txt_heading_tips">Tips</string>
@@ -128,7 +128,7 @@
     <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
     <string name="txt_manage_flick_photos">Flickr Photos</string>
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
-    <string name="txt_flickr_photo_amount_not_ok">(%d photos. need >= %d photos for Flickr set)</string>
+    <string name="txt_flickr_photo_amount_not_ok">(%1$d photos. need >= %2$d photos for Flickr set)</string>
     <string name="txt_flickr_photo_not_set">(Select Flickr Image Set to set/see photo count)</string>
     <string name="txt_flickr_reset_warning">Not Enough Flickr Images for this order; theme will reset to its default (Landscape) if not fixed before exiting this screen</string>
     <string name="txt_left_options_with_flickr_photo_amount_not_okk">Not Enough Flickr Images; theme reset to its default (Landscape)</string>
