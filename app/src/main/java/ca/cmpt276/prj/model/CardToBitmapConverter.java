@@ -34,6 +34,7 @@ import ca.cmpt276.prj.R;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
+import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
@@ -89,7 +90,7 @@ public class CardToBitmapConverter {
             But I would say this is low priority right now.
          */
         String lastDigitsOfCurrentTime = toLastDigits(getSystemTime(), 6);
-        String postfix = RESOURCE_DIVIDER + "t" + lastDigitsOfCurrentTime;
+        String postfix = RESOURCE_DIVIDER + "t" + lastDigitsOfCurrentTime + JPG_EXTENSION;
         fileNames = new ArrayList<>();
         for (int i = 0; i < cards.size(); ++i) {
             fileNames.add(EXPORTED_CARD_PREFIX + i + postfix);
@@ -352,9 +353,9 @@ public class CardToBitmapConverter {
     }
 
     private void saveBitmaps() {
-        for (Bitmap bmp : bitmaps) {
-            //  I believe these are not the correct names --- should be gotten from fileNames I believe.
-            saveImage(bmp, getName(bitmaps.indexOf(bmp)));
+        int numImages = fileNames.size();
+        for (int i = 0; i < numImages; ++i) {
+            saveImage(bitmaps.get(i), fileNames.get(i));
         }
     }
 
