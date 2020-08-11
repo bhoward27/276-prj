@@ -26,12 +26,13 @@
         replacing pictures will remain with the same words throughout the game. Note that in order to find a match between two cards
         you may have to match two pictures, two words, or a picture and its associated word!
         \n\nCustom Image Functionality
-        \n\nNote that you can select "Flickr" as an image set! Click "Options" > "Flickr Photos" to turn on Flickr, allowing you to
-        search its database and get images to use in the game by clicking on the \"+\" button on the top right! You can select from the
+        \n\nNote that you can select "Custom" as an image set! With this, you can search through Flickr\'s online database to download pictures for the game
+        by clicking on the \"+\" button on the top right! You can select from the
         already shown images by clicking on them to download them, or you can use the magnifying glass to trying searching up photos associated to
-        what you type in the nearby search bar!
-        \n\nOne you press the back button, you will see your collection of downloaded photos. Click on any of them to remove them from your set. You can
-        also undo this by tapping on the image (which would now be represented by a placeholder image)!
+        what you type in the nearby search bar! You can also select the picture icon beside the \"+\" to add other, local photos which have been stored in your
+        device to the deck via the Matisse interface.
+        \n\nAfter selecting your photos from Flickr or your device, you will see your collection of downloaded photos.
+        Click on any of them to remove them from your set. You can also undo this by tapping on the image (which would now be represented by a placeholder image)!
         \n\nDifficulty Settings
         \n\nYou can change the difficulty to Easy, Medium and Hard to change the way the images (and words for them, if any) look in-game!
         \nEasy: Images/words are right-way-up and all the same size
