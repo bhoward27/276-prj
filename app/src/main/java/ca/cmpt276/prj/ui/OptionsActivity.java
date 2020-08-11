@@ -319,6 +319,8 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 				button.setChecked(true);
 			}
 
+			setupWordModeCheckbox();
+
 		}
 	}
 
