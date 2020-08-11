@@ -2,6 +2,7 @@ package ca.cmpt276.prj.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -35,8 +36,10 @@ public class LocalFiles {
 
 	File filesDir;
 	List<File> files;
+	Context context;
 
 	public LocalFiles(Context ctx, String directory) {
+		context = ctx;
 		options = OptionsManager.getInstance();
 
 		filesDir = Objects.requireNonNull(ctx)
@@ -133,9 +136,20 @@ public class LocalFiles {
 			files.remove(file);
 			if (options.getImageSet() <= CUSTOM_IMAGE_SET) {
 				options.setFlickrImageSetSize(files.size());
-			}//TODO: else {
-			// options.setCustomImageSetSize(imageSet, files.size());
-			//}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public Boolean remove(String fileName) {
+		File file = new File(filesDir, fileName);
+		if (file.delete()) {
+			Log.i(TAG, "remove: image on the disk deleted successfully!");
+			files.remove(file);
+			if (options.getImageSet() <= FLICKR_IMAGE_SET) {
+				options.setFlickrImageSetSize(files.size());
+			}
 			return true;
 		}
 		return false;
@@ -143,7 +157,7 @@ public class LocalFiles {
 
 	// Citation: https://www.baeldung.com/convert-input-stream-to-a-file
 	public void add(InputStream fileIS, String name) {
-		File destFile = new File(filesDir, name);
+		File tempFile = new File(filesDir, name + "TEMP");
 
 		byte[] buffer = new byte[0];
 		try {
@@ -163,7 +177,7 @@ public class LocalFiles {
 
 		OutputStream outStream;
 		try {
-			outStream = new FileOutputStream(destFile);
+			outStream = new FileOutputStream(tempFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			Log.d(TAG, "add: Failed!");
@@ -176,6 +190,34 @@ public class LocalFiles {
 			Log.d(TAG, "add: Failed!");
 			return;
 		}
+
+		OutputStream destFileOS;
+		String fileName = filesDir.getAbsolutePath() + "/" + name;
+
+		try {
+			destFileOS = new FileOutputStream(filesDir.getAbsolutePath() + "/" + name);
+			Log.d(TAG, "PATH+NAME: " + fileName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(TAG, "add: Failed! (destfile)");
+			return;
+		}
+
+		// resize and convert to JPG
+		Bitmap bmp;
+		bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+
+		float ratio = (float) bmp.getWidth() / bmp.getHeight();
+
+		bmp = Bitmap.createScaledBitmap(bmp,
+				Math.round(IMAGE_RESIZE_PIXELS_HEIGHT * ratio),
+				IMAGE_RESIZE_PIXELS_HEIGHT,
+				true);
+		bmp.compress(Bitmap.CompressFormat.JPEG, 95, destFileOS);
+
+		File destFile = new File(fileName);
+		// remove the temporary (non-resized PNG/JPG)
+		remove(tempFile.getName());
 
 		// if we got here then all the try catch blocks succeeded.
 		files.add(destFile);

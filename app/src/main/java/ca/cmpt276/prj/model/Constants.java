@@ -60,4 +60,5 @@ public final class Constants {
 	public static final int SELECT_PHOTO_CODE = 2;
 	public static final double SCALE_LOWER_BOUND = 0.6;
 	public static final double SCALE_UPPER_BOUND = 1.25;
+	public static final int IMAGE_RESIZE_PIXELS_HEIGHT = 500;
 }
