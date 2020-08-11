@@ -21,9 +21,9 @@ public class EditImageSetActivity extends SingleFragmentActivity {
 	@Override
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
-		setTitle(getString(R.string.title_flickr_imageset_editor));
+		setTitle(getString(R.string.title_image_set));
 
-		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_flickr_imageset_editor));
+		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.title_image_set));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 

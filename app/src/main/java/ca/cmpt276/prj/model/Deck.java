@@ -1,8 +1,5 @@
 package ca.cmpt276.prj.model;
 
-import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,7 +39,7 @@ public class Deck {
 		this.isWordMode = opt.isWordMode();
 		this.deckSize = opt.getDeckSize();
 		this.difficulty = opt.getDifficulty();
-		if (opt.getImageSet() == FLICKR_IMAGE_SET) {
+		if (opt.getImageSet() == CUSTOM_IMAGE_SET) {
 			this.numImagesInImageSet = opt.getFlickrImageSetSize();
 		} else {
 			this.numImagesInImageSet = opt.getNumImagesInImageSet();

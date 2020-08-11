@@ -143,7 +143,7 @@ public class GameActivity extends AppCompatActivity {
 		// TODO: get imageset directory from options
 		localFiles = new LocalFiles(this, FLICKR_SAVED_DIR);
 
-		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET && optionsManager.isWordMode()) {
+		if (optionsManager.getImageSet() == CUSTOM_IMAGE_SET && optionsManager.isWordMode()) {
 			throw new Error("Flickr image set does not support word mode.");
 		}
 
@@ -259,7 +259,7 @@ public class GameActivity extends AppCompatActivity {
 				// creates a string such as a_0 if the imageSet is 0 and imageNum is 0
 				button.setText("");
 				// load image from drawable or folder (if flickr/custom)
-				if (imageSet != FLICKR_IMAGE_SET) {
+				if (imageSet != CUSTOM_IMAGE_SET) {
 					String resourceName = resourcePrefix + imageNum;
 					int resourceID = globalResources.getIdentifier(resourceName, IMAGE_FOLDER_NAME,
 							getPackageName());
