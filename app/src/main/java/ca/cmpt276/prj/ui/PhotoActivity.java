@@ -90,7 +90,7 @@ public class PhotoActivity extends AppCompatActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		OptionsManager.instantiate(this);
 		options = OptionsManager.getInstance();
-		
+
 		if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 			LocalFiles localFiles = new LocalFiles(this, FLICKR_SAVED_DIR);
 			mSelected = Matisse.obtainResult(data);
