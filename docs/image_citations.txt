@@ -143,6 +143,9 @@ ic_launcher.png --- https://www.easyicon.net/language.en/1161600-Magnifying_Glas
 Placeholder image:
 https://vignette1.wikia.nocookie.net/glest/images/4/47/Placeholder.png/revision/latest?cb=20101114155552
 
+Flickr icon:
+https://ibiza.travel/wp-content/uploads/2019/01/flickr-icon-ok.png
+
 **********************
 **********************
 
