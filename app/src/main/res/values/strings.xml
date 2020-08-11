@@ -6,7 +6,7 @@
     <string name="title_main_menu_activity">Main Menu</string>
     <string name="title_options_activity">Options</string>
     <string name="title_photo_gallery_activity">Flickr Photo Gallery</string>
-    <string name="title_flickr_imageset_editor">Flickr Image Set Editor</string>
+    <string name="btn_flickr_imageset_editor">Manage Custom Images</string>
     <string name="btn_high_scores">High Scores</string>
     <string name="btn_high_scores_clear">Reset This High Scores List</string>
     <string name="btn_main_menu">Skip</string>
@@ -125,7 +125,7 @@
     <string name="search">Search</string>
     <string name="txt_toast_downloaded">%s has been downloaded.</string>
     <string name="txt_toast_deleted">%s has been deleted.</string>
-    <string name="txt_words_and_images"><![CDATA[Words & Images Mode?]]></string>
+    <string name="txt_words_and_images"><![CDATA[Words & Images Mode]]></string>
     <string name="txt_manage_flick_photos">Flickr Photos</string>
     <string name="txt_flickr_photo_amount_ok">(%d photos)</string>
     <string name="txt_flickr_photo_amount_not_ok">(%1$d photos. need >= %2$d photos for Flickr set)</string>
@@ -138,6 +138,10 @@
     <string name="txt_please_wait">Please wait after clicking an image to let it download.</string>
     <string name="we_love_flickr_its_awesome">This product uses the Flickr API but is not endorsed or certified by SmugMug, Inc.</string>
     <string name="txt_prompt_difficulty">Select difficulty:</string>
+    <string name="title_image_set">Custom Images</string>
+    <string name="title_photo_activity">Photo</string>
+    <string name="txt_custom_image_set">Custom</string>
+    <string name="add_photo_image">Add Photo Images</string>
     <string name="txt_generate_card_photos">Generate Deck Photos</string>
     <string name="tst_show_exported_card_photos_directory">Deck exported! View your deck photos in your device\'s \"Pictures\" folder, either through a file explorer or your phone\'s Gallery App!\u0020</string>
     <string name="txt_generate_card_photos_permission_not_granted">Generate Deck Photos (Requires Storage Access Permissions)</string>

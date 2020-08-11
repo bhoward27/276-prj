@@ -31,7 +31,7 @@ import java.util.Objects;
 
 import ca.cmpt276.prj.R;
 
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.IMAGE_FOLDER_NAME;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
@@ -150,7 +150,7 @@ public class CardExporter {
             int height = heights.get(i).intValue();
 
             // shouldn't need the second clause here, but it doesn't hurt
-            if (!isWord.get(i) || (options.getImageSet() >= FLICKR_IMAGE_SET)) {
+            if (!isWord.get(i) || (options.getImageSet() >= CUSTOM_IMAGE_SET)) {
                 System.out.println("Iteration " + (i + 1) + ":");
                 bitmap = createBitmapFromFile(imageIndex);
                 // (SCALE)
@@ -278,7 +278,7 @@ public class CardExporter {
                 //  load the picture into a bitmap.
                 bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
                 break;
-            case FLICKR_IMAGE_SET:
+            case CUSTOM_IMAGE_SET:
                 LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
                 File file = localFiles.getFile(imageIndex);
                 String path = file.getAbsolutePath();
@@ -295,7 +295,7 @@ public class CardExporter {
                 throw new IllegalArgumentException("Error: Invalid imageSet. " +
                         "imageSet must be in the" +
                         " following range: [" + LANDSCAPE_IMAGE_SET + ", "
-                        + FLICKR_IMAGE_SET + "].");
+                        + CUSTOM_IMAGE_SET + "].");
         }
         verifyNotNull(bitmap);
         return bitmap;

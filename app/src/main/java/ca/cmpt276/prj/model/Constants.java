@@ -26,7 +26,7 @@ public final class Constants {
 	public static final double BUTTON_SPACING_PADDING = 10;
 	public static final int LANDSCAPE_IMAGE_SET = 0;
 	public static final int PREDATOR_IMAGE_SET = 1;
-	public static final int FLICKR_IMAGE_SET = 2;
+	public static final int CUSTOM_IMAGE_SET = 2;
 	public static final int DEFAULT_IMAGE_SET = LANDSCAPE_IMAGE_SET;
 	public static final String DEFAULT_IMAGE_SET_PREFIX = "a";
 	//public static final int DEFAULT_DIFFERENT_CARDS_AMOUNT = 7;
@@ -60,4 +60,5 @@ public final class Constants {
 	public static final int SELECT_PHOTO_CODE = 2;
 	public static final double SCALE_LOWER_BOUND = 0.6;
 	public static final double SCALE_UPPER_BOUND = 1.25;
+	public static final int IMAGE_RESIZE_PIXELS_HEIGHT = 500;
 }

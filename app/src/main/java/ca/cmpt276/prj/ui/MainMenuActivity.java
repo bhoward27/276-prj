@@ -56,7 +56,7 @@ public class MainMenuActivity extends AppCompatActivity {
 		String imageSetPrefix = optionsManager.getImageSetPrefix();
 
 		for (ImageView view : views) {
-			if (optionsManager.getImageSet() != FLICKR_IMAGE_SET) {
+			if (optionsManager.getImageSet() != CUSTOM_IMAGE_SET) {
 				int resourceID = getResources().getIdentifier(imageSetPrefix + RESOURCE_DIVIDER
 						+ views.indexOf(view), IMAGE_FOLDER_NAME, getPackageName());
 				view.setImageResource(resourceID);

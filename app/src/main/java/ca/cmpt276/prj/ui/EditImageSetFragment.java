@@ -97,6 +97,7 @@ public class EditImageSetFragment extends Fragment {
 		super.onResume();
 
 		localFiles = new LocalFiles(mContext, FLICKR_SAVED_DIR);
+		checkedItems = new SparseBooleanArray();
 		updateItems();
 	}
 
