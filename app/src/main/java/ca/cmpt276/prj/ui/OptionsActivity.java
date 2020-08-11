@@ -6,15 +6,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,21 +43,18 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import ca.cmpt276.prj.R;
-import ca.cmpt276.prj.model.CardConverter;
 import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
-import static ca.cmpt276.prj.model.Constants.*;
 
 /**
  * Activity for different types of pictures and setting the player name.
  */
 		public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 			public static final int STORAGE_PERMISSION_REQUEST_CODE = 1;
-			CardConverter converter; //Only instantiated when export button works
+			//CardConverter converter; //Only instantiated when export button works
 			int imageSetPref;
 			int minimumReqImages;
 			OptionsManager optionsManager;
