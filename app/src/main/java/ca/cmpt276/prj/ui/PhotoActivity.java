@@ -34,6 +34,7 @@ import java.util.Objects;
 import ca.cmpt276.prj.R;
 import ca.cmpt276.prj.model.GalleryItem;
 import ca.cmpt276.prj.model.LocalFiles;
+import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.PicassoImageEngine;
 
 
@@ -52,6 +53,7 @@ public class PhotoActivity extends AppCompatActivity {
 	private static final int REQUEST_PERMISSION_CODE = 2;
 
 	Boolean storagePermissionGranted;
+	OptionsManager options;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,9 @@ public class PhotoActivity extends AppCompatActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		OptionsManager.instantiate(this);
+		options = OptionsManager.getInstance();
+
 		if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 			LocalFiles localFiles = new LocalFiles(this, FLICKR_SAVED_DIR);
 			mSelected = Matisse.obtainResult(data);
