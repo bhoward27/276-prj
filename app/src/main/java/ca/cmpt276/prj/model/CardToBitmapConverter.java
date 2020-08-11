@@ -51,11 +51,6 @@ public class CardToBitmapConverter {
     public static final String EXPORTED_CARD_PREFIX = "card" + RESOURCE_DIVIDER;
     public static final String DRAWABLE_FOLDER_PATH = "prj\\app\\src\\main\\res\\drawable";
 
-    //  Values of height and width would be reversed for a typical playing card; however,
-    //  this would cause a lot of extra work for me because the in-game cards are in a landscape
-    //  orientation. So I am keeping the cards at that orientation (i.e., the exported card
-    //  will be wider than it is tall, like in the actual game).
-
     //  Dimensions of a card in pixels and inches:
     private static final double HEIGHT_IN_INCHES = 2.5;
     private static final double WIDTH_IN_INCHES = 3.5;
@@ -69,8 +64,6 @@ public class CardToBitmapConverter {
     //  images can go. It's the space "inside the margins".
     private static final int INNER_HEIGHT_IN_PX = HEIGHT_IN_PX - (2 * MARGIN_IN_PX);
     private static final int INNER_WIDTH_IN_PX = WIDTH_IN_PX - (2 * MARGIN_IN_PX);
-
-    private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
 
     //  Enabling bilinear filtering will make for prettier images, but at an apparently small
     //  cost to performance.
@@ -142,11 +135,10 @@ public class CardToBitmapConverter {
 
     //  Code under construction
     private Bitmap toBitmap(Card c) {
+        //  Construct each subimage based on the specifications from the Card c.
         List<Bitmap> subImages = new ArrayList();
         List<Integer> imagesMap = c.getImagesMap();
         int numImages = imagesMap.size();
-        //  Construct list of subImages.
-        //  Constructs each subimage based on the specifications from the Card c.
         List<Double> heights = c.getImageHeights();
         List<Double> widths = c.getImageWidths();
         List<Double> scalars = c.getRandScales();
@@ -155,27 +147,6 @@ public class CardToBitmapConverter {
         ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
 
         for (int i = 0; i < numImages; ++i) {
-            /*
-                Some things that would make sense to do here:
-                    -load the correct image into a bitmap (WHAT IF IT'S A WORD AND NOT AN IMAGE?)
-                    -scale the bitmap
-                    -apply rotations. how does this work for the bitmap? will it create empty
-                        space / enlarge the dimensions to accomodate the rotation?
-                    -create the correct coordinates
-                        Does/should rotation affect the coordinates???
-             */
-            /*
-                CITATION - I didn't know how to cast a Double (the wrapper class) to int before
-                reading this:
-                https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
-            */
-
-            /*
-                CITATIONS:
-                    -   https://stackoverflow.com/a/11437439/10752685
-                    -   https://stackoverflow.com/a/9531548/10752685
-                    -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
-            */
             int imageIndex = imagesMap.get(i);
             Bitmap bitmap;
 
@@ -199,34 +170,17 @@ public class CardToBitmapConverter {
                         height,
                         scalars.get(i).floatValue());
             }
-
-            /*
-                *** Move this citation to the appropriate spot, or delete.
-                CITATION - The following line of code for adjusting the size of the bitmap
-                came from here: https://gamedev.stackexchange.com/a/59483
-             */
-
-            //  At the moment the canvas is useless, but it may be needed in future code
-            //  especially for the word + images mode.
-            //Canvas canvas = new Canvas();
-            //bitmap = getMutableCopy(bitmap);
-            //canvas.setBitmap(bitmap);
-
-            //  Make all canvas-related modifications to the bitmap.
-
             subImages.add(bitmap);
         }
-        //  DELETE --- only for testing.
-        //testSubBitmaps(c, subImages);
         return createComposite(subImages, c);
     }
 
     private Bitmap createComposite(List<Bitmap> subImages, Card card) {
         List<Double> rotations = card.getRandRotations();
+
+        //  would put x and y list with offsetCoordinates if we wanted to use margins.
         List<Integer> xPosList = card.getLeftMargins();
         List<Integer> yPosList = card.getTopMargins();
-        // List<Integer> xPosList = makeOffsetCoordinates(card.getLeftMargins());
-        // List<Integer> yPosList = makeOffsetCoordinates(card.getTopMargins());
 
         Bitmap bgBitmap = Bitmap.createBitmap(WIDTH_IN_PX, HEIGHT_IN_PX, Bitmap.Config.ARGB_8888);
         bgBitmap.eraseColor(Color.WHITE);
@@ -242,7 +196,6 @@ public class CardToBitmapConverter {
             // matrix: ROTATE, then TRANSLATE (scaling was done previously to avoid text blurriness)
             Matrix imageMatrix = new Matrix();
             imageMatrix.preTranslate(xPosList.get(i), yPosList.get(i));
-            //imageMatrix.preScale(scalars.get(i).floatValue(), scalars.get(i).floatValue());
             imageMatrix.preRotate(rotations.get(i).floatValue(),
                     (float) bmp.getWidth()/2,
                     (float) bmp.getHeight()/2);
@@ -258,21 +211,13 @@ public class CardToBitmapConverter {
         return bgBitmap;
     }
 
-    private void testSubBitmaps(Card c, List<Bitmap> subImages) {
-        int numBitmaps = subImages.size();
-        List<Integer> imageIndices = c.getImagesMap();
-        for (int i = 0; i < numBitmaps; ++i) {
-            testSaveImage(subImages.get(i), testGetName(imageIndices.get(i)));
-        }
-    }
-
-    private String testGetName(int imageIndex) {
+    private String getName(int imageIndex) {
         String imageSetPrefix = options.getImageSetPrefix();
         String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
         return resourcePrefix + imageIndex;
     }
 
-    private void testSaveImage(Bitmap bitmap, @NonNull String name) {
+    private void saveImage(Bitmap bitmap, @NonNull String name) {
         OutputStream fos = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
@@ -304,6 +249,7 @@ public class CardToBitmapConverter {
         Log.e("SUCCESS?", "YES!");
     }
 
+    //  Used IF we want to have margins for the composite bitmap.
     private List<Integer> makeOffsetCoordinates(List<Integer> coordinates) {
         List<Integer> adjustedCoordinates = new ArrayList<>();
         for (Integer coordinate : coordinates) {
@@ -345,6 +291,12 @@ public class CardToBitmapConverter {
                 File file = localFiles.getFile(imageIndex);
                 String path = file.getAbsolutePath();
                 System.out.println("******* imageNum = " + imageIndex + "; PATH = " + path);
+
+                /*
+                CITATIONS - the line immediately below for decodeFile was based off these sources:
+                    -   https://stackoverflow.com/a/9531548/10752685
+                    -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
+                */
                 bitmap = BitmapFactory.decodeFile(path);
                 break;
             default:
@@ -363,6 +315,10 @@ public class CardToBitmapConverter {
         bitmap.eraseColor(Color.TRANSPARENT);
 
         Canvas canvas = new Canvas();
+        /*
+            CITATION - Code immediately beneath this comment for setting bitmap
+            was based off of this: https://stackoverflow.com/a/11437439/10752685
+         */
         canvas.setBitmap(bitmap);
 
         Paint paint = new Paint();
@@ -386,17 +342,6 @@ public class CardToBitmapConverter {
         return bitmap;
     }
 
-    private Bitmap getMutableCopy(Bitmap bitmap) {
-        /*
-            CITATION - The line of code immediately below comes from here:
-                https://stackoverflow.com/a/19325732/10752685
-
-            The bitmap must be mutable in order to be set to the Canvas (because the canvas will
-            modify the bitmap as its drawn to) else an IllegalStateException will be thrown.
-         */
-        return bitmap.copy(BITMAP_CONFIG, true);
-    }
-
     private void verifyNotNull(Bitmap bitmap) {
         if (bitmap == null) {
             throw new IOError(new IOException("Error: Failed to decode the file into a bitmap."));
@@ -412,9 +357,8 @@ public class CardToBitmapConverter {
 
         // save
         for (Bitmap bmp : bitmaps) {
-            testSaveImage(bmp, testGetName(bitmaps.indexOf(bmp)));
+            saveImage(bmp, getName(bitmaps.indexOf(bmp)));
         }
-
     }
 
     public List<String> getFileNames() {
