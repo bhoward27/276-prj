@@ -66,7 +66,7 @@ public class GenRand {
 
 			if (!card.isWord.get(imagesMap.indexOf(i))) {
 				// get the image widths and heights
-				if (optionsManager.getImageSet() < FLICKR_IMAGE_SET) {
+				if (optionsManager.getImageSet() < CUSTOM_IMAGE_SET) {
 					Drawable image;
 					String resourceName = optionsManager.getImageSetPrefix() + RESOURCE_DIVIDER + i;
 					int resourceID = res.getIdentifier(resourceName, IMAGE_FOLDER_NAME,

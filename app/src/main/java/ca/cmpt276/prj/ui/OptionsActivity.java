@@ -47,10 +47,7 @@ import ca.cmpt276.prj.model.OptionsManager;
 import ca.cmpt276.prj.model.ScoreManager;
 
 import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
-
-import static ca.cmpt276.prj.model.Constants.DEFAULT_IMAGE_SET;
-import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
+import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 
 /**
  * Activity for different types of pictures and setting the player name.
@@ -73,7 +70,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 				super.onCreate(savedInstanceState);
 				setContentView(R.layout.activity_options);
 
-		initOptionSet();
+		initOptionsManager();
 
 		Objects.requireNonNull(getSupportActionBar()).setTitle(getString(
 				R.string.title_options_activity));
@@ -288,7 +285,8 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 //	}
 
 
-	private void initOptionSet() {
+	private void initOptionsManager() {
+		OptionsManager.instantiate(this);
 		optionsManager = OptionsManager.getInstance();
 		imageSetPref = optionsManager.getImageSet();
 		playerNamePlaceholder = getString(R.string.txt_player_name_placeholder);
@@ -317,7 +315,7 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 			RadioButton button = new RadioButton(this);
 			CheckBox chck = findViewById(R.id.chckWordMode);
 			button.setText(imageSetName);
-			if (deckThemeNames.indexOf(imageSetName) != FLICKR_IMAGE_SET) {
+			if (deckThemeNames.indexOf(imageSetName) != CUSTOM_IMAGE_SET) {
 				button.setOnClickListener(v -> {
 					chck.setEnabled(true);
 					optionsManager.setImageSet(indexOfButton);
@@ -382,14 +380,14 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 		if (optionsManager.isWordMode()) {
 			chck.setChecked(true);
 		}
-		if (optionsManager.getImageSet() == FLICKR_IMAGE_SET) {
+		if (optionsManager.getImageSet() == CUSTOM_IMAGE_SET) {
 			optionsManager.setWordMode(false);
 			chck.setChecked(false);
 			chck.setEnabled(false);
 		}
 		chck.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			// don't let word mode be used if flickr is the image set
-			if (optionsManager.getImageSet() != FLICKR_IMAGE_SET) {
+			if (optionsManager.getImageSet() != CUSTOM_IMAGE_SET) {
 				optionsManager.setWordMode(isChecked);
 			} else {
 				optionsManager.setWordMode(false);
@@ -476,14 +474,14 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 				updateFlickrAmountText();
 
 				if (!areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())
-						&& optionsManager.getImageSet() == FLICKR_IMAGE_SET) {
+						&& optionsManager.getImageSet() == CUSTOM_IMAGE_SET) {
 					optionsManager.setImageSet(DEFAULT_IMAGE_SET);
 					Toast.makeText(getApplicationContext(), getString(
 							R.string.txt_attempted_leave_with_flickr_photo_amount_not_ok),
 							Toast.LENGTH_LONG).show();
 				} else if (areThereEnoughFlickImages(optionsManager.getFlickrImageSetSize())
-						&& radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
-					optionsManager.setImageSet(FLICKR_IMAGE_SET);
+						&& radioButtonList.get(CUSTOM_IMAGE_SET).isChecked()) {
+					optionsManager.setImageSet(CUSTOM_IMAGE_SET);
 				}
 				break;
 			case R.id.spn_pile_size:
@@ -562,7 +560,7 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 		// turn on Flickr mode to see/change the number of flickr images.
 		TextView currentFlickrPhotoCount = findViewById(R.id.txt_custom_image_number);
 		// the user is only allowed to see/set Flickr images if the Flickr image set is selected
-		if (radioButtonList.get(FLICKR_IMAGE_SET).isChecked()) {
+		if (radioButtonList.get(CUSTOM_IMAGE_SET).isChecked()) {
 
 			String flickrPhotoCountText;
 			// get the number of currently selected things; that will be displayed

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -132,7 +131,7 @@ public class LocalFiles {
 					Toast.LENGTH_SHORT).show();
 			Log.i(TAG, "remove: image on the disk deleted successfully!");
 			files.remove(file);
-			if (options.getImageSet() <= FLICKR_IMAGE_SET) {
+			if (options.getImageSet() <= CUSTOM_IMAGE_SET) {
 				options.setFlickrImageSetSize(files.size());
 			}//TODO: else {
 			// options.setCustomImageSetSize(imageSet, files.size());
