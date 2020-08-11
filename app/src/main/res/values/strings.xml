@@ -147,4 +147,6 @@
     <string name="txt_generate_card_photos_permission_not_granted">Generate Deck Photos (Requires Storage Access Permissions)</string>
     <string name="tst_user_refused_storage_permission">Permission for the app to access storage required; allow it here or in the Permissions found in your device\'s settings.</string>
     <string name="tst_user_refused_storage_permission_with_never_ask_again">Permission for app to access storage blocked due to Never Ask Again being selected. Grant the Permission in your device\'s settings to save deck photos.</string>
+    <string name="button_sure_default">Save</string>
+    <string name="button_sure">Save (%d)</string>
 </resources>

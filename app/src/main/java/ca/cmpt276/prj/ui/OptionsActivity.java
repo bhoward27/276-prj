@@ -583,7 +583,7 @@ bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
 			}
 			currentFlickrPhotoCount.setText(flickrPhotoCountText);
 		} else {
-			currentFlickrPhotoCount.setText(getString(R.string.txt_custom_image_photo_not_set));
+			currentFlickrPhotoCount.setText(getString(R.string.txt_flickr_photo_not_set));
 			currentFlickrPhotoCount.setTextColor(ContextCompat.getColor(
 					OptionsActivity.this, R.color.grey));
 		}
