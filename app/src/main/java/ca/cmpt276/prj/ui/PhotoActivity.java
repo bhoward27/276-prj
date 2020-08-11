@@ -41,9 +41,9 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
 import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 
 /**
- * This activity loads the Photo fragment.
- * Citation: Android Programming: The Big Nerd Ranch Guide (3rd Edition)
- * Code downloaded from: https://opencoursehub.cs.sfu.ca/bfraser/solutions/276/android/BigNerdRanch-AndroidProgramming3e-Code.zip
+ * This activity loads the Custom Photos activity and saves the resulting selected photos to the local
+ * files directory.
+ *
  */
 
 public class PhotoActivity extends AppCompatActivity {

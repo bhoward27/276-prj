@@ -105,6 +105,7 @@ public class LocalFiles {
 					});
 
 					files.add(imageFile);
+					options.setFlickrImageSetSize(files.size());
 
 					break;
 				} catch (IOException e) {
