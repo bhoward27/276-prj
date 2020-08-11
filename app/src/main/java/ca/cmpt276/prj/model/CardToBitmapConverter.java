@@ -41,12 +41,10 @@ import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 public class CardToBitmapConverter {
     private Context context;
     private OptionsManager options;
-    private Game game; //   Not sure if this should be member or just a local variable in a function.
-    private GenRand rand; //    Not sure if should be member.
     private List<Card> cards;
-    private List<Bitmap> bitmaps; //    these bitmaps must be the final bitmaps of the entire card.
 
-    //  names of the image files which can be passed to Michael's file manager.
+    //    these bitmaps must be the composite bitmaps of the entire card.
+    private List<Bitmap> bitmaps;
     private List<String> fileNames;
     public static final String EXPORTED_CARD_PREFIX = "card" + RESOURCE_DIVIDER;
     public static final String DRAWABLE_FOLDER_PATH = "prj\\app\\src\\main\\res\\drawable";
@@ -72,13 +70,11 @@ public class CardToBitmapConverter {
     //  probably shouldn't be instantiated unless user has clicked on the export button.
     public CardToBitmapConverter(Context context) {
         options = OptionsManager.getInstance();
-        game = new Game();
         this.context = context;
-        // TODO: can use margins if we want to
-        rand = new GenRand(context, WIDTH_IN_PX, HEIGHT_IN_PX);
         setupCards();
         initFileNames();
         createBitmaps();
+        saveBitmaps();
     }
 
     private void initFileNames() {
@@ -133,7 +129,6 @@ public class CardToBitmapConverter {
         return lastDigits;
     }
 
-    //  Code under construction
     private Bitmap toBitmap(Card c) {
         //  Construct each subimage based on the specifications from the Card c.
         List<Bitmap> subImages = new ArrayList();
@@ -157,7 +152,6 @@ public class CardToBitmapConverter {
             if (!isWord.get(i) || (options.getImageSet() >= FLICKR_IMAGE_SET)) {
                 System.out.println("Iteration " + (i + 1) + ":");
                 bitmap = createBitmapFromFile(imageIndex);
-                //  -   Change the width and height of the returned bitmap to the correct size
                 // (SCALE)
                 bitmap = Bitmap.createScaledBitmap(bitmap,
                         (int) Math.round(width * scalars.get(i)),
@@ -178,7 +172,7 @@ public class CardToBitmapConverter {
     private Bitmap createComposite(List<Bitmap> subImages, Card card) {
         List<Double> rotations = card.getRandRotations();
 
-        //  would put x and y list with offsetCoordinates if we wanted to use margins.
+        // would put x and y list as argument for makeOffsetCoordinates if we wanted to use margins.
         List<Integer> xPosList = card.getLeftMargins();
         List<Integer> yPosList = card.getTopMargins();
 
@@ -273,7 +267,6 @@ public class CardToBitmapConverter {
                 //  fall-through intentional
             case PREDATOR_IMAGE_SET:
                 //  Get the resource ID of the picture
-                //  (copied from GameActivity code)
                 String imageSetPrefix = options.getImageSetPrefix();
                 String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
                 String resourceName = resourcePrefix + imageIndex;
@@ -285,8 +278,6 @@ public class CardToBitmapConverter {
                 bitmap = BitmapFactory.decodeResource(globalResources, resourceID);
                 break;
             case FLICKR_IMAGE_SET:
-                //  Not sure if I should use the other constructor since I'm not actually
-                //  in an activity.
                 LocalFiles localFiles = new LocalFiles(context, FLICKR_SAVED_DIR);
                 File file = localFiles.getFile(imageIndex);
                 String path = file.getAbsolutePath();
@@ -315,6 +306,7 @@ public class CardToBitmapConverter {
         bitmap.eraseColor(Color.TRANSPARENT);
 
         Canvas canvas = new Canvas();
+
         /*
             CITATION - Code immediately beneath this comment for setting bitmap
             was based off of this: https://stackoverflow.com/a/11437439/10752685
@@ -328,15 +320,18 @@ public class CardToBitmapConverter {
         paint.setTextAlign(Paint.Align.CENTER);
 
         // hardcoded a 2 here because the text can get a bit blurry
-        paint.setTextSize(( 2 + context.getResources().getDimension(R.dimen.button_text_size)) * scale);
+        paint.setTextSize(( 2 + context.getResources().getDimension(R.dimen.button_text_size))
+                                                                                        * scale);
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
 
         // centre text
-        // citation: https://stackoverflow.com/a/11121873
+        // CITATION: https://stackoverflow.com/a/11121873
         int xPos = (canvas.getWidth() / 2);
+
+        //((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the
+        // center.
         int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
-        //((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the center.
 
         canvas.drawText(name, xPos, yPos, paint);
         return bitmap;
@@ -354,23 +349,20 @@ public class CardToBitmapConverter {
         for (Card c : cards) {
             bitmaps.add(toBitmap(c));
         }
+    }
 
-        // save
+    private void saveBitmaps() {
         for (Bitmap bmp : bitmaps) {
+            //  I believe these are not the correct names --- should be gotten from fileNames I believe.
             saveImage(bmp, getName(bitmaps.indexOf(bmp)));
         }
     }
 
-    public List<String> getFileNames() {
-        return fileNames;
-    }
-
-    public List<Bitmap> getBitmaps() {
-        return bitmaps;
-    }
-
     private void setupCards() {
+        Game game = new Game();
         cards = game.getDeck().getAllCards();
+        // TODO: can use margins if we want to
+        GenRand rand = new GenRand(context, WIDTH_IN_PX, HEIGHT_IN_PX);
         // randomize
         for (Card c : cards) {
             rand.gen(c);
