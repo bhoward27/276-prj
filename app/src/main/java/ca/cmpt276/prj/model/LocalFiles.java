@@ -147,7 +147,7 @@ public class LocalFiles {
 		if (file.delete()) {
 			Log.i(TAG, "remove: image on the disk deleted successfully!");
 			files.remove(file);
-			if (options.getImageSet() <= FLICKR_IMAGE_SET) {
+			if (options.getImageSet() <= CUSTOM_IMAGE_SET) {
 				options.setFlickrImageSetSize(files.size());
 			}
 			return true;
