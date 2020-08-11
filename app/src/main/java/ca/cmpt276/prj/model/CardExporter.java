@@ -39,7 +39,7 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
-public class CardToBitmapConverter {
+public class CardExporter {
     private Context context;
     private OptionsManager options;
     private List<Card> cards;
@@ -69,7 +69,7 @@ public class CardToBitmapConverter {
     private static final boolean BILINEAR_FILTER_MODE = true;
 
     //  probably shouldn't be instantiated unless user has clicked on the export button.
-    public CardToBitmapConverter(Context context) {
+    public CardExporter(Context context) {
         options = OptionsManager.getInstance();
         this.context = context;
         setupCards();
