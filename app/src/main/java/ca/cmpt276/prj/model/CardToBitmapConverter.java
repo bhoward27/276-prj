@@ -7,6 +7,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -25,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+
+import ca.cmpt276.prj.R;
 
 import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.FLICKR_SAVED_DIR;
@@ -73,10 +78,11 @@ public class CardToBitmapConverter {
 
     //  probably shouldn't be instantiated unless user has clicked on the export button.
     public CardToBitmapConverter(Context context) {
-        options = options.getInstance();
+        options = OptionsManager.getInstance();
         game = new Game();
         this.context = context;
-        rand = new GenRand(context, INNER_WIDTH_IN_PX, INNER_HEIGHT_IN_PX);
+        // TODO: can use margins if we want to
+        rand = new GenRand(context, WIDTH_IN_PX, HEIGHT_IN_PX);
         setupCards();
         initFileNames();
         createBitmaps();
@@ -143,9 +149,11 @@ public class CardToBitmapConverter {
         //  Constructs each subimage based on the specifications from the Card c.
         List<Double> heights = c.getImageHeights();
         List<Double> widths = c.getImageWidths();
-        List<Boolean> wordConditions = c.getIsWord();
-        List<Integer> xCoordinates = makeOffsetCoordinates(c.getLeftMargins());
-        List<Integer> yCoordinates = makeOffsetCoordinates(c.getTopMargins());
+        List<Double> scalars = c.getRandScales();
+        List<Boolean> isWord = c.getIsWord();
+
+        ImageNameMatrix imageNames = ImageNameMatrix.getInstance();
+
         for (int i = 0; i < numImages; ++i) {
             /*
                 Some things that would make sense to do here:
@@ -156,54 +164,98 @@ public class CardToBitmapConverter {
                     -create the correct coordinates
                         Does/should rotation affect the coordinates???
              */
-            boolean isWord = wordConditions.get(i);
-            if (isWord) {
-                //  yet to implement.
-                System.out.println("isWord == true");
+            /*
+                CITATION - I didn't know how to cast a Double (the wrapper class) to int before
+                reading this:
+                https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
+            */
+
+            /*
+                CITATIONS:
+                    -   https://stackoverflow.com/a/11437439/10752685
+                    -   https://stackoverflow.com/a/9531548/10752685
+                    -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
+            */
+            int imageIndex = imagesMap.get(i);
+            Bitmap bitmap;
+
+            int width = widths.get(i).intValue();
+            int height = heights.get(i).intValue();
+
+            // shouldn't need the second clause here, but it doesn't hurt
+            if (!isWord.get(i) || (options.getImageSet() >= FLICKR_IMAGE_SET)) {
                 System.out.println("Iteration " + (i + 1) + ":");
+                bitmap = createBitmapFromFile(imageIndex);
+                //  -   Change the width and height of the returned bitmap to the correct size
+                // (SCALE)
+                bitmap = Bitmap.createScaledBitmap(bitmap,
+                        (int) Math.round(width * scalars.get(i)),
+                        (int) Math.round(height * scalars.get(i)),
+                        BILINEAR_FILTER_MODE);
+            } else {
+                // SCALE by setting text size
+                bitmap = createBitmapFromWord(imageNames.getName(options.getImageSet(), imageIndex),
+                        width,
+                        height,
+                        scalars.get(i).floatValue());
             }
-            else {
-                /*
-                    CITATION - I didn't know how to cast a Double (the wrapper class) to int before
-                    reading this:
-                    https://www.geeksforgeeks.org/convert-double-to-integer-in-java/
-                */
 
-                /*
-                    CITATIONS:
-                        -   https://stackoverflow.com/a/11437439/10752685
-                        -   https://stackoverflow.com/a/9531548/10752685
-                        -   https://developer.android.com/reference/android/graphics/BitmapFactory#decodeFile(java.lang.String,%20android.graphics.BitmapFactory.Options)
-                */
-                int imageIndex = imagesMap.get(i);
-                System.out.println("Iteration " + (i + 1) + ":");
-                Bitmap bitmap = createBitmapFromFile(imageIndex);
+            /*
+                *** Move this citation to the appropriate spot, or delete.
+                CITATION - The following line of code for adjusting the size of the bitmap
+                came from here: https://gamedev.stackexchange.com/a/59483
+             */
 
-                /*
-                    CITATION - The following line of code for adjusting the size of the bitmap
-                    came from here: https://gamedev.stackexchange.com/a/59483
-                 */
-                //  -   Change the width and height
-                int height = heights.get(i).intValue();
-                int width = widths.get(i).intValue();
-                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, BILINEAR_FILTER_MODE);
+            //  At the moment the canvas is useless, but it may be needed in future code
+            //  especially for the word + images mode.
+            //Canvas canvas = new Canvas();
+            //bitmap = getMutableCopy(bitmap);
+            //canvas.setBitmap(bitmap);
 
-                //  At the moment the canvas is useless, but it may be needed in future code
-                //  especially for the word + images mode.
-                Canvas canvas = new Canvas();
-                bitmap = getMutableCopy(bitmap);
-                canvas.setBitmap(bitmap);
+            //  Make all canvas-related modifications to the bitmap.
 
-                //  Make all canvas-related modifications to the bitmap.
-
-                subImages.add(bitmap);
-            }
+            subImages.add(bitmap);
         }
         //  DELETE --- only for testing.
-        testSubBitmaps(c, subImages);
-        Bitmap compositeBitmap = null;
-        return compositeBitmap;
-        //return createComposite(subImages);
+        //testSubBitmaps(c, subImages);
+        return createComposite(subImages, c);
+    }
+
+    private Bitmap createComposite(List<Bitmap> subImages, Card card) {
+        List<Double> rotations = card.getRandRotations();
+        List<Integer> xPosList = card.getLeftMargins();
+        List<Integer> yPosList = card.getTopMargins();
+        // List<Integer> xPosList = makeOffsetCoordinates(card.getLeftMargins());
+        // List<Integer> yPosList = makeOffsetCoordinates(card.getTopMargins());
+
+        Bitmap bgBitmap = Bitmap.createBitmap(WIDTH_IN_PX, HEIGHT_IN_PX, Bitmap.Config.ARGB_8888);
+        bgBitmap.eraseColor(Color.WHITE);
+        Canvas canvas = new Canvas(bgBitmap);
+
+        int i = 0;
+        for (Bitmap bmp : subImages) {
+
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
+
+            // matrix: ROTATE, then TRANSLATE (scaling was done previously to avoid text blurriness)
+            Matrix imageMatrix = new Matrix();
+            imageMatrix.preTranslate(xPosList.get(i), yPosList.get(i));
+            //imageMatrix.preScale(scalars.get(i).floatValue(), scalars.get(i).floatValue());
+            imageMatrix.preRotate(rotations.get(i).floatValue(),
+                    (float) bmp.getWidth()/2,
+                    (float) bmp.getHeight()/2);
+
+            // draw with matrix operations
+            canvas.drawBitmap(bmp, imageMatrix, paint);
+
+            // free up memory
+            bmp.recycle();
+            i++;
+        }
+
+        return bgBitmap;
     }
 
     private void testSubBitmaps(Card c, List<Bitmap> subImages) {
@@ -305,6 +357,35 @@ public class CardToBitmapConverter {
         return bitmap;
     }
 
+    private Bitmap createBitmapFromWord(String name, int width, int height, float scale) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setHasAlpha(true);
+        bitmap.eraseColor(Color.TRANSPARENT);
+
+        Canvas canvas = new Canvas();
+        canvas.setBitmap(bitmap);
+
+        Paint paint = new Paint();
+        paint.setDither(true);
+
+        paint.setARGB(255, 0, 0, 0);
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        // hardcoded a 2 here because the text can get a bit blurry
+        paint.setTextSize(( 2 + context.getResources().getDimension(R.dimen.button_text_size)) * scale);
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+
+        // centre text
+        // citation: https://stackoverflow.com/a/11121873
+        int xPos = (canvas.getWidth() / 2);
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+        //((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the center.
+
+        canvas.drawText(name, xPos, yPos, paint);
+        return bitmap;
+    }
+
     private Bitmap getMutableCopy(Bitmap bitmap) {
         /*
             CITATION - The line of code immediately below comes from here:
@@ -322,39 +403,18 @@ public class CardToBitmapConverter {
         }
     }
 
-    private void scale(Card c, Bitmap image, int imageNum) {
-        List<Double> scalars = c.getRandScales();
-        List<Double> heights = c.getImageHeights();
-        List<Double> widths = c.getImageWidths();
-        double scalar = scalars.get(imageNum);
-
-        int height = scale(scalar, heights.get(imageNum));
-        int width = scale(scalar, widths.get(imageNum));
-        //  Not sure if this is necessary at all.
-    }
-
-    private int scale(double scalar, double length) {
-        return (int) (scalar * length);
-    }
-
-    private void rotate(Bitmap image) {
-
-    }
-
-    //  Code under construction
-    //  puts the sub images into a composite image to make the full card picture.
-//    private Bitmap createComposite(List<Bitmap> subImages) {
-//        /*
-//
-//         */
-//    }
-
     private void createBitmaps() {
         //  would be neat to have the last image in bitmaps be an image for the back of a card.
         bitmaps = new ArrayList<>();
         for (Card c : cards) {
             bitmaps.add(toBitmap(c));
         }
+
+        // save
+        for (Bitmap bmp : bitmaps) {
+            testSaveImage(bmp, testGetName(bitmaps.indexOf(bmp)));
+        }
+
     }
 
     public List<String> getFileNames() {
@@ -367,6 +427,7 @@ public class CardToBitmapConverter {
 
     private void setupCards() {
         cards = game.getDeck().getAllCards();
+        // randomize
         for (Card c : cards) {
             rand.gen(c);
         }
