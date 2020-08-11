@@ -1,4 +1,4 @@
-IMPORTANT STEPs TO SEE EXPORTED PHOTOS
+IMPORTANT STEPS TO SEE EXPORTED PHOTOS
 There are several steps to be followed to find the exported deck photos in an Android Emulator.
 These are taken from Mithilesh Izardar and Forge @: https://stackoverflow.com/a/38736733
 
