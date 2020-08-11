@@ -8,8 +8,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ public class LocalFiles {
 
 	// need options here too to set image set size
 	OptionsManager options;
+
 
 	File filesDir;
 	List<File> files;
@@ -96,7 +99,7 @@ public class LocalFiles {
 						}
 					});
 
-					add(imageFile);
+					add(imageFile,"LocalFiles");
 
 					break;
 				} catch (IOException e) {
@@ -135,13 +138,118 @@ public class LocalFiles {
 
 	// Call this after adding an image to the folder through means other than writeImage
 	// to update the list of files that this class knows about
-	public void add(File file) {
-		files.add(file);
-		if (options.getImageSet() <= FLICKR_IMAGE_SET) {
-			options.setFlickrImageSetSize(files.size());
-		}//TODO: else {
-		// options.setCustomImageSetSize(imageSet, files.size());
-		//}
-	}
 
+//	// Citation: https://www.baeldung.com/convert-input-stream-to-a-file
+//
+//	public void add(InputStream fileIS, String name) {
+//
+//		File destFile = new File(filesDir, name);
+//
+//
+//		byte[] buffer = new byte[0];
+//
+//		try {
+//
+//			buffer = new byte[fileIS.available()];
+//
+//		} catch (IOException e) {
+//
+//			e.printStackTrace();
+//
+//			Log.d(TAG, "add: Failed!");
+//
+//			return;
+//
+//		}
+//
+//		try {
+//
+//			fileIS.read(buffer);
+//
+//		} catch (IOException e) {
+//
+//			e.printStackTrace();
+//
+//			Log.d(TAG, "add: Failed!");
+//
+//			return;
+//
+//		}
+//
+//		OutputStream outStream;
+//
+//		try {
+//
+//			outStream = new FileOutputStream(destFile);
+//
+//		} catch (FileNotFoundException e) {
+//
+//			e.printStackTrace();
+//
+//			Log.d(TAG, "add: Failed!");
+//
+//			return;
+//
+//		}
+//
+//		try {
+//
+//			outStream.write(buffer);
+//
+//		} catch (IOException e) {
+//
+//			e.printStackTrace();
+//
+//			Log.d(TAG, "add: Failed!");
+//
+//			return;
+//		}
+//
+//		// if we got here then all the try catch blocks succeeded.
+//
+//		files.add(destFile);
+//
+//		options.setFlickrImageSetSize(files.size());
+//
+//		Log.d(TAG, "add: Added!");
+//
+//	}
+
+	//Citation: https://blog.csdn.net/as425017946/article/details/103288907
+	public boolean add(File file, String newPath$Name) {
+		String oldPath$Name = file.getName();
+		try {
+			File oldFile = new File(oldPath$Name);
+			if (!oldFile.exists()) {
+				Log.e("--Method--", "add:  oldFile not exist.");
+				return false;
+			} else if (!oldFile.isFile()) {
+				Log.e("--Method--", "add:  oldFile not file.");
+				return false;
+			} else if (!oldFile.canRead()) {
+				Log.e("--Method--", "add:  oldFile cannot read.");
+				return false;
+			}
+
+			FileInputStream fileInputStream = new FileInputStream(oldPath$Name);    //读入原文件
+			FileOutputStream fileOutputStream = new FileOutputStream(newPath$Name);
+			byte[] buffer = new byte[1024];
+			int byteRead;
+
+			while ((byteRead = fileInputStream.read(buffer)) != -1) {
+				fileOutputStream.write(buffer, 0, byteRead);
+			}
+			fileInputStream.close();
+			fileOutputStream.flush();
+			fileOutputStream.close();
+
+			files.add(file);
+			options.setFlickrImageSetSize(files.size());
+			Log.d(TAG, "add: Added!");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
