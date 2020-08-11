@@ -44,7 +44,7 @@ import static ca.cmpt276.prj.model.Constants.JPG_EXTENSION;
 /**
  * This activity loads the Custom Photos activity and saves the resulting selected photos to the local
  * files directory.
- *
+ * Makes use of https://github.com/zhihu/Matisse to get local images
  */
 
 public class PhotoActivity extends AppCompatActivity {

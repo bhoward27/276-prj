@@ -39,6 +39,9 @@ import static ca.cmpt276.prj.model.Constants.LANDSCAPE_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.PREDATOR_IMAGE_SET;
 import static ca.cmpt276.prj.model.Constants.RESOURCE_DIVIDER;
 
+/**
+ *
+ */
 public class CardExporter {
     private Context context;
     private OptionsManager options;

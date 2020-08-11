@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.engine.ImageEngine;
 
+/**
+ * Used by Matisse to load images into the gallery items.
+ */
 public class PicassoImageEngine implements ImageEngine {
 
         @Override

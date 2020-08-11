@@ -100,7 +100,7 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 	}
 
 	private void updateDisablingWordMode(){
-		if(optionsManager.getImageSet()==FLICKR_IMAGE_SET){
+		if(optionsManager.getImageSet() == CUSTOM_IMAGE_SET){
 			isWordsModeDisabled = true;
 		}else{
 			isWordsModeDisabled = false;
