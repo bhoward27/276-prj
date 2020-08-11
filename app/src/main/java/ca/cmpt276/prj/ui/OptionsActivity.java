@@ -106,6 +106,7 @@ import static ca.cmpt276.prj.model.Constants.FLICKR_IMAGE_SET;
 			isWordsModeDisabled = false;
 		}
 	}
+
 	private void setUpExportCardsButton(){
 		Button exportPhotos = findViewById(R.id.btnGenerateCardPhotos);
 		exportPhotos.setOnClickListener(new View.OnClickListener() {
