@@ -209,19 +209,16 @@ public class CardExporter {
         return bgBitmap;
     }
 
-    private String getName(int imageIndex) {
-        String imageSetPrefix = options.getImageSetPrefix();
-        String resourcePrefix = imageSetPrefix + RESOURCE_DIVIDER;
-        return resourcePrefix + imageIndex;
-    }
-
+    // CITATION - code for save image function heavily adapted from Rachit Vohera
+    // with changes to exception handling (from checked handling to unchecked handling)
+    // @ https://stackoverflow.com/a/59536115
     private void saveImage(Bitmap bitmap, @NonNull String name) {
         OutputStream fos = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
                 ContentResolver resolver = context.getContentResolver();
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
+                contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
                 contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
                 Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
@@ -231,7 +228,7 @@ public class CardExporter {
             }
         } else {
             String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-            File image = new File(imagesDir, name + ".jpg");
+            File image = new File(imagesDir, name);
             try {
                 fos = new FileOutputStream(image);
             }catch(FileNotFoundException e){

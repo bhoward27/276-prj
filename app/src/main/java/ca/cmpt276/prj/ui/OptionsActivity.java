@@ -1,22 +1,14 @@
 package ca.cmpt276.prj.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -32,11 +24,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,9 +85,9 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 	}
 
 	private void updateDisablingWordMode(){
-		if(optionsManager.getImageSet()==CUSTOM_IMAGE_SET){
+		if(optionsManager.getImageSet() == CUSTOM_IMAGE_SET) {
 			isWordsModeDisabled = true;
-		}else{
+		} else {
 			isWordsModeDisabled = false;
 		}
 	}
@@ -152,57 +139,14 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 		}
 	}
 
-
-	// code for save image function heavily adapted from Rachit Vohera
-	// with changes to exception handling (from checked handling to unchecked handling)
-	// @ https://stackoverflow.com/a/59536115
-    //	private void saveImage(Bitmap bitmap, @NonNull String name) throws IOException{
-	private void saveImage(Bitmap bitmap, @NonNull String name){
-		OutputStream fos = null;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-			try {
-				ContentResolver resolver = getContentResolver();
-				ContentValues contentValues = new ContentValues();
-				contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name + ".jpg");
-				contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-				contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
-				Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-				fos = resolver.openOutputStream(Objects.requireNonNull(imageUri));
-			} catch(FileNotFoundException e){
-				e.printStackTrace();
-			}
-		} else {
-			String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-			File image = new File(imagesDir, name + ".jpg");
-			try {
-				fos = new FileOutputStream(image);
-			}catch(FileNotFoundException e){
-				e.printStackTrace();
-			}
-		}
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-		try {
-			Objects.requireNonNull(fos).close();
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-		Log.e("SUCCESS?", "YES!");
-	}
-
-	//Acutual
-		private void exportCards(){
-			Log.v("Ya got to exportCards!","Woohoo!");
-				Context context = OptionsActivity.this;
-				//In CardExporter's constructor, saveBitMaps() saves files to the Pictures Folder
-				exporter = new CardExporter(context);
-//				exportedDeckBitmaps = exporter.getBitmaps();
-//				exportedfileNames = exporter.getFileNames();
-//				for(int i = 0; i < exportedDeckBitmaps.size(); i++){
-//						saveImage(exportedDeckBitmaps.get(i), exportedfileNames.get(i));
-//				}
-				Toast.makeText(getApplicationContext(), getString(
-				R.string.tst_show_exported_card_photos_directory)
-						, Toast.LENGTH_LONG).show();
+	private void exportCards(){
+		Log.v("Ya got to exportCards!","Woohoo!");
+			Context context = OptionsActivity.this;
+			//In CardExporter's constructor, saveBitMaps() saves files to the Pictures Folder
+			exporter = new CardExporter(context);
+			Toast.makeText(getApplicationContext(), getString(
+			R.string.tst_show_exported_card_photos_directory)
+					, Toast.LENGTH_LONG).show();
 	}
 
 	private void initOptionsManager() {
@@ -513,8 +457,6 @@ import static ca.cmpt276.prj.model.Constants.CUSTOM_IMAGE_SET;
 	@Override
 	public void onResume() {
 		super.onResume();
-
-
 
 		updateFlickrAmountText();
 	}
